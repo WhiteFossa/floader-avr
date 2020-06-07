@@ -1,0 +1,67 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:FloaderClientGUI.ViewModels;assembly=FloaderClientGUI"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="FloaderClientGUI.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="FloaderClientGUI">
+
+    <!-- Styling -->
+    <Window.Styles>
+
+        <!-- Visible borders (for grouping) -->
+        <Style Selector="Border.VisibleBorders">
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="1" />
+
+            <Setter Property="CornerRadius" Value="5" />
+
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Margin" Value="1" />
+
+        </Style>
+    </Window.Styles>
+
+    <!-- Main grid -->
+    <Grid ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto, *" >
+
+        <!-- Port selection -->
+        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="0" >
+            <StackPanel>
+                <TextBlock Text="Port:" />
+                <Button>Button 1</Button>
+                <Button>Button 2</Button>
+            </StackPanel>
+        </Border>
+
+        <!-- Flash -->
+        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="1" >
+            <StackPanel>
+                <TextBlock Text="Upload:" />
+                <Button>Button 3</Button>
+                <Button>Button 4</Button>
+            </StackPanel>
+        </Border>
+
+        <!-- Read -->
+        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="2" >
+            <StackPanel>
+                <TextBlock Text="Download:" />
+                <Button>Button 5</Button>
+                <Button>Button 6</Button>
+            </StackPanel>
+        </Border>
+
+        <!-- Console -->
+        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="3" >
+            <StackPanel>
+                <TextBlock Text="Console:" />
+                <Button>Button 7</Button>
+                <Button>Button 8</Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+
+</Window>
