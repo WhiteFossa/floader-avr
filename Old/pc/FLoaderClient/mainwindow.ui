@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>537</width>
+    <height>576</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>537</width>
+    <height>503</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>537</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Загрузчик Фоссы (клиентская часть)</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>100</horstretch>
+     <verstretch>100</verstretch>
+    </sizepolicy>
+   </property>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>536</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Порт</string>
+    </property>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>13</y>
+       <width>31</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Порт:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblPortName">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>13</y>
+       <width>286</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Не задан</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnPortSettings">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>10</y>
+       <width>61</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Выбрать</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnQueryDevice">
+     <property name="geometry">
+      <rect>
+       <x>405</x>
+       <y>10</y>
+       <width>126</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Опросить устройство</string>
+     </property>
+    </widget>
+    <widget class="Line" name="line">
+     <property name="geometry">
+      <rect>
+       <x>393</x>
+       <y>8</y>
+       <width>10</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>110</y>
+      <width>536</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Прошить</string>
+    </property>
+    <widget class="QLineEdit" name="leFlashFileUpload">
+     <property name="geometry">
+      <rect>
+       <x>45</x>
+       <y>19</y>
+       <width>461</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnSetFlashFileUpload">
+     <property name="geometry">
+      <rect>
+       <x>511</x>
+       <y>19</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>8</x>
+       <y>21</y>
+       <width>36</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Flash:</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnSetEepromFileUpload">
+     <property name="geometry">
+      <rect>
+       <x>511</x>
+       <y>44</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leEepromUploadFile">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>44</y>
+       <width>416</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="cbEepromUpload">
+     <property name="geometry">
+      <rect>
+       <x>8</x>
+       <y>45</y>
+       <width>81</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>EEPROM:</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>180</y>
+      <width>536</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Бэкапы</string>
+    </property>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>38</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Директория:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="leBackupsDir">
+     <property name="geometry">
+      <rect>
+       <x>85</x>
+       <y>36</y>
+       <width>421</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnSetBackupsDir">
+     <property name="geometry">
+      <rect>
+       <x>511</x>
+       <y>36</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>8</x>
+       <y>60</y>
+       <width>521</width>
+       <height>46</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>В данную директрию сохраняются резервные копии прошивки. Названия копий: bkp_&lt;тип_памяти&gt;_&lt;дата&gt;_&lt;время&gt;.hex Существующие файлы перезаписываются без предупреждения!</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="cb_make_backups">
+     <property name="geometry">
+      <rect>
+       <x>8</x>
+       <y>15</y>
+       <width>206</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Выполнять резервное копирование</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>35</y>
+      <width>536</width>
+      <height>76</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Устройство</string>
+    </property>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>15</y>
+       <width>81</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Разработчик:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>35</y>
+       <width>56</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Модель:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>55</y>
+       <width>106</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Серийный номер:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblManufacturer">
+     <property name="geometry">
+      <rect>
+       <x>85</x>
+       <y>15</y>
+       <width>441</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Неизвестно</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblModel">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>35</y>
+       <width>471</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Неизвестно</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblSerial">
+     <property name="geometry">
+      <rect>
+       <x>115</x>
+       <y>55</y>
+       <width>411</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Неизвестно</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_5">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>290</y>
+      <width>536</width>
+      <height>206</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>100</horstretch>
+      <verstretch>100</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="title">
+     <string>Консоль</string>
+    </property>
+    <widget class="QTextEdit" name="teConsole">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>526</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>100</horstretch>
+       <verstretch>100</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_6">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>500</y>
+      <width>536</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Операции</string>
+    </property>
+    <widget class="QPushButton" name="btnFlash">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>45</y>
+       <width>260</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Прошить</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnReboot">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>272</x>
+       <y>45</y>
+       <width>260</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Переключить устройство в обычный режим</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnReadFlash">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>20</y>
+       <width>260</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Читать FLASH в файл</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnReadEeprom">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>272</x>
+       <y>20</y>
+       <width>260</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Читать EEPROM в файл</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+ <designerdata>
+  <property name="gridDeltaX">
+   <number>5</number>
+  </property>
+  <property name="gridDeltaY">
+   <number>5</number>
+  </property>
+  <property name="gridSnapX">
+   <bool>true</bool>
+  </property>
+  <property name="gridSnapY">
+   <bool>true</bool>
+  </property>
+  <property name="gridVisible">
+   <bool>true</bool>
+  </property>
+ </designerdata>
+</ui>

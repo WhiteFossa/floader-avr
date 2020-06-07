@@ -1,0 +1,57 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.1.42</VERSION>
+ <DEVICE>ATmega168</DEVICE>
+ <WORKING_DIR>E:\Programming\AVR\FLoader\mcu\ATMega168</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes</DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes\m168def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.map</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <RESET><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>105</LINE></RESET>
+  <COMMAND_WAIT><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>172</LINE></COMMAND_WAIT>
+  <UART_READ_BYTE><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>501</LINE></UART_READ_BYTE>
+  <IDENTIFY><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>200</LINE></IDENTIFY>
+  <WRITE_FLASH><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>205</LINE></WRITE_FLASH>
+  <READ_FLASH><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>210</LINE></READ_FLASH>
+  <WRITE_EEPROM><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>215</LINE></WRITE_EEPROM>
+  <READ_EEPROM><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>219</LINE></READ_EEPROM>
+  <QUIT><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>223</LINE></QUIT>
+  <COMMAND_PROCESSED><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>193</LINE></COMMAND_PROCESSED>
+  <IDENTIFY_P><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>244</LINE></IDENTIFY_P>
+  <WRITE_FLASH_P><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>337</LINE></WRITE_FLASH_P>
+  <READ_FLASH_P><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>287</LINE></READ_FLASH_P>
+  <WRITE_EEPROM_P><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>433</LINE></WRITE_EEPROM_P>
+  <READ_EEPROM_P><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>399</LINE></READ_EEPROM_P>
+  <UART_SEND_BYTE><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>481</LINE></UART_SEND_BYTE>
+  <TX_NOT_COMPLETED><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>228</LINE></TX_NOT_COMPLETED>
+  <CHECK_PG_ADDR><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>529</LINE></CHECK_PG_ADDR>
+  <READ_FLASH_P_EXIT><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>332</LINE></READ_FLASH_P_EXIT>
+  <READ_FLASH_P_NEXT_SHIFT><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>308</LINE></READ_FLASH_P_NEXT_SHIFT>
+  <READ_FLASH_P_NEXT_BYTE><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>323</LINE></READ_FLASH_P_NEXT_BYTE>
+  <WRITE_FLASH_P_EXIT><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>393</LINE></WRITE_FLASH_P_EXIT>
+  <SET_PG_ADDR><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>576</LINE></SET_PG_ADDR>
+  <WRITE_FLASH_P_READ_WORD><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>358</LINE></WRITE_FLASH_P_READ_WORD>
+  <MAKE_SPM><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>554</LINE></MAKE_SPM>
+  <READ_EEPROM_P_NEXT_BYTE><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>415</LINE></READ_EEPROM_P_NEXT_BYTE>
+  <WRITE_EEPROM_P_NEXT_BYTE><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>443</LINE></WRITE_EEPROM_P_NEXT_BYTE>
+  <WRITE_EEPROM_P_WAIT><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>449</LINE></WRITE_EEPROM_P_WAIT>
+  <WRITE_EEPROM_P_WANT_NEXT><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>472</LINE></WRITE_EEPROM_P_WANT_NEXT>
+  <UART_SEND_BYTE_WAIT_READY><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>486</LINE></UART_SEND_BYTE_WAIT_READY>
+  <UART_READ_BYTE_WAIT><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>506</LINE></UART_READ_BYTE_WAIT>
+  <CHECK_PG_ADDR_OK><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>542</LINE></CHECK_PG_ADDR_OK>
+  <CHECK_PG_ADDR_EXIT><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>546</LINE></CHECK_PG_ADDR_EXIT>
+  <MAKE_SPM_WAIT1><FILE>E:\Programming\AVR\FLoader\mcu\ATMega168\bootloader.asm</FILE><LINE>559</LINE></MAKE_SPM_WAIT1>
+ </LABELS>
+</ASSEMBLER_INFO>

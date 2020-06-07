@@ -1,0 +1,2 @@
+@ECHO OFF
+"C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\avrasm2.exe" -S "E:\Programming\AVR\FLoader\mcu\bootloader\labels.tmp" -fI -W+ie -C V2E -o "E:\Programming\AVR\FLoader\mcu\bootloader\bootloader.hex" -d "E:\Programming\AVR\FLoader\mcu\bootloader\bootloader.obj" -e "E:\Programming\AVR\FLoader\mcu\bootloader\bootloader.eep" -m "E:\Programming\AVR\FLoader\mcu\bootloader\bootloader.map" "E:\Programming\AVR\FLoader\mcu\bootloader\bootloader.asm"

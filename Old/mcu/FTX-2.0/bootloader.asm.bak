@@ -1,0 +1,572 @@
+/*********************************************************************************/
+/*                  Этот файл является частью загрузчика Фоссы                   */
+/* Назначение:      Файл прошивки						                         */
+/*                         Работает с AVR ASM 2                                  */   
+/* Версия 0.0.1 (порт) от 14.08.2012                                             */
+/* Порт FTX-2.0                                                                  */
+/* Copyright 2012 Фосса aka Артём Ветров                                         */
+/*                                                                               */
+/*    This program is free software: you can redistribute it and/or modify       */
+/*    it under the terms of the GNU General Public License as published by       */
+/*    the Free Software Foundation, either version 3 of the License, or          */
+/*    (at your option) any later version.                                        */
+/*                                                                               */
+/*    This program is distributed in the hope that it will be useful,            */
+/*    but WITHOUT ANY WARRANTY; without even the implied warranty of             */
+/*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              */
+/*    GNU General Public License for more details.                               */
+/*                                                                               */
+/*    You should have received a copy of the GNU General Public License          */
+/*    along with this program.  If not, see <http://www.gnu.org/licenses/>.      */
+/*                                                                               */
+/*    (Это свободная программа: вы можете перераспространять ее и/или изменять   */
+/*    ее на условиях Стандартной общественной лицензии GNU в том виде, в каком   */
+/*    она была опубликована Фондом свободного программного обеспечения; либо     */
+/*    версии 3 лицензии, либо (по вашему выбору) любой более поздней версии.     */
+/*                                                                               */
+/*    Эта программа распространяется в надежде, что она будет полезной,          */
+/*    но БЕЗО ВСЯКИХ ГАРАНТИЙ; даже без неявной гарантии ТОВАРНОГО ВИДА          */
+/*    или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННЫХ ЦЕЛЕЙ. Подробнее см. в Стандартной        */
+/*    общественной лицензии GNU.                                                 */
+/*                                                                               */
+/*    Вы должны были получить копию Стандартной общественной лицензии GNU        */
+/*    вместе с этой программой. Если это не так, см.                             */
+/*    <http://www.gnu.org/licenses/>.)                                           */
+/*********************************************************************************/
+
+//Инклюды
+.include "m168def.inc"
+
+
+//Дефайны
+.equ		START_ADDR		=		0x1E00					//Стартовый адрес загрузчика
+
+.equ		LISTEN_PORT		=		PORTB					//На каком порте слушать
+.equ		LISTEN_DDR		=		DDRB					//Порт направления
+.equ		LISTEN_PIN		=		PINB					//Порт ввода
+.equ		LISTEN_BITS		=		0b00000111				//Битовая маска условия входа
+//Вход осуществляется в том случае, если биты, равные 1 в маске равны 0 на LISTEN_PORT
+
+.equ		LED_PORT		=		PORTC					//На каком порту зажигать светодиод
+.equ		LED_DDR			=		DDRC					//Порт направления
+.equ		LED_BIT0		=		0						//Первый светодиод
+.equ		LED_BIT1		=		3						//Второй светодиод
+
+.equ		OSC_FREQ		=		2048000					//Частота кварца
+.equ		BAUDRATE		=		9600					//Скорость UART
+.equ		BAUDDIVIDER		=		OSC_FREQ / (16 * BAUDRATE) - 1	//Делитель для UART
+
+.equ		ERR_OK			=		0x00					//Нет ошибки
+.equ		ERR_FAIL		=		0x01					//Ошибка
+.equ		UBRR0H_MASK		=		0xF0					//Маска для UBRR0H
+
+//Дефайны регистров
+.def		PGA				=		R20						//Номер страницы
+
+.def		EPL				=		R24						//Старший и младший байты счётчика байтов EEPROM
+.def		EPH				=		R25
+
+//Устройство-специфические дефайны
+.equ		VER				=		0x01					//Версия загрузчика
+
+.equ		MFID2			=		0x00					//Старший байт идентификатора разработчика
+.equ		MFID1			=		0x00					//Средний
+.equ		MFID0			=		0x01					//Младший
+
+.equ		DEVID2			=		0x00					//Три байта идентификатора устройства
+.equ		DEVID1			=		0x00
+.equ		DEVID0			=		0x01
+
+.equ		SN3				=		0x00					//Четыре байта серийного номера устройства
+.equ		SN2				=		0x00
+.equ		SN1				=		0x00
+.equ		SN0				=		0x01
+
+
+
+//МК-специфические дефайны (ATmega168)
+.equ		NPT				=		0x80					//Общее число страниц FLASH
+
+.equ		NPW				=		0x78					//Число страниц, доступных на запись
+
+.equ		PS				=		0x80					//Размер страницы FLASH (в байтах)
+
+.equ		PSS				=		0x07					//Сколько раз надо сдвинуть влево номер страницы,
+//чтобы перейти к адресу
+
+.equ		PSW				=		0x40					//Размер страницы в словах
+
+
+//Сегмент данных
+.DSEG
+
+
+//Сегмент кода
+.CSEG
+.org		0x0000											//Точка входа в основную программу
+RESET:
+jmp			RESET
+
+
+//Точка входа в загрузчик
+.org		START_ADDR
+
+//Настраиваем стек
+ldi			R16,			high(ramend)
+out			SPH,			R16
+ldi			R16,			low(ramend)
+out			SPL,			R16
+
+
+//Проверяем условие входа
+ldi			R16,			0xFF							//Инвертируем битовую маску
+ldi			R17,			LISTEN_BITS
+eor			R17,			R16								//В R17 получили маску, нули в которой
+//соответствуют ножкам, которые должны быть включены на ввод
+
+in			R16,			LISTEN_DDR						//Прочитали текущее состояние порта
+and			R16,			R17
+out			LISTEN_DDR,		R16								//Теперь ноги с кнопками гарантированно включены на ввод
+
+
+ldi			R17,			LISTEN_BITS						//Включаем подтягивающие резисторы
+out			LISTEN_PORT,	R17
+
+
+in			R16,			LISTEN_PIN
+and			R16,			R17
+breq		ENTER
+jmp			RESET											//Не все ноги нажаты, уходим на основную программу
+
+
+//Вход в загрузчик
+ENTER:
+
+//Зажигаем светодиод
+sbi			LED_DDR,		LED_BIT0
+sbi			LED_DDR,		LED_BIT1
+sbi			LED_PORT,		LED_BIT0
+sbi			LED_PORT,		LED_BIT1
+
+//Настраиваем UART
+ldi			R16,			low(BAUDDIVIDER)
+sts			UBRR0L,			R16
+ldi			R16,			high(BAUDDIVIDER)
+andi		R16,			UBRR0H_MASK
+sts			UBRR0H,			R16
+clr			R16
+sts			UCSR0A,			R16
+ldi 		R16, 			(1<<RXEN0)|(1<<TXEN0) //Включаем приём и передачу
+sts			UCSR0B,			R16
+ldi 		R16, 			(1<<UCSZ00)|(1<<UCSZ01) //Один стоповый бит, 8 бит данных, без проверки чётности
+sts			UCSR0C,			R16
+
+//Ожидаем поступления команд
+COMMAND_WAIT:
+call		UART_READ_BYTE									//Принимаем байт
+cpi			R16,			'I'								//Идентификация
+breq		IDENTIFY
+
+cpi			R16,			'W'								//Запись страницы FLASH
+breq		WRITE_FLASH
+
+cpi			R16,			'R'								//Чтение страницы FLASH
+breq		READ_FLASH
+
+cpi			R16,			'w'								//Запись страницы EEPROM
+breq		WRITE_EEPROM
+
+cpi			R16,			'r'								//Чтение страницы EEPROM
+breq		READ_EEPROM
+
+cpi			R16,			'Q'								//Завершение прошивки
+breq		QUIT
+
+COMMAND_PROCESSED:											//Обработка программы завершена
+jmp			COMMAND_WAIT
+
+
+//Обработчики команд
+
+//Идентификация
+IDENTIFY:
+jmp			IDENTIFY_P
+
+
+//Запись страницы флеш
+WRITE_FLASH:
+jmp			WRITE_FLASH_P
+
+
+//Чтение страницы флеш
+READ_FLASH:
+jmp			READ_FLASH_P
+
+
+//Запись EEPROM
+WRITE_EEPROM:
+jmp			WRITE_EEPROM_P
+
+//Чтение EEPROM
+READ_EEPROM:
+jmp			READ_EEPROM_P
+
+//Завершение прошивки
+QUIT:
+ldi			R16,			'B' 								//Отвечаем 'B'
+call		UART_SEND_BYTE
+
+//Гасим светодиод и возвращаем порты в исходное состояние
+cbi			LED_PORT,		LED_BIT0
+cbi			LED_PORT,		LED_BIT1
+cbi			LED_DDR,		LED_BIT0
+cbi			LED_DDR,		LED_BIT1
+
+ldi			R16,			0xFF								//Инвертируем битовую маску
+ldi			R17,			LISTEN_BITS
+clr			R16													//Выключаем все подтягивающие резисторы
+out			LISTEN_DDR,		R16
+
+
+jmp			RESET												//Уходим в основную программу		
+
+
+//Процедура идентификации
+IDENTIFY_P:
+//Выкидываем сигнатуру загрузчика
+ldi			R16,			'F'
+call		UART_SEND_BYTE
+ldi			R16,			'B'
+call		UART_SEND_BYTE
+ldi			R16,			'L'
+call		UART_SEND_BYTE
+
+//Версия загрузчика
+ldi			R16,			VER
+call		UART_SEND_BYTE
+
+//Идентификатор разработчика
+ldi			R16,			MFID2
+call		UART_SEND_BYTE
+ldi			R16,			MFID1
+call		UART_SEND_BYTE
+ldi			R16,			MFID0
+call		UART_SEND_BYTE
+
+//Идентификатор устройства
+ldi			R16,			DEVID2
+call		UART_SEND_BYTE
+ldi			R16,			DEVID1
+call		UART_SEND_BYTE
+ldi			R16,			DEVID0
+call		UART_SEND_BYTE
+
+//Серийный номер
+ldi			R16,			SN3
+call		UART_SEND_BYTE
+ldi			R16,			SN2
+call		UART_SEND_BYTE
+ldi			R16,			SN1
+call		UART_SEND_BYTE
+ldi			R16,			SN0
+call		UART_SEND_BYTE
+
+jmp			COMMAND_PROCESSED
+
+
+//Чтение страницы FLASH
+READ_FLASH_P:
+//Читаем адрес страницы
+call		UART_READ_BYTE
+mov			PGA,			R16
+
+//Проверяем адрес страницы
+ldi			R22,			NPT
+call		CHECK_PG_ADDR
+
+call		UART_SEND_BYTE //Посылаем результат проверки адреса
+
+cpi			R16,			ERR_FAIL
+breq		READ_FLASH_P_EXIT //Адрес некорректен, выходим из команды
+
+
+//Получаем в ZH:ZL адрес ячейки
+clr			R16
+clr			R17
+clr			ZH
+mov			ZL,				PGA
+
+READ_FLASH_P_NEXT_SHIFT:
+//Сдвигаем адрес влево на 1
+clc //Сбрасываем флаг переноса
+lsl			ZH //Сдвигаем старший байт
+lsl			ZL //Сдвигаем младший байт
+adc			ZH,				R16 //Прибавляем перенос к старшему
+
+inc			R17
+cpi			R17,			PSS
+brlo		READ_FLASH_P_NEXT_SHIFT
+
+//Читаем данные страницы и отправляем их по UART
+clr			R17
+
+//Чтение следующего байта флеш
+READ_FLASH_P_NEXT_BYTE:
+lpm			R16,			Z+
+call		UART_SEND_BYTE
+
+inc			R17
+cpi			R17,			PS
+brlo		READ_FLASH_P_NEXT_BYTE
+
+READ_FLASH_P_EXIT: //Выход из чтения страницы
+jmp			COMMAND_PROCESSED
+
+
+//Запись страницы флеш
+WRITE_FLASH_P:
+//Читаем адрес страницы
+call		UART_READ_BYTE
+mov			PGA,			R16
+
+//Проверяем адрес страницы
+ldi			R22,			NPW //В загрузчик писать нельзя
+call		CHECK_PG_ADDR
+
+//Передаём результат проверки адреса
+call		UART_SEND_BYTE
+
+cpi			R16,			ERR_FAIL
+breq		WRITE_FLASH_P_EXIT //Адрес некорректен, выходим из команды
+
+//Кладём адрес страницы в Z
+call		SET_PG_ADDR
+
+//Принимаем байы попарно и кладём их в R1:R0, счётчик крутится в словах
+clr			R17
+
+WRITE_FLASH_P_READ_WORD: //Считываем очередное слово
+call		UART_READ_BYTE //Младший байт
+mov			R0,				R16
+call		UART_READ_BYTE //Старший байт
+mov			R1,				R16
+
+//Кладём слово в буфер
+ldi			R16,			(1<<SELFPRGEN)
+call		MAKE_SPM
+
+//Инкрементим номер слова в Z
+adiw		ZH:ZL,			0x02 //Прибавляем 2, чтобы младший бит всегда оставался равен 0
+
+inc			R17
+cpi			R17,			PSW
+brlo		WRITE_FLASH_P_READ_WORD
+
+call		SET_PG_ADDR //Перезагружаем адрес
+
+//Стираем страницу
+ldi			R16,			(1<<PGERS)|(1<<SELFPRGEN)
+call		MAKE_SPM
+
+//Пишем старницу
+ldi			R16,			(1<<PGWRT)|(1<<SELFPRGEN)
+call		MAKE_SPM
+
+//Восстанавливаем доступ к RWW
+ldi			R16,			(1<<RWWSRE)|(1<<SELFPRGEN)
+call		MAKE_SPM
+
+//Всё успешно
+ldi			R16,			ERR_OK
+
+WRITE_FLASH_P_EXIT: //Выход из стирания страницы
+call		UART_SEND_BYTE //Посылаем результат
+jmp			COMMAND_PROCESSED
+
+
+//Чтение EEPROM
+READ_EEPROM_P:
+//Сбрасываем адрес
+clr			XL
+clr			XH
+
+//Загружаем в счётчик цикла число байт EEPROM
+ldi			EPH,			high(EEPROMEND)
+ldi			EPL,			low(EEPROMEND)
+
+
+READ_EEPROM_P_NEXT_BYTE: //Читаем очередной байт
+
+//Не идёт ли запись EEPROM можно не проверять, так как к вызову этой команды она гарантировано завершена
+out			EEARH,			XH
+out			EEARL,			XL
+sbi			EECR,			EERE //Инициируем чтение
+in			R16,			EEDR
+call		UART_SEND_BYTE //Посылаем полученный байт
+
+//Инкрементим адрес и декрементим счётчик
+adiw		XH:XL,			0x01
+sbiw		EPH:EPL,		0x01
+brsh		READ_EEPROM_P_NEXT_BYTE
+
+jmp			COMMAND_PROCESSED
+
+
+//Запись EEPROM
+WRITE_EEPROM_P:
+//Сбрасываем адрес
+clr			XL
+clr			XH
+
+//Загружаем в счётчик цикла число байт EEPROM
+ldi			EPH,			high(EEPROMEND)
+ldi			EPL,			low(EEPROMEND)
+
+
+WRITE_EEPROM_P_NEXT_BYTE: //Пишем очередной байт
+//Принимаем байт
+call		UART_READ_BYTE
+
+//Ждём завершения предыдущей записи
+WRITE_EEPROM_P_WAIT:
+sbic		EECR,			EEPE
+rjmp		WRITE_EEPROM_P_WAIT
+
+//Проводим запись
+out			EEARH,			XH
+out			EEARL,			XL
+out			EEDR,			R16
+sbi			EECR,			EEMPE
+sbi			EECR,			EEPE
+
+//Инкрементим адрес и декрементим счётчик
+adiw		XH:XL,			0x01
+sbiw		EPH:EPL,		0x01
+brsh		WRITE_EEPROM_P_WANT_NEXT
+
+//Все байты записаны
+ldi			R16,			'f'
+call		UART_SEND_BYTE
+jmp			COMMAND_PROCESSED
+
+//Хотим ещё байт
+WRITE_EEPROM_P_WANT_NEXT:
+ldi			R16,			'n'
+call		UART_SEND_BYTE
+rjmp		WRITE_EEPROM_P_NEXT_BYTE
+
+
+//Процедуры
+
+//Процедура отправляет байт по UART. Байт должен лежать в R16
+UART_SEND_BYTE:
+	push		R17
+	in			R17,			SREG
+	push		R17
+
+	UART_SEND_BYTE_WAIT_READY:
+	lds			R17,			UCSR0A
+	sbrs		R17,			UDRE0
+	rjmp		UART_SEND_BYTE_WAIT_READY
+
+	sts			UDR0,			R16
+
+	pop			R17
+	out			SREG,			R17
+	pop			R17
+ret
+
+//Процедура принимает байт по UART. Висит внутри себя пока не будет принят байт. Полученный байт
+//кладётся в R16
+UART_READ_BYTE:
+	push		R17
+	in			R17,			SREG
+	push		R17
+
+	UART_READ_BYTE_WAIT:
+	lds			R17,			UCSR0A
+	sbrs		R17,			RXC0
+	rjmp		UART_READ_BYTE_WAIT
+	lds			R16,			UDR0
+
+////Затычка бага с 0x00 в терминале протеуса
+//ldi		R17,	'/'
+//cpse	R16,	R17
+//rjmp	UART_READ_BYTE_EXIT
+//clr		R16
+
+UART_READ_BYTE_EXIT:
+	pop			R17
+	out			SREG,			R17
+	pop			R17
+ret
+
+
+//Процедура проверяет адрес страницы на корректность. Адрес страницы должен лежать в PGA,
+//число страниц - в R22. Адрес страницы должен быть меньше числа страниц. Если это так - возвращает
+//в R16 ERR_OK, иначе ERR_FAIL
+CHECK_PG_ADDR:
+	push		R17
+	in			R17,			SREG
+	push		R17
+
+	//Сравниваем старшие байты адреса
+	cp			PGA,			R22
+	brlo		CHECK_PG_ADDR_OK //PGAH < R22, адрес корректен
+
+	//Адрес некорректен
+	ldi			R16,			ERR_FAIL
+	rjmp		CHECK_PG_ADDR_EXIT
+
+CHECK_PG_ADDR_OK: //Адрес корректен
+	ldi			R16,			ERR_OK
+	rjmp		CHECK_PG_ADDR_EXIT
+
+CHECK_PG_ADDR_EXIT: //Выход из процедуры
+	pop			R17
+	out			SREG,			R17
+	pop			R17
+ret
+
+//Процедура выполняет команду SPM. Значение, записываемое в SPMCR, должно лежать в R16.
+//Будучи вызванной ждёт завершения предыдущей команды SPM, до завершения выполнения оной зацикливается.
+MAKE_SPM:
+	push		R17
+	in			R17,			SREG
+	push		R17
+
+MAKE_SPM_WAIT1: //Ждём завершения предыдущей команды SPM
+	in			R17,			SPMCSR
+	sbrc		R17,			SELFPRGEN
+	rjmp		MAKE_SPM_WAIT1
+
+	//Собственно выполняем команду
+	out			SPMCSR,			R16
+	spm
+
+	pop			R17
+	out			SREG,			R17
+	pop			R17
+ret
+
+//Процедура преобразует номер страницы (лежащий в PGA) в адрес страницы. Адрес кладётся в
+//Z13:Z7, все остальные биты регистра Z обнуляются
+SET_PG_ADDR:
+	push		R16
+	in			R16,			SREG
+	push		R16
+
+	mov			ZL,				PGA
+	andi		ZL,				0b00000001 //Выделяем младший бит адреса
+	bst			ZL,				0x00 //Перекладываем его в старший бит
+	clr			ZL
+	bld			ZL,				0x07
+
+	mov			ZH,				PGA
+	andi		ZH,				0b01111110 //Выделяем старшие биты адреса
+	lsr			ZH
+
+	pop			R16
+	out			SREG,			R16
+	pop			R16
+ret
