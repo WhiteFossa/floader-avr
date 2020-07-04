@@ -8,21 +8,9 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="FloaderClientGUI">
 
-    <!-- Styling -->
     <Window.Styles>
-
-        <!-- Visible borders (for grouping) -->
-        <Style Selector="Border.VisibleBorders">
-            <Setter Property="BorderBrush" Value="Black" />
-            <Setter Property="BorderThickness" Value="1" />
-
-            <Setter Property="CornerRadius" Value="5" />
-
-            <Setter Property="Padding" Value="5" />
-            <Setter Property="Margin" Value="1" />
-        </Style>
-
-    </Window.Styles>
+        <StyleInclude Source="/Styles/Common.xaml" />
+    </Window.Styles> 
 
     <!-- Main grid -->
     <Grid ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto, Auto, *" >
@@ -32,8 +20,8 @@
             <StackPanel>
                 <TextBlock Text="Port:" />
                 
-                <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-                    <TextBlock Text="Port:" Grid.Column="0" Grid.Row="0" /> <!-- Port label -->
+                <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto" >
+                    <TextBlock Text="Port:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- Port label -->
                     <TextBlock Text="Port name" Grid.Column="1" Grid.Row="0" /> <!-- Port name -->
                     <Button Grid.Column="2" Grid.Row="0" Content="Select port" /> <!-- Select port button -->
                 </Grid>
@@ -47,13 +35,13 @@
                 <TextBlock Text="Device:" />
 
                 <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto, Auto">
-                    <TextBlock Text="Vendor:" Grid.Column="0" Grid.Row="0" /> <!-- Vendor label -->
+                    <TextBlock Text="Vendor:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- Vendor label -->
                     <TextBlock Text="Vendor name" Grid.Column="1" Grid.Row="0" /> <!-- Vendor name -->
 
-                    <TextBlock Text="Model:" Grid.Column="0" Grid.Row="1" /> <!-- Model label -->
+                    <TextBlock Text="Model:" Grid.Column="0" Grid.Row="1" Classes="RightMargin" /> <!-- Model label -->
                     <TextBlock Text="Model name" Grid.Column="1" Grid.Row="1" /> <!-- Model name -->
 
-                    <TextBlock Text="Serial number:" Grid.Column="0" Grid.Row="2" /> <!-- Serial number label -->
+                    <TextBlock Text="Serial number:" Grid.Column="0" Grid.Row="2" Classes="RightMargin" /> <!-- Serial number label -->
                     <TextBlock Text="Serial number" Grid.Column="1" Grid.Row="2" /> <!-- Serial number -->
 
                     <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="3">
@@ -68,15 +56,15 @@
             <StackPanel>
                 <TextBlock Text="Upload:" />
                 <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto, Auto">
-                    <CheckBox Content="FLASH:" Grid.Column="0" Grid.Row="0" /> <!-- FLASH checkbox -->
+                    <CheckBox Content="FLASH:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- FLASH checkbox -->
                     <TextBox Watermark="Select FLASH HEX file" Grid.Column="1" Grid.Row="0" /> <!-- FLASH file -->
                     <Button Grid.Column="2" Grid.Row="0" Content="..." /> <!-- Select FLASH file button -->
 
-                    <CheckBox Content="EEPROM:" Grid.Column="0" Grid.Row="1" /> <!-- EEPROM checkbox -->
+                    <CheckBox Content="EEPROM:" Grid.Column="0" Grid.Row="1" Classes="RightMargin" /> <!-- EEPROM checkbox -->
                     <TextBox Watermark="Select EEPROM HEX file" Grid.Column="1" Grid.Row="1" /> <!-- EEPROM file -->
                     <Button Grid.Column="2" Grid.Row="1" Content="..." /> <!-- Select EEPROM file button -->
 
-                    <CheckBox Content="Backups:" IsChecked="True" Grid.Column="0" Grid.Row="3" /> <!-- Backups checkbox-->
+                    <CheckBox Content="Backups:" IsChecked="True" Grid.Column="0" Grid.Row="3" Classes="RightMargin" /> <!-- Backups checkbox-->
                     <TextBox Watermark="Select backups directory" Grid.Column="1" Grid.Row="3" /> <!-- Backups directory -->
                     <Button Grid.Column="2" Grid.Row="3" Content="..." /> <!-- Select backups directory button -->
                 </Grid>
@@ -91,12 +79,14 @@
         <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="3" >
             <StackPanel>
                 <TextBlock Text="Download:" />
-                <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
-                    <TextBox Watermark="Write FLASH HEX into this file" Grid.Column="0" Grid.Row="0" /> <!-- FLASH file -->
-                    <Button Grid.Column="1" Grid.Row="0" Content="..." /> <!-- Select FLASH file button -->
+                <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto">
+                    <TextBlock Text="FLASH:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
+                    <TextBox Watermark="Write FLASH HEX into this file" Grid.Column="1" Grid.Row="0" /> <!-- FLASH file -->
+                    <Button Grid.Column="2" Grid.Row="0" Content="..." /> <!-- Select FLASH file button -->
 
-                    <TextBox Watermark="Write EEPROM HEX into this file" Grid.Column="0" Grid.Row="1" /> <!-- EEPROM file -->
-                    <Button Grid.Column="1" Grid.Row="1" Content="..." /> <!-- Select EEPROM file button -->
+                    <TextBlock Text="EEPROM:" Grid.Column="0" Grid.Row="1" Classes="RightMargin" />
+                    <TextBox Watermark="Write EEPROM HEX into this file" Grid.Column="1" Grid.Row="1" /> <!-- EEPROM file -->
+                    <Button Grid.Column="2" Grid.Row="1" Content="..." /> <!-- Select EEPROM file button -->
                 </Grid>
 
                 <StackPanel Orientation="Horizontal">
@@ -108,13 +98,13 @@
         <!-- Console -->
         <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="4" >
             <DockPanel>
-                <TextBlock Text="Console:" DockPanel.Dock="Top" />
+                <TextBlock Text="Console:" DockPanel.Dock="Top" /> <!-- Log textbox -->
 
                 <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="*, Auto">
-                    <TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" AcceptsReturn="True" />
+                    <TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" AcceptsReturn="True" IsReadOnly="True" />
 
-                    <Button Grid.Column="0" Grid.Row="1" Content="Copy" />
-                    <Button Grid.Column="2" Grid.Row="1" Content="Clear" />
+                    <Button Grid.Column="0" Grid.Row="1" Content="Copy" /> <!-- Copy log -->
+                    <Button Grid.Column="2" Grid.Row="1" Content="Clear" /> <!-- Clear log -->
                 </Grid>
             </DockPanel>
         </Border>
