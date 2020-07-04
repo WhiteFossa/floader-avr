@@ -67,23 +67,23 @@
         <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="2" >
             <StackPanel>
                 <TextBlock Text="Upload:" />
-                <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
+                <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto, Auto">
                     <CheckBox Content="FLASH:" Grid.Column="0" Grid.Row="0" /> <!-- FLASH checkbox -->
                     <TextBox Watermark="Select FLASH HEX file" Grid.Column="1" Grid.Row="0" /> <!-- FLASH file -->
                     <Button Grid.Column="2" Grid.Row="0" Content="..." /> <!-- Select FLASH file button -->
+
+                    <CheckBox Content="EEPROM:" Grid.Column="0" Grid.Row="1" /> <!-- EEPROM checkbox -->
+                    <TextBox Watermark="Select EEPROM HEX file" Grid.Column="1" Grid.Row="1" /> <!-- EEPROM file -->
+                    <Button Grid.Column="2" Grid.Row="1" Content="..." /> <!-- Select EEPROM file button -->
+
+                    <CheckBox Content="Backups:" IsChecked="True" Grid.Column="0" Grid.Row="3" /> <!-- Backups checkbox-->
+                    <TextBox Watermark="Select backups directory" Grid.Column="1" Grid.Row="3" /> <!-- Backups directory -->
+                    <Button Grid.Column="2" Grid.Row="3" Content="..." /> <!-- Select backups directory button -->
                 </Grid>
 
-                <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-                    <CheckBox Content="EEPROM:" Grid.Column="0" Grid.Row="0" /> <!-- EEPROM checkbox -->
-                    <TextBox Watermark="Select EEPROM HEX file" Grid.Column="1" Grid.Row="0" /> <!-- EEPROM file -->
-                    <Button Grid.Column="2" Grid.Row="0" Content="..." /> <!-- Select EEPROM file button -->
-                </Grid>
-
-                <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-                    <CheckBox Content="Backups:" IsChecked="True" Grid.Column="0" Grid.Row="0" /> <!-- Backups checkbox-->
-                    <TextBox Watermark="Select backups directory" Grid.Column="1" Grid.Row="0" /> <!-- Backups directory -->
-                    <Button Grid.Column="2" Grid.Row="0" Content="..." /> <!-- Select backups directory button -->
-                </Grid>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Upload" /> <!-- Upload button -->
+                </StackPanel>
             </StackPanel>
         </Border>
 
@@ -91,18 +91,32 @@
         <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="3" >
             <StackPanel>
                 <TextBlock Text="Download:" />
-                <Button>Button 5</Button>
-                <Button>Button 6</Button>
+                <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
+                    <TextBox Watermark="Write FLASH HEX into this file" Grid.Column="0" Grid.Row="0" /> <!-- FLASH file -->
+                    <Button Grid.Column="1" Grid.Row="0" Content="..." /> <!-- Select FLASH file button -->
+
+                    <TextBox Watermark="Write EEPROM HEX into this file" Grid.Column="0" Grid.Row="1" /> <!-- EEPROM file -->
+                    <Button Grid.Column="1" Grid.Row="1" Content="..." /> <!-- Select EEPROM file button -->
+                </Grid>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Download" /> <!-- Download button -->
+                </StackPanel>
             </StackPanel>
         </Border>
 
         <!-- Console -->
         <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="4" >
-            <StackPanel>
-                <TextBlock Text="Console:" />
-                <Button>Button 7</Button>
-                <Button>Button 8</Button>
-            </StackPanel>
+            <DockPanel>
+                <TextBlock Text="Console:" DockPanel.Dock="Top" />
+
+                <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="*, Auto">
+                    <TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" AcceptsReturn="True" />
+
+                    <Button Grid.Column="0" Grid.Row="1" Content="Copy" />
+                    <Button Grid.Column="2" Grid.Row="1" Content="Clear" />
+                </Grid>
+            </DockPanel>
         </Border>
     </Grid>
 
