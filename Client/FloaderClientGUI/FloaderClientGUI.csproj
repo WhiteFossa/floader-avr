@@ -12,11 +12,12 @@
       <SubType>Designer</SubType>
     </AvaloniaResource>
     <AvaloniaResource Include="Assets\**" />
-    <AvaloniaResource Include = "Styles\**" /> 
+    <AvaloniaResource Include="Styles\**" /> 
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.9" />
     <PackageReference Include="Avalonia.Desktop" Version="0.9.9" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.9" />
+    <PackageReference Include="TextCopy" Version="4.2.0" />
   </ItemGroup>
 </Project>
