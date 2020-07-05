@@ -10,12 +10,13 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/GUI/bin/Debug/netcoreapp3.0/FloaderClientGUI.dll",
+            "program": "${workspaceFolder}/bin/Debug/netcoreapp3.0/FloaderClientGUI.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/GUI",
+            "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
-            "stopAtEntry": false
+            "stopAtEntry": false,
+            "justMyCode":false
         },
         {
             "name": ".NET Core Attach",

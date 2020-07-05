@@ -23,7 +23,8 @@
                 <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto" >
                     <TextBlock Text="Port:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- Port label -->
                     <TextBlock Text="Port name" Grid.Column="1" Grid.Row="0" /> <!-- Port name -->
-                    <Button Grid.Column="2" Grid.Row="0" Content="Select port" /> <!-- Select port button -->
+                    <Button Grid.Column="2" Grid.Row="0" Content="Select port"
+                        Command="{Binding SelectPort}"/> <!-- Select port button -->
                 </Grid>
 
             </StackPanel>
@@ -45,7 +46,7 @@
                     <TextBlock Text="Serial number" Grid.Column="1" Grid.Row="2" /> <!-- Serial number -->
 
                     <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="3">
-                        <Button Content="Poll device" /> <!-- Poll device button-->
+                        <Button Content="Poll device" Command="{Binding PollDevice}" /> <!-- Poll device button-->
                     </StackPanel>
                 </Grid>
             </StackPanel>
@@ -58,19 +59,22 @@
                 <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto, Auto">
                     <CheckBox Content="FLASH:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- FLASH checkbox -->
                     <TextBox Watermark="Select FLASH HEX file" Grid.Column="1" Grid.Row="0" /> <!-- FLASH file -->
-                    <Button Grid.Column="2" Grid.Row="0" Content="..." /> <!-- Select FLASH file button -->
+                    <Button Grid.Column="2" Grid.Row="0" Content="..."
+                        Command="{Binding SelectFlashForUpload}" /> <!-- Select FLASH file button -->
 
                     <CheckBox Content="EEPROM:" Grid.Column="0" Grid.Row="1" Classes="RightMargin" /> <!-- EEPROM checkbox -->
                     <TextBox Watermark="Select EEPROM HEX file" Grid.Column="1" Grid.Row="1" /> <!-- EEPROM file -->
-                    <Button Grid.Column="2" Grid.Row="1" Content="..." /> <!-- Select EEPROM file button -->
+                    <Button Grid.Column="2" Grid.Row="1" Content="..."
+                        Command="{Binding SelectEepromForUpload}" /> <!-- Select EEPROM file button -->
 
                     <CheckBox Content="Backups:" IsChecked="True" Grid.Column="0" Grid.Row="3" Classes="RightMargin" /> <!-- Backups checkbox-->
                     <TextBox Watermark="Select backups directory" Grid.Column="1" Grid.Row="3" /> <!-- Backups directory -->
-                    <Button Grid.Column="2" Grid.Row="3" Content="..." /> <!-- Select backups directory button -->
+                    <Button Grid.Column="2" Grid.Row="3" Content="..."
+                        Command="{Binding SelectBackupsDirectory}" /> <!-- Select backups directory button -->
                 </Grid>
 
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="Upload" /> <!-- Upload button -->
+                    <Button Content="Upload" Command="{Binding Upload}"/> <!-- Upload button -->
                 </StackPanel>
             </StackPanel>
         </Border>
@@ -82,15 +86,17 @@
                 <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto">
                     <TextBlock Text="FLASH:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
                     <TextBox Watermark="Write FLASH HEX into this file" Grid.Column="1" Grid.Row="0" /> <!-- FLASH file -->
-                    <Button Grid.Column="2" Grid.Row="0" Content="..." /> <!-- Select FLASH file button -->
+                    <Button Grid.Column="2" Grid.Row="0" Content="..."
+                        Command="{Binding SelectFlashForDownload}" /> <!-- Select FLASH file button -->
 
                     <TextBlock Text="EEPROM:" Grid.Column="0" Grid.Row="1" Classes="RightMargin" />
                     <TextBox Watermark="Write EEPROM HEX into this file" Grid.Column="1" Grid.Row="1" /> <!-- EEPROM file -->
-                    <Button Grid.Column="2" Grid.Row="1" Content="..." /> <!-- Select EEPROM file button -->
+                    <Button Grid.Column="2" Grid.Row="1" Content="..." 
+                        Command="{Binding SelectEepromForDownload}" /> <!-- Select EEPROM file button -->
                 </Grid>
 
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="Download" Classes="TopMargin" /> <!-- Download button -->
+                    <Button Content="Download" Classes="TopMargin" Command="{Binding Download}"/> <!-- Download button -->
                 </StackPanel>
             </StackPanel>
         </Border>
