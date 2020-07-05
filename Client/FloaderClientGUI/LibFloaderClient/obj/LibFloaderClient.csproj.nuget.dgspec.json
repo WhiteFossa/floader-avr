@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "restore": {
+    "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibFloaderClient/LibFloaderClient.csproj": {}
+  },
+  "projects": {
+    "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibFloaderClient/LibFloaderClient.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibFloaderClient/LibFloaderClient.csproj",
+        "projectName": "LibFloaderClient",
+        "projectPath": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibFloaderClient/LibFloaderClient.csproj",
+        "packagesPath": "/home/fossa/.nuget/packages/",
+        "outputPath": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibFloaderClient/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/fossa/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/3.1.105/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

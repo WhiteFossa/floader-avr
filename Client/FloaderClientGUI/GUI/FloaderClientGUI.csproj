@@ -20,4 +20,7 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.9" />
     <PackageReference Include="TextCopy" Version="4.2.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LibFloaderClient\LibFloaderClient.csproj" />
+  </ItemGroup>
 </Project>
