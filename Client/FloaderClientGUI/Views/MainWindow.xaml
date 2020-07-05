@@ -90,7 +90,7 @@
                 </Grid>
 
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="Download" /> <!-- Download button -->
+                    <Button Content="Download" Classes="TopMargin" /> <!-- Download button -->
                 </StackPanel>
             </StackPanel>
         </Border>
@@ -103,8 +103,8 @@
                 <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="*, Auto">
                     <TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" AcceptsReturn="True" IsReadOnly="True" />
 
-                    <Button Grid.Column="0" Grid.Row="1" Content="Copy" /> <!-- Copy log -->
-                    <Button Grid.Column="2" Grid.Row="1" Content="Clear" /> <!-- Clear log -->
+                    <Button Grid.Column="0" Grid.Row="1" Content="Copy" Classes="TopMargin" /> <!-- Copy log -->
+                    <Button Grid.Column="2" Grid.Row="1" Content="Clear" Classes="TopMargin" /> <!-- Clear log -->
                 </Grid>
             </DockPanel>
         </Border>

@@ -23,4 +23,14 @@
         <Style Selector="CheckBox.RightMargin">
             <Setter Property="Margin" Value="0, 0, 5, 0" />
         </Style>
+
+        <!-- Rounded buttons -->
+        <Style Selector="Button/template/ContentPresenter">
+            <Setter Property = "CornerRadius" Value = "5" />
+        </Style>
+
+        <!-- Button with top margin -->
+        <Style Selector="Button.TopMargin">
+            <Setter Property="Margin" Value="0, 5, 0, 0" />
+        </Style>
 </Styles> 
