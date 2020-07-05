@@ -6,15 +6,146 @@ namespace FloaderClientGUI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        /// <Summary>
-        /// Console log
-        /// </Summary>
         private string _consoleText;
+        private string _portName;
+        private string _vendorName;
+        private string _modelName;
+        private string _serialNumber;
+        private bool _isFlashUpload;
+        private bool _isEepromUpload;
+        private bool _isBackupBeforeUpload;
+        private string _flashUploadFile;
+        private string _eepromUploadFile;
+        private string _uploadBackupsDirectory;
+        private string _flashDownloadFile;
+        private string _eepromDownloadFile;
 
+        /// <summary>
+        /// Text in console
+        /// </summary>
         public string ConsoleText
         {
             get => _consoleText;
             set => this.RaiseAndSetIfChanged(ref _consoleText, value);
+        }
+
+        /// <summary>
+        /// Port name
+        /// </summary>
+        public string PortName
+        {
+            get => _portName;
+            set => this.RaiseAndSetIfChanged(ref _portName, value);
+        }
+
+        /// <summary>
+        /// Device vendor name
+        /// </summary>
+        public string VendorName
+        {
+            get => _vendorName;
+            set => this.RaiseAndSetIfChanged(ref _vendorName, value);
+        }
+
+        /// <summary>
+        /// Device model name
+        /// </summary>
+        public string ModelName
+        {
+            get => _modelName;
+            set => this.RaiseAndSetIfChanged(ref _modelName, value);
+        }
+
+        /// <summary>
+        /// Device serial number
+        /// </summary>
+        public string SerialNumber
+        {
+            get => _serialNumber;
+            set => this.RaiseAndSetIfChanged(ref _serialNumber, value);
+        }
+
+        /// <summary>
+        /// Do we need to upload FLASH?
+        /// </summary>
+        public bool IsFlashUpload
+        {
+            get => _isFlashUpload;
+            set => this.RaiseAndSetIfChanged(ref _isFlashUpload, value);
+        }
+
+        /// <summary>
+        /// Do we need to upload EEPROM?
+        /// </summary>
+        public bool IsEepromUpload
+        {
+            get => _isEepromUpload;
+            set => this.RaiseAndSetIfChanged(ref _isEepromUpload, value);
+        }
+
+        /// <summary>
+        /// Do we need to make backups before upload?
+        /// </summary>
+        /// <value></value>
+        public bool IsBackupBeforeUpload
+        {
+            get => _isBackupBeforeUpload;
+            set => this.RaiseAndSetIfChanged(ref _isBackupBeforeUpload, value);
+        }
+
+        /// <summary>
+        /// Get FLASH for upload from this file
+        /// </summary>
+        public string FlashUploadFile
+        {
+            get => _flashUploadFile;
+            set => this.RaiseAndSetIfChanged(ref _flashUploadFile, value);
+        }
+
+        /// <summary>
+        /// Get EEPROM for upload from this file
+        /// </summary>
+        public string EepromUploadFile
+        {
+            get => _eepromUploadFile;
+            set => this.RaiseAndSetIfChanged(ref _eepromUploadFile, value);
+        }
+
+        /// <summary>
+        /// Place pre-upload backups here
+        /// </summary>
+        public string UploadBackupsDirectory
+        {
+            get => _uploadBackupsDirectory;
+            set => this.RaiseAndSetIfChanged(ref _uploadBackupsDirectory, value);
+        }
+
+        /// <summary>
+        /// Put downloaded FLASH here
+        /// </summary>
+        public string FlashDownloadFile
+        {
+            get => _flashDownloadFile;
+            set => this.RaiseAndSetIfChanged(ref _flashDownloadFile, value);
+        }
+
+        /// <summary>
+        /// Put downloaded EEPROM here
+        /// </summary>
+        public string EepromDownloadFile
+        {
+            get => _eepromDownloadFile;
+            set => this.RaiseAndSetIfChanged(ref _eepromDownloadFile, value);
+        }
+
+
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public MainWindowViewModel() : base()
+        {
+            IsBackupBeforeUpload = true;
         }
 
         /// <summary>
@@ -38,7 +169,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void SelectPort()
         {
-            ConsoleText += $"Port select{ Environment.NewLine }";
+            PortName = "Megaport";
         }
 
         /// <summary>
@@ -46,7 +177,13 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void PollDevice()
         {
-            ConsoleText += $"Device poll{ Environment.NewLine }";
+            VendorName = "TestVendor";
+            ModelName = "Megadevice";
+            SerialNumber = "000001";
+
+            IsFlashUpload = true;
+            IsEepromUpload = true;
+            IsBackupBeforeUpload = false;
         }
 
         /// <summary>
@@ -54,7 +191,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void SelectFlashForUpload()
         {
-            ConsoleText += $"Select FLASH file for upload{ Environment.NewLine }";
+            FlashUploadFile = "FLASH HEX file";
         }
 
         /// <summary>
@@ -62,7 +199,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void SelectEepromForUpload()
         {
-            ConsoleText += $"Select EEPROM file for upload{ Environment.NewLine }";
+            EepromUploadFile = "EEPROM HEX file";
         }
 
         /// <summary>
@@ -70,7 +207,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void SelectBackupsDirectory()
         {
-            ConsoleText += $"Select backups directory{ Environment.NewLine }";
+            UploadBackupsDirectory = "Backups directory";
         }
 
         /// <summary>
@@ -86,7 +223,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void SelectFlashForDownload()
         {
-            ConsoleText += $"Select FLASH for download{ Environment.NewLine }";
+            FlashDownloadFile = "FLASH HEX file for download";
         }
 
         /// <summary>
@@ -94,7 +231,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void SelectEepromForDownload()
         {
-            ConsoleText += $"Select EEPROM for download{ Environment.NewLine }";
+            EepromDownloadFile = "EEPROM HEX file for download";
         }
 
         /// <summary>
