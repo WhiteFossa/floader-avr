@@ -22,5 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LibFloaderClient\LibFloaderClient.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.4" />
   </ItemGroup>
 </Project>

@@ -3,16 +3,22 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
+using Microsoft.Extensions.DependencyInjection;
+using LibFloaderClient.Interfaces.Logger;
+using FloaderClientGUI.GUISpecific.Logger;
 
 namespace FloaderClientGUI
 {
-    class Program
+   public class Program
     {
         // Initialization code. Don't use any Avalonia, third-party APIs or any
         // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
         // yet and stuff might break.
-        public static void Main(string[] args) => BuildAvaloniaApp()
+        public static void Main(string[] args)
+        {
+            BuildAvaloniaApp()
             .StartWithClassicDesktopLifetime(args);
+        }
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
@@ -20,5 +26,15 @@ namespace FloaderClientGUI
                 .UsePlatformDetect()
                 .LogToDebug()
                 .UseReactiveUI();
+
+        // Setting up DI
+        public static IServiceCollection ConfigureServices()
+        {
+            IServiceCollection services = new ServiceCollection();
+
+            services.AddSingleton<ILogger, Logger>();
+
+            return services;
+        }
     }
 }

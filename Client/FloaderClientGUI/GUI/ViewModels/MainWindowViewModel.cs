@@ -1,11 +1,16 @@
 ﻿using ReactiveUI;
 using TextCopy;
 using System;
+using LibFloaderClient.Interfaces.Logger;
+using FloaderClientGUI;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FloaderClientGUI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private ILogger _logger;
+
         private string _consoleText;
         private string _portName;
         private string _vendorName;
@@ -145,6 +150,11 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public MainWindowViewModel() : base()
         {
+            var di = Program.ConfigureServices()
+                .BuildServiceProvider();
+
+            _logger = di.GetService<ILogger>();
+
             IsBackupBeforeUpload = true;
         }
 
