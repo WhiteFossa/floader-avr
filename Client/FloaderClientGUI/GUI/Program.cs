@@ -11,11 +11,21 @@ namespace FloaderClientGUI
 {
    public class Program
     {
+        /// <summary>
+        /// Dependency injection service provider
+        /// </summary>
+        /// <value></value>
+        public static ServiceProvider Di {get; set; }
+
         // Initialization code. Don't use any Avalonia, third-party APIs or any
         // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
         // yet and stuff might break.
         public static void Main(string[] args)
         {
+            // Preparing DI
+            Di = ConfigureServices()
+                .BuildServiceProvider();
+
             BuildAvaloniaApp()
             .StartWithClassicDesktopLifetime(args);
         }

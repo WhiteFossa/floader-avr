@@ -1,7 +1,14 @@
+using System;
+
 namespace LibFloaderClient.Interfaces.Logger
 {
     public interface ILogger
     {
+        /// <summary>
+        /// Set function, writing to log. If not set, then Console.WriteLine will be used
+        /// </summary>
+        void SetLoggingFunction(Action<string> logFunc);
+
         /// <summary>
         /// Log info-level event
         /// </summary>

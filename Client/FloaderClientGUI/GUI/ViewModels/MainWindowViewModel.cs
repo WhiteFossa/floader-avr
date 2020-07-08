@@ -150,10 +150,9 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public MainWindowViewModel() : base()
         {
-            var di = Program.ConfigureServices()
-                .BuildServiceProvider();
-
-            _logger = di.GetService<ILogger>();
+            // Setting up logger
+            _logger = Program.Di.GetService<ILogger>();
+            _logger.SetLoggingFunction(AddLineToConsole);
 
             IsBackupBeforeUpload = true;
         }
@@ -179,6 +178,8 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void SelectPort()
         {
+            _logger.LogInfo("Select port");
+
             PortName = "Megaport";
         }
 
@@ -250,6 +251,14 @@ namespace FloaderClientGUI.ViewModels
         public void Download()
         {
             ConsoleText += $"Download{ Environment.NewLine }";
+        }
+
+        /// <summary>
+        /// Adds a new text line to console.static Feed it to logger
+        /// </summary>
+        public void AddLineToConsole(string line)
+        {
+            ConsoleText += $"{ line }{ Environment.NewLine }";
         }
     }
 }
