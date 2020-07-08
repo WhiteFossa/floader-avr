@@ -6,6 +6,8 @@ using Avalonia.ReactiveUI;
 using Microsoft.Extensions.DependencyInjection;
 using LibFloaderClient.Interfaces.Logger;
 using FloaderClientGUI.GUISpecific.Logger;
+using LibFloaderClient.Interfaces.SerialPortsLister;
+using LibFloaderClient.Implementations.SerialPortsLister;
 
 namespace FloaderClientGUI
 {
@@ -43,6 +45,7 @@ namespace FloaderClientGUI
             IServiceCollection services = new ServiceCollection();
 
             services.AddSingleton<ILogger, Logger>();
+            services.AddSingleton<ISerialPortsLister, SerialPortsLister>();
 
             return services;
         }
