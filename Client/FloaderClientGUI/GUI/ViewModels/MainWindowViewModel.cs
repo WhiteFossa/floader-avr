@@ -5,6 +5,7 @@ using LibFloaderClient.Interfaces.Logger;
 using FloaderClientGUI;
 using Microsoft.Extensions.DependencyInjection;
 using LibFloaderClient.Interfaces.SerialPortsLister;
+using FloaderClientGUI.Views;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -179,18 +180,20 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void SelectPort()
         {
-            // TODO: Remove it from here
-            _logger.LogInfo("Ports:");
+            new PortSelectionWindow().Show();
 
-            var lister = Program.Di.GetService<ISerialPortsLister>();
-            var listedPorts = lister.ListOrdered();
+            // // TODO: Remove it from here
+            // _logger.LogInfo("Ports:");
 
-            foreach (var port in listedPorts)
-            {
-                _logger.LogInfo(port);
-            }
+            // var lister = Program.Di.GetService<ISerialPortsLister>();
+            // var listedPorts = lister.ListOrdered();
 
-            PortName = "Megaport";
+            // foreach (var port in listedPorts)
+            // {
+            //     _logger.LogInfo(port);
+            // }
+
+            // PortName = "Megaport";
         }
 
         /// <summary>
