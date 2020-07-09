@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using System.Net.Mime;
+using ReactiveUI;
 using TextCopy;
 using System;
 using LibFloaderClient.Interfaces.Logger;
@@ -180,7 +181,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void SelectPort()
         {
-            new PortSelectionWindow().Show();
+            new PortSelectionWindow().ShowDialog(Program.GetMainWindow());
 
             // // TODO: Remove it from here
             // _logger.LogInfo("Ports:");

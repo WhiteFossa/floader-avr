@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
@@ -48,6 +49,16 @@ namespace FloaderClientGUI
             services.AddSingleton<ISerialPortsLister, SerialPortsLister>();
 
             return services;
+        }
+
+        // Getting main window
+        public static Window GetMainWindow()
+        {
+            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
+            {
+                return desktopLifetime.MainWindow;
+            }
+            return null;
         }
     }
 }

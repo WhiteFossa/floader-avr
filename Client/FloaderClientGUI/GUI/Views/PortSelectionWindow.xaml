@@ -2,8 +2,68 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
+        Width="300" Height="400"
         x:Class="FloaderClientGUI.Views.PortSelectionWindow"
-        Title="AvaloniaAppTemplate">
-  Welcome to Avalonia!
+        Title="Port selection">
+
+    <Window.Styles>
+        <StyleInclude Source="/Styles/Common.xaml" />
+    </Window.Styles> 
+
+     <!-- Main grid -->
+    <Grid ColumnDefinitions="*" RowDefinitions="*, Auto, Auto" >
+
+        <!-- Ports list -->
+        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="0" >
+            <DockPanel>
+                <TextBlock Text="List:" DockPanel.Dock="Top" />
+
+                <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, *">
+                    <Button Content="Refresh" Grid.Column="1" Grid.Row="0" /> <!-- Refresh ports list button-->
+                    <ListBox Items="123" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" /> <!-- Ports list -->
+                </Grid>
+            </DockPanel>
+        </Border>
+
+        <!-- Advanced settings -->
+        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="1" >
+            <StackPanel>
+                <TextBlock Text="Advanced options:" />
+
+                <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto">
+                    <CheckBox Content="Override defaults?" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                        IsChecked="False" /> <!-- Override defaults checkbox -->
+
+                    <TextBlock Text="Baudrate:" Grid.Column="0" Grid.Row="1" />
+                    <ComboBox SelectedIndex="0" Grid.Column="1" Grid.Row="1"> <!-- Baudrate combobox -->
+                        <ComboBoxItem>Inline Items</ComboBoxItem>
+                        <ComboBoxItem>Inline Item 2</ComboBoxItem>
+                        <ComboBoxItem>Inline Item 3</ComboBoxItem>
+                        <ComboBoxItem>Inline Item 4</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock Text="Parity:" Grid.Column="0" Grid.Row="2" />
+                    <ComboBox SelectedIndex="0" Grid.Column="1" Grid.Row="2"> <!-- Parity combobox -->
+                        <ComboBoxItem>Odd</ComboBoxItem>
+                        <ComboBoxItem>Even</ComboBoxItem>
+                        <ComboBoxItem>None</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock Text="Data bits:" Grid.Column="0" Grid.Row="3" />
+                    <ComboBox SelectedIndex="0" Grid.Column="1" Grid.Row="3"> <!-- Data bits combobox -->
+                        <ComboBoxItem>5</ComboBoxItem>
+                        <ComboBoxItem>6</ComboBoxItem>
+                        <ComboBoxItem>7</ComboBoxItem>
+                        <ComboBoxItem>8</ComboBoxItem>
+                        <ComboBoxItem>9</ComboBoxItem>
+                    </ComboBox>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Buttons -->
+        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="2" >
+        </Border>
+    </Grid>
 </Window>
