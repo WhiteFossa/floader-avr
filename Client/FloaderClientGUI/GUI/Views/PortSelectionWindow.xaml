@@ -17,11 +17,11 @@
         <!-- Ports list -->
         <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="0" >
             <DockPanel>
-                <TextBlock Text="List:" DockPanel.Dock="Top" />
+                <TextBlock Text="Ports list:" DockPanel.Dock="Top" />
 
                 <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, *">
                     <Button Content="Refresh" Grid.Column="1" Grid.Row="0" /> <!-- Refresh ports list button-->
-                    <ListBox Items="123" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" /> <!-- Ports list -->
+                    <ListBox Items="123" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Classes="TopMargin"/> <!-- Ports list -->
                 </Grid>
             </DockPanel>
         </Border>
@@ -31,41 +31,46 @@
             <StackPanel>
                 <TextBlock Text="Advanced options:" />
 
-                <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto">
-                    <CheckBox Content="Override defaults?" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
-                        IsChecked="False" /> <!-- Override defaults checkbox -->
+                <CheckBox Content="Override defaults?" IsChecked="False" Classes="TopMargin"/> <!-- Override defaults checkbox -->
 
-                    <TextBlock Text="Baudrate:" Grid.Column="0" Grid.Row="1" />
-                    <ComboBox SelectedIndex="0" Grid.Column="1" Grid.Row="1"> <!-- Baudrate combobox -->
+                <StackPanel Orientation="Horizontal" Classes="TopMargin">
+                    <TextBlock Text="Baudrate:" Classes="VCenterRightMargin" />
+                    <ComboBox SelectedIndex="0"> <!-- Baudrate combobox -->
                         <ComboBoxItem>Inline Items</ComboBoxItem>
                         <ComboBoxItem>Inline Item 2</ComboBoxItem>
                         <ComboBoxItem>Inline Item 3</ComboBoxItem>
                         <ComboBoxItem>Inline Item 4</ComboBoxItem>
                     </ComboBox>
+                </StackPanel>
 
-                    <TextBlock Text="Parity:" Grid.Column="0" Grid.Row="2" />
-                    <ComboBox SelectedIndex="0" Grid.Column="1" Grid.Row="2"> <!-- Parity combobox -->
+                <StackPanel Orientation="Horizontal" Classes="TopMargin">
+                    <TextBlock Text="Parity:" Classes="VCenterRightMargin" />
+                    <ComboBox SelectedIndex="0"> <!-- Parity combobox -->
                         <ComboBoxItem>Odd</ComboBoxItem>
                         <ComboBoxItem>Even</ComboBoxItem>
                         <ComboBoxItem>None</ComboBoxItem>
                     </ComboBox>
+                </StackPanel>
 
-                    <TextBlock Text="Data bits:" Grid.Column="0" Grid.Row="3" />
-                    <ComboBox SelectedIndex="0" Grid.Column="1" Grid.Row="3"> <!-- Data bits combobox -->
+                <StackPanel Orientation="Horizontal" Classes="TopMargin">
+                    <TextBlock Text="Data bits:" Classes="VCenterRightMargin" />
+                    <ComboBox SelectedIndex="0" > <!-- Data bits combobox -->
                         <ComboBoxItem>5</ComboBoxItem>
                         <ComboBoxItem>6</ComboBoxItem>
                         <ComboBoxItem>7</ComboBoxItem>
                         <ComboBoxItem>8</ComboBoxItem>
                         <ComboBoxItem>9</ComboBoxItem>
                     </ComboBox>
+                </StackPanel>
 
-                    <TextBlock Text="Stop bits:" Grid.Column="0" Grid.Row="4" />
-                    <ComboBox SelectedIndex="0" Grid.Column="1" Grid.Row="4"> <!-- Stop bits combobox -->
+                <StackPanel Orientation="Horizontal" Classes="TopMargin">
+                    <TextBlock Text="Stop bits:" Classes="VCenterRightMargin" />
+                    <ComboBox SelectedIndex="0"> <!-- Stop bits combobox -->
                         <ComboBoxItem>1</ComboBoxItem>
                         <ComboBoxItem>1.5</ComboBoxItem>
                         <ComboBoxItem>2</ComboBoxItem>
                     </ComboBox>
-                </Grid>
+                </StackPanel>
             </StackPanel>
         </Border>
 

@@ -19,9 +19,25 @@
             <Setter Property="Margin" Value="0, 0, 5, 0" />
         </Style>
 
+        <!-- Text block centrally vertically aligned -->
+        <Style Selector="TextBlock.ValignCenter">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <!-- Text block centrally vertically aligned with right margin -->
+        <Style Selector="TextBlock.VCenterRightMargin">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0, 0, 5, 0" />
+        </Style>
+
         <!-- Checkbox with right margin -->
         <Style Selector="CheckBox.RightMargin">
             <Setter Property="Margin" Value="0, 0, 5, 0" />
+        </Style>
+        
+        <!-- Checkbox with top margin -->
+        <Style Selector="CheckBox.TopMargin">
+            <Setter Property="Margin" Value="0, 5, 0, 0" />
         </Style>
 
         <!-- Rounded buttons -->
@@ -31,6 +47,16 @@
 
         <!-- Button with top margin -->
         <Style Selector="Button.TopMargin">
+            <Setter Property="Margin" Value="0, 5, 0, 0" />
+        </Style>
+
+        <!-- Stack panel with top margin -->
+        <Style Selector="StackPanel.TopMargin">
+            <Setter Property="Margin" Value="0, 5, 0, 0" />
+        </Style>
+
+        <!-- List box with top margin -->
+        <Style Selector="ListBox.TopMargin">
             <Setter Property="Margin" Value="0, 5, 0, 0" />
         </Style>
 </Styles> 
