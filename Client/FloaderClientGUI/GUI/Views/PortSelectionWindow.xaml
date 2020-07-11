@@ -31,7 +31,7 @@
             <StackPanel>
                 <TextBlock Text="Advanced options:" />
 
-                <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto">
+                <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto">
                     <CheckBox Content="Override defaults?" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
                         IsChecked="False" /> <!-- Override defaults checkbox -->
 
@@ -58,12 +58,24 @@
                         <ComboBoxItem>8</ComboBoxItem>
                         <ComboBoxItem>9</ComboBoxItem>
                     </ComboBox>
+
+                    <TextBlock Text="Stop bits:" Grid.Column="0" Grid.Row="4" />
+                    <ComboBox SelectedIndex="0" Grid.Column="1" Grid.Row="4"> <!-- Stop bits combobox -->
+                        <ComboBoxItem>1</ComboBoxItem>
+                        <ComboBoxItem>1.5</ComboBoxItem>
+                        <ComboBoxItem>2</ComboBoxItem>
+                    </ComboBox>
                 </Grid>
             </StackPanel>
         </Border>
 
         <!-- Buttons -->
         <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="2" >
+            <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
+                <Button Grid.Column="0" Grid.Row="0" Content="OK" />
+
+                <Button Grid.Column="2" Grid.Row="0" Content="Cancel" />
+            </Grid>
         </Border>
     </Grid>
 </Window>
