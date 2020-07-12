@@ -27,6 +27,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public PortSelectionWindowViewModel() : base()
         {
+            Ports = GetPortsList();
         }
 
 #region Commands
@@ -36,9 +37,17 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void RefreshPortsList()
         {
-            Ports = new List<string>() { "Port A", "Port B", "Port C" };
+            Ports = GetPortsList();
         }
 #endregion
+
+        /// <summary>
+        /// Getting current list of ports
+        /// </summary>
+        private List<string> GetPortsList()
+        {
+            return new List<string>() { "Port C", "Port D", "Port E" };
+        }
 
     }
 }

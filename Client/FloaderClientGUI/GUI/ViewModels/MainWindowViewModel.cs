@@ -187,7 +187,11 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void SelectPort()
         {
-            new PortSelectionWindow().ShowDialog(Program.GetMainWindow());
+            (new PortSelectionWindow()
+            { 
+                DataContext= PortSelectionVM
+            })
+            .ShowDialog(Program.GetMainWindow());
 
             // // TODO: Remove it from here
             // _logger.LogInfo("Ports:");
