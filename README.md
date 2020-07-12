@@ -8,3 +8,5 @@ Under *nix xclip have to be installed.
 
 Used 3rd party code:
 https://github.com/CopyText/TextCopy (MIT)
+https://www.nuget.org/packages/System.IO.Ports/ (MIT)
+dotnet add package Avalonia.ReactiveUI

@@ -16,6 +16,7 @@ namespace FloaderClientGUI.ViewModels
 #region Bound properties
         private List<string> _ports;
         private string _selectedPort;
+        private bool _isOkBtnEnabled;
 
         /// <summary>
         /// Ports list (for listbox)
@@ -37,6 +38,15 @@ namespace FloaderClientGUI.ViewModels
                 this.RaiseAndSetIfChanged(ref _selectedPort, value);
                 ProcessPortSelectionChange(value);
             }
+        }
+
+        /// <summary>
+        /// Is OK button enabled or not
+        /// </summary>
+        public bool IsOkBtnEnabled
+        {
+            get => _isOkBtnEnabled;
+            set =>this.RaiseAndSetIfChanged(ref _isOkBtnEnabled, value);
         }
 #endregion
 
@@ -63,14 +73,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void ProcessPortSelectionChange(string newPort)
         {
-            if (string.IsNullOrEmpty(newPort))
-            {
-                // Disabling OK button
-            }
-            else
-            {
-                // Enabling OK button
-            }
+            IsOkBtnEnabled = !string.IsNullOrEmpty(newPort);
         }
 #endregion
 
