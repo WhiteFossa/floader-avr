@@ -17,6 +17,11 @@ namespace FloaderClientGUI.ViewModels
         private List<string> _ports;
         private string _selectedPort;
         private bool _isOkBtnEnabled;
+        private bool _isOverrideDefaults;
+        private bool _isBaudrateEnabled;
+        private bool _isParityEnabled;
+        private bool _isDataBitsEnabled;
+        private bool _isStopBitsEnabled;
 
         /// <summary>
         /// Ports list (for listbox)
@@ -46,7 +51,56 @@ namespace FloaderClientGUI.ViewModels
         public bool IsOkBtnEnabled
         {
             get => _isOkBtnEnabled;
-            set =>this.RaiseAndSetIfChanged(ref _isOkBtnEnabled, value);
+            set => this.RaiseAndSetIfChanged(ref _isOkBtnEnabled, value);
+        }
+
+        /// <summary>
+        /// True if Override Defaults checkbox is checked
+        /// </summary>
+        public bool IsOverrideDefaults
+        {
+            get => _isOverrideDefaults;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _isOverrideDefaults, value);
+                ProcessIsOverrideDefaultsChange(value);
+            }
+        }
+
+        /// <summary>
+        /// Is baudrate checkbox enabled
+        /// </summary>
+        public bool IsBaudrateEnabled
+        {
+            get => _isBaudrateEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isBaudrateEnabled, value);
+        }
+
+        /// <summary>
+        /// Is parity checkbox enabled
+        /// </summary>
+        public bool IsParityEnabled
+        {
+            get => _isParityEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isParityEnabled, value);
+        }
+
+        /// <summary>
+        /// Is data bits checkbox enabled
+        /// </summary>
+        public bool IsDataBitsEnabled
+        {
+            get => _isDataBitsEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isDataBitsEnabled, value);
+        }
+
+        /// <summary>
+        /// Is stop bits checkbox enabled
+        /// </summary>
+        public bool IsStopBitsEnabled
+        {
+            get => _isStopBitsEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isStopBitsEnabled, value);
         }
 #endregion
 
@@ -68,14 +122,26 @@ namespace FloaderClientGUI.ViewModels
             Ports = GetPortsList();
         }
 
+#endregion
+
         /// <summary>
         /// Called by listbox when selection changed
         /// </summary>
-        public void ProcessPortSelectionChange(string newPort)
+        private void ProcessPortSelectionChange(string newPort)
         {
             IsOkBtnEnabled = !string.IsNullOrEmpty(newPort);
         }
-#endregion
+
+        /// <summary>
+        /// Called when Override Defaults checkbox changes state
+        /// </summary>
+        private void ProcessIsOverrideDefaultsChange(bool newValue)
+        {
+            IsBaudrateEnabled = newValue;
+            IsParityEnabled = newValue;
+            IsDataBitsEnabled = newValue;
+            IsStopBitsEnabled = newValue;
+        }
 
         /// <summary>
         /// Getting current list of ports

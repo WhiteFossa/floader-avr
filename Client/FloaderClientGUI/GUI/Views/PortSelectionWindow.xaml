@@ -35,11 +35,12 @@
             <StackPanel>
                 <TextBlock Text="Advanced options:" />
 
-                <CheckBox Content="Override defaults?" IsChecked="False" Classes="TopMargin"/> <!-- Override defaults checkbox -->
+                <CheckBox Content="Override defaults?" IsChecked="{Binding IsOverrideDefaults}"
+                    Classes="TopMargin" /> <!-- Override defaults checkbox -->
 
                 <StackPanel Orientation="Horizontal" Classes="TopMargin">
                     <TextBlock Text="Baudrate:" Classes="VCenterRightMargin" />
-                    <ComboBox SelectedIndex="0"> <!-- Baudrate combobox -->
+                    <ComboBox SelectedIndex="0" IsEnabled="{Binding IsBaudrateEnabled}"> <!-- Baudrate combobox -->
                         <ComboBoxItem>Inline Items</ComboBoxItem>
                         <ComboBoxItem>Inline Item 2</ComboBoxItem>
                         <ComboBoxItem>Inline Item 3</ComboBoxItem>
@@ -49,7 +50,7 @@
 
                 <StackPanel Orientation="Horizontal" Classes="TopMargin">
                     <TextBlock Text="Parity:" Classes="VCenterRightMargin" />
-                    <ComboBox SelectedIndex="0"> <!-- Parity combobox -->
+                    <ComboBox SelectedIndex="0" IsEnabled="{Binding IsParityEnabled}"> <!-- Parity combobox -->
                         <ComboBoxItem>Odd</ComboBoxItem>
                         <ComboBoxItem>Even</ComboBoxItem>
                         <ComboBoxItem>None</ComboBoxItem>
@@ -58,7 +59,7 @@
 
                 <StackPanel Orientation="Horizontal" Classes="TopMargin">
                     <TextBlock Text="Data bits:" Classes="VCenterRightMargin" />
-                    <ComboBox SelectedIndex="0" > <!-- Data bits combobox -->
+                    <ComboBox SelectedIndex="0" IsEnabled="{Binding IsDataBitsEnabled}"> <!-- Data bits combobox -->
                         <ComboBoxItem>5</ComboBoxItem>
                         <ComboBoxItem>6</ComboBoxItem>
                         <ComboBoxItem>7</ComboBoxItem>
@@ -69,7 +70,7 @@
 
                 <StackPanel Orientation="Horizontal" Classes="TopMargin">
                     <TextBlock Text="Stop bits:" Classes="VCenterRightMargin" />
-                    <ComboBox SelectedIndex="0"> <!-- Stop bits combobox -->
+                    <ComboBox SelectedIndex="0" IsEnabled="{Binding IsStopBitsEnabled}"> <!-- Stop bits combobox -->
                         <ComboBoxItem>1</ComboBoxItem>
                         <ComboBoxItem>1.5</ComboBoxItem>
                         <ComboBoxItem>2</ComboBoxItem>
@@ -81,7 +82,7 @@
         <!-- Buttons -->
         <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="2" >
             <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-                <Button Grid.Column="0" Grid.Row="0" Content="OK" IsEnabled="{Binding IsOkBtnEnabled}"/>
+                <Button Grid.Column="0" Grid.Row="0" Content="OK" IsEnabled="{Binding IsOkBtnEnabled}" />
 
                 <Button Grid.Column="2" Grid.Row="0" Content="Cancel" />
             </Grid>
