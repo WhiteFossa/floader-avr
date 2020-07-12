@@ -20,8 +20,10 @@
                 <TextBlock Text="Ports list:" DockPanel.Dock="Top" />
 
                 <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, *">
-                    <Button Content="Refresh" Grid.Column="1" Grid.Row="0" /> <!-- Refresh ports list button-->
-                    <ListBox Items="123" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Classes="TopMargin"/> <!-- Ports list -->
+                    <Button Content="Refresh" Grid.Column="1" Grid.Row="0" Command="{Binding RefreshPortsList}" /> <!-- Refresh ports list button-->
+
+                    <ListBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Classes="TopMargin"
+                        Items="{Binding Ports}" /> <!-- Ports list -->
                 </Grid>
             </DockPanel>
         </Border>

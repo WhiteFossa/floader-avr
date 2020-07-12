@@ -14,6 +14,9 @@ namespace FloaderClientGUI.ViewModels
     {
         private ILogger _logger;
 
+        public PortSelectionWindowViewModel PortSelectionVM { get; }
+
+#region Bound properties
         private string _consoleText;
         private string _portName;
         private string _vendorName;
@@ -145,8 +148,7 @@ namespace FloaderClientGUI.ViewModels
             get => _eepromDownloadFile;
             set => this.RaiseAndSetIfChanged(ref _eepromDownloadFile, value);
         }
-
-
+#endregion Bound properties
 
         /// <summary>
         /// Constructor
@@ -157,9 +159,13 @@ namespace FloaderClientGUI.ViewModels
             _logger = Program.Di.GetService<ILogger>();
             _logger.SetLoggingFunction(AddLineToConsole);
 
+            // Setting up port selection VM
+            PortSelectionVM = new PortSelectionWindowViewModel();
+
             IsBackupBeforeUpload = true;
         }
 
+#region Commands
         /// <summary>
         /// Command to clear console
         /// </summary>
@@ -266,9 +272,10 @@ namespace FloaderClientGUI.ViewModels
         {
             ConsoleText += $"Download{ Environment.NewLine }";
         }
+#endregion
 
         /// <summary>
-        /// Adds a new text line to console.static Feed it to logger
+        /// Adds a new text line to console. Feed it to logger
         /// </summary>
         public void AddLineToConsole(string line)
         {
