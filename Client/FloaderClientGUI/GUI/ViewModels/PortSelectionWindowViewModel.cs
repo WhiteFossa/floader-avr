@@ -4,6 +4,10 @@ using FloaderClientGUI;
 using Microsoft.Extensions.DependencyInjection;
 using LibFloaderClient.Interfaces.SerialPortsLister;
 using System.Collections.Generic;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
+using System.Reactive.Linq;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -11,6 +15,7 @@ namespace FloaderClientGUI.ViewModels
     {
 #region Bound properties
         private List<string> _ports;
+        private string _selectedPort;
 
         /// <summary>
         /// Ports list (for listbox)
@@ -19,6 +24,19 @@ namespace FloaderClientGUI.ViewModels
         {
             get => _ports;
             set => this.RaiseAndSetIfChanged(ref _ports, value);
+        }
+
+        /// <summary>
+        /// Port, selected in listbox. May be null if none selected
+        /// </summary>
+        public string SelectedPort
+        {
+            get => _selectedPort;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _selectedPort, value);
+                ProcessPortSelectionChange(value);
+            }
         }
 #endregion
 
@@ -38,6 +56,21 @@ namespace FloaderClientGUI.ViewModels
         public void RefreshPortsList()
         {
             Ports = GetPortsList();
+        }
+
+        /// <summary>
+        /// Called by listbox when selection changed
+        /// </summary>
+        public void ProcessPortSelectionChange(string newPort)
+        {
+            if (string.IsNullOrEmpty(newPort))
+            {
+                // Disabling OK button
+            }
+            else
+            {
+                // Enabling OK button
+            }
         }
 #endregion
 

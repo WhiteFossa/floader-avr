@@ -24,7 +24,7 @@
                     <Button Content="Refresh" Grid.Column="1" Grid.Row="0" Command="{Binding RefreshPortsList}" /> <!-- Refresh ports list button-->
 
                     <ListBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Classes="TopMargin"
-                        Items="{Binding Ports}"> <!-- Ports list -->
+                        Items="{Binding Ports}" SelectedItem="{Binding SelectedPort}" > <!-- Ports list -->
                     </ListBox>
                 </Grid>
             </DockPanel>
