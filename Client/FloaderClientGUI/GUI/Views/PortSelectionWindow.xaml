@@ -40,11 +40,8 @@
 
                 <StackPanel Orientation="Horizontal" Classes="TopMargin">
                     <TextBlock Text="Baudrate:" Classes="VCenterRightMargin" />
-                    <ComboBox SelectedIndex="0" IsEnabled="{Binding IsBaudrateEnabled}"> <!-- Baudrate combobox -->
-                        <ComboBoxItem>Inline Items</ComboBoxItem>
-                        <ComboBoxItem>Inline Item 2</ComboBoxItem>
-                        <ComboBoxItem>Inline Item 3</ComboBoxItem>
-                        <ComboBoxItem>Inline Item 4</ComboBoxItem>
+                    <ComboBox SelectedIndex="0" IsEnabled="{Binding IsBaudrateEnabled}"
+                        Items="{Binding Baudrates}" SelectedItem="{Binding SelectedBaudrate}"> <!-- Baudrate combobox -->
                     </ComboBox>
                 </StackPanel>
 

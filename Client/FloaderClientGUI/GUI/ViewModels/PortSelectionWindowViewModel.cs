@@ -1,18 +1,25 @@
 using ReactiveUI;
-using System;
-using FloaderClientGUI;
-using Microsoft.Extensions.DependencyInjection;
-using LibFloaderClient.Interfaces.SerialPortsLister;
 using System.Collections.Generic;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using System.Reactive.Linq;
+using System.Linq;
 
 namespace FloaderClientGUI.ViewModels
 {
     public class PortSelectionWindowViewModel : ViewModelBase
     {
+#region Constants
+
+        /// <summary>
+        /// Possible baudrates
+        /// </summary>
+        private readonly List<int> StandardBaudrates = new List<int>()
+            {110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600, 115200, 128000, 256000 };
+
+        /// <summary>
+        /// Default baudrate
+        /// </summary>
+        private const int DefaultBaudrate = 57600;
+#endregion
+
 #region Bound properties
         private List<string> _ports;
         private string _selectedPort;
@@ -22,6 +29,8 @@ namespace FloaderClientGUI.ViewModels
         private bool _isParityEnabled;
         private bool _isDataBitsEnabled;
         private bool _isStopBitsEnabled;
+        private List<string> _baudrates;
+        private string _selectedBaudrate;
 
         /// <summary>
         /// Ports list (for listbox)
@@ -102,6 +111,29 @@ namespace FloaderClientGUI.ViewModels
             get => _isStopBitsEnabled;
             set => this.RaiseAndSetIfChanged(ref _isStopBitsEnabled, value);
         }
+
+        /// <summary>
+        /// List of possible baudrates
+        /// </summary>
+        public List<string> Baudrates
+        {
+            get => _baudrates;
+            set => this.RaiseAndSetIfChanged(ref _baudrates, value);
+        }
+
+        /// <summary>
+        /// Selected baudrate
+        /// </summary>
+        public string SelectedBaudrate
+        {
+            get => _selectedBaudrate;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _selectedBaudrate, value);
+
+                // TODO: Write to model here
+            }
+        }
 #endregion
 
         /// <summary>
@@ -110,6 +142,13 @@ namespace FloaderClientGUI.ViewModels
         public PortSelectionWindowViewModel() : base()
         {
             Ports = GetPortsList();
+
+            // Populating lists
+            Baudrates = StandardBaudrates
+                .Select(b => MapBaudrateToString(b))
+                .ToList();
+
+            SelectedBaudrate = MapBaudrateToString(DefaultBaudrate);
         }
 
 #region Commands
@@ -150,6 +189,26 @@ namespace FloaderClientGUI.ViewModels
         {
             return new List<string>() { "Port C", "Port D", "Port E" };
         }
+
+#region Mappers
+
+        /// <summary>
+        /// Baudrate to combobox value
+        /// </summary>
+        private string MapBaudrateToString(int baudrate)
+        {
+            return baudrate.ToString();
+        }
+
+        /// <summary>
+        /// Combobox value to baudrate
+        /// </summary>
+        private int MapStringToBaudrate(string baudrateStr)
+        {
+            return int.Parse(baudrateStr);
+        }
+
+#endregion
 
     }
 }
