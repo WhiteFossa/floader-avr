@@ -55,6 +55,11 @@
             <Setter Property="Margin" Value="0, 5, 0, 0" />
         </Style>
 
+        <!-- Dock panel with top margin -->
+        <Style Selector="DockPanel.TopMargin">
+            <Setter Property="Margin" Value="0, 5, 0, 0" />
+        </Style>
+
         <!-- List box with top margin -->
         <Style Selector="ListBox.TopMargin">
             <Setter Property="Margin" Value="0, 5, 0, 0" />
