@@ -29,10 +29,12 @@ namespace FloaderClientGUI.ViewModels
         private bool _isParityEnabled;
         private bool _isDataBitsEnabled;
         private bool _isStopBitsEnabled;
-        private List<string> _baudrates;
-        private string _selectedBaudrate;
+        private List<int> _baudrates;
+        private int _selectedBaudrate;
         private List<string> _parities;
         private string _selectedParity;
+        private List<int> _portDataBits;
+        private int _selectedPortDataBits;
 
         /// <summary>
         /// Ports list (for listbox)
@@ -117,7 +119,7 @@ namespace FloaderClientGUI.ViewModels
         /// <summary>
         /// List of possible baudrates
         /// </summary>
-        public List<string> Baudrates
+        public List<int> Baudrates
         {
             get => _baudrates;
             set => this.RaiseAndSetIfChanged(ref _baudrates, value);
@@ -126,7 +128,7 @@ namespace FloaderClientGUI.ViewModels
         /// <summary>
         /// Selected baudrate
         /// </summary>
-        public string SelectedBaudrate
+        public int SelectedBaudrate
         {
             get => _selectedBaudrate;
             set
@@ -146,14 +148,33 @@ namespace FloaderClientGUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _parities, value);
         }
 
+        /// <summary>
+        /// Selected parity
+        /// </summary>
         public string SelectedParity
         {
             get => _selectedParity;
             set
             {
                 this.RaiseAndSetIfChanged(ref _selectedParity, value);
+            }
+        }
 
-                // TODO: Write to model here
+        /// <summary>
+        /// List of possible port data bits
+        /// </summary>
+        public List<int> PortDataBits
+        {
+            get => _portDataBits;
+            set => this.RaiseAndSetIfChanged(ref _portDataBits, value);
+        }
+
+        public int SelectedPortDataBits
+        {
+            get => _selectedPortDataBits;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _selectedPortDataBits, value);
             }
         }
 
@@ -167,17 +188,16 @@ namespace FloaderClientGUI.ViewModels
             Ports = GetPortsList();
 
             // Populating lists
-            Baudrates = PossiblePortSettings.StandardBaudrates
-                .Select(b => MapBaudrateToString(b))
-                .ToList();
-
-            SelectedBaudrate = MapBaudrateToString(PossiblePortSettings.DefaultBaudrate);
+            Baudrates = PossiblePortSettings.StandardBaudrates;
+            SelectedBaudrate = PossiblePortSettings.DefaultBaudrate;
 
             Parities = PossiblePortSettings.PossibleParities
                 .Select(p => MapParityToString(p))
                 .ToList();
-
             SelectedParity = MapParityToString(PossiblePortSettings.DefaultParity);
+
+            PortDataBits = PossiblePortSettings.PossibleDataBits;
+            SelectedPortDataBits = PossiblePortSettings.DefaultDataBits;
         }
 
 #region Commands
@@ -220,22 +240,6 @@ namespace FloaderClientGUI.ViewModels
         }
 
 #region Mappers
-
-        /// <summary>
-        /// Baudrate to combobox value
-        /// </summary>
-        private string MapBaudrateToString(int baudrate)
-        {
-            return baudrate.ToString();
-        }
-
-        /// <summary>
-        /// Combobox value to baudrate
-        /// </summary>
-        private int MapStringToBaudrate(string baudrateStr)
-        {
-            return int.Parse(baudrateStr);
-        }
 
         /// <summary>
         /// Parity to combobox value

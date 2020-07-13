@@ -41,26 +41,19 @@
                 <StackPanel Orientation="Horizontal" Classes="TopMargin">
                     <TextBlock Text="Baudrate:" Classes="VCenterRightMargin" />
                     <ComboBox IsEnabled="{Binding IsBaudrateEnabled}"  Items="{Binding Baudrates}"
-                        SelectedItem="{Binding SelectedBaudrate}"> <!-- Baudrate combobox -->
-                    </ComboBox>
+                        SelectedItem="{Binding SelectedBaudrate}" /> <!-- Baudrate combobox -->
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Classes="TopMargin">
                     <TextBlock Text="Parity:" Classes="VCenterRightMargin" />
                     <ComboBox IsEnabled="{Binding IsParityEnabled}" Items="{Binding Parities}"
-                        SelectedItem="{Binding SelectedParity}"> <!-- Parity combobox -->
-                    </ComboBox>
+                        SelectedItem="{Binding SelectedParity}" /> <!-- Parity combobox -->
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Classes="TopMargin">
                     <TextBlock Text="Data bits:" Classes="VCenterRightMargin" />
-                    <ComboBox SelectedIndex="0" IsEnabled="{Binding IsDataBitsEnabled}"> <!-- Data bits combobox -->
-                        <ComboBoxItem>5</ComboBoxItem>
-                        <ComboBoxItem>6</ComboBoxItem>
-                        <ComboBoxItem>7</ComboBoxItem>
-                        <ComboBoxItem>8</ComboBoxItem>
-                        <ComboBoxItem>9</ComboBoxItem>
-                    </ComboBox>
+                    <ComboBox IsEnabled="{Binding IsDataBitsEnabled}"  Items="{Binding PortDataBits}"
+                        SelectedItem="{Binding SelectedPortDataBits}" /> <!-- Data bits combobox -->
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Classes="TopMargin">

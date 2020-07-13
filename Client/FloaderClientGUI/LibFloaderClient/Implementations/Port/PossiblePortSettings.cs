@@ -29,5 +29,15 @@ namespace LibFloaderClient.Implementations.Port
         /// Default parity mode
         /// </summary>
         public const Parity DefaultParity = Parity.None;
+
+        /// <summary>
+        /// Possible port data bits
+        /// </summary>
+        public static readonly List<int> PossibleDataBits = new List<int>() { 5, 6, 7, 8, 9 };
+
+        /// <summary>
+        /// Default data bits
+        /// </summary>
+        public const int DefaultDataBits = 8;
     }
 }
