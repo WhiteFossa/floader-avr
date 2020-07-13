@@ -1,23 +1,23 @@
+using System;
 using ReactiveUI;
 using System.Collections.Generic;
 using System.Linq;
+using LibFloaderClient.Implementations.Port;
+using System.IO.Ports;
 
 namespace FloaderClientGUI.ViewModels
 {
     public class PortSelectionWindowViewModel : ViewModelBase
     {
 #region Constants
-
         /// <summary>
-        /// Possible baudrates
+        /// Text representations of various parities
         /// </summary>
-        private readonly List<int> StandardBaudrates = new List<int>()
-            {110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600, 115200, 128000, 256000 };
-
-        /// <summary>
-        /// Default baudrate
-        /// </summary>
-        private const int DefaultBaudrate = 57600;
+        private const string ParityNone = "No parity control";
+        private const string ParityOdd = "Odd";
+        private const string ParityEven = "Even";
+        private const string ParityMark = "Mark";
+        private const string ParitySpace = "Space";
 #endregion
 
 #region Bound properties
@@ -31,6 +31,8 @@ namespace FloaderClientGUI.ViewModels
         private bool _isStopBitsEnabled;
         private List<string> _baudrates;
         private string _selectedBaudrate;
+        private List<string> _parities;
+        private string _selectedParity;
 
         /// <summary>
         /// Ports list (for listbox)
@@ -134,6 +136,27 @@ namespace FloaderClientGUI.ViewModels
                 // TODO: Write to model here
             }
         }
+
+        /// <summary>
+        /// List of possible parities
+        /// </summary>
+        public List<string> Parities
+        {
+            get => _parities;
+            set => this.RaiseAndSetIfChanged(ref _parities, value);
+        }
+
+        public string SelectedParity
+        {
+            get => _selectedParity;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _selectedParity, value);
+
+                // TODO: Write to model here
+            }
+        }
+
 #endregion
 
         /// <summary>
@@ -144,11 +167,17 @@ namespace FloaderClientGUI.ViewModels
             Ports = GetPortsList();
 
             // Populating lists
-            Baudrates = StandardBaudrates
+            Baudrates = PossiblePortSettings.StandardBaudrates
                 .Select(b => MapBaudrateToString(b))
                 .ToList();
 
-            SelectedBaudrate = MapBaudrateToString(DefaultBaudrate);
+            SelectedBaudrate = MapBaudrateToString(PossiblePortSettings.DefaultBaudrate);
+
+            Parities = PossiblePortSettings.PossibleParities
+                .Select(p => MapParityToString(p))
+                .ToList();
+
+            SelectedParity = MapParityToString(PossiblePortSettings.DefaultParity);
         }
 
 #region Commands
@@ -206,6 +235,57 @@ namespace FloaderClientGUI.ViewModels
         private int MapStringToBaudrate(string baudrateStr)
         {
             return int.Parse(baudrateStr);
+        }
+
+        /// <summary>
+        /// Parity to combobox value
+        /// </summary>
+        private string MapParityToString(Parity parity)
+        {
+            switch (parity)
+            {
+                case Parity.None:
+                    return ParityNone;
+
+                case Parity.Odd:
+                    return ParityOdd;
+
+                case Parity.Even:
+                    return ParityEven;
+
+                case Parity.Mark:
+                    return ParityMark;
+                
+                case Parity.Space:
+                    return ParitySpace;
+
+                default:
+                    throw new ArgumentException(nameof(parity));
+            }
+        }
+
+        private Parity MapStringToParity(string parityStr)
+        {
+            switch (parityStr)
+            {
+                case ParityNone:
+                    return Parity.None;
+
+                case ParityOdd:
+                    return Parity.Odd;
+
+                case ParityEven:
+                    return Parity.Even;
+
+                case ParityMark:
+                    return Parity.Mark;
+
+                case ParitySpace:
+                    return Parity.Space;
+
+                default:
+                    throw new ArgumentException(nameof(parityStr));
+            }
         }
 
 #endregion

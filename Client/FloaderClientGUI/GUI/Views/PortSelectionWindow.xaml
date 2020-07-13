@@ -40,17 +40,15 @@
 
                 <StackPanel Orientation="Horizontal" Classes="TopMargin">
                     <TextBlock Text="Baudrate:" Classes="VCenterRightMargin" />
-                    <ComboBox SelectedIndex="0" IsEnabled="{Binding IsBaudrateEnabled}"
-                        Items="{Binding Baudrates}" SelectedItem="{Binding SelectedBaudrate}"> <!-- Baudrate combobox -->
+                    <ComboBox IsEnabled="{Binding IsBaudrateEnabled}"  Items="{Binding Baudrates}"
+                        SelectedItem="{Binding SelectedBaudrate}"> <!-- Baudrate combobox -->
                     </ComboBox>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Classes="TopMargin">
                     <TextBlock Text="Parity:" Classes="VCenterRightMargin" />
-                    <ComboBox SelectedIndex="0" IsEnabled="{Binding IsParityEnabled}"> <!-- Parity combobox -->
-                        <ComboBoxItem>Odd</ComboBoxItem>
-                        <ComboBoxItem>Even</ComboBoxItem>
-                        <ComboBoxItem>None</ComboBoxItem>
+                    <ComboBox IsEnabled="{Binding IsParityEnabled}" Items="{Binding Parities}"
+                        SelectedItem="{Binding SelectedParity}"> <!-- Parity combobox -->
                     </ComboBox>
                 </StackPanel>
 
