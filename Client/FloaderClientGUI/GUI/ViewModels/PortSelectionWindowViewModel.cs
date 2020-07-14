@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using LibFloaderClient.Implementations.Port;
 using System.IO.Ports;
+using LibFloaderClient.Interfaces.SerialPortsLister;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -49,6 +51,11 @@ namespace FloaderClientGUI.ViewModels
         };
 
 #endregion
+
+        /// <summary>
+        /// Ports lister
+        /// </summary>
+        private ISerialPortsLister _serialPortsLister;
 
 #region Bound properties
         private List<string> _ports;
@@ -246,6 +253,9 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public PortSelectionWindowViewModel() : base()
         {
+            // DI
+            _serialPortsLister = Program.Di.GetService<ISerialPortsLister>();
+
             Ports = GetPortsList();
 
             // Populating lists
@@ -311,7 +321,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         private List<string> GetPortsList()
         {
-            return new List<string>() { "Port C", "Port D", "Port E" };
+            return _serialPortsLister.ListOrdered();
         }
 
 #region Mappers
