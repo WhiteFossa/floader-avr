@@ -18,6 +18,14 @@ namespace FloaderClientGUI.ViewModels
         private const string ParityEven = "Even";
         private const string ParityMark = "Mark";
         private const string ParitySpace = "Space";
+
+        /// <summary>
+        /// Text representation of various stop bits
+        /// </summary>
+        private const string StopBitsOne = "One";
+        private const string StopBitsOnePointFive = "One and half";
+        private const string StopBitsTwo = "Two";
+
 #endregion
 
 #region Bound properties
@@ -35,6 +43,9 @@ namespace FloaderClientGUI.ViewModels
         private string _selectedParity;
         private List<int> _portDataBits;
         private int _selectedPortDataBits;
+
+        private List<string> _portStopBits;
+        private string _selectedPortStopBits;
 
         /// <summary>
         /// Ports list (for listbox)
@@ -169,6 +180,9 @@ namespace FloaderClientGUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _portDataBits, value);
         }
 
+        /// <summary>
+        /// Selected data bits
+        /// </summary>
         public int SelectedPortDataBits
         {
             get => _selectedPortDataBits;
@@ -176,6 +190,24 @@ namespace FloaderClientGUI.ViewModels
             {
                 this.RaiseAndSetIfChanged(ref _selectedPortDataBits, value);
             }
+        }
+
+        /// <summary>
+        /// List of possible stop bits
+        /// </summary>
+        public List<string> PortStopBits
+        {
+            get => _portStopBits;
+            set => this.RaiseAndSetIfChanged(ref _portStopBits, value);
+        }
+
+        /// <summary>
+        /// Selected stop bits
+        /// </summary>
+        public string SelectedPortStopBits
+        {
+            get => _selectedPortStopBits;
+            set => this.RaiseAndSetIfChanged(ref _selectedPortStopBits, value);
         }
 
 #endregion
@@ -198,6 +230,11 @@ namespace FloaderClientGUI.ViewModels
 
             PortDataBits = PossiblePortSettings.PossibleDataBits;
             SelectedPortDataBits = PossiblePortSettings.DefaultDataBits;
+
+            PortStopBits = PossiblePortSettings.PossbileStopBits
+                .Select(sb => MapStopBitsToString(sb))
+                .ToList();
+            SelectedPortStopBits = MapStopBitsToString(PossiblePortSettings.DefaultStopBits);
         }
 
 #region Commands
@@ -268,6 +305,9 @@ namespace FloaderClientGUI.ViewModels
             }
         }
 
+        /// <summary>
+        /// Combobox value to parity
+        /// </summary>
         private Parity MapStringToParity(string parityStr)
         {
             switch (parityStr)
@@ -289,6 +329,48 @@ namespace FloaderClientGUI.ViewModels
 
                 default:
                     throw new ArgumentException(nameof(parityStr));
+            }
+        }
+
+        /// <summary>
+        /// Stop bits count to combobox value
+        /// </summary>
+        private string MapStopBitsToString(StopBits sb)
+        {
+            switch (sb)
+            {
+                case StopBits.One:
+                    return StopBitsOne;
+
+                case StopBits.OnePointFive:
+                    return StopBitsOnePointFive;
+                
+                case StopBits.Two:
+                    return StopBitsTwo;
+
+                default:
+                    throw new ArgumentException(nameof(sb));
+            }
+        }
+
+        /// <summary>
+        /// Combobox value to stop bits count
+        /// </summary>
+        private StopBits MapStringToStopBits(string str)
+        {
+            switch (str)
+            {
+                case StopBitsOne:
+                    return StopBits.One;
+
+                case StopBitsOnePointFive:
+                    return StopBits.OnePointFive;
+
+                case StopBitsTwo:
+                    return StopBits.Two;
+
+                default:
+                    throw new ArgumentException(nameof(str));
             }
         }
 

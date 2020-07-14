@@ -39,5 +39,16 @@ namespace LibFloaderClient.Implementations.Port
         /// Default data bits
         /// </summary>
         public const int DefaultDataBits = 8;
+
+        /// <summary>
+        /// Possible stop bits
+        /// </summary>
+        public static readonly List<StopBits> PossbileStopBits = new List<StopBits>()
+            { StopBits.One, StopBits.OnePointFive, StopBits.Two };
+
+        /// <summary>
+        /// Default stop bits
+        /// </summary>
+        public const StopBits DefaultStopBits = StopBits.One;
     }
 }
