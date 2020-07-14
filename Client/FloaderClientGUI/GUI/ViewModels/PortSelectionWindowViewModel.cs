@@ -20,11 +20,24 @@ namespace FloaderClientGUI.ViewModels
         private const string ParitySpace = "Space";
 
         /// <summary>
+        /// Dictionary for parity to name and name to parity mapping
+        /// </summary>
+        private readonly Dictionary<Parity, string> ParityNames = new Dictionary<Parity, string>()
+        {
+            { Parity.None, ParityNone },
+            { Parity.Odd, ParityOdd },
+            { Parity.Even, ParityEven },
+            { Parity.Mark, ParityMark },
+            { Parity.Space, ParitySpace }
+        };
+
+        /// <summary>
         /// Text representation of various stop bits
         /// </summary>
         private const string StopBitsOne = "One";
         private const string StopBitsOnePointFive = "One and half";
         private const string StopBitsTwo = "Two";
+
 
 #endregion
 
@@ -283,26 +296,15 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         private string MapParityToString(Parity parity)
         {
-            switch (parity)
+            var result = ParityNames
+                .Where(pn => pn.Key == parity);
+
+            if (!result.Any())
             {
-                case Parity.None:
-                    return ParityNone;
-
-                case Parity.Odd:
-                    return ParityOdd;
-
-                case Parity.Even:
-                    return ParityEven;
-
-                case Parity.Mark:
-                    return ParityMark;
-                
-                case Parity.Space:
-                    return ParitySpace;
-
-                default:
-                    throw new ArgumentException(nameof(parity));
+                throw new ArgumentException(nameof(parity));
             }
+
+            return result.FirstOrDefault().Value;
         }
 
         /// <summary>
@@ -310,26 +312,15 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         private Parity MapStringToParity(string parityStr)
         {
-            switch (parityStr)
+            var result = ParityNames
+                .Where(pn => string.Equals(pn.Value, parityStr));
+
+            if (!result.Any())
             {
-                case ParityNone:
-                    return Parity.None;
-
-                case ParityOdd:
-                    return Parity.Odd;
-
-                case ParityEven:
-                    return Parity.Even;
-
-                case ParityMark:
-                    return Parity.Mark;
-
-                case ParitySpace:
-                    return Parity.Space;
-
-                default:
-                    throw new ArgumentException(nameof(parityStr));
+                throw new ArgumentException(nameof(parityStr));
             }
+
+            return result.FirstOrDefault().Key;
         }
 
         /// <summary>
