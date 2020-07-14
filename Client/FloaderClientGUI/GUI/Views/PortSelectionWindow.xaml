@@ -35,8 +35,15 @@
             <StackPanel>
                 <TextBlock Text="Advanced options:" />
 
-                <CheckBox Content="Override defaults?" IsChecked="{Binding IsOverrideDefaults}"
-                    Classes="TopMargin" /> <!-- Override defaults checkbox -->
+                <DockPanel Classes="TopMargin">
+                    <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
+                        <CheckBox Content="Override defaults?" Grid.Column="0" Grid.Row="0"
+                        IsChecked="{Binding IsOverrideDefaults}" /> <!-- Override defaults checkbox -->
+
+                        <Button Grid.Column="2" Grid.Row="0" Content="Reset" Command="{Binding ResetAdvancedSettings}"
+                            IsEnabled="{Binding IsResetToDefaultsEnabled}" /> <!-- Reset advanced settings -->
+                    </Grid>
+                </DockPanel>
 
                 <StackPanel Orientation="Horizontal" Classes="TopMargin">
                     <TextBlock Text="Baudrate:" Classes="VCenterRightMargin" />

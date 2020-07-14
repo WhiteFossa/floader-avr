@@ -38,6 +38,15 @@ namespace FloaderClientGUI.ViewModels
         private const string StopBitsOnePointFive = "One and half";
         private const string StopBitsTwo = "Two";
 
+        /// <summary>
+        /// Dictionary for stop bits to name and name to stop bits mapping
+        /// </summary>
+        private readonly Dictionary<StopBits, string> StopBitsNames = new Dictionary<StopBits, string>()
+        {
+            { StopBits.One, StopBitsOne },
+            { StopBits.OnePointFive, StopBitsOnePointFive },
+            { StopBits.Two, StopBitsTwo }
+        };
 
 #endregion
 
@@ -56,9 +65,9 @@ namespace FloaderClientGUI.ViewModels
         private string _selectedParity;
         private List<int> _portDataBits;
         private int _selectedPortDataBits;
-
         private List<string> _portStopBits;
         private string _selectedPortStopBits;
+        private bool _isResetToDefaultsEnabled;
 
         /// <summary>
         /// Ports list (for listbox)
@@ -158,8 +167,6 @@ namespace FloaderClientGUI.ViewModels
             set
             {
                 this.RaiseAndSetIfChanged(ref _selectedBaudrate, value);
-
-                // TODO: Write to model here
             }
         }
 
@@ -223,6 +230,15 @@ namespace FloaderClientGUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _selectedPortStopBits, value);
         }
 
+        /// <summary>
+        /// State of Reset to Defaults button
+        /// </summary>
+        public bool IsResetToDefaultsEnabled
+        {
+            get => _isResetToDefaultsEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isResetToDefaultsEnabled, value);
+        }
+
 #endregion
 
         /// <summary>
@@ -234,20 +250,19 @@ namespace FloaderClientGUI.ViewModels
 
             // Populating lists
             Baudrates = PossiblePortSettings.StandardBaudrates;
-            SelectedBaudrate = PossiblePortSettings.DefaultBaudrate;
 
             Parities = PossiblePortSettings.PossibleParities
                 .Select(p => MapParityToString(p))
                 .ToList();
-            SelectedParity = MapParityToString(PossiblePortSettings.DefaultParity);
 
             PortDataBits = PossiblePortSettings.PossibleDataBits;
-            SelectedPortDataBits = PossiblePortSettings.DefaultDataBits;
 
             PortStopBits = PossiblePortSettings.PossbileStopBits
                 .Select(sb => MapStopBitsToString(sb))
                 .ToList();
-            SelectedPortStopBits = MapStopBitsToString(PossiblePortSettings.DefaultStopBits);
+
+            // Resetting advanced settings
+            ResetToDefaults();
         }
 
 #region Commands
@@ -259,6 +274,15 @@ namespace FloaderClientGUI.ViewModels
         {
             Ports = GetPortsList();
         }
+
+        /// <summary>
+        /// Reset advanced settings
+        /// </summary>
+        public void ResetAdvancedSettings()
+        {
+            ResetToDefaults();
+        }
+
 
 #endregion
 
@@ -279,6 +303,7 @@ namespace FloaderClientGUI.ViewModels
             IsParityEnabled = newValue;
             IsDataBitsEnabled = newValue;
             IsStopBitsEnabled = newValue;
+            IsResetToDefaultsEnabled = newValue;
         }
 
         /// <summary>
@@ -326,22 +351,17 @@ namespace FloaderClientGUI.ViewModels
         /// <summary>
         /// Stop bits count to combobox value
         /// </summary>
-        private string MapStopBitsToString(StopBits sb)
+        private string MapStopBitsToString(StopBits stopBits)
         {
-            switch (sb)
+            var result = StopBitsNames
+                .Where(sb => sb.Key == stopBits);
+
+            if (!result.Any())
             {
-                case StopBits.One:
-                    return StopBitsOne;
-
-                case StopBits.OnePointFive:
-                    return StopBitsOnePointFive;
-                
-                case StopBits.Two:
-                    return StopBitsTwo;
-
-                default:
-                    throw new ArgumentException(nameof(sb));
+                throw new ArgumentException(nameof(stopBits));
             }
+
+            return result.FirstOrDefault().Value;
         }
 
         /// <summary>
@@ -349,23 +369,31 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         private StopBits MapStringToStopBits(string str)
         {
-            switch (str)
+            var result = StopBitsNames
+                .Where(sb => string.Equals(sb.Value, str));
+
+            if (!result.Any())
             {
-                case StopBitsOne:
-                    return StopBits.One;
-
-                case StopBitsOnePointFive:
-                    return StopBits.OnePointFive;
-
-                case StopBitsTwo:
-                    return StopBits.Two;
-
-                default:
-                    throw new ArgumentException(nameof(str));
+                throw new ArgumentException(nameof(str));
             }
+
+            return result.FirstOrDefault().Key;
         }
 
 #endregion
+
+        /// <summary>
+        /// Resets advanced settings to defaults and disables it
+        /// </summary>
+        private void ResetToDefaults()
+        {
+            SelectedBaudrate = PossiblePortSettings.DefaultBaudrate;
+            SelectedParity = MapParityToString(PossiblePortSettings.DefaultParity);
+            SelectedPortDataBits = PossiblePortSettings.DefaultDataBits;
+            SelectedPortStopBits = MapStopBitsToString(PossiblePortSettings.DefaultStopBits);
+
+            IsOverrideDefaults = false;
+        }
 
     }
 }
