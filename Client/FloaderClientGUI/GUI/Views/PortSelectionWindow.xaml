@@ -76,7 +76,8 @@
             <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
                 <Button Grid.Column="0" Grid.Row="0" Content="OK" IsEnabled="{Binding IsOkBtnEnabled}" />
 
-                <Button Grid.Column="2" Grid.Row="0" Content="Cancel" />
+                <Button Grid.Column="2" Grid.Row="0" Content="Cancel" Command="{Binding Cancel}" 
+                    CommandParameter="{Binding $parent[Window]}"/>
             </Grid>
         </Border>
     </Grid>

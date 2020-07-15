@@ -1,3 +1,4 @@
+using System.Security.Principal;
 using System;
 using ReactiveUI;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using LibFloaderClient.Implementations.Port;
 using System.IO.Ports;
 using LibFloaderClient.Interfaces.SerialPortsLister;
 using Microsoft.Extensions.DependencyInjection;
+using Avalonia.Controls;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -293,6 +295,13 @@ namespace FloaderClientGUI.ViewModels
             ResetToDefaults();
         }
 
+        /// <summary>
+        /// Close window without applying settings
+        /// </summary>
+        public void Cancel(Window window)
+        {
+            window.Close();
+        }
 
 #endregion
 
