@@ -1,4 +1,3 @@
-using System.Security.Principal;
 using System;
 using ReactiveUI;
 using System.Collections.Generic;
