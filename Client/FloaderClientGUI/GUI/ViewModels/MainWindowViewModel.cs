@@ -7,6 +7,7 @@ using FloaderClientGUI;
 using Microsoft.Extensions.DependencyInjection;
 using LibFloaderClient.Interfaces.SerialPortsLister;
 using FloaderClientGUI.Views;
+using FloaderClientGUI.Models;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -150,17 +151,29 @@ namespace FloaderClientGUI.ViewModels
         }
 #endregion Bound properties
 
+
+        /// <summary>
+        /// Main application model
+        /// </summary>
+        private MainModel _mainModel { get; }
+
         /// <summary>
         /// Constructor
         /// </summary>
-        public MainWindowViewModel() : base()
+        public MainWindowViewModel(MainModel model) : base()
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+            _mainModel = model;
+
             // Setting up logger
             _logger = Program.Di.GetService<ILogger>();
             _logger.SetLoggingFunction(AddLineToConsole);
 
             // Setting up port selection VM
-            PortSelectionVM = new PortSelectionWindowViewModel();
+            PortSelectionVM = new PortSelectionWindowViewModel(model.PortSettings);
 
             IsBackupBeforeUpload = true;
         }
@@ -187,24 +200,13 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void SelectPort()
         {
-            (new PortSelectionWindow()
-            { 
+            var portSelectionDialog = new PortSelectionWindow()
+            {
+
                 DataContext= PortSelectionVM
-            })
-            .ShowDialog(Program.GetMainWindow());
+            };
 
-            // // TODO: Remove it from here
-            // _logger.LogInfo("Ports:");
-
-            // var lister = Program.Di.GetService<ISerialPortsLister>();
-            // var listedPorts = lister.ListOrdered();
-
-            // foreach (var port in listedPorts)
-            // {
-            //     _logger.LogInfo(port);
-            // }
-
-            // PortName = "Megaport";
+            portSelectionDialog.ShowDialog(Program.GetMainWindow());
         }
 
         /// <summary>

@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using FloaderClientGUI.ViewModels;
 using FloaderClientGUI.Views;
+using FloaderClientGUI.Models;
 
 namespace FloaderClientGUI
 {
@@ -17,9 +18,12 @@ namespace FloaderClientGUI
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
+                // Root model
+                var model = new MainModel();
+
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = new MainWindowViewModel(model),
                 };
             }
 

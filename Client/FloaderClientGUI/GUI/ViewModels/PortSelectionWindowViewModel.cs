@@ -7,6 +7,7 @@ using System.IO.Ports;
 using LibFloaderClient.Interfaces.SerialPortsLister;
 using Microsoft.Extensions.DependencyInjection;
 using Avalonia.Controls;
+using LibFloaderClient.Models.Port;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -54,9 +55,16 @@ namespace FloaderClientGUI.ViewModels
 #endregion
 
         /// <summary>
+        /// Port settings or null, if port not specified yet
+        /// </summary>
+        /// <value></value>
+        public PortSettings PortSettings { get; }
+
+        /// <summary>
         /// Ports lister
         /// </summary>
         private ISerialPortsLister _serialPortsLister;
+
 
 #region Bound properties
         private List<string> _ports;
@@ -252,8 +260,10 @@ namespace FloaderClientGUI.ViewModels
         /// <summary>
         /// Constructor
         /// </summary>
-        public PortSelectionWindowViewModel() : base()
+        public PortSelectionWindowViewModel(PortSettings portSettings) : base()
         {
+            PortSettings = portSettings;
+
             // DI
             _serialPortsLister = Program.Di.GetService<ISerialPortsLister>();
 

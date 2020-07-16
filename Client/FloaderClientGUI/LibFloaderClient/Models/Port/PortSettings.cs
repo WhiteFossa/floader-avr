@@ -4,7 +4,7 @@ using System.IO.Ports;
 namespace LibFloaderClient.Models.Port
 {
     /// <summary>
-    /// Settings, enough to open port.false All fields must be specified
+    /// Settings, enough to open port. All fields must be specified
     /// </summary>
     public class PortSettings
     {
