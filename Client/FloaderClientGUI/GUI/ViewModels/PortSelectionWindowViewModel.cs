@@ -13,52 +13,13 @@ namespace FloaderClientGUI.ViewModels
 {
     public class PortSelectionWindowViewModel : ViewModelBase
     {
-#region Constants
-        /// <summary>
-        /// Text representations of various parities
-        /// </summary>
-        private const string ParityNone = "No parity control";
-        private const string ParityOdd = "Odd";
-        private const string ParityEven = "Even";
-        private const string ParityMark = "Mark";
-        private const string ParitySpace = "Space";
 
-        /// <summary>
-        /// Dictionary for parity to name and name to parity mapping
-        /// </summary>
-        private readonly Dictionary<Parity, string> ParityNames = new Dictionary<Parity, string>()
-        {
-            { Parity.None, ParityNone },
-            { Parity.Odd, ParityOdd },
-            { Parity.Even, ParityEven },
-            { Parity.Mark, ParityMark },
-            { Parity.Space, ParitySpace }
-        };
-
-        /// <summary>
-        /// Text representation of various stop bits
-        /// </summary>
-        private const string StopBitsOne = "One";
-        private const string StopBitsOnePointFive = "One and half";
-        private const string StopBitsTwo = "Two";
-
-        /// <summary>
-        /// Dictionary for stop bits to name and name to stop bits mapping
-        /// </summary>
-        private readonly Dictionary<StopBits, string> StopBitsNames = new Dictionary<StopBits, string>()
-        {
-            { StopBits.One, StopBitsOne },
-            { StopBits.OnePointFive, StopBitsOnePointFive },
-            { StopBits.Two, StopBitsTwo }
-        };
-
-#endregion
 
         /// <summary>
         /// Port settings or null, if port not specified yet
         /// </summary>
         /// <value></value>
-        public PortSettings PortSettings { get; }
+        public PortSettings PortSettings { get; private set; }
 
         /// <summary>
         /// Ports lister
@@ -260,10 +221,8 @@ namespace FloaderClientGUI.ViewModels
         /// <summary>
         /// Constructor
         /// </summary>
-        public PortSelectionWindowViewModel(PortSettings portSettings) : base()
+        public PortSelectionWindowViewModel() : base()
         {
-            PortSettings = portSettings;
-
             // DI
             _serialPortsLister = Program.Di.GetService<ISerialPortsLister>();
 
@@ -273,13 +232,13 @@ namespace FloaderClientGUI.ViewModels
             Baudrates = PossiblePortSettings.StandardBaudrates;
 
             Parities = PossiblePortSettings.PossibleParities
-                .Select(p => MapParityToString(p))
+                .Select(p => PortSelectionHelper.MapParityToString(p))
                 .ToList();
 
             PortDataBits = PossiblePortSettings.PossibleDataBits;
 
             PortStopBits = PossiblePortSettings.PossbileStopBits
-                .Select(sb => MapStopBitsToString(sb))
+                .Select(sb => PortSelectionHelper.MapStopBitsToString(sb))
                 .ToList();
 
             // Resetting advanced settings
@@ -309,6 +268,18 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void Cancel(Window window)
         {
+            window.Close();
+        }
+
+        /// <summary>
+        /// Close window and apply settings
+        /// </summary>
+        public void OK(Window window)
+        {
+            // Port is always selected now, otherwise OK button will be disabled
+            PortSettings = new PortSettings(name: SelectedPort, baudrate: SelectedBaudrate, parity: PortSelectionHelper.MapStringToParity(SelectedParity),
+                dataBits: SelectedPortDataBits, stopBits: PortSelectionHelper.MapStringToStopBits(SelectedPortStopBits));
+
             window.Close();
         }
 
@@ -342,83 +313,15 @@ namespace FloaderClientGUI.ViewModels
             return _serialPortsLister.ListOrdered();
         }
 
-#region Mappers
-
-        /// <summary>
-        /// Parity to combobox value
-        /// </summary>
-        private string MapParityToString(Parity parity)
-        {
-            var result = ParityNames
-                .Where(pn => pn.Key == parity);
-
-            if (!result.Any())
-            {
-                throw new ArgumentException(nameof(parity));
-            }
-
-            return result.FirstOrDefault().Value;
-        }
-
-        /// <summary>
-        /// Combobox value to parity
-        /// </summary>
-        private Parity MapStringToParity(string parityStr)
-        {
-            var result = ParityNames
-                .Where(pn => string.Equals(pn.Value, parityStr));
-
-            if (!result.Any())
-            {
-                throw new ArgumentException(nameof(parityStr));
-            }
-
-            return result.FirstOrDefault().Key;
-        }
-
-        /// <summary>
-        /// Stop bits count to combobox value
-        /// </summary>
-        private string MapStopBitsToString(StopBits stopBits)
-        {
-            var result = StopBitsNames
-                .Where(sb => sb.Key == stopBits);
-
-            if (!result.Any())
-            {
-                throw new ArgumentException(nameof(stopBits));
-            }
-
-            return result.FirstOrDefault().Value;
-        }
-
-        /// <summary>
-        /// Combobox value to stop bits count
-        /// </summary>
-        private StopBits MapStringToStopBits(string str)
-        {
-            var result = StopBitsNames
-                .Where(sb => string.Equals(sb.Value, str));
-
-            if (!result.Any())
-            {
-                throw new ArgumentException(nameof(str));
-            }
-
-            return result.FirstOrDefault().Key;
-        }
-
-#endregion
-
         /// <summary>
         /// Resets advanced settings to defaults and disables it
         /// </summary>
         private void ResetToDefaults()
         {
             SelectedBaudrate = PossiblePortSettings.DefaultBaudrate;
-            SelectedParity = MapParityToString(PossiblePortSettings.DefaultParity);
+            SelectedParity = PortSelectionHelper.MapParityToString(PossiblePortSettings.DefaultParity);
             SelectedPortDataBits = PossiblePortSettings.DefaultDataBits;
-            SelectedPortStopBits = MapStopBitsToString(PossiblePortSettings.DefaultStopBits);
+            SelectedPortStopBits = PortSelectionHelper.MapStopBitsToString(PossiblePortSettings.DefaultStopBits);
 
             IsOverrideDefaults = false;
         }

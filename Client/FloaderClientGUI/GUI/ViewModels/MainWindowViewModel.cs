@@ -1,13 +1,12 @@
-﻿using System.Net.Mime;
+﻿using System.Text;
 using ReactiveUI;
 using TextCopy;
 using System;
 using LibFloaderClient.Interfaces.Logger;
-using FloaderClientGUI;
 using Microsoft.Extensions.DependencyInjection;
-using LibFloaderClient.Interfaces.SerialPortsLister;
 using FloaderClientGUI.Views;
 using FloaderClientGUI.Models;
+using LibFloaderClient.Implementations.Port;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -173,7 +172,7 @@ namespace FloaderClientGUI.ViewModels
             _logger.SetLoggingFunction(AddLineToConsole);
 
             // Setting up port selection VM
-            PortSelectionVM = new PortSelectionWindowViewModel(model.PortSettings);
+            PortSelectionVM = new PortSelectionWindowViewModel();
 
             IsBackupBeforeUpload = true;
         }
@@ -198,7 +197,7 @@ namespace FloaderClientGUI.ViewModels
         /// <summary>
         /// Command to select port
         /// </summary>
-        public void SelectPort()
+        public async void SelectPortAsync()
         {
             var portSelectionDialog = new PortSelectionWindow()
             {
@@ -206,7 +205,11 @@ namespace FloaderClientGUI.ViewModels
                 DataContext= PortSelectionVM
             };
 
-            portSelectionDialog.ShowDialog(Program.GetMainWindow());
+            await portSelectionDialog.ShowDialog(Program.GetMainWindow());
+
+            _mainModel.PortSettings = PortSelectionVM.PortSettings != null ? PortSelectionVM.PortSettings : _mainModel.PortSettings;
+
+            LogPortSettings();
         }
 
         /// <summary>
@@ -286,6 +289,30 @@ namespace FloaderClientGUI.ViewModels
         public void AddLineToConsole(string line)
         {
             ConsoleText += $"{ line }{ Environment.NewLine }";
+        }
+
+        /// <summary>
+        /// Logging current port settings
+        /// </summary>
+        private void LogPortSettings()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("Port settings:");
+
+            if (_mainModel.PortSettings == null)
+            {
+                sb.AppendLine("Port not selected!");
+            }
+            else
+            {
+                sb.AppendLine($"Port: { _mainModel.PortSettings.Name }");
+                sb.AppendLine($"Baudrate: { _mainModel.PortSettings.Baudrate }");
+                sb.AppendLine($"Parity: { PortSelectionHelper.MapParityToString(_mainModel.PortSettings.Parity) }");
+                sb.AppendLine($"Data bits: { _mainModel.PortSettings.DataBits }");
+                sb.AppendLine($"Stop bits: { PortSelectionHelper.MapStopBitsToString(_mainModel.PortSettings.StopBits) }");
+            }
+
+            _logger.LogInfo(sb.ToString());
         }
     }
 }

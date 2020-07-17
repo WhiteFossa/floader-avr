@@ -1,5 +1,6 @@
 using System;
 using LibFloaderClient.Models.Port;
+using System.IO.Ports;
 
 namespace FloaderClientGUI.Models
 {

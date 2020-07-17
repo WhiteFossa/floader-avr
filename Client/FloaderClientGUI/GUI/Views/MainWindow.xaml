@@ -25,7 +25,7 @@
                     <TextBlock Text="Port:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- Port label -->
                     <TextBlock Text="{Binding PortName}" Grid.Column="1" Grid.Row="0" /> <!-- Port name -->
                     <Button Grid.Column="2" Grid.Row="0" Content="Select port"
-                        Command="{Binding SelectPort}"/> <!-- Select port button -->
+                        Command="{Binding SelectPortAsync}"/> <!-- Select port button -->
                 </Grid>
 
             </StackPanel>
