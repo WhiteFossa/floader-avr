@@ -1,6 +1,6 @@
 using System;
 using LibFloaderClient.Models.Port;
-using System.IO.Ports;
+using LibFloaderClient.Interfaces.SerialPortDriver;
 
 namespace FloaderClientGUI.Models
 {
@@ -14,5 +14,11 @@ namespace FloaderClientGUI.Models
         /// </summary>
         /// <value></value>
         public PortSettings PortSettings { get; set; }
+
+        /// <summary>
+        /// Serial port driver. Use via using() {}
+        /// </summary>
+        /// <value></value>
+        public ISerialPortDriver PortDriver { get; set; }
     }
 }

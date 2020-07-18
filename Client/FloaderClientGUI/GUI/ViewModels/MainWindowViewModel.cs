@@ -2,11 +2,13 @@
 using ReactiveUI;
 using TextCopy;
 using System;
+using System.Collections.Generic;
 using LibFloaderClient.Interfaces.Logger;
 using Microsoft.Extensions.DependencyInjection;
 using FloaderClientGUI.Views;
 using FloaderClientGUI.Models;
 using LibFloaderClient.Implementations.Port;
+using LibFloaderClient.Implementations.SerialPortDriver;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -209,6 +211,8 @@ namespace FloaderClientGUI.ViewModels
 
             _mainModel.PortSettings = PortSelectionVM.PortSettings != null ? PortSelectionVM.PortSettings : _mainModel.PortSettings;
 
+            PortName = _mainModel.PortSettings.Name;
+
             LogPortSettings();
         }
 
@@ -217,6 +221,25 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void PollDevice()
         {
+            try
+            {
+                //  TODO: Remove port experiments
+                using(_mainModel.PortDriver = new SerialPortDriver(_mainModel.PortSettings))
+                {
+                    var msg = new List<byte>() { 0x59, 0x49, 0x46, 0x46 };
+                    _mainModel.PortDriver.Write(msg);
+
+                    var result = _mainModel.PortDriver.Read(4);
+
+                    int a = 10;
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            
+
             VendorName = "TestVendor";
             ModelName = "Megadevice";
             SerialNumber = "000001";
