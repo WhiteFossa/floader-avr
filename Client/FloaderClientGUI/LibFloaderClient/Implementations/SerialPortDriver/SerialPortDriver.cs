@@ -55,6 +55,11 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         /// </summary>
         private bool _isReadTimeoutHappened;
 
+        /// <summary>
+        /// Happened IO error, null if everything is OK
+        /// </summary>
+        private SerialError? _IOError;
+
         public SerialPortDriver(PortSettings settings)
         {
             _unreadData.Clear();
@@ -62,8 +67,9 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
             _port = new SerialPort(portName: settings.Name, baudRate: settings.Baudrate, parity: settings.Parity,
                 dataBits: settings.DataBits, stopBits: settings.StopBits);
 
-            // Attaching port listener
+            // Attaching events
             _port.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+            _port.ErrorReceived += new SerialErrorReceivedEventHandler(ErrorReceivedHandler);
 
             _port.Open();
         }
@@ -78,6 +84,7 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         public void Write(List<byte> contentToWrite)
         {
             CheckIfDisposed();
+            CheckForIOError();
 
             if (contentToWrite == null)
             {
@@ -92,11 +99,14 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
             var buffer = contentToWrite.ToArray();
 
             _port.Write(buffer, 0, buffer.Length);
+
+            CheckForIOError();
         }
 
         public List<byte> Read(int requiredSize)
         {
             CheckIfDisposed();
+            CheckForIOError();
 
             // Starting timeout timer
             _isReadTimeoutHappened = false;
@@ -130,6 +140,8 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
             // Cut first requiredSize bytes and return it
             var result = _unreadData.GetRange(0, requiredSize);
             _unreadData = _unreadData.GetRange(requiredSize, availableSize - requiredSize);
+
+            CheckForIOError();
             return result;
         }
 
@@ -192,9 +204,28 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         /// <summary>
         /// Read timeout handler
         /// </summary>
-         private void OnReadTimeoutEvent(Object source, ElapsedEventArgs e)
-         {
-             _isReadTimeoutHappened = true;
-         }
+        private void OnReadTimeoutEvent(Object source, ElapsedEventArgs e)
+        {
+            _isReadTimeoutHappened = true;
+        }
+
+        /// <summary>
+        /// Checks for IO error in main thread
+        /// </summary>
+        private void CheckForIOError()
+        {
+            if (_IOError != null)
+            {
+                throw new SerialPortIOErrorException($"During IO { _IOError } error happened.");
+            }
+        }
+
+        /// <summary>
+        /// IO error handler
+        /// </summary>
+        private void ErrorReceivedHandler(object sender, SerialErrorReceivedEventArgs e)
+        {
+            _IOError = e.EventType;
+        }
     }
 }
