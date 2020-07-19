@@ -229,9 +229,13 @@ namespace FloaderClientGUI.ViewModels
                     var msg = new List<byte>() { 0x59, 0x49, 0x46, 0x46 };
                     _mainModel.PortDriver.Write(msg);
 
-                    var result = _mainModel.PortDriver.Read(4);
+                    var result = _mainModel.PortDriver.Read(2);
 
                     int a = 10;
+
+                    var result1 = _mainModel.PortDriver.Read(2);
+
+                    int b = 20;
                 }
             }
             catch(Exception ex)

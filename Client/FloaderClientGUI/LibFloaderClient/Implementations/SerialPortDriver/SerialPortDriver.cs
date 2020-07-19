@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using LibFloaderClient.Interfaces.SerialPortDriver;
 using LibFloaderClient.Models.Port;
 using System.IO.Ports;
+using LibFloaderClient.Implementations.Exceptions;
+using System.Timers;
 
 namespace LibFloaderClient.Implementations.SerialPortDriver
 {
@@ -20,6 +22,11 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         /// How long (in milliseconds) to wait before next check if data arrived when Read() called
         /// </summary>
         private const int ReadSleepTime = 10;
+
+        /// <summary>
+        /// Attemtp to read data from port using this size blocks
+        /// </summary>
+        private const int ReadBlockSize = 16;
 
         private bool _isDisposed = false;
 
@@ -38,6 +45,15 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         /// </summary>
         private List<byte> _unreadData = new List<byte>();
 
+        /// <summary>
+        /// Timer to count read timeout
+        /// </summary>
+        private System.Timers.Timer _readTimeoutTimer;
+        
+        /// <summary>
+        /// True if read timeout happened
+        /// </summary>
+        private bool _isReadTimeoutHappened;
 
         public SerialPortDriver(PortSettings settings)
         {
@@ -82,9 +98,22 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         {
             CheckIfDisposed();
 
+            // Starting timeout timer
+            _isReadTimeoutHappened = false;
+
+            _readTimeoutTimer = new System.Timers.Timer(_timeout);
+            _readTimeoutTimer.AutoReset = false;
+            _readTimeoutTimer.Elapsed += OnReadTimeoutEvent;
+            _readTimeoutTimer.Enabled = true;
+
             int availableSize = 0;
             while(true)
             {
+                if (_isReadTimeoutHappened)
+                {
+                    throw new SerialPortTimeoutException();
+                }
+
                 availableSize = _unreadData.Count();
 
                 if (availableSize >= requiredSize)
@@ -95,6 +124,8 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
                 // Waiting for data
                 Thread.Sleep(ReadSleepTime);
             }
+
+            _readTimeoutTimer.Enabled = false;
 
             // Cut first requiredSize bytes and return it
             var result = _unreadData.GetRange(0, requiredSize);
@@ -142,17 +173,28 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         {
             var port = (SerialPort)sender;
 
+            var buffer = new byte[ReadBlockSize];
+
             while(true)
             {
-                var b = port.ReadByte();
+                var bytesRead = port.Read(buffer, 0, ReadBlockSize);
 
-                if (b == -1)
+                if (bytesRead < ReadBlockSize)
                 {
+                    _unreadData.AddRange(buffer.ToList().GetRange(0, bytesRead));
                     return;
                 }
 
-                _unreadData.Add((byte)b);
+                _unreadData.AddRange(buffer.ToList());
             }
         }
+
+        /// <summary>
+        /// Read timeout handler
+        /// </summary>
+         private void OnReadTimeoutEvent(Object source, ElapsedEventArgs e)
+         {
+             _isReadTimeoutHappened = true;
+         }
     }
 }
