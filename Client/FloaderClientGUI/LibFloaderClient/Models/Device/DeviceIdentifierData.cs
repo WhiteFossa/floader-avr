@@ -5,7 +5,7 @@ namespace LibFloaderClient.Models.Device
     /// <summary>
     /// Data, identifying connected device
     /// </summary>
-    public class DeviceIdentificator
+    public class DeviceIdentifierData
     {
         /// <summary>
         /// Identification result
@@ -32,7 +32,7 @@ namespace LibFloaderClient.Models.Device
         /// </summary>
         public long Serial { get; private set; }
 
-        public DeviceIdentificator(DeviceIdentificationStatus status, int version, int vendorId, int modelId, long serial)
+        public DeviceIdentifierData(DeviceIdentificationStatus status, int version, int vendorId, int modelId, long serial)
         {
             Status = status;
             Version = version;

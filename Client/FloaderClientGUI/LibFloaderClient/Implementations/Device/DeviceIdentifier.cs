@@ -7,8 +7,8 @@ using LibFloaderClient.Models.Port;
 using LibFloaderClient.Interfaces.Logger;
 using LibFloaderClient.Implementations.Enums.Device;
 using LibFloaderClient.Interfaces.SerialPortDriver;
-using LibFloaderClient.Implementations.SerialPortDriver;
 using LibFloaderClient.Implementations.Exceptions;
+using LibFloaderClient.Implementations.Helpers;
 
 namespace LibFloaderClient.Implementations.Device
 {
@@ -35,19 +35,24 @@ namespace LibFloaderClient.Implementations.Device
         private const int SignatureOffset = 0;
 
         /// <summary>
-        /// Version data start here
+        /// Version data starts here
         /// </summary>
         private const int VersionOffset = 3;
 
         /// <summary>
-        /// Version data length
+        /// Vendor ID starts here
         /// </summary>
-        private const int VersionLength = 1;
+        private const int VendorIdOffset = 4;
 
         /// <summary>
-        /// Version byte position in version data
+        /// Device model ID starts here
         /// </summary>
-        private const int VersionByteOffset = 0;
+        private const int ModelIdOffset = 7;
+
+        /// <summary>
+        /// Device serial number starts here
+        /// </summary>
+        private const int SerialOffset = 10;
 
         /// <summary>
         /// Logger
@@ -59,7 +64,7 @@ namespace LibFloaderClient.Implementations.Device
             _logger = logger;
         }
 
-        public DeviceIdentificator Identify(PortSettings portSettings)
+        public DeviceIdentifierData Identify(PortSettings portSettings)
         {
             if (portSettings == null)
             {
@@ -78,7 +83,7 @@ namespace LibFloaderClient.Implementations.Device
                     if (!CheckSignature(response))
                     {
                         _logger.LogError("Wrong signature, this is not Fossa's bootloader device.");
-                        return new DeviceIdentificator(status: DeviceIdentificationStatus.WrongSignature,
+                        return new DeviceIdentifierData(status: DeviceIdentificationStatus.WrongSignature,
                             version: -1,
                             vendorId: -1,
                             modelId: -1,
@@ -86,23 +91,36 @@ namespace LibFloaderClient.Implementations.Device
                     }
 
                     // Our device, collecting data
-                    var version = ExtractUnsignedByteAsInt(response.GetRange(VersionOffset, VersionLength), VersionByteOffset);
+                    var version = PortDataHelper.ExtractUnsignedByteAsInt(response, VersionOffset);
+                    var vendorId = PortDataHelper.ExtractThreeBytesAsInt(response, VendorIdOffset);
+                    var modelId = PortDataHelper.ExtractThreeBytesAsInt(response, ModelIdOffset);
+                    var serial = PortDataHelper.ExtractFourBytesAsLong(response, SerialOffset);
 
-                    int a = 10;
+                    var result = new DeviceIdentifierData(status: DeviceIdentificationStatus.Identified,
+                        version: version,
+                        vendorId: vendorId,
+                        modelId: modelId,
+                        serial: serial);
+
+                        _logger.LogInfo($@"Valid identification record received:
+Version: { result.Version },
+Vendor ID: { result.VendorId },
+Model ID: { result.ModelId },
+Serial: { result.Serial }.");
+
+                    return result;
                 }
                 catch(SerialPortTimeoutException ex)
                 {
                     // Timeout, usually it means that this is not our device
                     _logger.LogError("Device didn't respond in time, usually it mean that this is not Fossa's bootloader device.");
-                    return new DeviceIdentificator(status: DeviceIdentificationStatus.Timeout,
+                    return new DeviceIdentifierData(status: DeviceIdentificationStatus.Timeout,
                         version: -1,
                         vendorId: -1,
                         modelId: -1,
                         serial: -1);
                 }
             }
-
-            return new DeviceIdentificator(DeviceIdentificationStatus.WrongSignature, 0, 0, 0, 0);
         }
 
         /// <summary>
@@ -123,25 +141,6 @@ namespace LibFloaderClient.Implementations.Device
             var signatureInResponse = response.GetRange(SignatureOffset, Signature.Count);
 
             return signatureInResponse.SequenceEqual(Signature);
-        }
-
-        /// <summary>
-        /// Takes byte at given position in response and returns it as int (byte is unsigned).null
-        /// I.e. 0x03 -> 3, 0xFF -> 255 etc
-        /// </summary>
-        private int ExtractUnsignedByteAsInt(List<byte> response, int position)
-        {
-            if (response == null)
-            {
-                throw new ArgumentNullException(nameof(response));
-            }
-
-            if ((position < 0) || (position >= response.Count))
-            {
-                throw new ArgumentException("Position is outside of response.", nameof(position));
-            }
-
-            return (int)(response[position] & 0xFF);
         }
     }
 }

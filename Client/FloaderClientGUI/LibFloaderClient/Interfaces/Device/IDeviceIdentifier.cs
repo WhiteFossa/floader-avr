@@ -9,6 +9,6 @@ namespace LibFloaderClient.Interfaces.Device
         /// <summary>
         /// Attempt to identify device
         /// </summary>
-        DeviceIdentificator Identify(PortSettings portSettings);
+        DeviceIdentifierData Identify(PortSettings portSettings);
     }
 }

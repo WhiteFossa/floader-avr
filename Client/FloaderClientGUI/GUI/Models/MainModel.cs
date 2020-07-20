@@ -25,6 +25,6 @@ namespace FloaderClientGUI.Models
         /// <summary>
         /// Device identification data (from bootloader)
         /// </summary>
-        public DeviceIdentificator DeviceIdentDataBL { get; set; }
+        public DeviceIdentifierData DeviceIdentDataBL { get; set; }
     }
 }
