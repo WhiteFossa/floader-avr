@@ -1,6 +1,7 @@
 using System;
 using LibFloaderClient.Models.Port;
 using LibFloaderClient.Interfaces.SerialPortDriver;
+using LibFloaderClient.Models.Device;
 
 namespace FloaderClientGUI.Models
 {
@@ -20,5 +21,10 @@ namespace FloaderClientGUI.Models
         /// </summary>
         /// <value></value>
         public ISerialPortDriver PortDriver { get; set; }
+
+        /// <summary>
+        /// Device identification data (from bootloader)
+        /// </summary>
+        public DeviceIdentificator DeviceIdentDataBL { get; set; }
     }
 }

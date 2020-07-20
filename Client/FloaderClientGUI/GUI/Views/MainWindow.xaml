@@ -47,7 +47,8 @@
                     <TextBlock Text="{Binding SerialNumber}" Grid.Column="1" Grid.Row="2" /> <!-- Serial number -->
 
                     <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="3">
-                        <Button Content="Poll device" Command="{Binding PollDevice}" /> <!-- Poll device button-->
+                        <Button Content="Poll device" Command="{Binding PollDevice}"
+                            IsEnabled="{Binding IsPollDeviceEnabled}" /> <!-- Poll device button-->
                     </StackPanel>
                 </Grid>
             </StackPanel>

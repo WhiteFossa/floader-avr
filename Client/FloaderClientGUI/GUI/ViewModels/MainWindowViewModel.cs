@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using ReactiveUI;
 using TextCopy;
 using System;
@@ -9,12 +10,14 @@ using FloaderClientGUI.Views;
 using FloaderClientGUI.Models;
 using LibFloaderClient.Implementations.Port;
 using LibFloaderClient.Implementations.SerialPortDriver;
+using LibFloaderClient.Interfaces.Device;
 
 namespace FloaderClientGUI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
         private ILogger _logger;
+        private IDeviceIdentifier _deviceIdentifier;
 
         public PortSelectionWindowViewModel PortSelectionVM { get; }
 
@@ -32,6 +35,7 @@ namespace FloaderClientGUI.ViewModels
         private string _uploadBackupsDirectory;
         private string _flashDownloadFile;
         private string _eepromDownloadFile;
+        private bool _isPollDeviceEnabled;
 
         /// <summary>
         /// Text in console
@@ -150,6 +154,15 @@ namespace FloaderClientGUI.ViewModels
             get => _eepromDownloadFile;
             set => this.RaiseAndSetIfChanged(ref _eepromDownloadFile, value);
         }
+
+        /// <summary>
+        /// If "Poll device" button enabled
+        /// </summary>
+        public bool IsPollDeviceEnabled
+        {
+            get => _isPollDeviceEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isPollDeviceEnabled, value);
+        }
 #endregion Bound properties
 
 
@@ -169,14 +182,18 @@ namespace FloaderClientGUI.ViewModels
             }
             _mainModel = model;
 
-            // Setting up logger
+            // DI
             _logger = Program.Di.GetService<ILogger>();
+            _deviceIdentifier = Program.Di.GetService<IDeviceIdentifier>();
+
+            // Setting up logger
             _logger.SetLoggingFunction(AddLineToConsole);
 
             // Setting up port selection VM
             PortSelectionVM = new PortSelectionWindowViewModel();
 
             IsBackupBeforeUpload = true;
+            SetPollDeviceState();
         }
 
 #region Commands
@@ -211,9 +228,14 @@ namespace FloaderClientGUI.ViewModels
 
             _mainModel.PortSettings = PortSelectionVM.PortSettings != null ? PortSelectionVM.PortSettings : _mainModel.PortSettings;
 
-            PortName = _mainModel.PortSettings.Name;
+            PortName = _mainModel.PortSettings?.Name != null ? _mainModel.PortSettings?.Name : "";
 
             LogPortSettings();
+
+            SetPollDeviceState();
+
+            // No identification data known yet
+            _mainModel.DeviceIdentDataBL = null;
         }
 
         /// <summary>
@@ -221,27 +243,41 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void PollDevice()
         {
+            if (_mainModel.PortSettings == null)
+            {
+                throw new InvalidOperationException("Port not specified.");
+            }
+
             try
             {
-                //  TODO: Remove port experiments
-                using(_mainModel.PortDriver = new SerialPortDriver(_mainModel.PortSettings))
-                {
-                    var msg = new List<byte>() { 0x59, 0x49, 0x46, 0x46 };
-                    _mainModel.PortDriver.Write(msg);
-
-                    var result = _mainModel.PortDriver.Read(2);
-
-                    int a = 10;
-
-                    var result1 = _mainModel.PortDriver.Read(2);
-
-                    int b = 20;
-                }
+                _mainModel.DeviceIdentDataBL = _deviceIdentifier.Identify(_mainModel.PortSettings);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
             }
+
+            // try
+            // {
+            //     //  TODO: Remove port experiments
+            //     using(_mainModel.PortDriver = new SerialPortDriver(_mainModel.PortSettings))
+            //     {
+            //         var msg = new List<byte>() { 0x59, 0x49, 0x46, 0x46 };
+            //         _mainModel.PortDriver.Write(msg);
+
+            //         var result = _mainModel.PortDriver.Read(2);
+
+            //         int a = 10;
+
+            //         var result1 = _mainModel.PortDriver.Read(2);
+
+            //         int b = 20;
+            //     }
+            // }
+            // catch(Exception ex)
+            // {
+            //     _logger.LogError(ex.Message);
+            // }
             
 
             VendorName = "TestVendor";
@@ -340,6 +376,14 @@ namespace FloaderClientGUI.ViewModels
             }
 
             _logger.LogInfo(sb.ToString());
+        }
+
+        /// <summary>
+        /// Setting state of "Poll device" button
+        /// </summary>
+        private void SetPollDeviceState()
+        {
+            IsPollDeviceEnabled = (_mainModel.PortSettings != null);
         }
     }
 }

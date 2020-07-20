@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.ComponentModel;
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -9,6 +10,8 @@ using LibFloaderClient.Interfaces.Logger;
 using FloaderClientGUI.GUISpecific.Logger;
 using LibFloaderClient.Interfaces.SerialPortsLister;
 using LibFloaderClient.Implementations.SerialPortsLister;
+using LibFloaderClient.Interfaces.Device;
+using LibFloaderClient.Implementations.Device;
 
 namespace FloaderClientGUI
 {
@@ -17,7 +20,6 @@ namespace FloaderClientGUI
         /// <summary>
         /// Dependency injection service provider
         /// </summary>
-        /// <value></value>
         public static ServiceProvider Di {get; set; }
 
         // Initialization code. Don't use any Avalonia, third-party APIs or any
@@ -47,6 +49,7 @@ namespace FloaderClientGUI
 
             services.AddSingleton<ILogger, Logger>();
             services.AddSingleton<ISerialPortsLister, SerialPortsLister>();
+            services.AddSingleton<IDeviceIdentifier, DeviceIdentifier>();
 
             return services;
         }
