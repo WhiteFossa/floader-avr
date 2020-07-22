@@ -9,8 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using FloaderClientGUI.Views;
 using FloaderClientGUI.Models;
 using LibFloaderClient.Implementations.Port;
-using LibFloaderClient.Implementations.SerialPortDriver;
 using LibFloaderClient.Interfaces.Device;
+using LibFloaderClient.Interfaces.Versioned.Common;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -18,6 +18,7 @@ namespace FloaderClientGUI.ViewModels
     {
         private ILogger _logger;
         private IDeviceIdentifier _deviceIdentifier;
+        private IVersionValidator _versionValidator;
 
         public PortSelectionWindowViewModel PortSelectionVM { get; }
 
@@ -36,6 +37,8 @@ namespace FloaderClientGUI.ViewModels
         private string _flashDownloadFile;
         private string _eepromDownloadFile;
         private bool _isPollDeviceEnabled;
+        private bool _isUploadEnabled;
+        private bool _isDownloadEnabled;
 
         /// <summary>
         /// Text in console
@@ -163,6 +166,24 @@ namespace FloaderClientGUI.ViewModels
             get => _isPollDeviceEnabled;
             set => this.RaiseAndSetIfChanged(ref _isPollDeviceEnabled, value);
         }
+
+        /// <summary>
+        /// Is "Upload" button enabled
+        /// </summary>
+        public bool IsUploadEnabled
+        {
+            get => _isUploadEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isUploadEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Download" button enabled
+        /// </summary>
+        public bool IsDownloadEnabled
+        {
+            get => _isDownloadEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isDownloadEnabled, value);
+        }
 #endregion Bound properties
 
 
@@ -185,6 +206,7 @@ namespace FloaderClientGUI.ViewModels
             // DI
             _logger = Program.Di.GetService<ILogger>();
             _deviceIdentifier = Program.Di.GetService<IDeviceIdentifier>();
+            _versionValidator = Program.Di.GetService<IVersionValidator>();
 
             // Setting up logger
             _logger.SetLoggingFunction(AddLineToConsole);
@@ -194,6 +216,8 @@ namespace FloaderClientGUI.ViewModels
 
             IsBackupBeforeUpload = true;
             SetPollDeviceState();
+
+            SetUploadAndDownloadState(false);
         }
 
 #region Commands
@@ -234,6 +258,8 @@ namespace FloaderClientGUI.ViewModels
 
             SetPollDeviceState();
 
+            SetUploadAndDownloadState(false);
+
             // No identification data known yet
             _mainModel.DeviceIdentDataBL = null;
         }
@@ -255,30 +281,17 @@ namespace FloaderClientGUI.ViewModels
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
+                LockProceeding();
+                return;
             }
 
-            // try
-            // {
-            //     //  TODO: Remove port experiments
-            //     using(_mainModel.PortDriver = new SerialPortDriver(_mainModel.PortSettings))
-            //     {
-            //         var msg = new List<byte>() { 0x59, 0x49, 0x46, 0x46 };
-            //         _mainModel.PortDriver.Write(msg);
-
-            //         var result = _mainModel.PortDriver.Read(2);
-
-            //         int a = 10;
-
-            //         var result1 = _mainModel.PortDriver.Read(2);
-
-            //         int b = 20;
-            //     }
-            // }
-            // catch(Exception ex)
-            // {
-            //     _logger.LogError(ex.Message);
-            // }
-            
+            // Is version acceptable?
+            if (!_versionValidator.Validate(_mainModel.DeviceIdentDataBL.Version))
+            {
+                _logger.LogError($"Bootloader protocol version { _mainModel.DeviceIdentDataBL.Version } is not supported.");
+                LockProceeding();
+                return;
+            }
 
             VendorName = "TestVendor";
             ModelName = "Megadevice";
@@ -384,6 +397,26 @@ namespace FloaderClientGUI.ViewModels
         private void SetPollDeviceState()
         {
             IsPollDeviceEnabled = (_mainModel.PortSettings != null);
+        }
+
+        /// <summary>
+        /// Enables / disables "Upload" and "Download" buttons
+        /// </summary>
+        /// <param name="isEnable"></param>
+        private void SetUploadAndDownloadState(bool isEnable)
+        {
+            IsUploadEnabled = isEnable;
+            IsDownloadEnabled = isEnable;
+        }
+
+        /// <summary>
+        /// Call it to block upload / download buttons and suggest user to select another device
+        /// </summary>
+        private void LockProceeding()
+        {
+            SetUploadAndDownloadState(false);
+            _logger.LogError(@"Unable to proceed!
+Please, select another device.");
         }
     }
 }

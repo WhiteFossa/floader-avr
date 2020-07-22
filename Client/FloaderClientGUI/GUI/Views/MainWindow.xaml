@@ -98,7 +98,8 @@
                     </DockPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <Button Classes="TopMargin" Content="Upload" Command="{Binding Upload}"/> <!-- Upload button -->
+                    <Button Classes="TopMargin" Content="Upload" Command="{Binding Upload}"
+                        IsEnabled="{Binding IsUploadEnabled}" /> <!-- Upload button -->
                 </StackPanel>
             </StackPanel>
         </Border>
@@ -132,7 +133,8 @@
                     </DockPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="Download" Classes="TopMargin" Command="{Binding Download}"/> <!-- Download button -->
+                    <Button Content="Download" Classes="TopMargin" Command="{Binding Download}"
+                        IsEnabled="{Binding IsDownloadEnabled}" /> <!-- Download button -->
                 </StackPanel>
             </StackPanel>
         </Border>

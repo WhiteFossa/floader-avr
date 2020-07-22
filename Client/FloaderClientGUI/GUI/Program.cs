@@ -12,6 +12,8 @@ using LibFloaderClient.Interfaces.SerialPortsLister;
 using LibFloaderClient.Implementations.SerialPortsLister;
 using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Implementations.Device;
+using LibFloaderClient.Interfaces.Versioned.Common;
+using LibFloaderClient.Implementations.Versioned.Common;
 
 namespace FloaderClientGUI
 {
@@ -50,6 +52,7 @@ namespace FloaderClientGUI
             services.AddSingleton<ILogger, Logger>();
             services.AddSingleton<ISerialPortsLister, SerialPortsLister>();
             services.AddSingleton<IDeviceIdentifier, DeviceIdentifier>();
+            services.AddSingleton<IVersionValidator, VersionValidator>();
 
             return services;
         }

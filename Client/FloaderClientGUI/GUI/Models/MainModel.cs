@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using LibFloaderClient.Models.Port;
 using LibFloaderClient.Interfaces.SerialPortDriver;
 using LibFloaderClient.Models.Device;
