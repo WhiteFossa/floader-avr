@@ -7,6 +7,8 @@ Notes for myself (later will format it):
 Under *nix xclip have to be installed.
 
 Used 3rd party code:
-https://github.com/CopyText/TextCopy (MIT)
-https://www.nuget.org/packages/System.IO.Ports/ (MIT)
-dotnet add package Avalonia.ReactiveUI
+- https://github.com/CopyText/TextCopy (MIT)
+- https://www.nuget.org/packages/System.IO.Ports/ (MIT)
+- dotnet add package Avalonia.ReactiveUI (MIT)
+- dotnet add package System.Data.SQLite (Public domain)
+- dotnet add package Dapper (Apache 2.0)
