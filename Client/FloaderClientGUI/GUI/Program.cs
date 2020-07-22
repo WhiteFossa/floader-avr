@@ -14,6 +14,8 @@ using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Implementations.Device;
 using LibFloaderClient.Interfaces.Versioned.Common;
 using LibFloaderClient.Implementations.Versioned.Common;
+using LibFloaderClient.Interfaces.DAO;
+using LibFloaderClient.Implementations.DAO;
 
 namespace FloaderClientGUI
 {
@@ -53,6 +55,7 @@ namespace FloaderClientGUI
             services.AddSingleton<ISerialPortsLister, SerialPortsLister>();
             services.AddSingleton<IDeviceIdentifier, DeviceIdentifier>();
             services.AddSingleton<IVersionValidator, VersionValidator>();
+            services.AddSingleton<IDao, Dao>();
 
             return services;
         }

@@ -11,6 +11,7 @@ using FloaderClientGUI.Models;
 using LibFloaderClient.Implementations.Port;
 using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Versioned.Common;
+using LibFloaderClient.Interfaces.DAO;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -19,6 +20,7 @@ namespace FloaderClientGUI.ViewModels
         private ILogger _logger;
         private IDeviceIdentifier _deviceIdentifier;
         private IVersionValidator _versionValidator;
+        private IDao _dao; // TODO: Do we need it here?
 
         public PortSelectionWindowViewModel PortSelectionVM { get; }
 
@@ -207,6 +209,7 @@ namespace FloaderClientGUI.ViewModels
             _logger = Program.Di.GetService<ILogger>();
             _deviceIdentifier = Program.Di.GetService<IDeviceIdentifier>();
             _versionValidator = Program.Di.GetService<IVersionValidator>();
+            _dao = Program.Di.GetService<IDao>();
 
             // Setting up logger
             _logger.SetLoggingFunction(AddLineToConsole);
@@ -293,13 +296,20 @@ namespace FloaderClientGUI.ViewModels
                 return;
             }
 
-            VendorName = "TestVendor";
-            ModelName = "Megadevice";
-            SerialNumber = "000001";
+            // Human-readable port info
+            var vendorName = _dao.GetVendorName(_mainModel.DeviceIdentDataBL.VendorId);
+            if (vendorName == null)
+            {
+                _logger.LogError($"Vendor with ID={ _mainModel.DeviceIdentDataBL.VendorId } not found in database.");
+                LockProceeding();
+                return;
+            }
 
-            IsFlashUpload = true;
-            IsEepromUpload = true;
-            IsBackupBeforeUpload = false;
+            VendorName = vendorName;
+            ModelName = "Megadevice";
+            SerialNumber = _mainModel.DeviceIdentDataBL.Version.ToString();
+
+            SetUploadAndDownloadState(true);
         }
 
         /// <summary>
