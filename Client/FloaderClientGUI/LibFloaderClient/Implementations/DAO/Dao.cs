@@ -10,7 +10,7 @@ namespace LibFloaderClient.Implementations.DAO
         /// <summary>
         /// Path from executable directory to devices database
         /// </summary>
-        private const string DbFilename = @"/DevDB.sqlite";
+        private const string DbFilename = @"\DevDB.sqlite";
 
         public string GetVendorName(int vendorId)
         {
