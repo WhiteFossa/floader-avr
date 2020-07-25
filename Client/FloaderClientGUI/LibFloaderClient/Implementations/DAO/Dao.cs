@@ -1,7 +1,11 @@
 using System;
 using System.Data.SQLite;
+using System.IO;
+using System.Reflection;
+using System.Text;
 using Dapper;
 using LibFloaderClient.Interfaces.DAO;
+using LibFloaderClient.Models.DAO;
 
 namespace LibFloaderClient.Implementations.DAO
 {
@@ -12,14 +16,23 @@ namespace LibFloaderClient.Implementations.DAO
         /// </summary>
         private const string DbFilename = @"\DevDB.sqlite";
 
-        public string GetVendorName(int vendorId)
+        public VendorDBO GetVendorData(int vendorId)
         {
             using (var connection = GetDbConnection())
             {
                 connection.Open();
 
+                var assembly = typeof(LibFloaderClient.Implementations.DAO.Dao).GetTypeInfo().Assembly;
+                var resourceStream = assembly.GetManifestResourceStream("LibFloaderClient.Implementations.DAO.Queries.GetVendorData.sql");
+                string queryText;
+                using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
+                {
+                    queryText = reader.ReadToEnd();
+                }
+
+
                 return connection
-                    .QueryFirst<string>($"select Name from vendors_names where Id={ vendorId }");
+                    .QueryFirst<VendorDBO>(queryText, new { vendorId });
             }
         }
 

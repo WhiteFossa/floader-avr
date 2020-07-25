@@ -1,3 +1,5 @@
+using LibFloaderClient.Models.DAO;
+
 namespace LibFloaderClient.Interfaces.DAO
 {
     /// <summary>
@@ -6,8 +8,8 @@ namespace LibFloaderClient.Interfaces.DAO
     public interface IDao
     {
         /// <summary>
-        /// Returns vendor name for given ID or null if vendor not found.
+        /// Returns vendor data for given ID or null if vendor not found.
         /// </summary>
-        string GetVendorName(int vendorId);
+        VendorDBO GetVendorData(int vendorId);
     }
 }

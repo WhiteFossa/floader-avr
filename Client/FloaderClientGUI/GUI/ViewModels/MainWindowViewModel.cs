@@ -297,15 +297,15 @@ namespace FloaderClientGUI.ViewModels
             }
 
             // Human-readable port info
-            var vendorName = _dao.GetVendorName(_mainModel.DeviceIdentDataBL.VendorId);
-            if (vendorName == null)
+            var vendorData = _dao.GetVendorData(_mainModel.DeviceIdentDataBL.VendorId);
+            if (vendorData == null)
             {
                 _logger.LogError($"Vendor with ID={ _mainModel.DeviceIdentDataBL.VendorId } not found in database.");
                 LockProceeding();
                 return;
             }
 
-            VendorName = vendorName;
+            VendorName = vendorData.Name;
             ModelName = "Megadevice";
             SerialNumber = _mainModel.DeviceIdentDataBL.Version.ToString();
 
