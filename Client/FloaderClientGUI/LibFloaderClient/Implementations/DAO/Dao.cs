@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using Dapper;
+using LibFloaderClient.Implementations.Helpers;
 using LibFloaderClient.Interfaces.DAO;
 using LibFloaderClient.Models.DAO;
 
@@ -22,17 +23,11 @@ namespace LibFloaderClient.Implementations.DAO
             {
                 connection.Open();
 
-                var assembly = typeof(LibFloaderClient.Implementations.DAO.Dao).GetTypeInfo().Assembly;
-                var resourceStream = assembly.GetManifestResourceStream("LibFloaderClient.Implementations.DAO.Queries.GetVendorData.sql");
-                string queryText;
-                using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
-                {
-                    queryText = reader.ReadToEnd();
-                }
-
-
                 return connection
-                    .QueryFirst<VendorDBO>(queryText, new { vendorId });
+                    .QueryFirst<VendorDBO>(
+                        ResourcesHelper.GetResourceAsString(typeof(LibFloaderClient.Implementations.DAO.Dao),
+                            "LibFloaderClient.Implementations.DAO.Queries.GetVendorData.sql"),
+                        new { vendorId });
             }
         }
 
