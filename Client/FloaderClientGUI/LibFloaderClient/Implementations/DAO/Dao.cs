@@ -13,9 +13,9 @@ namespace LibFloaderClient.Implementations.DAO
     public class Dao : IDao
     {
         /// <summary>
-        /// Path from executable directory to devices database
+        /// Devices database name
         /// </summary>
-        private const string DbFilename = @"\DevDB.sqlite";
+        private const string DbFilename = "DevDB.sqlite";
 
         public VendorDBO GetVendorData(int vendorId)
         {
@@ -36,7 +36,7 @@ namespace LibFloaderClient.Implementations.DAO
         /// </summary>
         private string GetFullDbPath()
         {
-            return $"{ Environment.CurrentDirectory }{ DbFilename }";
+            return Path.Combine(Environment.CurrentDirectory, DbFilename);
         }
 
         /// <summary>

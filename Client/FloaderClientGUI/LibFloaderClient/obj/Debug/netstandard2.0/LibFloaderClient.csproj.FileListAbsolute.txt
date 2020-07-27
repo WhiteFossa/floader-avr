@@ -9,7 +9,6 @@
 C:\Projects\floader-avr\Client\FloaderClientGUI\LibFloaderClient\bin\Debug\netstandard2.0\LibFloaderClient.deps.json
 C:\Projects\floader-avr\Client\FloaderClientGUI\LibFloaderClient\bin\Debug\netstandard2.0\LibFloaderClient.dll
 C:\Projects\floader-avr\Client\FloaderClientGUI\LibFloaderClient\bin\Debug\netstandard2.0\LibFloaderClient.pdb
-C:\Projects\floader-avr\Client\FloaderClientGUI\LibFloaderClient\obj\Debug\netstandard2.0\LibFloaderClient.csprojAssemblyReference.cache
 C:\Projects\floader-avr\Client\FloaderClientGUI\LibFloaderClient\obj\Debug\netstandard2.0\LibFloaderClient.AssemblyInfoInputs.cache
 C:\Projects\floader-avr\Client\FloaderClientGUI\LibFloaderClient\obj\Debug\netstandard2.0\LibFloaderClient.AssemblyInfo.cs
 C:\Projects\floader-avr\Client\FloaderClientGUI\LibFloaderClient\obj\Debug\netstandard2.0\LibFloaderClient.csproj.CoreCompileInputs.cache
