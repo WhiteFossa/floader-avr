@@ -12,6 +12,7 @@ using LibFloaderClient.Implementations.Port;
 using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Versioned.Common;
 using LibFloaderClient.Interfaces.DAO;
+using LibFloaderClient.Models.Device;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -265,6 +266,7 @@ namespace FloaderClientGUI.ViewModels
 
             // No identification data known yet
             _mainModel.DeviceIdentDataBL = null;
+            _mainModel.DeviceHumanReadableDescription = null;
         }
 
         /// <summary>
@@ -313,9 +315,11 @@ namespace FloaderClientGUI.ViewModels
                 return;
             }
 
-            VendorName = vendorData.Name;
-            ModelName = nameData.Name;
-            SerialNumber = _mainModel.DeviceIdentDataBL.Version.ToString();
+            _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentDataBL.Serial);
+
+            VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
+            ModelName = _mainModel.DeviceHumanReadableDescription.Model;
+            SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
 
             SetUploadAndDownloadState(true);
         }

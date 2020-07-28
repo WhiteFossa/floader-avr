@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LibFloaderClient.Models.Port;
 using LibFloaderClient.Interfaces.SerialPortDriver;
 using LibFloaderClient.Models.Device;
+using SharpDX.Direct2D1;
 
 namespace FloaderClientGUI.Models
 {
@@ -27,5 +28,10 @@ namespace FloaderClientGUI.Models
         /// Device identification data (from bootloader)
         /// </summary>
         public DeviceIdentifierData DeviceIdentDataBL { get; set; }
+
+        /// <summary>
+        /// Human-readable device description
+        /// </summary>
+        public DeviceHumanReadableDescription DeviceHumanReadableDescription { get; set; }
     }
 }
