@@ -36,7 +36,8 @@ namespace LibFloaderClient.Implementations.DAO
         /// </summary>
         private string GetFullDbPath()
         {
-            return Path.Combine(Environment.CurrentDirectory, DbFilename);
+            //return Path.Combine(Environment.CurrentDirectory, DbFilename);
+            return DbFilename;
         }
 
         /// <summary>
