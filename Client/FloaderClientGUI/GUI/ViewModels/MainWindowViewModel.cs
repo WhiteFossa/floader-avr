@@ -297,16 +297,24 @@ namespace FloaderClientGUI.ViewModels
             }
 
             // Human-readable port info
-            var vendorData = _dao.GetVendorData(_mainModel.DeviceIdentDataBL.VendorId);
+            var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentDataBL.VendorId);
             if (vendorData == null)
             {
-                _logger.LogError($"Vendor with ID={ _mainModel.DeviceIdentDataBL.VendorId } not found in database.");
+                _logger.LogError($"Vendor with ID={ _mainModel.DeviceIdentDataBL.VendorId } wasn't found in database.");
+                LockProceeding();
+                return;
+            }
+
+            var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentDataBL.VendorId, _mainModel.DeviceIdentDataBL.ModelId);
+            if (nameData == null)
+            {
+                _logger.LogError($"Device model with Vendor ID={ _mainModel.DeviceIdentDataBL.VendorId } and ModelId={ _mainModel.DeviceIdentDataBL.ModelId } wasn't found in database.");
                 LockProceeding();
                 return;
             }
 
             VendorName = vendorData.Name;
-            ModelName = "Megadevice";
+            ModelName = nameData.Name;
             SerialNumber = _mainModel.DeviceIdentDataBL.Version.ToString();
 
             SetUploadAndDownloadState(true);

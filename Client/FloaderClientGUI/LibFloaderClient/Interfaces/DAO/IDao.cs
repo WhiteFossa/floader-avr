@@ -8,8 +8,13 @@ namespace LibFloaderClient.Interfaces.DAO
     public interface IDao
     {
         /// <summary>
-        /// Returns vendor data for given ID or null if vendor not found.
+        /// Returns vendor name data for given ID
         /// </summary>
-        VendorDBO GetVendorData(int vendorId);
+        VendorDBO GetVendorNameData(int vendorId);
+
+        /// <summary>
+        /// Get human-readable device model name
+        /// </summary>
+        DeviceNameDBO GetDeviceNameData(int vendorId, int modelId);
     }
 }

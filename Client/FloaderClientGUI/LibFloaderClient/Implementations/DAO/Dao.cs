@@ -17,7 +17,20 @@ namespace LibFloaderClient.Implementations.DAO
         /// </summary>
         private const string DbFilename = "DevDB.sqlite";
 
-        public VendorDBO GetVendorData(int vendorId)
+        /// <summary>
+        /// Current assembly
+        /// </summary>
+        private readonly Type CurrentAssembly = typeof(LibFloaderClient.Implementations.DAO.Dao);
+
+        /// <summary>
+        /// Returns ready to use device DB connection
+        /// </summary>
+        private SQLiteConnection GetDbConnection()
+        {
+            return new SQLiteConnection($"Data Source={ DbFilename }");
+        }
+
+        public VendorDBO GetVendorNameData(int vendorId)
         {
             using (var connection = GetDbConnection())
             {
@@ -25,27 +38,22 @@ namespace LibFloaderClient.Implementations.DAO
 
                 return connection
                     .QueryFirst<VendorDBO>(
-                        ResourcesHelper.GetResourceAsString(typeof(LibFloaderClient.Implementations.DAO.Dao),
-                            "LibFloaderClient.Implementations.DAO.Queries.GetVendorData.sql"),
+                        ResourcesHelper.GetResourceAsString(CurrentAssembly, "LibFloaderClient.Implementations.DAO.Queries.GetVendorNameData.sql"),
                         new { vendorId });
             }
         }
 
-        /// <summary>
-        /// Returns full path to device DB
-        /// </summary>
-        private string GetFullDbPath()
+        public DeviceNameDBO GetDeviceNameData(int vendorId, int modelId)
         {
-            //return Path.Combine(Environment.CurrentDirectory, DbFilename);
-            return DbFilename;
-        }
+            using (var connection = GetDbConnection())
+            {
+                connection.Open();
 
-        /// <summary>
-        /// Returns ready to use device DB connection
-        /// </summary>
-        private SQLiteConnection GetDbConnection()
-        {
-            return new SQLiteConnection($"Data Source={ GetFullDbPath() }");
+                return connection
+                    .QueryFirst<DeviceNameDBO>(
+                        ResourcesHelper.GetResourceAsString(CurrentAssembly, "LibFloaderClient.Implementations.DAO.Queries.GetDeviceNameData.sql"),
+                        new { vendorId, modelId });
+            }
         }
     }
 }
