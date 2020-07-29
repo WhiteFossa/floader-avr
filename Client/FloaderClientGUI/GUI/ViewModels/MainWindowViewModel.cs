@@ -265,7 +265,7 @@ namespace FloaderClientGUI.ViewModels
             SetUploadAndDownloadState(false);
 
             // No identification data known yet
-            _mainModel.DeviceIdentDataBL = null;
+            _mainModel.DeviceIdentData = null;
             _mainModel.DeviceHumanReadableDescription = null;
         }
 
@@ -281,7 +281,7 @@ namespace FloaderClientGUI.ViewModels
 
             try
             {
-                _mainModel.DeviceIdentDataBL = _deviceIdentifier.Identify(_mainModel.PortSettings);
+                _mainModel.DeviceIdentData = _deviceIdentifier.Identify(_mainModel.PortSettings);
             }
             catch (Exception ex)
             {
@@ -291,32 +291,35 @@ namespace FloaderClientGUI.ViewModels
             }
 
             // Is version acceptable?
-            if (!_versionValidator.Validate(_mainModel.DeviceIdentDataBL.Version))
+            if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
             {
-                _logger.LogError($"Bootloader protocol version { _mainModel.DeviceIdentDataBL.Version } is not supported.");
+                _logger.LogError($"Bootloader protocol version { _mainModel.DeviceIdentData.Version } is not supported.");
                 LockProceeding();
                 return;
             }
 
             // Human-readable port info
-            var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentDataBL.VendorId);
+            _logger.LogInfo($"Queriying vendor data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }");
+            var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
             if (vendorData == null)
             {
-                _logger.LogError($"Vendor with ID={ _mainModel.DeviceIdentDataBL.VendorId } wasn't found in database.");
+                _logger.LogError($"Vendor with ID={ _mainModel.DeviceIdentData.VendorId } wasn't found in database.");
                 LockProceeding();
                 return;
             }
+            _logger.LogInfo($"Vendor ID={ vendorData.Id }, Vendor name=\"{ vendorData.Name }\"");
 
-            var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentDataBL.VendorId, _mainModel.DeviceIdentDataBL.ModelId);
+            _logger.LogInfo($"Querying device name data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }, Model ID={ _mainModel.DeviceIdentData.ModelId }");
+            var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
             if (nameData == null)
             {
-                _logger.LogError($"Device model with Vendor ID={ _mainModel.DeviceIdentDataBL.VendorId } and ModelId={ _mainModel.DeviceIdentDataBL.ModelId } wasn't found in database.");
+                _logger.LogError($"Device model with Vendor ID={ _mainModel.DeviceIdentData.VendorId } and ModelID={ _mainModel.DeviceIdentData.ModelId } wasn't found in database.");
                 LockProceeding();
                 return;
             }
+            _logger.LogInfo($"Vendor ID={ nameData.VendorId }, Model ID={ nameData.ModelId }, Model name=\"{ nameData.Name }\"");
 
-            _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentDataBL.Serial);
-
+            _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentData.Serial);
             VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
             ModelName = _mainModel.DeviceHumanReadableDescription.Model;
             SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;

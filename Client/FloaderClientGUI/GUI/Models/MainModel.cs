@@ -25,9 +25,9 @@ namespace FloaderClientGUI.Models
         public ISerialPortDriver PortDriver { get; set; }
 
         /// <summary>
-        /// Device identification data (from bootloader)
+        /// Device identification data
         /// </summary>
-        public DeviceIdentifierData DeviceIdentDataBL { get; set; }
+        public DeviceIdentifierData DeviceIdentData { get; set; }
 
         /// <summary>
         /// Human-readable device description
