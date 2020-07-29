@@ -267,6 +267,7 @@ namespace FloaderClientGUI.ViewModels
             // No identification data known yet
             _mainModel.DeviceIdentData = null;
             _mainModel.DeviceHumanReadableDescription = null;
+            _mainModel.VersionSpecificDeviceData = null;
         }
 
         /// <summary>
@@ -323,6 +324,9 @@ namespace FloaderClientGUI.ViewModels
             VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
             ModelName = _mainModel.DeviceHumanReadableDescription.Model;
             SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
+
+            // Testing data reading
+            var tmp = _dao.GetDeviceDataV1(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
 
             SetUploadAndDownloadState(true);
         }

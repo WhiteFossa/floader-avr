@@ -55,5 +55,18 @@ namespace LibFloaderClient.Implementations.DAO
                         new { vendorId, modelId });
             }
         }
+
+        public DeviceDataV1DBO GetDeviceDataV1(int vendorId, int modelId)
+        {
+            using (var connection = GetDbConnection())
+            {
+                connection.Open();
+
+                return connection
+                    .QueryFirst<DeviceDataV1DBO>(
+                        ResourcesHelper.GetResourceAsString(CurrentAssembly, "LibFloaderClient.Implementations.DAO.Queries.GetDeviceDataV1.sql"),
+                        new { vendorId, modelId });
+            }
+        }
     }
 }

@@ -33,5 +33,10 @@ namespace FloaderClientGUI.Models
         /// Human-readable device description
         /// </summary>
         public DeviceHumanReadableDescription DeviceHumanReadableDescription { get; set; }
+
+        /// <summary>
+        /// Information about device (protocol version specific, so Object)
+        /// </summary>
+        public Object VersionSpecificDeviceData { get; set; }
     }
 }

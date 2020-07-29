@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Implementations\DAO\Queries\GetDeviceDataV1.sql" />
     <None Remove="Implementations\DAO\Queries\GetDeviceNameData.sql" />
     <None Remove="Implementations\DAO\Queries\GetVendorNameData.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Implementations\DAO\Queries\GetDeviceDataV1.sql" />
     <EmbeddedResource Include="Implementations\DAO\Queries\GetDeviceNameData.sql" />
     <EmbeddedResource Include="Implementations\DAO\Queries\GetVendorNameData.sql" />
   </ItemGroup>

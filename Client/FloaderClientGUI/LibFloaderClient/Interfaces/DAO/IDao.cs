@@ -16,5 +16,10 @@ namespace LibFloaderClient.Interfaces.DAO
         /// Get human-readable device model name
         /// </summary>
         DeviceNameDBO GetDeviceNameData(int vendorId, int modelId);
+
+        /// <summary>
+        /// Get device data for V1 protocol
+        /// </summary>
+        DeviceDataV1DBO GetDeviceDataV1(int vendorId, int modelId);
     }
 }
