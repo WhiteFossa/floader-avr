@@ -1,4 +1,4 @@
-﻿namespace LibFloaderClient.Models.DAO
+﻿namespace LibFloaderClient.Models.DAO.Versioned.V1
 {
     /// <summary>
     /// Information about device inner constitution for V1 protocol

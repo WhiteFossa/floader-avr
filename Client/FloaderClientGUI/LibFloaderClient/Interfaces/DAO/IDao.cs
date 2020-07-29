@@ -1,4 +1,5 @@
 using LibFloaderClient.Models.DAO;
+using LibFloaderClient.Models.DAO.Versioned.V1;
 
 namespace LibFloaderClient.Interfaces.DAO
 {

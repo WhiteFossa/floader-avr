@@ -1,12 +1,10 @@
-using System;
-using System.Data.SQLite;
-using System.IO;
-using System.Reflection;
-using System.Text;
 using Dapper;
 using LibFloaderClient.Implementations.Helpers;
 using LibFloaderClient.Interfaces.DAO;
 using LibFloaderClient.Models.DAO;
+using LibFloaderClient.Models.DAO.Versioned.V1;
+using System;
+using System.Data.SQLite;
 
 namespace LibFloaderClient.Implementations.DAO
 {
