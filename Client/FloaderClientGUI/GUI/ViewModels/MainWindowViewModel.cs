@@ -13,6 +13,7 @@ using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Versioned.Common;
 using LibFloaderClient.Interfaces.DAO;
 using LibFloaderClient.Models.Device;
+using LibFloaderClient.Implementations.Mappers.Versioned;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -326,7 +327,7 @@ namespace FloaderClientGUI.ViewModels
             SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
 
             // Testing data reading
-            var tmp = _dao.GetDeviceDataV1(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
+            var tmp = DeviceDataV1Mapper.MapFromDBO(_dao.GetDeviceDataV1(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId));
 
             SetUploadAndDownloadState(true);
         }
