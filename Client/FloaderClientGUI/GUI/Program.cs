@@ -56,6 +56,7 @@ namespace FloaderClientGUI
             services.AddSingleton<IDeviceIdentifier, DeviceIdentifier>();
             services.AddSingleton<IVersionValidator, VersionValidator>();
             services.AddSingleton<IDao, Dao>();
+            services.AddSingleton<IDeviceDataGetter, DeviceDataGetter>();
 
             return services;
         }

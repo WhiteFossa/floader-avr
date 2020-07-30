@@ -23,6 +23,7 @@ namespace FloaderClientGUI.ViewModels
         private IDeviceIdentifier _deviceIdentifier;
         private IVersionValidator _versionValidator;
         private IDao _dao; // TODO: Do we need it here?
+        private IDeviceDataGetter _deviceDataGetter;
 
         public PortSelectionWindowViewModel PortSelectionVM { get; }
 
@@ -212,6 +213,7 @@ namespace FloaderClientGUI.ViewModels
             _deviceIdentifier = Program.Di.GetService<IDeviceIdentifier>();
             _versionValidator = Program.Di.GetService<IVersionValidator>();
             _dao = Program.Di.GetService<IDao>();
+            _deviceDataGetter = Program.Di.GetService<IDeviceDataGetter>();
 
             // Setting up logger
             _logger.SetLoggingFunction(AddLineToConsole);
@@ -326,8 +328,8 @@ namespace FloaderClientGUI.ViewModels
             ModelName = _mainModel.DeviceHumanReadableDescription.Model;
             SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
 
-            // Testing data reading
-            var tmp = DeviceDataV1Mapper.MapFromDBO(_dao.GetDeviceDataV1(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId));
+            // Versioned data
+            _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
 
             SetUploadAndDownloadState(true);
         }
