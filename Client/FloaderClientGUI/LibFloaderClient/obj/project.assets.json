@@ -1012,24 +1012,26 @@
     ]
   },
   "packageFolders": {
-    "/home/fossa/.nuget/packages/": {}
+    "C:\\Users\\White Fossa\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibFloaderClient/LibFloaderClient.csproj",
+      "projectUniqueName": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibFloaderClient\\LibFloaderClient.csproj",
       "projectName": "LibFloaderClient",
-      "projectPath": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibFloaderClient/LibFloaderClient.csproj",
-      "packagesPath": "/home/fossa/.nuget/packages/",
-      "outputPath": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibFloaderClient/obj/",
+      "projectPath": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibFloaderClient\\LibFloaderClient.csproj",
+      "packagesPath": "C:\\Users\\White Fossa\\.nuget\\packages\\",
+      "outputPath": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibFloaderClient\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/fossa/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\White Fossa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1075,7 +1077,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/3.1.105/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

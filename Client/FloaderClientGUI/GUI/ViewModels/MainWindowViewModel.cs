@@ -48,6 +48,7 @@ namespace FloaderClientGUI.ViewModels
         private bool _isPollDeviceEnabled;
         private bool _isUploadEnabled;
         private bool _isDownloadEnabled;
+        private bool _isRebootEnabled;
 
         /// <summary>
         /// Text in console
@@ -193,6 +194,16 @@ namespace FloaderClientGUI.ViewModels
             get => _isDownloadEnabled;
             set => this.RaiseAndSetIfChanged(ref _isDownloadEnabled, value);
         }
+
+        /// <summary>
+        /// Is "Reboot" button enabled
+        /// </summary>
+        public bool IsRebootEnabled
+        {
+            get => _isRebootEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isRebootEnabled, value);
+        }
+
 #endregion Bound properties
 
 
@@ -229,7 +240,7 @@ namespace FloaderClientGUI.ViewModels
             IsBackupBeforeUpload = true;
             SetPollDeviceState();
 
-            SetUploadAndDownloadState(false);
+            SetActionsButtonsState(false);
         }
 
 #region Commands
@@ -270,7 +281,7 @@ namespace FloaderClientGUI.ViewModels
 
             SetPollDeviceState();
 
-            SetUploadAndDownloadState(false);
+            SetActionsButtonsState(false);
 
             // No identification data known yet
             _mainModel.DeviceIdentData = null;
@@ -350,7 +361,7 @@ namespace FloaderClientGUI.ViewModels
                 throw new InvalidOperationException("Unsupported version");
             }
 
-            SetUploadAndDownloadState(true);
+            SetActionsButtonsState(true);
         }
 
         /// <summary>
@@ -408,7 +419,22 @@ namespace FloaderClientGUI.ViewModels
         {
             ConsoleText += $"Download{ Environment.NewLine }";
         }
-#endregion
+
+        /// <summary>
+        /// Reboot MCU into main firmware
+        /// </summary>
+        public void Reboot()
+        {
+            if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
+            {
+                ((IDeviceDriverV1)_mainModel.DeviceDriver).Reboot();
+            }
+            else
+            {
+                throw new InvalidOperationException("Unsupported version");
+            }
+        }
+        #endregion
 
         /// <summary>
         /// Adds a new text line to console. Feed it to logger
@@ -451,13 +477,14 @@ namespace FloaderClientGUI.ViewModels
         }
 
         /// <summary>
-        /// Enables / disables "Upload" and "Download" buttons
+        /// Enables / disables "Upload", "Download" and "Reboot" buttons
         /// </summary>
         /// <param name="isEnable"></param>
-        private void SetUploadAndDownloadState(bool isEnable)
+        private void SetActionsButtonsState(bool isEnable)
         {
             IsUploadEnabled = isEnable;
             IsDownloadEnabled = isEnable;
+            IsRebootEnabled = isEnable;
         }
 
         /// <summary>
@@ -465,7 +492,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         private void LockProceeding()
         {
-            SetUploadAndDownloadState(false);
+            SetActionsButtonsState(false);
             _logger.LogError(@"Unable to proceed!
 Please, select another device.");
         }
