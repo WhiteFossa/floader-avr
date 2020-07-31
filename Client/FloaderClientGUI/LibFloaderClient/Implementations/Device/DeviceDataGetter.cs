@@ -1,4 +1,5 @@
-﻿using LibFloaderClient.Implementations.Mappers.Versioned;
+﻿using LibFloaderClient.Implementations.Enums.Device;
+using LibFloaderClient.Implementations.Mappers.Versioned;
 using LibFloaderClient.Interfaces.DAO;
 using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Logger;
@@ -11,11 +12,6 @@ namespace LibFloaderClient.Implementations.Device
 {
     public class DeviceDataGetter : IDeviceDataGetter
     {
-        /// <summary>
-        /// First version
-        /// </summary>
-        private const int Version1 = 1;
-
         private readonly ILogger _logger;
         private readonly IDao _dao;
 
@@ -35,7 +31,7 @@ namespace LibFloaderClient.Implementations.Device
 
             _logger.LogInfo("Getting version-specific data...");
 
-            if (ident.Version == Version1)
+            if (ident.Version == (int)ProtocolVersion.First)
             {
                 // Version 1 specific code
                 _logger.LogInfo("Version 1 detected.");

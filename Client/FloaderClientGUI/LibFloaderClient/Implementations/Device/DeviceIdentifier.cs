@@ -110,7 +110,7 @@ Serial: { result.Serial }.");
 
                     return result;
                 }
-                catch(SerialPortTimeoutException ex)
+                catch(SerialPortTimeoutException)
                 {
                     // Timeout, usually it means that this is not our device
                     _logger.LogError("Device didn't respond in time, usually it mean that this is not Fossa's bootloader device.");

@@ -38,5 +38,10 @@ namespace FloaderClientGUI.Models
         /// Information about device (protocol version specific, so Object)
         /// </summary>
         public Object VersionSpecificDeviceData { get; set; }
+
+        /// <summary>
+        /// Device driver instance (protocol specific)
+        /// </summary>
+        public Object DeviceDriver { get; set; }
     }
 }

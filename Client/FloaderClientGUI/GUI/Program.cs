@@ -16,6 +16,8 @@ using LibFloaderClient.Interfaces.Versioned.Common;
 using LibFloaderClient.Implementations.Versioned.Common;
 using LibFloaderClient.Interfaces.DAO;
 using LibFloaderClient.Implementations.DAO;
+using LibFloaderClient.Interfaces.Versioned.Driver;
+using LibFloaderClient.Implementations.Versioned.Driver;
 
 namespace FloaderClientGUI
 {
@@ -57,6 +59,7 @@ namespace FloaderClientGUI
             services.AddSingleton<IVersionValidator, VersionValidator>();
             services.AddSingleton<IDao, Dao>();
             services.AddSingleton<IDeviceDataGetter, DeviceDataGetter>();
+            services.AddSingleton<IDeviceDriverV1, DeviceDriverV1>();
 
             return services;
         }

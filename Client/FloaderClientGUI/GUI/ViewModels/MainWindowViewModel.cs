@@ -14,6 +14,9 @@ using LibFloaderClient.Interfaces.Versioned.Common;
 using LibFloaderClient.Interfaces.DAO;
 using LibFloaderClient.Models.Device;
 using LibFloaderClient.Implementations.Mappers.Versioned;
+using LibFloaderClient.Interfaces.Versioned.Driver;
+using LibFloaderClient.Models.Device.Versioned;
+using LibFloaderClient.Implementations.Enums.Device;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -24,6 +27,7 @@ namespace FloaderClientGUI.ViewModels
         private IVersionValidator _versionValidator;
         private IDao _dao; // TODO: Do we need it here?
         private IDeviceDataGetter _deviceDataGetter;
+        private IDeviceDriverV1 _deviceDriverV1;
 
         public PortSelectionWindowViewModel PortSelectionVM { get; }
 
@@ -214,6 +218,7 @@ namespace FloaderClientGUI.ViewModels
             _versionValidator = Program.Di.GetService<IVersionValidator>();
             _dao = Program.Di.GetService<IDao>();
             _deviceDataGetter = Program.Di.GetService<IDeviceDataGetter>();
+            _deviceDriverV1 = Program.Di.GetService<IDeviceDriverV1>();
 
             // Setting up logger
             _logger.SetLoggingFunction(AddLineToConsole);
@@ -330,6 +335,20 @@ namespace FloaderClientGUI.ViewModels
 
             // Versioned data
             _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
+
+            // Initializing driver and we are ready to go
+            if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
+            {
+                _deviceDriverV1.Setup(_mainModel.PortSettings, (DeviceDataV1)_mainModel.VersionSpecificDeviceData);
+                _mainModel.DeviceDriver = _deviceDriverV1;
+
+                // For test
+                //((IDeviceDriverV1)_mainModel.DeviceDriver).Reboot();
+            }
+            else
+            {
+                throw new InvalidOperationException("Unsupported version");
+            }
 
             SetUploadAndDownloadState(true);
         }
