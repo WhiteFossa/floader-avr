@@ -26,6 +26,11 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         private readonly List<byte> RebootResponse = new List<byte>() { 0x42 };
 
         /// <summary>
+        /// Send this to device to cause EEPROM read
+        /// </summary>
+        private readonly List<byte> ReadEEPROMRequest = new List<byte>() { 0x72 };
+
+        /// <summary>
         /// Port settings
         /// </summary>
         private PortSettings _portSettings;
@@ -75,6 +80,31 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 {
                     _logger.LogError("Device didn't respond in time, check did it reboot manually.");
                     return false;
+                }
+            }
+        }
+
+        public List<byte> ReadEEPROM()
+        {
+            IsSetUp();
+
+            using (ISerialPortDriver port = new SerialPortDriver.SerialPortDriver(_portSettings))
+            {
+                _logger.LogInfo($"Trying to read { _deviceData.EepromSize } EEPROM bytes...");
+                port.Write(ReadEEPROMRequest);
+
+                try
+                {
+                    var response = port.Read(_deviceData.EepromSize);
+
+                    _logger.LogInfo("Done");
+
+                    return response;
+                }
+                catch (SerialPortTimeoutException)
+                {
+                    _logger.LogError("Timeout during EEPROM read.");
+                    return null;
                 }
             }
         }

@@ -431,7 +431,17 @@ namespace FloaderClientGUI.ViewModels
         public void Download()
         {
             CheckReadyness();
-            ConsoleText += $"Download{ Environment.NewLine }";
+
+            if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
+            {
+                var eeprom = ((IDeviceDriverV1)_mainModel.DeviceDriver).ReadEEPROM();
+
+                int a = 10;
+            }
+            else
+            {
+                throw new InvalidOperationException("Unsupported version");
+            }
         }
 
         /// <summary>

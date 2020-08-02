@@ -1,5 +1,6 @@
 ﻿using LibFloaderClient.Models.Device.Versioned;
 using LibFloaderClient.Models.Port;
+using System.Collections.Generic;
 
 namespace LibFloaderClient.Interfaces.Versioned.Driver
 {
@@ -18,5 +19,11 @@ namespace LibFloaderClient.Interfaces.Versioned.Driver
         /// </summary>
         /// <returns>True if device successfully reported reboot</returns>
         bool Reboot();
+
+        /// <summary>
+        /// Read all EEPROM bytes. Returns null in case of error
+        /// </summary>
+        /// <returns></returns>
+        List<byte> ReadEEPROM();
     }
 }
