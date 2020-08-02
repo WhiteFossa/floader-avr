@@ -213,6 +213,21 @@ namespace FloaderClientGUI.ViewModels
         private MainModel _mainModel { get; }
 
         /// <summary>
+        /// Are we ready to upload/download?
+        /// </summary>
+        private bool _isReadyInner;
+        private bool _isReady
+        {
+            get => _isReadyInner;
+            set
+            {
+                _isReadyInner = value;
+
+                SetActionsButtonsState(_isReadyInner);
+            }
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         public MainWindowViewModel(MainModel model) : base()
@@ -240,7 +255,7 @@ namespace FloaderClientGUI.ViewModels
             IsBackupBeforeUpload = true;
             SetPollDeviceState();
 
-            SetActionsButtonsState(false);
+            _isReady = false;
         }
 
 #region Commands
@@ -281,7 +296,7 @@ namespace FloaderClientGUI.ViewModels
 
             SetPollDeviceState();
 
-            SetActionsButtonsState(false);
+            _isReady = false;
 
             // No identification data known yet
             _mainModel.DeviceIdentData = null;
@@ -352,16 +367,13 @@ namespace FloaderClientGUI.ViewModels
             {
                 _deviceDriverV1.Setup(_mainModel.PortSettings, (DeviceDataV1)_mainModel.VersionSpecificDeviceData);
                 _mainModel.DeviceDriver = _deviceDriverV1;
-
-                // For test
-                //((IDeviceDriverV1)_mainModel.DeviceDriver).Reboot();
             }
             else
             {
                 throw new InvalidOperationException("Unsupported version");
             }
 
-            SetActionsButtonsState(true);
+            _isReady = true;
         }
 
         /// <summary>
@@ -393,6 +405,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void Upload()
         {
+            CheckReadyness();
             ConsoleText += $"Upload{ Environment.NewLine }";
         }
 
@@ -417,6 +430,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void Download()
         {
+            CheckReadyness();
             ConsoleText += $"Download{ Environment.NewLine }";
         }
 
@@ -425,6 +439,8 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void Reboot()
         {
+            CheckReadyness();
+
             if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
             {
                 ((IDeviceDriverV1)_mainModel.DeviceDriver).Reboot();
@@ -495,6 +511,19 @@ namespace FloaderClientGUI.ViewModels
             SetActionsButtonsState(false);
             _logger.LogError(@"Unable to proceed!
 Please, select another device.");
+        }
+
+        /// <summary>
+        /// Checks if we are ready to upload/download?
+        /// </summary>
+        private void CheckReadyness()
+        {
+            if (!_isReady)
+            {
+                var message = "Not ready to proceed!";
+                _logger.LogError(message);
+                throw new InvalidOperationException(message);
+            }
         }
     }
 }
