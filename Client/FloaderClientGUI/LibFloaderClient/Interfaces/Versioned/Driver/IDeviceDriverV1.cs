@@ -25,5 +25,10 @@ namespace LibFloaderClient.Interfaces.Versioned.Driver
         /// </summary>
         /// <returns></returns>
         List<byte> ReadEEPROM();
+
+        /// <summary>
+        /// Writes data to EEPROM. toWrite list must have EEPROM size elements.
+        /// </summary>
+        void WriteEEPROM(List<byte> toWrite);
     }
 }

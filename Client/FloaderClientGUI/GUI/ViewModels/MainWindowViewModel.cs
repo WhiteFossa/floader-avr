@@ -434,9 +434,12 @@ namespace FloaderClientGUI.ViewModels
 
             if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
             {
+                // Testing
                 var eeprom = ((IDeviceDriverV1)_mainModel.DeviceDriver).ReadEEPROM();
 
                 int a = 10;
+
+                ((IDeviceDriverV1)_mainModel.DeviceDriver).WriteEEPROM(eeprom);
             }
             else
             {

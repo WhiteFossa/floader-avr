@@ -26,9 +26,29 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         private readonly List<byte> RebootResponse = new List<byte>() { 0x42 };
 
         /// <summary>
-        /// Send this to device to cause EEPROM read
+        /// Send this to device to initiate EEPROM read
         /// </summary>
         private readonly List<byte> ReadEEPROMRequest = new List<byte>() { 0x72 };
+
+        /// <summary>
+        /// Send this to device to initiate EEPROM write
+        /// </summary>
+        private readonly List<byte> WriteEEPROMRequest = new List<byte>() { 0x77 };
+
+        /// <summary>
+        /// Response to EEPROM write have this size
+        /// </summary>
+        private readonly int EEPROMWriteResponseSize = 1;
+
+        /// <summary>
+        /// Device want next byte after EEPROM byte write
+        /// </summary>
+        private readonly List<byte> EEPROMWriteResponseNext = new List<byte>() { 0x6e };
+
+        /// <summary>
+        /// Device DO NOT want next byte after EEPROM byte write
+        /// </summary>
+        private readonly List<byte> EEPROMWriteResponseStop = new List<byte>() { 0x66 };
 
         /// <summary>
         /// Port settings
@@ -107,6 +127,72 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                     return null;
                 }
             }
+        }
+
+        public void WriteEEPROM(List<byte> toWrite)
+        {
+            IsSetUp();
+
+            if (toWrite == null)
+            {
+                throw new ArgumentNullException(nameof(toWrite));
+            }
+
+            if (toWrite.Count() != _deviceData.EepromSize)
+            {
+                throw new ArgumentException($"Data to write size must equal EEPROM size: { _deviceData.EepromSize } bytes", nameof(toWrite));
+            }
+
+            using (ISerialPortDriver port = new SerialPortDriver.SerialPortDriver(_portSettings))
+            {
+                _logger.LogInfo($"Trying to write { _deviceData.EepromSize } EEPROM bytes...");
+
+                for (var byteAddress = 0; byteAddress < _deviceData.EepromSize; byteAddress ++)
+                {
+                    _logger.LogInfo($"Writing { byteAddress + 1 } / { _deviceData.EepromSize } byte");
+
+                    var wantsMore = WriteEEPROMByte(port, toWrite[byteAddress]);
+
+                    if (!wantsMore && byteAddress != _deviceData.EepromSize - 1)
+                    {
+                        // Premature write termination
+                        var message = $"Device don't accept new data after writing { byteAddress + 1 } / { _deviceData.EepromSize } bytes.";
+                        _logger.LogError(message);
+                        throw new InvalidOperationException(message);
+                    }
+                }
+
+                _logger.LogInfo("Done");
+            }
+        }
+
+        /// <summary>
+        /// Attempts to write next EEPROM byte, returns true if device want more
+        /// </summary>
+        private bool WriteEEPROMByte(ISerialPortDriver port, byte toWrite)
+        {
+            var data = new List<byte>(WriteEEPROMRequest);
+            data.Add(toWrite);
+
+            port.Write(data);
+
+            var answer = port.Read(EEPROMWriteResponseSize);
+
+            if (answer.Count() != EEPROMWriteResponseSize)
+            {
+                throw new InvalidOperationException($"Unexpected write EEPROM byte response size: { answer.Count() } bytes.");
+            }
+
+            if (answer.SequenceEqual(EEPROMWriteResponseNext))
+            {
+                return true;
+            }
+            else if (answer.SequenceEqual(EEPROMWriteResponseStop))
+            {
+                return false;
+            }
+
+            throw new InvalidOperationException($"Unexpected write EEPROM byte response.");
         }
 
         public void Setup(PortSettings port, DeviceDataV1 deviceData)
