@@ -432,19 +432,21 @@ namespace FloaderClientGUI.ViewModels
         {
             CheckReadyness();
 
-            if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
-            {
-                // Testing
-                var eeprom = ((IDeviceDriverV1)_mainModel.DeviceDriver).ReadEEPROM();
+            //if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
+            //{
+            //    // Testing
+            //    var eeprom = ((IDeviceDriverV1)_mainModel.DeviceDriver).ReadEEPROM();
 
-                int a = 10;
+            //    eeprom[0] = 98;
+            //    eeprom[1] = 44;
+            //    eeprom[2] = 10;
 
-                ((IDeviceDriverV1)_mainModel.DeviceDriver).WriteEEPROM(eeprom);
-            }
-            else
-            {
-                throw new InvalidOperationException("Unsupported version");
-            }
+            //    ((IDeviceDriverV1)_mainModel.DeviceDriver).WriteEEPROM(eeprom);
+            //}
+            //else
+            //{
+            //    throw new InvalidOperationException("Unsupported version");
+            //}
         }
 
         /// <summary>

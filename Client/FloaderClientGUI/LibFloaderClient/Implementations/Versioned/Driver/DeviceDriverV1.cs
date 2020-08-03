@@ -147,16 +147,26 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
             {
                 _logger.LogInfo($"Trying to write { _deviceData.EepromSize } EEPROM bytes...");
 
+                var lastByteAddress = _deviceData.EepromSize - 1;
+
                 for (var byteAddress = 0; byteAddress < _deviceData.EepromSize; byteAddress ++)
                 {
                     _logger.LogInfo($"Writing { byteAddress + 1 } / { _deviceData.EepromSize } byte");
 
-                    var wantsMore = WriteEEPROMByte(port, toWrite[byteAddress]);
+                    var wantsMore = WriteEEPROMByte(port, byteAddress, toWrite[byteAddress]);
 
-                    if (!wantsMore && byteAddress != _deviceData.EepromSize - 1)
+                    if (!wantsMore && byteAddress != lastByteAddress)
                     {
                         // Premature write termination
                         var message = $"Device don't accept new data after writing { byteAddress + 1 } / { _deviceData.EepromSize } bytes.";
+                        _logger.LogError(message);
+                        throw new InvalidOperationException(message);
+                    }
+
+                    if (wantsMore && byteAddress == lastByteAddress)
+                    {
+                        // Greedy device, wants more after completion
+                        var message = $"Device wants more data after writing the last byte of EEPROM.";
                         _logger.LogError(message);
                         throw new InvalidOperationException(message);
                     }
@@ -169,11 +179,17 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         /// <summary>
         /// Attempts to write next EEPROM byte, returns true if device want more
         /// </summary>
-        private bool WriteEEPROMByte(ISerialPortDriver port, byte toWrite)
+        private bool WriteEEPROMByte(ISerialPortDriver port, int byteAddress, byte toWrite)
         {
-            var data = new List<byte>(WriteEEPROMRequest);
-            data.Add(toWrite);
+            List<byte> data = new List<byte>();
 
+            if (byteAddress == 0)
+            {
+                // We need to initiate process
+                data.AddRange(WriteEEPROMRequest);
+            }
+
+            data.Add(toWrite);
             port.Write(data);
 
             var answer = port.Read(EEPROMWriteResponseSize);
