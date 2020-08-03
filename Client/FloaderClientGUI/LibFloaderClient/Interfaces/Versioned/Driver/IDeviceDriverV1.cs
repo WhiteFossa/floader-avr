@@ -21,7 +21,7 @@ namespace LibFloaderClient.Interfaces.Versioned.Driver
         bool Reboot();
 
         /// <summary>
-        /// Read all EEPROM bytes. Returns null in case of error
+        /// Read all EEPROM bytes. Result never is null.
         /// </summary>
         /// <returns></returns>
         List<byte> ReadEEPROM();
@@ -30,5 +30,10 @@ namespace LibFloaderClient.Interfaces.Versioned.Driver
         /// Writes data to EEPROM. toWrite list must have EEPROM size elements.
         /// </summary>
         void WriteEEPROM(List<byte> toWrite);
+
+        /// <summary>
+        /// Reads page with given address or thrown an exception in case of error. Result never is null.
+        /// </summary>
+        List<byte> ReadFLASHPage(int pageAddress);
     }
 }

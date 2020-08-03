@@ -76,7 +76,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         {
             IsSetUp();
 
-            using (ISerialPortDriver port = new SerialPortDriver.SerialPortDriver(_portSettings))
+            using (var port = new SerialPortDriver.SerialPortDriver(_portSettings))
             {
                 _logger.LogInfo("Requesting device reboot...");
                 port.Write(RebootRequest);
@@ -108,7 +108,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         {
             IsSetUp();
 
-            using (ISerialPortDriver port = new SerialPortDriver.SerialPortDriver(_portSettings))
+            using (var port = new SerialPortDriver.SerialPortDriver(_portSettings))
             {
                 _logger.LogInfo($"Trying to read { _deviceData.EepromSize } EEPROM bytes...");
                 port.Write(ReadEEPROMRequest);
@@ -124,7 +124,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 catch (SerialPortTimeoutException)
                 {
                     _logger.LogError("Timeout during EEPROM read.");
-                    return null;
+                    throw;
                 }
             }
         }
@@ -143,7 +143,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 throw new ArgumentException($"Data to write size must equal EEPROM size: { _deviceData.EepromSize } bytes", nameof(toWrite));
             }
 
-            using (ISerialPortDriver port = new SerialPortDriver.SerialPortDriver(_portSettings))
+            using (var port = new SerialPortDriver.SerialPortDriver(_portSettings))
             {
                 _logger.LogInfo($"Trying to write { _deviceData.EepromSize } EEPROM bytes...");
 
@@ -209,6 +209,11 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
             }
 
             throw new InvalidOperationException($"Unexpected write EEPROM byte response.");
+        }
+
+        public List<byte> ReadFLASHPage(int pageAddress)
+        {
+            throw new NotImplementedException();
         }
 
         public void Setup(PortSettings port, DeviceDataV1 deviceData)
