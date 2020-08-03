@@ -51,6 +51,26 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         private readonly List<byte> EEPROMWriteResponseStop = new List<byte>() { 0x66 };
 
         /// <summary>
+        /// FLASH page read request
+        /// </summary>
+        private readonly List<byte> ReadFLASHRequest = new List<byte>() { 0x52 };
+
+        /// <summary>
+        /// Response to read FLASH page have this size
+        /// </summary>
+        private readonly int ReadFLASHPageResponseSize = 1;
+
+        /// <summary>
+        /// FLASH page read, go to read data response
+        /// </summary>
+        private readonly List<byte> ReadFLASHResponseOK = new List<byte>() { 0x00 };
+
+        /// <summary>
+        /// FLASH page read failed response
+        /// </summary>
+        private readonly List<byte> ReadFLASHResponseFAIL = new List<byte>() { 0x01 };
+
+        /// <summary>
         /// Port settings
         /// </summary>
         private PortSettings _portSettings;
@@ -213,7 +233,57 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
 
         public List<byte> ReadFLASHPage(int pageAddress)
         {
-            throw new NotImplementedException();
+            IsSetUp();
+
+            if (pageAddress < 0 || pageAddress >= _deviceData.FlashPagesAll)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pageAddress), pageAddress, $"Allowed page addresses: [0 - { _deviceData.FlashPagesAll - 1 }]");
+            }
+
+            using (var port = new SerialPortDriver.SerialPortDriver(_portSettings))
+            {
+                _logger.LogInfo($"Trying to read FLASH page with address { pageAddress }...");
+
+                try
+                {
+                    // Initiating
+                    var toWrite = new List<byte>(ReadFLASHRequest);
+                    toWrite.Add((byte)pageAddress); // Page address can't be bigger than 255
+                    port.Write(toWrite);
+
+                    var response = port.Read(ReadFLASHPageResponseSize);
+
+                    if (response.Count() != ReadFLASHPageResponseSize)
+                    {
+                        throw new InvalidOperationException($"Unexpected response size to FLASH page read request: { response.Count() } bytes.");
+                    }
+
+                    if (response.SequenceEqual(ReadFLASHResponseFAIL))
+                    {
+                        var message = $"Device reports failure during FLASH page { pageAddress } read.";
+                        _logger.LogError(message);
+                        throw new InvalidOperationException(message);
+                    }
+                    else if (!response.SequenceEqual(ReadFLASHResponseOK))
+                    {
+                        var message = $"Unexpected response to FLASH page { pageAddress } read initiation.";
+                        _logger.LogError(message);
+                        throw new InvalidOperationException(message);
+                    }
+
+                    // Reading
+                    var data = port.Read(_deviceData.FlashPageSize);
+
+                    _logger.LogInfo("Done");
+
+                    return data;
+                }
+                catch (SerialPortTimeoutException)
+                {
+                    _logger.LogError("Timeout during FLASH read.");
+                    throw;
+                }
+            }
         }
 
         public void Setup(PortSettings port, DeviceDataV1 deviceData)
