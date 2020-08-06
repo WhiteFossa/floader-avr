@@ -71,6 +71,36 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         private readonly List<byte> ReadFLASHResponseFAIL = new List<byte>() { 0x01 };
 
         /// <summary>
+        /// FLASH page write request
+        /// </summary>
+        private readonly List<byte> WriteFLASHRequest = new List<byte>() { 0x57 };
+
+        /// <summary>
+        /// Response to write FLASH page address check have this size
+        /// </summary>
+        private readonly int WriteFLASHPageCheckAddressResponseSize = 1;
+
+        /// <summary>
+        /// FLASH page write, go to upload data
+        /// </summary>
+        private readonly List<byte> WriteFLASHPageCheckAddressResponseOK = new List<byte>() { 0x00 };
+
+        /// <summary>
+        /// FLASH page write, address not allowed
+        /// </summary>
+        private readonly List<byte> WriteFLASHPageCheckAddressResponseFAIL = new List<byte>() { 0x01 };
+
+        /// <summary>
+        /// Response to write FLASH page have this size
+        /// </summary>
+        private readonly int WriteFLASHPageResponseSize = 1;
+
+        /// <summary>
+        /// Response to successfull FLASH page write
+        /// </summary>
+        private readonly List<byte> WriteFLASHPageResponseOK = new List<byte>() { 0x00 };
+
+        /// <summary>
         /// Port settings
         /// </summary>
         private PortSettings _portSettings;
@@ -284,6 +314,82 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                     throw;
                 }
             }
+        }
+
+        public void WriteFLASHPage(int pageAddress, List<byte> toWrite)
+        {
+            IsSetUp();
+
+            if (toWrite.Count() != _deviceData.FlashPageSize)
+            {
+                throw new ArgumentException($"Page size data is { _deviceData.FlashPageSize }", nameof(toWrite));
+            }
+
+            if (pageAddress < 0 || pageAddress >= _deviceData.FlashPagesWriteable)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pageAddress), pageAddress, $"Writeable page addresses: [0 - { _deviceData.FlashPagesWriteable - 1 }]");
+            }
+
+            using (var port = new SerialPortDriver.SerialPortDriver(_portSettings))
+            {
+                _logger.LogInfo($"Trying to write FLASH page with address { pageAddress }...");
+
+                try
+                {
+                    // Initiating
+                    _logger.LogInfo("Checking address...");
+
+                    var data = new List<byte>(WriteFLASHRequest);
+                    data.Add((byte)pageAddress); // Page address can't be bigger than 255
+                    port.Write(data);
+
+                    var response = port.Read(WriteFLASHPageCheckAddressResponseSize);
+
+                    if (response.Count() != WriteFLASHPageCheckAddressResponseSize)
+                    {
+                        throw new InvalidOperationException($"Unexpected response size to FLASH page write address check request: { response.Count() } bytes.");
+                    }
+
+                    if (response.SequenceEqual(WriteFLASHPageCheckAddressResponseFAIL))
+                    {
+                        var message = $"Device reports incorrect FLASH page address { pageAddress } while attempt to write page.";
+                        _logger.LogError(message);
+                        throw new InvalidOperationException(message);
+                    }
+                    else if (!response.SequenceEqual(WriteFLASHPageCheckAddressResponseOK))
+                    {
+                        var message = $"Unexpected response to FLASH page { pageAddress } write address check.";
+                        _logger.LogError(message);
+                        throw new InvalidOperationException(message);
+                    }
+
+                    _logger.LogInfo("Done, uploading data...");
+
+                    port.Write(toWrite);
+
+                    response = port.Read(WriteFLASHPageResponseSize);
+
+                    if (response.Count() != WriteFLASHPageResponseSize)
+                    {
+                        throw new InvalidOperationException($"Unexpected response size to FLASH page write request: { response.Count() } bytes.");
+                    }
+
+                    if (!response.SequenceEqual(WriteFLASHPageResponseOK))
+                    {
+                        var message = $"Device reports failure during FLASH page write.";
+                        _logger.LogError(message);
+                        throw new InvalidOperationException(message);
+                    }
+
+                    _logger.LogInfo("Done");
+                }
+                catch(SerialPortTimeoutException)
+                {
+                    _logger.LogError("Timeout during FLASH read.");
+                    throw;
+                }
+            }
+
         }
 
         public void Setup(PortSettings port, DeviceDataV1 deviceData)

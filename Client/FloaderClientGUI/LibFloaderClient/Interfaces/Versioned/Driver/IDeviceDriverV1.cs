@@ -32,8 +32,13 @@ namespace LibFloaderClient.Interfaces.Versioned.Driver
         void WriteEEPROM(List<byte> toWrite);
 
         /// <summary>
-        /// Reads page with given address or thrown an exception in case of error. Result never is null.
+        /// Reads FLASH page with given address or throws an exception in case of error. Result never is null.
         /// </summary>
         List<byte> ReadFLASHPage(int pageAddress);
+
+        /// <summary>
+        /// Writes FLASH page with given address or throws an exception in case of error. Please note that bootloader pages is write-protected.
+        /// </summary>
+        void WriteFLASHPage(int pageAddress, List<byte> toWrite);
     }
 }

@@ -443,9 +443,13 @@ namespace FloaderClientGUI.ViewModels
 
                 //((IDeviceDriverV1)_mainModel.DeviceDriver).WriteEEPROM(eeprom);
 
-                var page = ((IDeviceDriverV1)_mainModel.DeviceDriver).ReadFLASHPage(120);
+                var page = ((IDeviceDriverV1)_mainModel.DeviceDriver).ReadFLASHPage(0);
 
-                int a = 10;
+                //page[10] = 98;
+                //page[11] = 44;
+                //page[12] = 10;
+
+                //((IDeviceDriverV1)_mainModel.DeviceDriver).WriteFLASHPage(0, page);
             }
             else
             {
