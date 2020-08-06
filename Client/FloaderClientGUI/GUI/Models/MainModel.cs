@@ -4,6 +4,7 @@ using LibFloaderClient.Models.Port;
 using LibFloaderClient.Interfaces.SerialPortDriver;
 using LibFloaderClient.Models.Device;
 using SharpDX.Direct2D1;
+using LibFloaderClient.Interfaces.Device;
 
 namespace FloaderClientGUI.Models
 {
@@ -38,10 +39,5 @@ namespace FloaderClientGUI.Models
         /// Information about device (protocol version specific, so Object)
         /// </summary>
         public Object VersionSpecificDeviceData { get; set; }
-
-        /// <summary>
-        /// Device driver instance (protocol specific)
-        /// </summary>
-        public Object DeviceDriver { get; set; }
     }
 }

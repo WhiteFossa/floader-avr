@@ -27,7 +27,7 @@ namespace FloaderClientGUI.ViewModels
         private IVersionValidator _versionValidator;
         private IDao _dao; // TODO: Do we need it here?
         private IDeviceDataGetter _deviceDataGetter;
-        private IDeviceDriverV1 _deviceDriverV1;
+        private IDeviceIndependentOperationsProvider _deviceIndependentOperationsProvider;
 
         public PortSelectionWindowViewModel PortSelectionVM { get; }
 
@@ -244,7 +244,7 @@ namespace FloaderClientGUI.ViewModels
             _versionValidator = Program.Di.GetService<IVersionValidator>();
             _dao = Program.Di.GetService<IDao>();
             _deviceDataGetter = Program.Di.GetService<IDeviceDataGetter>();
-            _deviceDriverV1 = Program.Di.GetService<IDeviceDriverV1>();
+            _deviceIndependentOperationsProvider = Program.Di.GetService<IDeviceIndependentOperationsProvider>();
 
             // Setting up logger
             _logger.SetLoggingFunction(AddLineToConsole);
@@ -362,16 +362,8 @@ namespace FloaderClientGUI.ViewModels
             // Versioned data
             _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
 
-            // Initializing driver and we are ready to go
-            if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
-            {
-                _deviceDriverV1.Setup(_mainModel.PortSettings, (DeviceDataV1)_mainModel.VersionSpecificDeviceData);
-                _mainModel.DeviceDriver = _deviceDriverV1;
-            }
-            else
-            {
-                throw new InvalidOperationException("Unsupported version");
-            }
+            // Initializing operations provider and we are ready to go
+            _deviceIndependentOperationsProvider.Setup(_mainModel.PortSettings, _mainModel.DeviceIdentData, _mainModel.VersionSpecificDeviceData);
 
             _isReady = true;
         }
@@ -435,7 +427,7 @@ namespace FloaderClientGUI.ViewModels
             if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
             {
                 // Testing
-                //var eeprom = ((IDeviceDriverV1)_mainModel.DeviceDriver).ReadEEPROM();
+                var eeprom = _deviceIndependentOperationsProvider.ReadAllEEPROM();
 
                 //eeprom[0] = 98;
                 //eeprom[1] = 44;
@@ -443,7 +435,7 @@ namespace FloaderClientGUI.ViewModels
 
                 //((IDeviceDriverV1)_mainModel.DeviceDriver).WriteEEPROM(eeprom);
 
-                var page = ((IDeviceDriverV1)_mainModel.DeviceDriver).ReadFLASHPage(0);
+//                var page = ((IDeviceDriverV1)_mainModel.DeviceDriver).ReadFLASHPage(0);
 
                 //page[10] = 98;
                 //page[11] = 44;
@@ -463,15 +455,7 @@ namespace FloaderClientGUI.ViewModels
         public void Reboot()
         {
             CheckReadyness();
-
-            if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
-            {
-                ((IDeviceDriverV1)_mainModel.DeviceDriver).Reboot();
-            }
-            else
-            {
-                throw new InvalidOperationException("Unsupported version");
-            }
+            _deviceIndependentOperationsProvider.RebootToFirmware();
         }
         #endregion
 

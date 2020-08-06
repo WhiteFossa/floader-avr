@@ -60,6 +60,8 @@ namespace FloaderClientGUI
             services.AddSingleton<IDao, Dao>();
             services.AddSingleton<IDeviceDataGetter, DeviceDataGetter>();
             services.AddSingleton<IDeviceDriverV1, DeviceDriverV1>();
+            services.AddSingleton<IDeviceIndependentOperationsProvider, DeviceIndependentOperationsProvider>();
+
 
             return services;
         }
