@@ -427,15 +427,16 @@ namespace FloaderClientGUI.ViewModels
             if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
             {
                 // Testing
-                var eeprom = _deviceIndependentOperationsProvider.ReadAllEEPROM();
+                //var eeprom = _deviceIndependentOperationsProvider.ReadAllEEPROM();
 
                 //eeprom[0] = 98;
                 //eeprom[1] = 44;
                 //eeprom[2] = 10;
 
-                //((IDeviceDriverV1)_mainModel.DeviceDriver).WriteEEPROM(eeprom);
+                //_deviceIndependentOperationsProvider.WriteAllEEPROM(eeprom);
 
-//                var page = ((IDeviceDriverV1)_mainModel.DeviceDriver).ReadFLASHPage(0);
+                var flash = _deviceIndependentOperationsProvider.ReadAllFlash();
+
 
                 //page[10] = 98;
                 //page[11] = 44;

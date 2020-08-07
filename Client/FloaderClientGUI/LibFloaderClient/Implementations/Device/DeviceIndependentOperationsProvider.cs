@@ -53,7 +53,7 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    return ((IDeviceDriverV1)_deviceDriver).ReadEEPROM();
+                    return GetDeviceDriverV1().ReadEEPROM();
 
                 default:
                     throw ReportUnsupportedVersion();
@@ -64,7 +64,27 @@ namespace LibFloaderClient.Implementations.Device
         {
             IsSetUp();
 
-            throw new NotImplementedException();
+            _logger.LogInfo($"Reading whole FLASH (bootloader included)");
+
+            var result = new List<byte>();
+            switch (_deviceIdentificationData.Version)
+            {
+                case (int)ProtocolVersion.First:
+                    var deviceData = GetDeviceDataV1();
+
+                    for (var pageAddress = 0; pageAddress < GetDeviceDataV1().FlashPagesAll; pageAddress ++)
+                    {
+                        result.AddRange(GetDeviceDriverV1().ReadFLASHPage(pageAddress));
+                    }
+
+                    _logger.LogInfo($"{ result.Count } of expected { deviceData.FlashPagesAll * deviceData.FlashPageSize } bytes read.");
+                    break;
+
+                default:
+                    throw ReportUnsupportedVersion();
+            }
+
+            return result;
         }
 
         public void RebootToFirmware()
@@ -74,7 +94,7 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    ((IDeviceDriverV1)_deviceDriver).Reboot();
+                    GetDeviceDriverV1().Reboot();
                     break;
 
                 default:
@@ -94,7 +114,7 @@ namespace LibFloaderClient.Implementations.Device
                 case (int)ProtocolVersion.First:
 
                     _deviceDriver = new DeviceDriverV1(_logger);
-                    ((IDeviceDriverV1)_deviceDriver).Setup(_portSettings, (DeviceDataV1)_versionSpecificDeviceData);
+                    GetDeviceDriverV1().Setup(_portSettings, GetDeviceDataV1());
                     break;
 
                 default:
@@ -108,7 +128,15 @@ namespace LibFloaderClient.Implementations.Device
         {
             IsSetUp();
 
-            throw new NotImplementedException();
+            switch (_deviceIdentificationData.Version)
+            {
+                case (int)ProtocolVersion.First:
+                    GetDeviceDriverV1().WriteEEPROM(toWrite);
+                    break;
+
+                default:
+                    throw ReportUnsupportedVersion();
+            }
         }
 
         public void WriteAllFlash(List<byte> toWrite)
@@ -131,6 +159,31 @@ namespace LibFloaderClient.Implementations.Device
         private InvalidOperationException ReportUnsupportedVersion()
         {
             return new InvalidOperationException($"Unsupported version { _deviceIdentificationData.Version }.");
+        }
+
+        private IDeviceDriverV1 GetDeviceDriverV1()
+        {
+            if (_deviceIdentificationData.Version != (int)ProtocolVersion.First)
+            {
+                throw ReportNonV1Version();
+            }
+
+            return (IDeviceDriverV1)_deviceDriver;
+        }
+
+        private DeviceDataV1 GetDeviceDataV1()
+        {
+            if (_deviceIdentificationData.Version != (int)ProtocolVersion.First)
+            {
+                throw ReportNonV1Version();
+            }
+
+            return (DeviceDataV1)_versionSpecificDeviceData;
+        }
+
+        private InvalidOperationException ReportNonV1Version()
+        {
+            return new InvalidOperationException("Version must be 1.");
         }
     }
 }
