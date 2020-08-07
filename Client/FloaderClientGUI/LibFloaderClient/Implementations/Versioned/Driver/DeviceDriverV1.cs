@@ -115,6 +115,11 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         /// </summary>
         private bool _isSetUp;
 
+        /// <summary>
+        /// Serial port driver
+        /// </summary>
+        private ISerialPortDriver _portDriver;
+
         public DeviceDriverV1(ILogger logger)
         {
             _logger = logger;
@@ -125,63 +130,60 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         public bool Reboot()
         {
             IsSetUp();
+            IsPortOccupied();
 
-            using (var port = new SerialPortDriver.SerialPortDriver(_portSettings))
+            _logger.LogInfo("Requesting device reboot...");
+            _portDriver.Write(RebootRequest);
+
+            try
             {
-                _logger.LogInfo("Requesting device reboot...");
-                port.Write(RebootRequest);
+                var response = _portDriver.Read(RebootResponse.Count);
 
-                try
+                if (response.SequenceEqual(RebootResponse))
                 {
-                    var response = port.Read(RebootResponse.Count);
-
-                    if (response.SequenceEqual(RebootResponse))
-                    {
-                        // Rebooted
-                        _logger.LogInfo("Device reported reboot.");
-                        return true;
-                    }
-
-                    _logger.LogError($"Device returned unknown response: { response }.");
-
-                    return false;
+                    // Rebooted
+                    _logger.LogInfo("Device reported reboot.");
+                    return true;
                 }
-                catch(SerialPortTimeoutException)
-                {
-                    _logger.LogError("Device didn't respond in time, check did it reboot manually.");
-                    return false;
-                }
+
+                _logger.LogError($"Device returned unknown response: { response }.");
+
+                return false;
+            }
+            catch(SerialPortTimeoutException)
+            {
+                _logger.LogError("Device didn't respond in time, check did it reboot manually.");
+                return false;
             }
         }
 
         public List<byte> ReadEEPROM()
         {
             IsSetUp();
+            IsPortOccupied();
 
-            using (var port = new SerialPortDriver.SerialPortDriver(_portSettings))
+            _logger.LogInfo($"Trying to read { _deviceData.EepromSize } EEPROM bytes...");
+            _portDriver.Write(ReadEEPROMRequest);
+
+            try
             {
-                _logger.LogInfo($"Trying to read { _deviceData.EepromSize } EEPROM bytes...");
-                port.Write(ReadEEPROMRequest);
+                var response = _portDriver.Read(_deviceData.EepromSize);
 
-                try
-                {
-                    var response = port.Read(_deviceData.EepromSize);
+                _logger.LogInfo("Done");
 
-                    _logger.LogInfo("Done");
-
-                    return response;
-                }
-                catch (SerialPortTimeoutException)
-                {
-                    _logger.LogError("Timeout during EEPROM read.");
-                    throw;
-                }
+                return response;
+            }
+            catch (SerialPortTimeoutException)
+            {
+                _logger.LogError("Timeout during EEPROM read.");
+                throw;
             }
         }
 
         public void WriteEEPROM(List<byte> toWrite)
         {
             IsSetUp();
+            IsPortOccupied();
 
             if (toWrite == null)
             {
@@ -193,43 +195,40 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 throw new ArgumentException($"Data to write size must equal EEPROM size: { _deviceData.EepromSize } bytes", nameof(toWrite));
             }
 
-            using (var port = new SerialPortDriver.SerialPortDriver(_portSettings))
+            _logger.LogInfo($"Trying to write { _deviceData.EepromSize } EEPROM bytes...");
+
+            var lastByteAddress = _deviceData.EepromSize - 1;
+
+            for (var byteAddress = 0; byteAddress < _deviceData.EepromSize; byteAddress ++)
             {
-                _logger.LogInfo($"Trying to write { _deviceData.EepromSize } EEPROM bytes...");
+                _logger.LogInfo($"Writing { byteAddress + 1 } / { _deviceData.EepromSize } byte");
 
-                var lastByteAddress = _deviceData.EepromSize - 1;
+                var wantsMore = WriteEEPROMByte(byteAddress, toWrite[byteAddress]);
 
-                for (var byteAddress = 0; byteAddress < _deviceData.EepromSize; byteAddress ++)
+                if (!wantsMore && byteAddress != lastByteAddress)
                 {
-                    _logger.LogInfo($"Writing { byteAddress + 1 } / { _deviceData.EepromSize } byte");
-
-                    var wantsMore = WriteEEPROMByte(port, byteAddress, toWrite[byteAddress]);
-
-                    if (!wantsMore && byteAddress != lastByteAddress)
-                    {
-                        // Premature write termination
-                        var message = $"Device don't accept new data after writing { byteAddress + 1 } / { _deviceData.EepromSize } bytes.";
-                        _logger.LogError(message);
-                        throw new InvalidOperationException(message);
-                    }
-
-                    if (wantsMore && byteAddress == lastByteAddress)
-                    {
-                        // Greedy device, wants more after completion
-                        var message = $"Device wants more data after writing the last byte of EEPROM.";
-                        _logger.LogError(message);
-                        throw new InvalidOperationException(message);
-                    }
+                    // Premature write termination
+                    var message = $"Device don't accept new data after writing { byteAddress + 1 } / { _deviceData.EepromSize } bytes.";
+                    _logger.LogError(message);
+                    throw new InvalidOperationException(message);
                 }
 
-                _logger.LogInfo("Done");
+                if (wantsMore && byteAddress == lastByteAddress)
+                {
+                    // Greedy device, wants more after completion
+                    var message = $"Device wants more data after writing the last byte of EEPROM.";
+                    _logger.LogError(message);
+                    throw new InvalidOperationException(message);
+                }
             }
+
+            _logger.LogInfo("Done");
         }
 
         /// <summary>
         /// Attempts to write next EEPROM byte, returns true if device want more
         /// </summary>
-        private bool WriteEEPROMByte(ISerialPortDriver port, int byteAddress, byte toWrite)
+        private bool WriteEEPROMByte(int byteAddress, byte toWrite)
         {
             List<byte> data = new List<byte>();
 
@@ -240,9 +239,9 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
             }
 
             data.Add(toWrite);
-            port.Write(data);
+            _portDriver.Write(data);
 
-            var answer = port.Read(EEPROMWriteResponseSize);
+            var answer = _portDriver.Read(EEPROMWriteResponseSize);
 
             if (answer.Count() != EEPROMWriteResponseSize)
             {
@@ -264,61 +263,60 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         public List<byte> ReadFLASHPage(int pageAddress)
         {
             IsSetUp();
+            IsPortOccupied();
 
             if (pageAddress < 0 || pageAddress >= _deviceData.FlashPagesAll)
             {
                 throw new ArgumentOutOfRangeException(nameof(pageAddress), pageAddress, $"Allowed page addresses: [0 - { _deviceData.FlashPagesAll - 1 }]");
             }
 
-            using (var port = new SerialPortDriver.SerialPortDriver(_portSettings))
+            _logger.LogInfo($"Trying to read FLASH page with address { pageAddress }...");
+
+            try
             {
-                _logger.LogInfo($"Trying to read FLASH page with address { pageAddress }...");
+                // Initiating
+                var toWrite = new List<byte>(ReadFLASHRequest);
+                toWrite.Add((byte)pageAddress); // Page address can't be bigger than 255
+                _portDriver.Write(toWrite);
 
-                try
+                var response = _portDriver.Read(ReadFLASHPageResponseSize);
+
+                if (response.Count() != ReadFLASHPageResponseSize)
                 {
-                    // Initiating
-                    var toWrite = new List<byte>(ReadFLASHRequest);
-                    toWrite.Add((byte)pageAddress); // Page address can't be bigger than 255
-                    port.Write(toWrite);
-
-                    var response = port.Read(ReadFLASHPageResponseSize);
-
-                    if (response.Count() != ReadFLASHPageResponseSize)
-                    {
-                        throw new InvalidOperationException($"Unexpected response size to FLASH page read request: { response.Count() } bytes.");
-                    }
-
-                    if (response.SequenceEqual(ReadFLASHResponseFAIL))
-                    {
-                        var message = $"Device reports failure during FLASH page { pageAddress } read.";
-                        _logger.LogError(message);
-                        throw new InvalidOperationException(message);
-                    }
-                    else if (!response.SequenceEqual(ReadFLASHResponseOK))
-                    {
-                        var message = $"Unexpected response to FLASH page { pageAddress } read initiation.";
-                        _logger.LogError(message);
-                        throw new InvalidOperationException(message);
-                    }
-
-                    // Reading
-                    var data = port.Read(_deviceData.FlashPageSize);
-
-                    _logger.LogInfo("Done");
-
-                    return data;
+                    throw new InvalidOperationException($"Unexpected response size to FLASH page read request: { response.Count() } bytes.");
                 }
-                catch (SerialPortTimeoutException)
+
+                if (response.SequenceEqual(ReadFLASHResponseFAIL))
                 {
-                    _logger.LogError("Timeout during FLASH read.");
-                    throw;
+                    var message = $"Device reports failure during FLASH page { pageAddress } read.";
+                    _logger.LogError(message);
+                    throw new InvalidOperationException(message);
                 }
+                else if (!response.SequenceEqual(ReadFLASHResponseOK))
+                {
+                    var message = $"Unexpected response to FLASH page { pageAddress } read initiation.";
+                    _logger.LogError(message);
+                    throw new InvalidOperationException(message);
+                }
+
+                // Reading
+                var data = _portDriver.Read(_deviceData.FlashPageSize);
+
+                _logger.LogInfo("Done");
+
+                return data;
+            }
+            catch (SerialPortTimeoutException)
+            {
+                _logger.LogError("Timeout during FLASH read.");
+                throw;
             }
         }
 
         public void WriteFLASHPage(int pageAddress, List<byte> toWrite)
         {
             IsSetUp();
+            IsPortOccupied();
 
             if (toWrite.Count() != _deviceData.FlashPageSize)
             {
@@ -330,66 +328,62 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 throw new ArgumentOutOfRangeException(nameof(pageAddress), pageAddress, $"Writeable page addresses: [0 - { _deviceData.FlashPagesWriteable - 1 }]");
             }
 
-            using (var port = new SerialPortDriver.SerialPortDriver(_portSettings))
+            _logger.LogInfo($"Trying to write FLASH page with address { pageAddress }...");
+
+            try
             {
-                _logger.LogInfo($"Trying to write FLASH page with address { pageAddress }...");
+                // Initiating
+                _logger.LogInfo("Checking address...");
 
-                try
+                var data = new List<byte>(WriteFLASHRequest);
+                data.Add((byte)pageAddress); // Page address can't be bigger than 255
+                _portDriver.Write(data);
+
+                var response = _portDriver.Read(WriteFLASHPageCheckAddressResponseSize);
+
+                if (response.Count() != WriteFLASHPageCheckAddressResponseSize)
                 {
-                    // Initiating
-                    _logger.LogInfo("Checking address...");
-
-                    var data = new List<byte>(WriteFLASHRequest);
-                    data.Add((byte)pageAddress); // Page address can't be bigger than 255
-                    port.Write(data);
-
-                    var response = port.Read(WriteFLASHPageCheckAddressResponseSize);
-
-                    if (response.Count() != WriteFLASHPageCheckAddressResponseSize)
-                    {
-                        throw new InvalidOperationException($"Unexpected response size to FLASH page write address check request: { response.Count() } bytes.");
-                    }
-
-                    if (response.SequenceEqual(WriteFLASHPageCheckAddressResponseFAIL))
-                    {
-                        var message = $"Device reports incorrect FLASH page address { pageAddress } while attempt to write page.";
-                        _logger.LogError(message);
-                        throw new InvalidOperationException(message);
-                    }
-                    else if (!response.SequenceEqual(WriteFLASHPageCheckAddressResponseOK))
-                    {
-                        var message = $"Unexpected response to FLASH page { pageAddress } write address check.";
-                        _logger.LogError(message);
-                        throw new InvalidOperationException(message);
-                    }
-
-                    _logger.LogInfo("Done, uploading data...");
-
-                    port.Write(toWrite);
-
-                    response = port.Read(WriteFLASHPageResponseSize);
-
-                    if (response.Count() != WriteFLASHPageResponseSize)
-                    {
-                        throw new InvalidOperationException($"Unexpected response size to FLASH page write request: { response.Count() } bytes.");
-                    }
-
-                    if (!response.SequenceEqual(WriteFLASHPageResponseOK))
-                    {
-                        var message = $"Device reports failure during FLASH page write.";
-                        _logger.LogError(message);
-                        throw new InvalidOperationException(message);
-                    }
-
-                    _logger.LogInfo("Done");
+                    throw new InvalidOperationException($"Unexpected response size to FLASH page write address check request: { response.Count() } bytes.");
                 }
-                catch(SerialPortTimeoutException)
+
+                if (response.SequenceEqual(WriteFLASHPageCheckAddressResponseFAIL))
                 {
-                    _logger.LogError("Timeout during FLASH read.");
-                    throw;
+                    var message = $"Device reports incorrect FLASH page address { pageAddress } while attempt to write page.";
+                    _logger.LogError(message);
+                    throw new InvalidOperationException(message);
                 }
+                else if (!response.SequenceEqual(WriteFLASHPageCheckAddressResponseOK))
+                {
+                    var message = $"Unexpected response to FLASH page { pageAddress } write address check.";
+                    _logger.LogError(message);
+                    throw new InvalidOperationException(message);
+                }
+
+                _logger.LogInfo("Done, uploading data...");
+
+                _portDriver.Write(toWrite);
+
+                response = _portDriver.Read(WriteFLASHPageResponseSize);
+
+                if (response.Count() != WriteFLASHPageResponseSize)
+                {
+                    throw new InvalidOperationException($"Unexpected response size to FLASH page write request: { response.Count() } bytes.");
+                }
+
+                if (!response.SequenceEqual(WriteFLASHPageResponseOK))
+                {
+                    var message = $"Device reports failure during FLASH page write.";
+                    _logger.LogError(message);
+                    throw new InvalidOperationException(message);
+                }
+
+                _logger.LogInfo("Done");
             }
-
+            catch(SerialPortTimeoutException)
+            {
+                _logger.LogError("Timeout during FLASH read.");
+                throw;
+            }
         }
 
         public void Setup(PortSettings port, DeviceDataV1 deviceData)
@@ -411,6 +405,37 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 _logger.LogError(msg);
                 throw new InvalidOperationException(msg);
             }
+        }
+
+        private void IsPortOccupied()
+        {
+            if (_portDriver == null)
+            {
+                var msg = "Attempt to use V1 driver when port is not occupied.";
+                _logger.LogError(msg);
+                throw new InvalidOperationException(msg);
+            }
+        }
+
+        public void OccupyPort()
+        {
+            IsSetUp();
+
+            if (_portDriver != null)
+            {
+                throw new InvalidOperationException("V1 driver - port already occupied.");
+            }
+
+            _portDriver = new SerialPortDriver.SerialPortDriver(_portSettings);
+        }
+
+        public void ReleasePort()
+        {
+            IsSetUp();
+            IsPortOccupied();
+
+            _portDriver.Dispose();
+            _portDriver = null;
         }
     }
 }

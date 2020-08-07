@@ -15,6 +15,16 @@ namespace LibFloaderClient.Interfaces.Versioned.Driver
         void Setup(PortSettings portSettings, DeviceDataV1 deviceData);
 
         /// <summary>
+        /// Creates serial port driver and attaches it to port. Only after this call operations with device are allowed
+        /// </summary>
+        void OccupyPort();
+
+        /// <summary>
+        /// Frees port and destroys driver
+        /// </summary>
+        void ReleasePort();
+
+        /// <summary>
         /// Reboots target device
         /// </summary>
         /// <returns>True if device successfully reported reboot</returns>

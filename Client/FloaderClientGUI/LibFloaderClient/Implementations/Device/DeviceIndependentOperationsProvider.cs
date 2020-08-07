@@ -53,7 +53,12 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    return GetDeviceDriverV1().ReadEEPROM();
+                    var driver = GetDeviceDriverV1();
+                    driver.OccupyPort();
+                    var result = driver.ReadEEPROM();
+                    driver.ReleasePort();
+
+                    return result;
 
                 default:
                     throw ReportUnsupportedVersion();
@@ -71,12 +76,15 @@ namespace LibFloaderClient.Implementations.Device
             {
                 case (int)ProtocolVersion.First:
                     var deviceData = GetDeviceDataV1();
+                    var driver = GetDeviceDriverV1();
+                    driver.OccupyPort();
 
                     for (var pageAddress = 0; pageAddress < GetDeviceDataV1().FlashPagesAll; pageAddress ++)
                     {
-                        result.AddRange(GetDeviceDriverV1().ReadFLASHPage(pageAddress));
+                        result.AddRange(driver.ReadFLASHPage(pageAddress));
                     }
 
+                    driver.ReleasePort();
                     _logger.LogInfo($"{ result.Count } of expected { deviceData.FlashPagesAll * deviceData.FlashPageSize } bytes read.");
                     break;
 
@@ -94,7 +102,11 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    GetDeviceDriverV1().Reboot();
+                    var driver = GetDeviceDriverV1();
+                    driver.OccupyPort();
+                    driver.Reboot();
+                    driver.ReleasePort();
+
                     break;
 
                 default:
@@ -131,7 +143,11 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    GetDeviceDriverV1().WriteEEPROM(toWrite);
+                    var driver = GetDeviceDriverV1();
+                    driver.OccupyPort();
+                    driver.WriteEEPROM(toWrite);
+                    driver.ReleasePort();
+
                     break;
 
                 default:
