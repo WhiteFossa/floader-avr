@@ -32,11 +32,6 @@ namespace LibFloaderClient.Implementations.Device
         private object _versionSpecificDeviceData;
 
         /// <summary>
-        /// Driver to device (version-specific)
-        /// </summary>
-        private object _deviceDriver;
-
-        /// <summary>
         /// Device identification data
         /// </summary>
         private DeviceIdentifierData _deviceIdentificationData;
@@ -53,12 +48,10 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    var driver = GetDeviceDriverV1();
-                    driver.OccupyPort();
-                    var result = driver.ReadEEPROM();
-                    driver.ReleasePort();
-
-                    return result;
+                    using (var driver = GetDeviceDriverV1())
+                    {
+                        return driver.ReadEEPROM();
+                    }
 
                 default:
                     throw ReportUnsupportedVersion();
@@ -75,16 +68,15 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    var deviceData = GetDeviceDataV1();
-                    var driver = GetDeviceDriverV1();
-                    driver.OccupyPort();
-
-                    for (var pageAddress = 0; pageAddress < GetDeviceDataV1().FlashPagesAll; pageAddress ++)
+                    using (var driver = GetDeviceDriverV1())
                     {
-                        result.AddRange(driver.ReadFLASHPage(pageAddress));
+                        for (var pageAddress = 0; pageAddress < GetDeviceDataV1().FlashPagesAll; pageAddress++)
+                        {
+                            result.AddRange(driver.ReadFLASHPage(pageAddress));
+                        }
                     }
 
-                    driver.ReleasePort();
+                    var deviceData = GetDeviceDataV1();
                     _logger.LogInfo($"{ result.Count } of expected { deviceData.FlashPagesAll * deviceData.FlashPageSize } bytes read.");
                     break;
 
@@ -102,11 +94,10 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    var driver = GetDeviceDriverV1();
-                    driver.OccupyPort();
-                    driver.Reboot();
-                    driver.ReleasePort();
-
+                    using (var driver = GetDeviceDriverV1())
+                    {
+                        driver.Reboot();
+                    }
                     break;
 
                 default:
@@ -119,20 +110,6 @@ namespace LibFloaderClient.Implementations.Device
             _portSettings = portSettings;
             _deviceIdentificationData = deviceIdentData;
             _versionSpecificDeviceData = versionSpecificDeviceData;
-
-            // Spawning driver
-            switch (_deviceIdentificationData.Version)
-            {
-                case (int)ProtocolVersion.First:
-
-                    _deviceDriver = new DeviceDriverV1(_logger);
-                    GetDeviceDriverV1().Setup(_portSettings, GetDeviceDataV1());
-                    break;
-
-                default:
-                    throw ReportUnsupportedVersion();
-            }
-
             _isSetUp = true;
         }
 
@@ -143,11 +120,10 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    var driver = GetDeviceDriverV1();
-                    driver.OccupyPort();
-                    driver.WriteEEPROM(toWrite);
-                    driver.ReleasePort();
-
+                    using (var driver = GetDeviceDriverV1())
+                    {
+                        driver.WriteEEPROM(toWrite);
+                    }
                     break;
 
                 default:
@@ -184,7 +160,7 @@ namespace LibFloaderClient.Implementations.Device
                 throw ReportNonV1Version();
             }
 
-            return (IDeviceDriverV1)_deviceDriver;
+            return (IDeviceDriverV1)new DeviceDriverV1(_portSettings, GetDeviceDataV1(), _logger);
         }
 
         private DeviceDataV1 GetDeviceDataV1()

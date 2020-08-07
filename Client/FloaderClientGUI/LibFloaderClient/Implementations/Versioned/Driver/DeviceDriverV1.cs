@@ -101,6 +101,11 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         private readonly List<byte> WriteFLASHPageResponseOK = new List<byte>() { 0x00 };
 
         /// <summary>
+        /// Is already disposed?
+        /// </summary>
+        private bool _isDisposed = false;
+
+        /// <summary>
         /// Port settings
         /// </summary>
         private PortSettings _portSettings;
@@ -111,26 +116,21 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         private DeviceDataV1 _deviceData;
 
         /// <summary>
-        /// True if driver is set up
-        /// </summary>
-        private bool _isSetUp;
-
-        /// <summary>
         /// Serial port driver
         /// </summary>
         private ISerialPortDriver _portDriver;
 
-        public DeviceDriverV1(ILogger logger)
+        public DeviceDriverV1(PortSettings port, DeviceDataV1 deviceData, ILogger logger)
         {
             _logger = logger;
-
-            _isSetUp = false;
+            _portSettings = port;
+            _deviceData = deviceData;
+            _portDriver = new SerialPortDriver.SerialPortDriver(_portSettings);
         }
 
         public bool Reboot()
         {
-            IsSetUp();
-            IsPortOccupied();
+            CheckIfDisposed();
 
             _logger.LogInfo("Requesting device reboot...");
             _portDriver.Write(RebootRequest);
@@ -159,8 +159,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
 
         public List<byte> ReadEEPROM()
         {
-            IsSetUp();
-            IsPortOccupied();
+            CheckIfDisposed();
 
             _logger.LogInfo($"Trying to read { _deviceData.EepromSize } EEPROM bytes...");
             _portDriver.Write(ReadEEPROMRequest);
@@ -182,8 +181,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
 
         public void WriteEEPROM(List<byte> toWrite)
         {
-            IsSetUp();
-            IsPortOccupied();
+            CheckIfDisposed();
 
             if (toWrite == null)
             {
@@ -262,8 +260,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
 
         public List<byte> ReadFLASHPage(int pageAddress)
         {
-            IsSetUp();
-            IsPortOccupied();
+            CheckIfDisposed();
 
             if (pageAddress < 0 || pageAddress >= _deviceData.FlashPagesAll)
             {
@@ -315,8 +312,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
 
         public void WriteFLASHPage(int pageAddress, List<byte> toWrite)
         {
-            IsSetUp();
-            IsPortOccupied();
+            CheckIfDisposed();
 
             if (toWrite.Count() != _deviceData.FlashPageSize)
             {
@@ -386,56 +382,35 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
             }
         }
 
-        public void Setup(PortSettings port, DeviceDataV1 deviceData)
+        private void CheckIfDisposed()
         {
-            _isSetUp = false;
-            _portSettings = port;
-            _deviceData = deviceData;
-            _isSetUp = true;
-        }
-
-        /// <summary>
-        /// Throws an exception if driver isn't set up
-        /// </summary>
-        private void IsSetUp()
-        {
-            if (!_isSetUp)
+            if (_isDisposed)
             {
-                var msg = "Attempt to use not set up V1 driver.";
-                _logger.LogError(msg);
-                throw new InvalidOperationException(msg);
+                throw new ObjectDisposedException(nameof(DeviceDriverV1));
             }
         }
 
-        private void IsPortOccupied()
+        public void Dispose()
         {
-            if (_portDriver == null)
-            {
-                var msg = "Attempt to use V1 driver when port is not occupied.";
-                _logger.LogError(msg);
-                throw new InvalidOperationException(msg);
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        public void OccupyPort()
+        protected virtual void Dispose(bool disposing)
         {
-            IsSetUp();
-
-            if (_portDriver != null)
+            if (!_isDisposed)
             {
-                throw new InvalidOperationException("V1 driver - port already occupied.");
+                if (disposing)
+                {
+                    // Dispose managed here
+                }
+
+                // Dispose unmanaged here
+                _portDriver.Dispose();
+                _portDriver = null;
+
+                _isDisposed = true;
             }
-
-            _portDriver = new SerialPortDriver.SerialPortDriver(_portSettings);
-        }
-
-        public void ReleasePort()
-        {
-            IsSetUp();
-            IsPortOccupied();
-
-            _portDriver.Dispose();
-            _portDriver = null;
         }
     }
 }

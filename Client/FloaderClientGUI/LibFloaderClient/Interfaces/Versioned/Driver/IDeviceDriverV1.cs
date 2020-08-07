@@ -1,5 +1,6 @@
 ﻿using LibFloaderClient.Models.Device.Versioned;
 using LibFloaderClient.Models.Port;
+using System;
 using System.Collections.Generic;
 
 namespace LibFloaderClient.Interfaces.Versioned.Driver
@@ -7,23 +8,8 @@ namespace LibFloaderClient.Interfaces.Versioned.Driver
     /// <summary>
     /// Device driver, protocol version 1
     /// </summary>
-    public interface IDeviceDriverV1
+    public interface IDeviceDriverV1 : IDisposable
     {
-        /// <summary>
-        /// Setup driver to use given connection
-        /// </summary>
-        void Setup(PortSettings portSettings, DeviceDataV1 deviceData);
-
-        /// <summary>
-        /// Creates serial port driver and attaches it to port. Only after this call operations with device are allowed
-        /// </summary>
-        void OccupyPort();
-
-        /// <summary>
-        /// Frees port and destroys driver
-        /// </summary>
-        void ReleasePort();
-
         /// <summary>
         /// Reboots target device
         /// </summary>
