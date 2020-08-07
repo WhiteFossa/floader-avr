@@ -8,6 +8,7 @@ using LibFloaderClient.Models.Device.Versioned;
 using LibFloaderClient.Models.Port;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace LibFloaderClient.Implementations.Device
@@ -68,15 +69,18 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
+
+                    var deviceData = GetDeviceDataV1();
                     using (var driver = GetDeviceDriverV1())
                     {
-                        for (var pageAddress = 0; pageAddress < GetDeviceDataV1().FlashPagesAll; pageAddress++)
+
+                        for (var pageAddress = 0; pageAddress < deviceData.FlashPagesAll; pageAddress++)
                         {
                             result.AddRange(driver.ReadFLASHPage(pageAddress));
                         }
                     }
 
-                    var deviceData = GetDeviceDataV1();
+                    
                     _logger.LogInfo($"{ result.Count } of expected { deviceData.FlashPagesAll * deviceData.FlashPageSize } bytes read.");
                     break;
 
@@ -135,7 +139,46 @@ namespace LibFloaderClient.Implementations.Device
         {
             IsSetUp();
 
-            throw new NotImplementedException();
+            _logger.LogInfo($"Writing whole FLASH (except bootloader)...");
+
+            switch (_deviceIdentificationData.Version)
+            {
+                case (int)ProtocolVersion.First:
+
+                    var deviceData = GetDeviceDataV1();
+                    using (var driver = GetDeviceDriverV1())
+                    {
+                        for (var pageAddress = 0; pageAddress < deviceData.FlashPagesWriteable; pageAddress++)
+                        {
+                            // Preparing page data
+                            var pageData = toWrite.GetRange(pageAddress * deviceData.FlashPageSize, deviceData.FlashPageSize);
+
+                            // Writing
+                            _logger.LogInfo("Writing...");
+                            driver.WriteFLASHPage(pageAddress, pageData);
+
+                            // Verifying
+                            _logger.LogInfo("Verifying...");
+                            var readback = driver.ReadFLASHPage(pageAddress);
+
+                            if (!readback.SequenceEqual(pageData))
+                            {
+                                var message = $"Page { pageAddress + 1 } verification failed.";
+                                _logger.LogError(message);
+                                throw new InvalidOperationException(message);
+                            }
+
+                            _logger.LogInfo("Verification is OK");
+                        }
+                    }
+
+                    _logger.LogInfo("FLASH written successfully.");
+
+                    break;
+
+                default:
+                    throw ReportUnsupportedVersion();
+            }
         }
 
         private void IsSetUp()

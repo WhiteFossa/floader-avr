@@ -437,12 +437,11 @@ namespace FloaderClientGUI.ViewModels
 
                 var flash = _deviceIndependentOperationsProvider.ReadAllFlash();
 
+                flash[10] = 98;
+                flash[11] = 44;
+                flash[12] = 10;
 
-                //page[10] = 98;
-                //page[11] = 44;
-                //page[12] = 10;
-
-                //((IDeviceDriverV1)_mainModel.DeviceDriver).WriteFLASHPage(0, page);
+                _deviceIndependentOperationsProvider.WriteAllFlash(flash);
             }
             else
             {
