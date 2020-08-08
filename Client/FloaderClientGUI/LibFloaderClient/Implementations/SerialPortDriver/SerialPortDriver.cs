@@ -60,6 +60,11 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         /// </summary>
         private SerialError? _IOError;
 
+        /// <summary>
+        /// Mutex to avoid port disposal during read
+        /// </summary>
+        private Mutex _portReadMutex = new Mutex();
+
         public SerialPortDriver(PortSettings settings)
         {
             _unreadData.Clear();
@@ -158,6 +163,9 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
                 return;
             }
 
+            _portReadMutex.WaitOne();
+            _portReadMutex.ReleaseMutex();
+
             if (disposing)
             {
                 // Free managed resources here
@@ -183,7 +191,16 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         /// </summary>
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
+            _portReadMutex.WaitOne();
+
             var port = (SerialPort)sender;
+
+            // If port got closed, cancelling read
+            if (!port.IsOpen)
+            {
+                _portReadMutex.ReleaseMutex();
+                return;
+            }
 
             var buffer = new byte[ReadBlockSize];
 
@@ -194,6 +211,7 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
                 if (bytesRead < ReadBlockSize)
                 {
                     _unreadData.AddRange(buffer.ToList().GetRange(0, bytesRead));
+                    _portReadMutex.ReleaseMutex();
                     return;
                 }
 
