@@ -1,4 +1,5 @@
-﻿using FloaderClientGUI.Models;
+﻿using Avalonia.Controls;
+using FloaderClientGUI.Models;
 using FloaderClientGUI.Views;
 using LibFloaderClient.Implementations.Enums.Device;
 using LibFloaderClient.Implementations.Port;
@@ -10,6 +11,7 @@ using LibFloaderClient.Models.Device;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using System;
+using System.Linq;
 using System.Text;
 using TextCopy;
 
@@ -409,17 +411,35 @@ namespace FloaderClientGUI.ViewModels
         /// <summary>
         /// Select FLASH file for download
         /// </summary>
-        public void SelectFlashForDownload()
+        public async void SelectFlashForDownloadAsync()
         {
-            FlashDownloadFile = "FLASH HEX file for download";
+            var dialog = PrepareSaveHexDialog();
+            dialog.InitialFileName = "FLASH"; // TODO: Add datetime here
+            FlashDownloadFile = await dialog.ShowAsync(Program.GetMainWindow());
+        }
+
+        /// <summary>
+        /// Prepare dialog to save Intel's HEX
+        /// </summary>
+        private SaveFileDialog PrepareSaveHexDialog()
+        {
+            var dialog = new SaveFileDialog();
+            // TODO: load texts from resources
+            dialog.Filters.Add(new FileDialogFilter() { Name = "Intel HEX", Extensions = { "hex", "HEX" } });
+            dialog.Filters.Add(new FileDialogFilter() { Name = "All files", Extensions = { "*" } });
+            dialog.DefaultExtension = "hex";
+
+            return dialog;
         }
 
         /// <summary>
         /// Select EEPROM file for download
         /// </summary>
-        public void SelectEepromForDownload()
+        public async void SelectEepromForDownloadAsync()
         {
-            EepromDownloadFile = "EEPROM HEX file for download";
+            var dialog = PrepareSaveHexDialog();
+            dialog.InitialFileName = "EEPROM"; // TODO: Add datetime here
+            EepromDownloadFile = await dialog.ShowAsync(Program.GetMainWindow());
         }
 
         /// <summary>

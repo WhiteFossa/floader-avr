@@ -119,7 +119,7 @@
                                 Text="{Binding FlashDownloadFile}" /> <!-- FLASH file -->
 
                             <Button Grid.Column="2" Grid.Row="0" Content="..."
-                                Command="{Binding SelectFlashForDownload}" /> <!-- Select FLASH file button -->
+                                Command="{Binding SelectFlashForDownloadAsync}" /> <!-- Select FLASH file button -->
                         </Grid>
                     </DockPanel>
 
@@ -131,7 +131,7 @@
                                 Text="{Binding EepromDownloadFile}" /> <!-- EEPROM file -->
 
                             <Button Grid.Column="2" Grid.Row="0" Content="..." 
-                                Command="{Binding SelectEepromForDownload}" /> <!-- Select EEPROM file button -->
+                                Command="{Binding SelectEepromForDownloadAsync}" /> <!-- Select EEPROM file button -->
                         </Grid>
                     </DockPanel>
 
