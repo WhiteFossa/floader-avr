@@ -1,27 +1,24 @@
-﻿using System.ComponentModel;
-using System;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
-using Microsoft.Extensions.DependencyInjection;
-using LibFloaderClient.Interfaces.Logger;
 using FloaderClientGUI.GUISpecific.Logger;
-using LibFloaderClient.Interfaces.SerialPortsLister;
-using LibFloaderClient.Implementations.SerialPortsLister;
-using LibFloaderClient.Interfaces.Device;
-using LibFloaderClient.Implementations.Device;
-using LibFloaderClient.Interfaces.Versioned.Common;
-using LibFloaderClient.Implementations.Versioned.Common;
-using LibFloaderClient.Interfaces.DAO;
 using LibFloaderClient.Implementations.DAO;
-using LibFloaderClient.Interfaces.Versioned.Driver;
+using LibFloaderClient.Implementations.Device;
+using LibFloaderClient.Implementations.SerialPortsLister;
+using LibFloaderClient.Implementations.Versioned.Common;
 using LibFloaderClient.Implementations.Versioned.Driver;
+using LibFloaderClient.Interfaces.DAO;
+using LibFloaderClient.Interfaces.Device;
+using LibFloaderClient.Interfaces.Logger;
+using LibFloaderClient.Interfaces.SerialPortsLister;
+using LibFloaderClient.Interfaces.Versioned.Common;
+using LibFloaderClient.Interfaces.Versioned.Driver;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FloaderClientGUI
 {
-   public class Program
+    public class Program
     {
         /// <summary>
         /// Dependency injection service provider

@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using LibFloaderClient.Models.Port;
 using LibFloaderClient.Interfaces.SerialPortDriver;
 using LibFloaderClient.Models.Device;
-using SharpDX.Direct2D1;
-using LibFloaderClient.Interfaces.Device;
+using LibFloaderClient.Models.Port;
+using System;
 
 namespace FloaderClientGUI.Models
 {
