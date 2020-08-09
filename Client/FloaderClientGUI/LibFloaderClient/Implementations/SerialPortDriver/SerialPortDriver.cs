@@ -14,9 +14,14 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
     public class SerialPortDriver : ISerialPortDriver
     {
         /// <summary>
-        /// Default timeout, 60 seconds.
+        /// If no one byte sent/received during this time, then throws timeout exception
         /// </summary>
-        private const int DefaultTimeout = 60000;
+        private const int SingleOperationTimeout = 10000;
+
+        /// <summary>
+        /// If required data wasn't sent/received during this time, then throws timeout exception
+        /// </summary>
+        private const int MultipleOperationsTimeout = 60000;
 
         /// <summary>
         /// How long (in milliseconds) to wait before next check if data arrived when Read() called
@@ -45,10 +50,22 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         /// </summary>
         private List<byte> _readStash = new List<byte>();
 
+        /// <summary>
+        /// Timer to count read timeout
+        /// </summary>
+        private System.Timers.Timer _readTimeoutTimer;
+
+        /// <summary>
+        /// True if read timeout happened
+        /// </summary>
+        private bool _isReadTimeoutHappened;
+
         public SerialPortDriver(PortSettings settings)
         {
             _port = new SerialPort(portName: settings.Name, baudRate: settings.Baudrate, parity: settings.Parity,
                 dataBits: settings.DataBits, stopBits: settings.StopBits);
+            _port.ReadTimeout = SingleOperationTimeout;
+            _port.WriteTimeout = SingleOperationTimeout;
 
             // Attaching events
             _port.ErrorReceived += new SerialErrorReceivedEventHandler(ErrorReceivedHandler);
@@ -73,7 +90,15 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
 
             var buffer = contentToWrite.ToArray();
 
-            _port.Write(buffer, 0, buffer.Length);
+            try
+            {
+                _port.Write(buffer, 0, buffer.Length);
+            }
+            catch(TimeoutException ex)
+            {
+                throw new SerialPortTimeoutException("Write timeout.", ex);
+            }
+
 
             CheckForIOError();
         }
@@ -83,35 +108,66 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
             CheckIfDisposed();
             CheckForIOError();
 
+            _isReadTimeoutHappened = false;
+
+            _readTimeoutTimer = new System.Timers.Timer(MultipleOperationsTimeout);
+            _readTimeoutTimer.AutoReset = false;
+            _readTimeoutTimer.Elapsed += OnReadTimeoutEvent;
+            _readTimeoutTimer.Enabled = true;
+
             var result = new List<byte>();
-            result.AddRange(_readStash);
-            var alreadyRead = _readStash.Count();
-            _readStash.Clear();
 
-            var buffer = new byte[ReadBlockSize];
-
-            while(true)
+            try
             {
-                if (alreadyRead >= requiredSize)
+                result.AddRange(_readStash);
+                var alreadyRead = _readStash.Count();
+                _readStash.Clear();
+
+                var buffer = new byte[ReadBlockSize];
+                var isFirstRead = true;
+
+                while (true)
                 {
-                    if (alreadyRead > requiredSize)
+                    if (_isReadTimeoutHappened)
                     {
-                        // Stashing remainder
-                        _readStash = result.GetRange(requiredSize, alreadyRead - requiredSize);
-                        result = result.GetRange(0, requiredSize);
+                        throw new SerialPortTimeoutException("Multiple read timeout.");
                     }
 
-                    break;
-                }
-                else
-                {
-                    Thread.Sleep(ReadSleepTime);
-                }
+                    if (alreadyRead >= requiredSize)
+                    {
+                        if (alreadyRead > requiredSize)
+                        {
+                            // Stashing remainder
+                            _readStash = result.GetRange(requiredSize, alreadyRead - requiredSize);
+                            result = result.GetRange(0, requiredSize);
+                        }
 
-                var actuallyRead = _port.Read(buffer, 0, ReadBlockSize);
-                alreadyRead += actuallyRead;
-                result.AddRange(buffer.ToList().GetRange(0, actuallyRead));
+                        break;
+                    }
+                    else
+                    {
+                        if (!isFirstRead)
+                        {
+                            Thread.Sleep(ReadSleepTime);
+                        }
+                        else
+                        {
+                            isFirstRead = false;
+                        }
+                    }
+
+                    var actuallyRead = _port.Read(buffer, 0, ReadBlockSize);
+                    alreadyRead += actuallyRead;
+                    result.AddRange(buffer.ToList().GetRange(0, actuallyRead));
+                }
             }
+            catch (TimeoutException ex)
+            {
+                // Signle operation timeout
+                throw new SerialPortTimeoutException("Single read timeout.", ex);
+            }
+
+            _readTimeoutTimer.Enabled = false;
 
             CheckForIOError();
 
@@ -168,6 +224,12 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         private void ErrorReceivedHandler(object sender, SerialErrorReceivedEventArgs e)
         {
             _IOError = e.EventType;
+        }
+
+
+        private void OnReadTimeoutEvent(Object source, ElapsedEventArgs e)
+        {
+            _isReadTimeoutHappened = true;
         }
     }
 }
