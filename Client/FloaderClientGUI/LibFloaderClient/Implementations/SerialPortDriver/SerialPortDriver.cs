@@ -126,6 +126,7 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
             {
                 if (_isReadTimeoutHappened)
                 {
+                    _portReadMutex.ReleaseMutex();
                     throw new SerialPortTimeoutException();
                 }
 
@@ -147,6 +148,7 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
             _unreadData = _unreadData.GetRange(requiredSize, availableSize - requiredSize);
 
             CheckForIOError();
+
             return result;
         }
 
@@ -204,18 +206,21 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
 
             var buffer = new byte[ReadBlockSize];
 
-            while(true)
+            lock (_unreadData)
             {
-                var bytesRead = port.Read(buffer, 0, ReadBlockSize);
-
-                if (bytesRead < ReadBlockSize)
+                while (true)
                 {
-                    _unreadData.AddRange(buffer.ToList().GetRange(0, bytesRead));
-                    _portReadMutex.ReleaseMutex();
-                    return;
-                }
+                    var bytesRead = port.Read(buffer, 0, ReadBlockSize);
 
-                _unreadData.AddRange(buffer.ToList());
+                    if (bytesRead < ReadBlockSize)
+                    {
+                        _unreadData.AddRange(buffer.ToList().GetRange(0, bytesRead));
+                        _portReadMutex.ReleaseMutex();
+                        return;
+                    }
+
+                    _unreadData.AddRange(buffer.ToList());
+                }
             }
         }
 
