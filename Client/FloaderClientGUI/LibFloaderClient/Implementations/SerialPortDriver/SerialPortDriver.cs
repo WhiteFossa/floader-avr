@@ -40,6 +40,11 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         /// </summary>
         private SerialError? _IOError;
 
+        /// <summary>
+        /// Read stash. If during read operation more data, that required, is read, then remainder is stashed here and added to the next read operation data.
+        /// </summary>
+        private List<byte> _readStash = new List<byte>();
+
         public SerialPortDriver(PortSettings settings)
         {
             _port = new SerialPort(portName: settings.Name, baudRate: settings.Baudrate, parity: settings.Parity,
@@ -79,23 +84,33 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
             CheckForIOError();
 
             var result = new List<byte>();
-            var alreadyRead = 0;
+            result.AddRange(_readStash);
+            var alreadyRead = _readStash.Count();
+            _readStash.Clear();
+
             var buffer = new byte[ReadBlockSize];
 
             while(true)
             {
-                var actuallyRead = _port.Read(buffer, 0, ReadBlockSize);
-                alreadyRead += actuallyRead;
-                result.AddRange(buffer.ToList().GetRange(0, actuallyRead));
-
-                if (alreadyRead == requiredSize)
+                if (alreadyRead >= requiredSize)
                 {
+                    if (alreadyRead > requiredSize)
+                    {
+                        // Stashing remainder
+                        _readStash = result.GetRange(requiredSize, alreadyRead - requiredSize);
+                        result = result.GetRange(0, requiredSize);
+                    }
+
                     break;
                 }
                 else
                 {
                     Thread.Sleep(ReadSleepTime);
                 }
+
+                var actuallyRead = _port.Read(buffer, 0, ReadBlockSize);
+                alreadyRead += actuallyRead;
+                result.AddRange(buffer.ToList().GetRange(0, actuallyRead));
             }
 
             CheckForIOError();
