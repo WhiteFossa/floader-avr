@@ -9,11 +9,6 @@ namespace LibFloaderClient.Interfaces.SerialPortDriver
     public interface ISerialPortDriver : IDisposable
     {
         /// <summary>
-        /// Sets port operations timeout.
-        /// </summary>
-        void SetTimeout(int timeout);
-
-        /// <summary>
         /// Blocks IO and trying to write given bytes into port. If there is no succes during the timeout,
         /// then throws SerialPortTimeoutException.
         /// </summary>

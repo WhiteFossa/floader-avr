@@ -36,54 +36,19 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         private SerialPort _port;
 
         /// <summary>
-        /// Timeout in milliseconds.
-        /// </summary>
-        private int _timeout = DefaultTimeout;
-
-        /// <summary>
-        /// Data, came from port, but not taken by Read() call
-        /// </summary>
-        private List<byte> _unreadData = new List<byte>();
-
-        /// <summary>
-        /// Timer to count read timeout
-        /// </summary>
-        private System.Timers.Timer _readTimeoutTimer;
-        
-        /// <summary>
-        /// True if read timeout happened
-        /// </summary>
-        private bool _isReadTimeoutHappened;
-
-        /// <summary>
         /// Happened IO error, null if everything is OK
         /// </summary>
         private SerialError? _IOError;
 
-        /// <summary>
-        /// Mutex to avoid port disposal during read
-        /// </summary>
-        private Mutex _portReadMutex = new Mutex();
-
         public SerialPortDriver(PortSettings settings)
         {
-            _unreadData.Clear();
-
             _port = new SerialPort(portName: settings.Name, baudRate: settings.Baudrate, parity: settings.Parity,
                 dataBits: settings.DataBits, stopBits: settings.StopBits);
 
             // Attaching events
-            _port.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
             _port.ErrorReceived += new SerialErrorReceivedEventHandler(ErrorReceivedHandler);
 
             _port.Open();
-        }
-
-        public void SetTimeout(int timeout)
-        {
-            CheckIfDisposed();
-
-            _timeout = timeout;
         }
 
         public void Write(List<byte> contentToWrite)
@@ -113,38 +78,25 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
             CheckIfDisposed();
             CheckForIOError();
 
-            // Starting timeout timer
-            _isReadTimeoutHappened = false;
+            var result = new List<byte>();
+            var alreadyRead = 0;
+            var buffer = new byte[ReadBlockSize];
 
-            _readTimeoutTimer = new System.Timers.Timer(_timeout);
-            _readTimeoutTimer.AutoReset = false;
-            _readTimeoutTimer.Elapsed += OnReadTimeoutEvent;
-            _readTimeoutTimer.Enabled = true;
-
-            int availableSize = 0;
             while(true)
             {
-                if (_isReadTimeoutHappened)
-                {
-                    throw new SerialPortTimeoutException();
-                }
+                var actuallyRead = _port.Read(buffer, 0, ReadBlockSize);
+                alreadyRead += actuallyRead;
+                result.AddRange(buffer.ToList().GetRange(0, actuallyRead));
 
-                availableSize = _unreadData.Count();
-
-                if (availableSize >= requiredSize)
+                if (alreadyRead == requiredSize)
                 {
                     break;
                 }
-
-                // Waiting for data
-                Thread.Sleep(ReadSleepTime);
+                else
+                {
+                    Thread.Sleep(ReadSleepTime);
+                }
             }
-
-            _readTimeoutTimer.Enabled = false;
-
-            // Cut first requiredSize bytes and return it
-            var result = _unreadData.GetRange(0, requiredSize);
-            _unreadData = _unreadData.GetRange(requiredSize, availableSize - requiredSize);
 
             CheckForIOError();
 
@@ -164,9 +116,6 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
                 return;
             }
 
-            _portReadMutex.WaitOne();
-            _portReadMutex.ReleaseMutex();
-
             if (disposing)
             {
                 // Free managed resources here
@@ -185,50 +134,6 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
             {
                 throw new InvalidOperationException("Already disposed.");
             }
-        }
-
-        /// <summary>
-        /// Called when new data is received
-        /// </summary>
-        private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
-        {
-            _portReadMutex.WaitOne();
-
-            var port = (SerialPort)sender;
-
-            // If port got closed, cancelling read
-            if (!port.IsOpen)
-            {
-                _portReadMutex.ReleaseMutex();
-                return;
-            }
-
-            var buffer = new byte[ReadBlockSize];
-
-            lock (_unreadData)
-            {
-                while (true)
-                {
-                    var bytesRead = port.Read(buffer, 0, ReadBlockSize);
-
-                    if (bytesRead < ReadBlockSize)
-                    {
-                        _unreadData.AddRange(buffer.ToList().GetRange(0, bytesRead));
-                        _portReadMutex.ReleaseMutex();
-                        return;
-                    }
-
-                    _unreadData.AddRange(buffer.ToList());
-                }
-            }
-        }
-
-        /// <summary>
-        /// Read timeout handler
-        /// </summary>
-        private void OnReadTimeoutEvent(Object source, ElapsedEventArgs e)
-        {
-            _isReadTimeoutHappened = true;
         }
 
         /// <summary>
