@@ -126,7 +126,6 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
             {
                 if (_isReadTimeoutHappened)
                 {
-                    _portReadMutex.ReleaseMutex();
                     throw new SerialPortTimeoutException();
                 }
 

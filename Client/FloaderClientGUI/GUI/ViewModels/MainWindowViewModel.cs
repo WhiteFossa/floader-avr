@@ -1,22 +1,17 @@
-﻿using System.Diagnostics;
-using System.Text;
-using ReactiveUI;
-using TextCopy;
-using System;
-using System.Collections.Generic;
-using LibFloaderClient.Interfaces.Logger;
-using Microsoft.Extensions.DependencyInjection;
+﻿using FloaderClientGUI.Models;
 using FloaderClientGUI.Views;
-using FloaderClientGUI.Models;
-using LibFloaderClient.Implementations.Port;
-using LibFloaderClient.Interfaces.Device;
-using LibFloaderClient.Interfaces.Versioned.Common;
-using LibFloaderClient.Interfaces.DAO;
-using LibFloaderClient.Models.Device;
-using LibFloaderClient.Implementations.Mappers.Versioned;
-using LibFloaderClient.Interfaces.Versioned.Driver;
-using LibFloaderClient.Models.Device.Versioned;
 using LibFloaderClient.Implementations.Enums.Device;
+using LibFloaderClient.Implementations.Port;
+using LibFloaderClient.Interfaces.DAO;
+using LibFloaderClient.Interfaces.Device;
+using LibFloaderClient.Interfaces.Logger;
+using LibFloaderClient.Interfaces.Versioned.Common;
+using LibFloaderClient.Models.Device;
+using Microsoft.Extensions.DependencyInjection;
+using ReactiveUI;
+using System;
+using System.Text;
+using TextCopy;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -25,7 +20,7 @@ namespace FloaderClientGUI.ViewModels
         private ILogger _logger;
         private IDeviceIdentifier _deviceIdentifier;
         private IVersionValidator _versionValidator;
-        private IDao _dao; // TODO: Do we need it here?
+        private IDao _dao;
         private IDeviceDataGetter _deviceDataGetter;
         private IDeviceIndependentOperationsProvider _deviceIndependentOperationsProvider;
 
@@ -426,22 +421,30 @@ namespace FloaderClientGUI.ViewModels
 
             if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
             {
-                // Testing
-                var eeprom = _deviceIndependentOperationsProvider.ReadAllEEPROM();
+                try
+                {
+                    // Testing
+                    var eeprom = _deviceIndependentOperationsProvider.ReadAllEEPROM();
 
-                eeprom[0] = 98;
-                eeprom[1] = 44;
-                eeprom[2] = 10;
+                    eeprom[0] = 98;
+                    eeprom[1] = 44;
+                    eeprom[2] = 10;
 
-                _deviceIndependentOperationsProvider.WriteAllEEPROM(eeprom);
+                    _deviceIndependentOperationsProvider.WriteAllEEPROM(eeprom);
 
-                var flash = _deviceIndependentOperationsProvider.ReadAllFlash();
+                    var flash = _deviceIndependentOperationsProvider.ReadAllFlash();
 
-                flash[10] = 98;
-                flash[11] = 44;
-                flash[12] = 10;
+                    flash[10] = 98;
+                    flash[11] = 44;
+                    flash[12] = 10;
 
-                _deviceIndependentOperationsProvider.WriteAllFlash(flash);
+                    _deviceIndependentOperationsProvider.WriteAllFlash(flash);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Exception: { ex.Message }");
+                    _logger.LogError($"Stack trace: { ex.StackTrace }");
+                }
             }
             else
             {
@@ -465,6 +468,7 @@ namespace FloaderClientGUI.ViewModels
         public void AddLineToConsole(string line)
         {
             ConsoleText += $"{ line }{ Environment.NewLine }";
+
         }
 
         /// <summary>
