@@ -44,6 +44,7 @@ namespace FloaderClientGUI.ViewModels
         private bool _isUploadEnabled;
         private bool _isDownloadEnabled;
         private bool _isRebootEnabled;
+        private int _consoleCaretIndex;
 
         /// <summary>
         /// Text in console
@@ -197,6 +198,15 @@ namespace FloaderClientGUI.ViewModels
         {
             get => _isRebootEnabled;
             set => this.RaiseAndSetIfChanged(ref _isRebootEnabled, value);
+        }
+
+        /// <summary>
+        /// Consone caret index (to scroll programmatically)
+        /// </summary>
+        public int ConsoleCaretIndex
+        {
+            get => _consoleCaretIndex;
+            set => this.RaiseAndSetIfChanged(ref _consoleCaretIndex, value);
         }
 
 #endregion Bound properties
@@ -469,6 +479,7 @@ namespace FloaderClientGUI.ViewModels
         {
             ConsoleText += $"{ line }{ Environment.NewLine }";
 
+            ConsoleCaretIndex = ConsoleText.Length;
         }
 
         /// <summary>

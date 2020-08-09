@@ -51,7 +51,7 @@
                             IsEnabled="{Binding IsPollDeviceEnabled}" /> <!-- Poll device button-->
 
                         <Button Content="Reboot" Classes="TopMargin" Command="{Binding Reboot}"
-								IsEnabled="{Binding IsRebootEnabled}"/> <!-- Reboot into firmware button -->
+                            IsEnabled="{Binding IsRebootEnabled}"/> <!-- Reboot into firmware button -->
                     </StackPanel>
                 </Grid>
             </StackPanel>
@@ -149,7 +149,7 @@
 
                 <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="*, Auto">
                     <TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" AcceptsReturn="True" IsReadOnly="True"
-                        Text="{Binding ConsoleText}"/>
+                        Text="{Binding ConsoleText}" CaretIndex="{Binding ConsoleCaretIndex}" />
 
                     <Button Grid.Column="0" Grid.Row="1" Content="Copy" Classes="TopMargin" 
                         Command="{Binding CopyConsoleToClipboard}" /> <!-- Copy log -->
