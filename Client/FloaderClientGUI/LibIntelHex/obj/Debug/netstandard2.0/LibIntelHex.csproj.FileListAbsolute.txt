@@ -1,0 +1,9 @@
+C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHex\bin\Debug\netstandard2.0\LibIntelHex.deps.json
+C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHex\bin\Debug\netstandard2.0\LibIntelHex.dll
+C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHex\bin\Debug\netstandard2.0\LibIntelHex.pdb
+C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHex\obj\Debug\netstandard2.0\LibIntelHex.csprojAssemblyReference.cache
+C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHex\obj\Debug\netstandard2.0\LibIntelHex.AssemblyInfoInputs.cache
+C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHex\obj\Debug\netstandard2.0\LibIntelHex.AssemblyInfo.cs
+C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHex\obj\Debug\netstandard2.0\LibIntelHex.csproj.CoreCompileInputs.cache
+C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHex\obj\Debug\netstandard2.0\LibIntelHex.dll
+C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHex\obj\Debug\netstandard2.0\LibIntelHex.pdb

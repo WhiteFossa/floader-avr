@@ -220,5 +220,29 @@ namespace LibFloaderClient.Implementations.Device
         {
             return new InvalidOperationException("Version must be 1.");
         }
+
+        public void DownloadFromDevice(string flashPath, string eepromPath)
+        {
+            if (string.IsNullOrEmpty(flashPath))
+            {
+                throw new ArgumentException("FLASH file to download into must be specified.", nameof(flashPath));
+            }
+
+            if (string.IsNullOrEmpty(eepromPath))
+            {
+                throw new ArgumentException("EEPROM file to download into must be specified.", nameof(eepromPath));
+            }
+
+            if (flashPath.Equals(eepromPath))
+            {
+                throw new ArgumentException("FLASH and EEPROM files must differ.");
+            }
+
+            _logger.LogInfo($"Downloading FLASH into { flashPath }...");
+
+            var flashData = ReadAllFlash();
+
+            _logger.LogInfo("Done");
+        }
     }
 }

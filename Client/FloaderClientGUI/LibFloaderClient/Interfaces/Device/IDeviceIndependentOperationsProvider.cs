@@ -39,5 +39,10 @@ namespace LibFloaderClient.Interfaces.Device
         /// Reboot device to firmware
         /// </summary>
         void RebootToFirmware();
+
+        /// <summary>
+        /// Download data from device into given HEX files
+        /// </summary>
+        void DownloadFromDevice(string flashPath, string eepromPath);
     }
 }

@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloaderClientGUI", "GUI\FloaderClientGUI.csproj", "{3EE7D736-880E-4735-8068-2B5D64A57C41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FloaderClientGUI", "GUI\FloaderClientGUI.csproj", "{3EE7D736-880E-4735-8068-2B5D64A57C41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibFloaderClient", "LibFloaderClient\LibFloaderClient.csproj", "{47932368-AFBE-45E9-8381-27711D7688D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibFloaderClient", "LibFloaderClient\LibFloaderClient.csproj", "{47932368-AFBE-45E9-8381-27711D7688D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibIntelHex", "LibIntelHex\LibIntelHex.csproj", "{246210FC-F05A-4DA3-B4DD-B241B3DDA6CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3EE7D736-880E-4735-8068-2B5D64A57C41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -44,5 +43,23 @@ Global
 		{47932368-AFBE-45E9-8381-27711D7688D1}.Release|x64.Build.0 = Release|Any CPU
 		{47932368-AFBE-45E9-8381-27711D7688D1}.Release|x86.ActiveCfg = Release|Any CPU
 		{47932368-AFBE-45E9-8381-27711D7688D1}.Release|x86.Build.0 = Release|Any CPU
+		{246210FC-F05A-4DA3-B4DD-B241B3DDA6CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{246210FC-F05A-4DA3-B4DD-B241B3DDA6CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{246210FC-F05A-4DA3-B4DD-B241B3DDA6CE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{246210FC-F05A-4DA3-B4DD-B241B3DDA6CE}.Debug|x64.Build.0 = Debug|Any CPU
+		{246210FC-F05A-4DA3-B4DD-B241B3DDA6CE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{246210FC-F05A-4DA3-B4DD-B241B3DDA6CE}.Debug|x86.Build.0 = Debug|Any CPU
+		{246210FC-F05A-4DA3-B4DD-B241B3DDA6CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{246210FC-F05A-4DA3-B4DD-B241B3DDA6CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{246210FC-F05A-4DA3-B4DD-B241B3DDA6CE}.Release|x64.ActiveCfg = Release|Any CPU
+		{246210FC-F05A-4DA3-B4DD-B241B3DDA6CE}.Release|x64.Build.0 = Release|Any CPU
+		{246210FC-F05A-4DA3-B4DD-B241B3DDA6CE}.Release|x86.ActiveCfg = Release|Any CPU
+		{246210FC-F05A-4DA3-B4DD-B241B3DDA6CE}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E531EC12-7C0C-4125-80C4-0D0AA2F921D1}
 	EndGlobalSection
 EndGlobal

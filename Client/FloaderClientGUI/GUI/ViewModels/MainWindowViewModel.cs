@@ -484,36 +484,13 @@ namespace FloaderClientGUI.ViewModels
                 return;
             }
 
-            if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
+            try
             {
-                try
-                {
-                    // Testing
-                    var eeprom = _deviceIndependentOperationsProvider.ReadAllEEPROM();
-
-                    eeprom[0] = 98;
-                    eeprom[1] = 44;
-                    eeprom[2] = 10;
-
-                    _deviceIndependentOperationsProvider.WriteAllEEPROM(eeprom);
-
-                    var flash = _deviceIndependentOperationsProvider.ReadAllFlash();
-
-                    flash[10] = 98;
-                    flash[11] = 44;
-                    flash[12] = 10;
-
-                    _deviceIndependentOperationsProvider.WriteAllFlash(flash);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"Exception: { ex.Message }");
-                    _logger.LogError($"Stack trace: { ex.StackTrace }");
-                }
+                _deviceIndependentOperationsProvider.DownloadFromDevice(FlashDownloadFile, EepromDownloadFile);
             }
-            else
+            catch(Exception ex)
             {
-                throw new InvalidOperationException("Unsupported version");
+                _logger.LogError($"Error: { ex.Message }, Stack trace: { ex.StackTrace }");
             }
         }
 
