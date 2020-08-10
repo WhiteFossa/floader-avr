@@ -50,6 +50,11 @@
             <Setter Property="Margin" Value="0, 5, 0, 0" />
         </Style>
 
+        <!-- Button with left margin -->
+        <Style Selector="Button.LeftMargin">
+            <Setter Property="Margin" Value="5, 0, 0, 0" />
+        </Style>
+
         <!-- Stack panel with top margin -->
         <Style Selector="StackPanel.TopMargin">
             <Setter Property="Margin" Value="0, 5, 0, 0" />

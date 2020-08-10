@@ -67,10 +67,10 @@
                                 IsChecked="{Binding IsFlashUpload}" /> <!-- FLASH checkbox -->
 
                             <TextBox Watermark="Select FLASH HEX file" Grid.Column="1" Grid.Row="0"
-                                Text="{Binding FlashUploadFile}" /> <!-- FLASH file -->
+                                Text="{Binding FlashUploadFile}" IsReadOnly="True" /> <!-- FLASH file -->
 
-                            <Button Content="..." Grid.Column="2" Grid.Row="0"
-                                Command="{Binding SelectFlashForUpload}" /> <!-- Select FLASH file button -->
+                            <Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
+                                Command="{Binding SelectFlashForUploadAsync}" /> <!-- Select FLASH file button -->
                         </Grid>
                     </DockPanel>
 
@@ -80,22 +80,21 @@
                                 IsChecked="{Binding IsEepromUpload}" /> <!-- EEPROM checkbox -->
 
                             <TextBox Watermark="Select EEPROM HEX file" Grid.Column="1" Grid.Row="0"
-                                Text="{Binding EepromUploadFile}" /> <!-- EEPROM file -->
+                                Text="{Binding EepromUploadFile}" IsReadOnly="True" /> <!-- EEPROM file -->
 
-                            <Button Content="..." Grid.Column="2" Grid.Row="0"
-                                Command="{Binding SelectEepromForUpload}" /> <!-- Select EEPROM file button -->
+                            <Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
+                                Command="{Binding SelectEepromForUploadAsync}" /> <!-- Select EEPROM file button -->
                         </Grid>
                     </DockPanel>
 
                     <DockPanel Classes="TopMargin">
                         <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-                            <CheckBox Content="Backups:" Classes="RightMargin" Grid.Column="0" Grid.Row="0"
-                                IsChecked="{Binding IsBackupBeforeUpload}" /> <!-- Backups checkbox-->
+                            <TextBlock Text="Backups:" Classes="RightMargin" Grid.Column="0" Grid.Row="0" /> <!-- Backups label -->
 
                             <TextBox Watermark="Select backups directory" Grid.Column="1" Grid.Row="0"
-                                Text="{Binding UploadBackupsDirectory}" /> <!-- Backups directory -->
+                                Text="{Binding UploadBackupsDirectory}" IsReadOnly="True" /> <!-- Backups directory -->
 
-                            <Button Content="..." Grid.Column="2" Grid.Row="0"
+                            <Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
                                 Command="{Binding SelectBackupsDirectory}" /> <!-- Select backups directory button -->
                         </Grid>
                     </DockPanel>
@@ -116,9 +115,9 @@
                             <TextBlock Text="FLASH:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
 
                             <TextBox Watermark="Write FLASH HEX into this file" Grid.Column="1" Grid.Row="0"
-                                Text="{Binding FlashDownloadFile}" /> <!-- FLASH file -->
+                                Text="{Binding FlashDownloadFile}" IsReadOnly="True" /> <!-- FLASH file -->
 
-                            <Button Grid.Column="2" Grid.Row="0" Content="..."
+                            <Button Grid.Column="2" Grid.Row="0" Content="..." Classes="LeftMargin"
                                 Command="{Binding SelectFlashForDownloadAsync}" /> <!-- Select FLASH file button -->
                         </Grid>
                     </DockPanel>
@@ -128,9 +127,9 @@
                             <TextBlock Text="EEPROM:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
 
                             <TextBox Watermark="Write EEPROM HEX into this file" Grid.Column="1" Grid.Row="0"
-                                Text="{Binding EepromDownloadFile}" /> <!-- EEPROM file -->
+                                Text="{Binding EepromDownloadFile}" IsReadOnly="True" /> <!-- EEPROM file -->
 
-                            <Button Grid.Column="2" Grid.Row="0" Content="..." 
+                            <Button Grid.Column="2" Grid.Row="0" Content="..." Classes="LeftMargin"
                                 Command="{Binding SelectEepromForDownloadAsync}" /> <!-- Select EEPROM file button -->
                         </Grid>
                     </DockPanel>

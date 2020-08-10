@@ -8,6 +8,9 @@ using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Logger;
 using LibFloaderClient.Interfaces.Versioned.Common;
 using LibFloaderClient.Models.Device;
+using MessageBox.Avalonia;
+using MessageBox.Avalonia.DTO;
+using MessageBox.Avalonia.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using System;
@@ -36,7 +39,6 @@ namespace FloaderClientGUI.ViewModels
         private string _serialNumber;
         private bool _isFlashUpload;
         private bool _isEepromUpload;
-        private bool _isBackupBeforeUpload;
         private string _flashUploadFile;
         private string _eepromUploadFile;
         private string _uploadBackupsDirectory;
@@ -112,16 +114,6 @@ namespace FloaderClientGUI.ViewModels
         }
 
         /// <summary>
-        /// Do we need to make backups before upload?
-        /// </summary>
-        /// <value></value>
-        public bool IsBackupBeforeUpload
-        {
-            get => _isBackupBeforeUpload;
-            set => this.RaiseAndSetIfChanged(ref _isBackupBeforeUpload, value);
-        }
-
-        /// <summary>
         /// Get FLASH for upload from this file
         /// </summary>
         public string FlashUploadFile
@@ -154,7 +146,11 @@ namespace FloaderClientGUI.ViewModels
         public string FlashDownloadFile
         {
             get => _flashDownloadFile;
-            set => this.RaiseAndSetIfChanged(ref _flashDownloadFile, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _flashDownloadFile, value);
+                SetDownloadButtonState();
+            }
         }
 
         /// <summary>
@@ -163,7 +159,11 @@ namespace FloaderClientGUI.ViewModels
         public string EepromDownloadFile
         {
             get => _eepromDownloadFile;
-            set => this.RaiseAndSetIfChanged(ref _eepromDownloadFile, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _eepromDownloadFile, value);
+                SetDownloadButtonState();
+            }
         }
 
         /// <summary>
@@ -259,7 +259,6 @@ namespace FloaderClientGUI.ViewModels
             // Setting up port selection VM
             PortSelectionVM = new PortSelectionWindowViewModel();
 
-            IsBackupBeforeUpload = true;
             SetPollDeviceState();
 
             _isReady = false;
@@ -378,17 +377,19 @@ namespace FloaderClientGUI.ViewModels
         /// <summary>
         /// Select FLASH file to upload
         /// </summary>
-        public void SelectFlashForUpload()
+        public async void SelectFlashForUploadAsync()
         {
-            FlashUploadFile = "FLASH HEX file";
+            var dialog = PrepareOpenHexDialog();
+            FlashUploadFile = (await dialog.ShowAsync(Program.GetMainWindow())).FirstOrDefault();
         }
 
         /// <summary>
         /// Select EEPROM file to upload
         /// </summary>
-        public void SelectEepromForUpload()
+        public async void SelectEepromForUploadAsync()
         {
-            EepromUploadFile = "EEPROM HEX file";
+            var dialog = PrepareOpenHexDialog();
+            EepromUploadFile = (await dialog.ShowAsync(Program.GetMainWindow())).FirstOrDefault();
         }
 
         /// <summary>
@@ -433,6 +434,20 @@ namespace FloaderClientGUI.ViewModels
         }
 
         /// <summary>
+        /// Prepare dialog to open Intel's HEX
+        /// </summary>
+        private OpenFileDialog PrepareOpenHexDialog()
+        {
+            var dialog = new OpenFileDialog();
+            // TODO: load texts from resources
+            dialog.Filters.Add(new FileDialogFilter() { Name = "Intel HEX", Extensions = { "hex", "HEX" } });
+            dialog.Filters.Add(new FileDialogFilter() { Name = "All files", Extensions = { "*" } });
+            dialog.AllowMultiple = false;
+
+            return dialog;
+        }
+
+        /// <summary>
         /// Select EEPROM file for download
         /// </summary>
         public async void SelectEepromForDownloadAsync()
@@ -448,6 +463,26 @@ namespace FloaderClientGUI.ViewModels
         public void Download()
         {
             CheckReadyness();
+
+            // FLASH and EEPROM must differ
+            if (FlashDownloadFile.Equals(EepromDownloadFile))
+            {
+                var message = $"FLASH and EEPROM files to download into must differ.";
+
+                MessageBoxManager.GetMessageBoxStandardWindow(
+                    new MessageBoxStandardParams()
+                    {
+                        ContentTitle = "Files must differ",
+                        ContentMessage = message,
+                        Icon = Icon.Warning,
+                        ButtonDefinitions = ButtonEnum.Ok
+                    })
+                    .Show();
+
+                _logger.LogWarning(message);
+
+                return;
+            }
 
             if (_mainModel.DeviceIdentData.Version == (int)ProtocolVersion.First)
             {
@@ -541,8 +576,9 @@ namespace FloaderClientGUI.ViewModels
         private void SetActionsButtonsState(bool isEnable)
         {
             IsUploadEnabled = isEnable;
-            IsDownloadEnabled = isEnable;
-            IsRebootEnabled = isEnable;
+
+            SetRebootButtonState();
+            SetDownloadButtonState();
         }
 
         /// <summary>
@@ -566,6 +602,22 @@ Please, select another device.");
                 _logger.LogError(message);
                 throw new InvalidOperationException(message);
             }
+        }
+
+        /// <summary>
+        /// Checks conditions and enables/disables "Download" button
+        /// </summary>
+        private void SetDownloadButtonState()
+        {
+            IsDownloadEnabled = _isReady && !string.IsNullOrEmpty(FlashDownloadFile) && !string.IsNullOrEmpty(EepromDownloadFile);
+        }
+
+        /// <summary>
+        /// As SetDownloadButtonState(), but for reboot button
+        /// </summary>
+        private void SetRebootButtonState()
+        {
+            IsRebootEnabled = _isReady;
         }
     }
 }

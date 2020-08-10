@@ -12,3 +12,4 @@ Used 3rd party code:
 - dotnet add package Avalonia.ReactiveUI (MIT)
 - dotnet add package System.Data.SQLite (Public domain)
 - dotnet add package Dapper (Apache 2.0)
+- https://www.nuget.org/packages/MessageBox.Avalonia/ (Apache 2.0)
