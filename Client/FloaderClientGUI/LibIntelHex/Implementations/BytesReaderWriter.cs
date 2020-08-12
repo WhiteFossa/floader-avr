@@ -8,6 +8,11 @@ namespace LibIntelHex.Implementations
     public class BytesReaderWriter : IBytesReaderWriter
     {
         /// <summary>
+        /// One byte is encoded as two characters
+        /// </summary>
+        private const int ByteLengthInChars = 2;
+
+        /// <summary>
         /// Nibble (half-byte) to string representation conversion table
         /// </summary>
         private readonly Dictionary<int, string> NibbleToStringTable = new Dictionary<int, string>()
@@ -46,15 +51,31 @@ namespace LibIntelHex.Implementations
 
         public byte FromHex(string hexString)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(hexString) || hexString.Length != ByteLengthInChars)
+            {
+                throw new ArgumentException(nameof(hexString));
+            }
+
+            var upcasedStr = hexString.ToUpper();
+            var highChar = upcasedStr.Substring(0, 1);
+            var lowChar = upcasedStr.Substring(1, 1);
+
+            try
+            {
+                return (byte)(((StringToNibbleTable[highChar] << 4) + StringToNibbleTable[lowChar]) & 0xFF);
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new ArgumentException(hexString);
+            }
         }
 
         public string ToHex(byte b)
         {
-            var hightNibble = ((b & 0xF0) >> 4);
+            var highNibble = ((b & 0xF0) >> 4);
             var lowNibble = b & 0x0F;
 
-            return $"{ NibbleToStringTable[hightNibble] }{ NibbleToStringTable[lowNibble] }";
+            return $"{ NibbleToStringTable[highNibble] }{ NibbleToStringTable[lowNibble] }";
         }
     }
 }
