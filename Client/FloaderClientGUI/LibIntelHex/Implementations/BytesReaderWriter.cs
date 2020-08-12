@@ -51,7 +51,10 @@ namespace LibIntelHex.Implementations
 
         public string ToHex(byte b)
         {
-            throw new NotImplementedException();
+            var hightNibble = ((b & 0xF0) >> 4);
+            var lowNibble = b & 0x0F;
+
+            return $"{ NibbleToStringTable[hightNibble] }{ NibbleToStringTable[lowNibble] }";
         }
     }
 }
