@@ -5,7 +5,8 @@ using System;
 
 namespace LibIntelHexTests
 {
-    public class Tests
+    [TestFixture]
+    public class ByteReaderWriterTests
     {
         private IBytesReaderWriter _bytesReaderWriter;
 
