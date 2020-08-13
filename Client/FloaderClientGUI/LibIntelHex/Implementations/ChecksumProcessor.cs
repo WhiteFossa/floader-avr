@@ -1,7 +1,6 @@
 ﻿using LibIntelHex.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LibIntelHex.Implementations
 {
