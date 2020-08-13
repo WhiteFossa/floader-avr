@@ -5,16 +5,16 @@ namespace LibIntelHex.Interfaces
     /// <summary>
     /// Interface to calculate / check Intel HEX checksums
     /// </summary>
-    public interface IChecksummProcessor
+    public interface IChecksumProcessor
     {
         /// <summary>
-        /// Calculates checksumm for given data.
+        /// Calculates checksum for given data.
         /// </summary>
-        byte CalculateChecksumm(List<byte> data);
+        byte CalculateChecksum(List<byte> data);
 
         /// <summary>
-        /// Checks checksumm for given data, checksumm must be in the last byte
+        /// Checks checksum for given data, checksum must be in the last byte
         /// </summary>
-        bool CheckChecksumm(List<byte> data);
+        bool VerifyChecksum(List<byte> data);
     }
 }
