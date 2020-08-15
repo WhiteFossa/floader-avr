@@ -2,14 +2,13 @@
 using LibIntelHex.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LibIntelHex.Models
 {
     /// <summary>
     /// Base class for all types of Intel HEX records
     /// </summary>
-    public class RecordBase
+    public class RecordBase : IRecordBase
     {
         /// <summary>
         /// Maximal possible data length
