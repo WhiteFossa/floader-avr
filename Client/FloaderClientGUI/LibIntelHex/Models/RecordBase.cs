@@ -1,4 +1,5 @@
 ﻿using LibIntelHex.Enums;
+using LibIntelHex.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -40,8 +41,12 @@ namespace LibIntelHex.Models
         /// </summary>
         public List<byte> Data { get; }
 
-        public RecordBase(int address, RecordType type, List<byte> data)
+        private readonly IRecordFormatter _recordFormatter;
+
+        public RecordBase(int address, RecordType type, List<byte> data, IRecordFormatter recordFormatter)
         {
+            _recordFormatter = recordFormatter;
+
             if (address < 0 || address > MaxAddress)
             {
                 throw new ArgumentOutOfRangeException(nameof(address), address, $"Address must be within [0, { MaxAddress }] interval.");
@@ -78,6 +83,16 @@ namespace LibIntelHex.Models
             result.AddRange(Data);
 
             return result;
+        }
+
+        /// <summary>
+        /// Formats record to ready to write Intel HEX line (starting with ":" and ending with checksum)
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            var data = ToDataList();
+            return _recordFormatter.FormatRawRecord(data);
         }
     }
 }
