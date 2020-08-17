@@ -77,5 +77,18 @@ namespace LibIntelHex.Implementations.Writer
 
             Data = Data.Prepend<byte>(data).ToList();
         }
+
+        /// <summary>
+        /// Appends new block (if possible) to the end of current one
+        /// </summary>
+        public void AppendBlock(DataBlock block)
+        {
+            if (!IsByteAppendable(block.BaseAddress))
+            {
+                throw new ArgumentException($"Block with base address { block.BaseAddress } can't be appended.", nameof(block.BaseAddress));
+            }
+
+            Data.AddRange(block.Data);
+        }
     }
 }

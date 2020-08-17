@@ -44,23 +44,51 @@ namespace LibIntelHexTests
         [TestCase(1, 1, false)]
         [TestCase(1, 0, false)]
         [TestCase(65534, 65535, true)]
-        public void CheckForIsAppendable(int address1, int address2, bool isAppendable)
+        public void TestIsAppendable(int address1, int address2, bool isAppendable)
         {
             var block = new DataBlock(address1, 0x00);
             Assert.AreEqual(isAppendable, block.IsByteAppendable(address2));
         }
 
         /// <summary>
-        /// As CheckForIsAppendable(), but for byte prepending
+        /// As a TestIsAppendable(), but for byte prepending
         /// </summary>
         [TestCase(0, 1, false)]
         [TestCase(1, 1, false)]
         [TestCase(1, 0, true)]
         [TestCase(65535, 65534, true)]
-        public void CheckForIsPrependable(int address1, int address2, bool isPrependable)
+        public void TestIsPrependable(int address1, int address2, bool isPrependable)
         {
             var block = new DataBlock(address1, 0x00);
             Assert.AreEqual(isPrependable, block.IsBytePrependable(address2));
+        }
+
+        /// <summary>
+        /// Test for bytes append
+        /// </summary>
+        [TestCaseSource(nameof(TestByteAppendSource))]
+        public void TestByteAppned(Tuple<DataBlock, int, byte, int, List<byte>> testCase)
+        {
+            testCase.Item1.AppendByte(testCase.Item2, testCase.Item3);
+            Assert.AreEqual(testCase.Item1.BaseAddress, testCase.Item4);
+            Assert.AreEqual(true, testCase.Item1.Data.SequenceEqual(testCase.Item5));
+        }
+
+        public static IEnumerable<Tuple<DataBlock, int, byte, int, List<byte>>> TestByteAppendSource()
+        {
+            yield return new Tuple<DataBlock, int, byte, int, List<byte>>(
+                new DataBlock(0, 0xA5),
+                1,
+                0x5A,
+                0,
+                new List<byte>() { 0xA5, 0x5A });
+
+            yield return new Tuple<DataBlock, int, byte, int, List<byte>>(
+                new DataBlock(65534, 0xA5),
+                65535,
+                0x5A,
+                65534,
+                new List<byte>() { 0xA5, 0x5A });
         }
     }
 }
