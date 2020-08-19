@@ -14,7 +14,7 @@ namespace LibIntelHex.Implementations.Writer
         /// <summary>
         /// Block base address
         /// </summary>
-        public int BaseAddress { get; }
+        public int BaseAddress { get; private set; }
 
         /// <summary>
         /// Sequential data in block
@@ -76,6 +76,7 @@ namespace LibIntelHex.Implementations.Writer
             }
 
             Data = Data.Prepend<byte>(data).ToList();
+            BaseAddress --;
         }
 
         /// <summary>

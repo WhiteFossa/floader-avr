@@ -90,5 +90,75 @@ namespace LibIntelHexTests
                 65534,
                 new List<byte>() { 0xA5, 0x5A });
         }
+
+        /// <summary>
+        /// Test for incorrect byte address detection during append
+        /// </summary>
+        [Test]
+        public void TestByteAppendError()
+        {
+            Assert.Throws<ArgumentException>(() => (new DataBlock(0, 0x5A)).AppendByte(2, 0xA5));
+        }
+
+        /// <summary>
+        /// Test for bytes prepend
+        /// </summary>
+        [TestCaseSource(nameof(TestBytePrependSource))]
+        public void TestBytePrepend(Tuple<DataBlock, int, byte, int, List<byte>> testCase)
+        {
+            testCase.Item1.PrependByte(testCase.Item2, testCase.Item3);
+            Assert.AreEqual(testCase.Item1.BaseAddress, testCase.Item4);
+            Assert.AreEqual(true, testCase.Item1.Data.SequenceEqual(testCase.Item5));
+        }
+
+        public static IEnumerable<Tuple<DataBlock, int, byte, int, List<byte>>> TestBytePrependSource()
+        {
+            yield return new Tuple<DataBlock, int, byte, int, List<byte>>(
+                new DataBlock(1, 0xA5),
+                0,
+                0x5A,
+                0,
+                new List<byte>() { 0x5A, 0xA5 });
+
+            yield return new Tuple<DataBlock, int, byte, int, List<byte>>(
+                new DataBlock(65535, 0xA5),
+                65534,
+                0x5A,
+                65534,
+                new List<byte>() { 0x5A, 0xA5 });
+        }
+
+        /// <summary>
+        /// Test for data block append
+        /// </summary>
+        [TestCaseSource(nameof(TestBlockAppendSource))]
+        public void TestBlockAppend(Tuple<DataBlock, DataBlock, int, List<byte>> testCase)
+        {
+            testCase.Item1.AppendBlock(testCase.Item2);
+
+            Assert.AreEqual(testCase.Item1.BaseAddress, testCase.Item3);
+            Assert.AreEqual(true, testCase.Item1.Data.SequenceEqual(testCase.Item4));
+        }
+
+        public static IEnumerable<Tuple<DataBlock, DataBlock, int, List<byte>>> TestBlockAppendSource()
+        {
+            yield return new Tuple<DataBlock, DataBlock, int, List<byte>>(
+                new DataBlock(0, 0x5A),
+                new DataBlock(1, 0xA5),
+                0,
+                new List<byte>() { 0x5A, 0xA5 });
+        }
+
+        /// <summary>
+        /// Testing exception generation for an incorrect blocks order
+        /// </summary>
+        [Test]
+        public void TestBlockAppendError()
+        {
+            var block1 = new DataBlock(100, 0x5A);
+            var block2 = new DataBlock(99, 0xA5);
+
+            Assert.Throws<ArgumentException>(() => block1.AppendBlock(block2));
+        }
     }
 }
