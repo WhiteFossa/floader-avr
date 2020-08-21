@@ -43,16 +43,6 @@ namespace LibIntelHex.Implementations.Writer
         }
 
         /// <summary>
-        /// As IsByteAppendable(), but checks can byte be prepended to the beginning of the block
-        /// </summary>
-        public bool IsBytePrependable(int address)
-        {
-            ValidationHelper.ValidateAddress(address);
-
-            return BaseAddress != 0 && address == BaseAddress - 1;
-        }
-
-        /// <summary>
         /// Attempts to append a byte to the end ot data block
         /// </summary>
         public void AppendByte(int address, byte data)
@@ -63,33 +53,6 @@ namespace LibIntelHex.Implementations.Writer
             }
 
             Data.Add(data);
-        }
-
-        /// <summary>
-        /// As AppendByte(), but to prepend byte
-        /// </summary>
-        public void PrependByte(int address, byte data)
-        {
-            if (!IsBytePrependable(address))
-            {
-                throw new ArgumentException($"Byte with address { address } can't be prepended.", nameof(address));
-            }
-
-            Data = Data.Prepend<byte>(data).ToList();
-            BaseAddress --;
-        }
-
-        /// <summary>
-        /// Appends new block (if possible) to the end of current one
-        /// </summary>
-        public void AppendBlock(DataBlock block)
-        {
-            if (!IsByteAppendable(block.BaseAddress))
-            {
-                throw new ArgumentException($"Block with base address { block.BaseAddress } can't be appended.", nameof(block.BaseAddress));
-            }
-
-            Data.AddRange(block.Data);
         }
     }
 }
