@@ -84,9 +84,21 @@ namespace LibIntelHexTests
             _hexWriter.AddByte(62, 0x9A);
             _hexWriter.AddByte(63, 0xE1);
 
+            // Incomplete line
+            _hexWriter.AddByte(80, 0xFF);
+            _hexWriter.AddByte(81, 0xCF);
+
+
             var result = _hexWriter.ToString();
 
-            int a = 10;
+            var expectedResult = @":1000000009C00EC00DC00CC00BC00AC009C008C09A
+:1000100007C006C011241FBECFE9CDBF02D017C054
+:100030009040E1F700C00000C09A2FEF8DE59AE1F3
+:02005000FFCFE0
+:00000001FF
+";
+
+            Assert.AreEqual(expectedResult, result);
         }
     }
 }
