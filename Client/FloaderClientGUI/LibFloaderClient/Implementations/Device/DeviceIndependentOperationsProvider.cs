@@ -21,6 +21,11 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private const int FlashBaseAddress = 0;
 
+        /// <summary>
+        /// As FlashBaseAddress, but for EEPROM
+        /// </summary>
+        private const int EepromBaseAddress = 0;
+
         private readonly ILogger _logger;
         private readonly IHexWriter _hexWriter;
 
@@ -254,6 +259,16 @@ namespace LibFloaderClient.Implementations.Device
             _hexWriter.LoadFromList(FlashBaseAddress, flashData);
             _hexWriter.WriteToFile(flashPath);
             _logger.LogInfo("Done");
+
+            _logger.LogInfo($"Downloading EEPROM into { eepromPath }...");
+            var eepromData = ReadAllEEPROM();
+
+            _logger.LogInfo($"Downloaded. Writting to file...");
+            _hexWriter.LoadFromList(EepromBaseAddress, eepromData);
+            _hexWriter.WriteToFile(eepromPath);
+            _logger.LogInfo("Done");
+
+            _logger.LogInfo("Download completed.");
         }
     }
 }

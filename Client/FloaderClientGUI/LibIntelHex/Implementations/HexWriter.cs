@@ -52,6 +52,7 @@ namespace LibIntelHex.Implementations
         public void LoadFromList(int baseAddress, List<byte> data)
         {
             ValidationHelper.ValidateAddress(baseAddress);
+            Reset();
 
             var address = baseAddress;
             foreach(var dataByte in data)

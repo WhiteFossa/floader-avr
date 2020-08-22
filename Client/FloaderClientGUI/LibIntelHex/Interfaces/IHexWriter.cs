@@ -17,6 +17,7 @@ namespace LibIntelHex.Interfaces
         /// </summary>
         void AddByte(int address, byte data);
 
+        /// TODO: Cover it with tests
         /// <summary>
         /// Load data to write from list.
         /// </summary>
