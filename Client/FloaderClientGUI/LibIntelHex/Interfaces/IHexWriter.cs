@@ -1,4 +1,6 @@
-﻿namespace LibIntelHex.Interfaces
+﻿using System.Collections.Generic;
+
+namespace LibIntelHex.Interfaces
 {
     /// <summary>
     /// Intel HEX writer (only 8bit)
@@ -16,8 +18,19 @@
         void AddByte(int address, byte data);
 
         /// <summary>
+        /// Load data to write from list.
+        /// </summary>
+        /// <param name="baseAddress">Address of first byte in list</param>
+        void LoadFromList(int baseAddress, List<byte> data);
+
+        /// <summary>
         /// Generate Intel HEX file contents and put it into string
         /// </summary>
         string ToString();
+
+        /// <summary>
+        /// Generates and writes generated Intel HEX into file. If file exists, it would be overwritten.
+        /// </summary>
+        void WriteToFile(string path);
     }
 }

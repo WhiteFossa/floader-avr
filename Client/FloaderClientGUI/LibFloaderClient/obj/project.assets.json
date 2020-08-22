@@ -279,6 +279,16 @@
             "rid": "win"
           }
         }
+      },
+      "LibIntelHex/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/LibIntelHex.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/LibIntelHex.dll": {}
+        }
       }
     }
   },
@@ -1001,11 +1011,17 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "LibIntelHex/1.0.0": {
+      "type": "project",
+      "path": "../LibIntelHex/LibIntelHex.csproj",
+      "msbuildProject": "../LibIntelHex/LibIntelHex.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
       "Dapper >= 2.0.35",
+      "LibIntelHex >= 1.0.0",
       "NETStandard.Library >= 2.0.3",
       "System.Data.SQLite >= 1.0.113.1",
       "System.IO.Ports >= 4.7.0"
@@ -1036,7 +1052,11 @@
       },
       "frameworks": {
         "netstandard2.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibIntelHex\\LibIntelHex.csproj": {
+              "projectPath": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibIntelHex\\LibIntelHex.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

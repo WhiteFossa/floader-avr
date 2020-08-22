@@ -6,6 +6,7 @@ using LibFloaderClient.Interfaces.Versioned.Driver;
 using LibFloaderClient.Models.Device;
 using LibFloaderClient.Models.Device.Versioned;
 using LibFloaderClient.Models.Port;
+using LibIntelHex.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,13 @@ namespace LibFloaderClient.Implementations.Device
 {
     public class DeviceIndependentOperationsProvider : IDeviceIndependentOperationsProvider
     {
-        private ILogger _logger;
+        /// <summary>
+        /// When ReadAllFlash() called, first read byte will have this address.
+        /// </summary>
+        private const int FlashBaseAddress = 0;
+
+        private readonly ILogger _logger;
+        private readonly IHexWriter _hexWriter;
 
         /// <summary>
         /// Is provider ready to work?
@@ -37,9 +44,11 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private DeviceIdentifierData _deviceIdentificationData;
 
-        public DeviceIndependentOperationsProvider(ILogger logger)
+        public DeviceIndependentOperationsProvider(ILogger logger,
+            IHexWriter hexWriter)
         {
             _logger = logger;
+            _hexWriter = hexWriter;
         }
 
         public List<byte> ReadAllEEPROM()
@@ -239,9 +248,11 @@ namespace LibFloaderClient.Implementations.Device
             }
 
             _logger.LogInfo($"Downloading FLASH into { flashPath }...");
-
             var flashData = ReadAllFlash();
 
+            _logger.LogInfo($"Downloaded. Writting to file...");
+            _hexWriter.LoadFromList(FlashBaseAddress, flashData);
+            _hexWriter.WriteToFile(flashPath);
             _logger.LogInfo("Done");
         }
     }

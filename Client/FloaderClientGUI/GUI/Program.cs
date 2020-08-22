@@ -14,6 +14,8 @@ using LibFloaderClient.Interfaces.Logger;
 using LibFloaderClient.Interfaces.SerialPortsLister;
 using LibFloaderClient.Interfaces.Versioned.Common;
 using LibFloaderClient.Interfaces.Versioned.Driver;
+using LibIntelHex.Implementations;
+using LibIntelHex.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FloaderClientGUI
@@ -59,6 +61,11 @@ namespace FloaderClientGUI
             services.AddSingleton<IDeviceDriverV1, DeviceDriverV1>();
             services.AddSingleton<IDeviceIndependentOperationsProvider, DeviceIndependentOperationsProvider>();
 
+            // Dependencies for LibIHEX
+            services.AddSingleton<IBytesReaderWriter, BytesReaderWriter>();
+            services.AddSingleton<IChecksumProcessor, ChecksumProcessor>();
+            services.AddSingleton<IHexWriter, HexWriter>();
+            services.AddSingleton<IRecordFormatter, RecordFormatter>();
 
             return services;
         }

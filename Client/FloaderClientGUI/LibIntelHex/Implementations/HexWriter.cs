@@ -5,6 +5,7 @@ using LibIntelHex.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -45,6 +46,18 @@ namespace LibIntelHex.Implementations
             catch (ArgumentException ex)
             {
                 throw new InvalidOperationException($"Byte with address { address } was already added to writer.");
+            }
+        }
+
+        public void LoadFromList(int baseAddress, List<byte> data)
+        {
+            ValidationHelper.ValidateAddress(baseAddress);
+
+            var address = baseAddress;
+            foreach(var dataByte in data)
+            {
+                AddByte(address, dataByte);
+                address ++;
             }
         }
 
@@ -112,6 +125,16 @@ namespace LibIntelHex.Implementations
             sb.Append(new EndOfFileRecord(_recordFormatter).ToString());
 
             return sb.ToString();
+        }
+
+        public void WriteToFile(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentException("Path must not be null or empty", nameof(path));
+            }
+
+            File.WriteAllText(path, ToString());
         }
     }
 }

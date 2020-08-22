@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "9/EaQn+xDOmyFxdsUEcpQ7pR0ucaSB5pC+vDmp0YNiO6yIcqhrP0YkW49mL7NRMvozJYxPW0HuYqZrupYg6G+Q==",
+  "dgSpecHash": "siA9aN6+ooyvIDFuGC3kbWaXDkXihSt8sEHOzvM8nb6EUQetPL72RCb5jMRkO1meEe8+rPFEBrbFAoJHhilIjg==",
   "success": true,
   "projectFilePath": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibFloaderClient\\LibFloaderClient.csproj",
   "expectedPackageFiles": [
