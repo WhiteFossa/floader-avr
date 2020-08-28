@@ -44,5 +44,15 @@ namespace LibFloaderClient.Interfaces.Device
         /// Download data from device into given HEX files
         /// </summary>
         void DownloadFromDevice(string flashPath, string eepromPath);
+
+        /// <summary>
+        /// Generate filename for FLASH file download/backup
+        /// </summary>
+        string GenerateFlashFileName(bool isBackup);
+
+        /// <summary>
+        /// Generate filename for EEPROM file download/backup
+        /// </summary>
+        string GenerateEepromFileName(bool isBackup);
     }
 }

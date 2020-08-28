@@ -415,7 +415,7 @@ namespace FloaderClientGUI.ViewModels
         public async void SelectFlashForDownloadAsync()
         {
             var dialog = PrepareSaveHexDialog();
-            dialog.InitialFileName = "FLASH"; // TODO: Add datetime here
+            dialog.InitialFileName = _deviceIndependentOperationsProvider.GenerateFlashFileName(isBackup: false);
             FlashDownloadFile = await dialog.ShowAsync(Program.GetMainWindow());
         }
 
@@ -453,7 +453,7 @@ namespace FloaderClientGUI.ViewModels
         public async void SelectEepromForDownloadAsync()
         {
             var dialog = PrepareSaveHexDialog();
-            dialog.InitialFileName = "EEPROM"; // TODO: Add datetime here
+            dialog.InitialFileName = _deviceIndependentOperationsProvider.GenerateEepromFileName(isBackup: false);
             EepromDownloadFile = await dialog.ShowAsync(Program.GetMainWindow());
         }
 

@@ -1,5 +1,6 @@
 ﻿using LibFloaderClient.Implementations.Enums.Device;
 using LibFloaderClient.Implementations.Versioned.Driver;
+using LibFloaderClient.Interfaces.Auxiliary;
 using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Logger;
 using LibFloaderClient.Interfaces.Versioned.Driver;
@@ -28,6 +29,7 @@ namespace LibFloaderClient.Implementations.Device
 
         private readonly ILogger _logger;
         private readonly IHexWriter _hexWriter;
+        private readonly IFilenamesGenerator _filenamesGenerator;
 
         /// <summary>
         /// Is provider ready to work?
@@ -50,10 +52,12 @@ namespace LibFloaderClient.Implementations.Device
         private DeviceIdentifierData _deviceIdentificationData;
 
         public DeviceIndependentOperationsProvider(ILogger logger,
-            IHexWriter hexWriter)
+            IHexWriter hexWriter,
+            IFilenamesGenerator filenamesGenerator)
         {
             _logger = logger;
             _hexWriter = hexWriter;
+            _filenamesGenerator = filenamesGenerator;
         }
 
         public List<byte> ReadAllEEPROM()
@@ -269,6 +273,20 @@ namespace LibFloaderClient.Implementations.Device
             _logger.LogInfo("Done");
 
             _logger.LogInfo("Download completed.");
+        }
+
+        public string GenerateFlashFileName(bool isBackup)
+        {
+            IsSetUp();
+
+            return _filenamesGenerator.GenerateFLASHFilename(_deviceIdentificationData, isBackup);
+        }
+
+        public string GenerateEepromFileName(bool isBackup)
+        {
+            IsSetUp();
+
+            return _filenamesGenerator.GenerateEEPROMFilename(_deviceIdentificationData, isBackup);
         }
     }
 }

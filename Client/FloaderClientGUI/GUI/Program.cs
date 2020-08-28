@@ -3,11 +3,13 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
 using FloaderClientGUI.GUISpecific.Logger;
+using LibFloaderClient.Implementations.Auxiliary;
 using LibFloaderClient.Implementations.DAO;
 using LibFloaderClient.Implementations.Device;
 using LibFloaderClient.Implementations.SerialPortsLister;
 using LibFloaderClient.Implementations.Versioned.Common;
 using LibFloaderClient.Implementations.Versioned.Driver;
+using LibFloaderClient.Interfaces.Auxiliary;
 using LibFloaderClient.Interfaces.DAO;
 using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Logger;
@@ -60,6 +62,7 @@ namespace FloaderClientGUI
             services.AddSingleton<IDeviceDataGetter, DeviceDataGetter>();
             services.AddSingleton<IDeviceDriverV1, DeviceDriverV1>();
             services.AddSingleton<IDeviceIndependentOperationsProvider, DeviceIndependentOperationsProvider>();
+            services.AddSingleton<IFilenamesGenerator, FilenamesGenerator>();
 
             // Dependencies for LibIHEX
             services.AddSingleton<IBytesReaderWriter, BytesReaderWriter>();
