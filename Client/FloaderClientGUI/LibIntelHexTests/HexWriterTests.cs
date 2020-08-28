@@ -25,8 +25,11 @@ namespace LibIntelHexTests
                     new BytesReaderWriter()));
         }
 
+        /// <summary>
+        /// Data blocks to file content
+        /// </summary>
         [Test]
-        public void TestWriteToString()
+        public void TestDataBlocksWriteToString()
         {
             _hexWriter.Reset();
 
@@ -95,6 +98,31 @@ namespace LibIntelHexTests
 :1000100007C006C011241FBECFE9CDBF02D017C054
 :100030009040E1F700C00000C09A2FEF8DE59AE1F3
 :02005000FFCFE0
+:00000001FF
+";
+
+            Assert.AreEqual(expectedResult, result);
+        }
+
+
+        /// <summary>
+        /// Test raw data list to file write
+        /// </summary>
+        [Test]
+        public void TestListWriteToString()
+        {
+            var data = new List<byte>()
+            {
+                0x09, 0xC0, 0x0E, 0xC0, 0x0D, 0xC0, 0x0C, 0xC0, 0x0B, 0xC0, 0x0A, 0xC0, 0x09, 0xC0, 0x08, 0xC0,
+                0x07, 0xC0, 0x06, 0xC0, 0x11, 0x24, 0x1F, 0xBE, 0xCF, 0xE9, 0xCD, 0xBF, 0x02, 0xD0, 0x17, 0xC0
+            };
+
+            _hexWriter.LoadFromList(0, data);
+
+            var result = _hexWriter.ToString();
+
+            var expectedResult = @":1000000009C00EC00DC00CC00BC00AC009C008C09A
+:1000100007C006C011241FBECFE9CDBF02D017C054
 :00000001FF
 ";
 
