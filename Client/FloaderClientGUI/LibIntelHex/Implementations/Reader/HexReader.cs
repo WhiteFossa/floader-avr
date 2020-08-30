@@ -53,6 +53,16 @@ namespace LibIntelHex.Implementations.Reader
                 throw new ArgumentException($"HEX file contains incorrect line. Line: {firstIncorrectLine}", nameof(hexFileContent));
             }
 
+            // Removing leading ":"
+            lines = lines
+                .Select(l => l.Substring(1))
+                .ToList();
+
+            // Converting lines to byte arrays
+            List<List<string>> pairsLines = lines
+                .Select(l => StringsHelper.SplitStringIntoPairs(l))
+                .ToList();
+
             throw new NotImplementedException();
         }
     }
