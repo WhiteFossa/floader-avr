@@ -1,4 +1,5 @@
-﻿using LibIntelHex.Implementations.Reader;
+﻿using LibIntelHex.Implementations;
+using LibIntelHex.Implementations.Reader;
 using LibIntelHex.Interfaces;
 using NUnit.Framework;
 using System;
@@ -18,7 +19,7 @@ namespace LibIntelHexTests
         [SetUp]
         public void SetUp()
         {
-            _hexReader = new HexReader();
+            _hexReader = new HexReader(new ChecksumProcessor(), new BytesReaderWriter());
         }
 
         /// <summary>
@@ -63,6 +64,20 @@ namespace LibIntelHexTests
         [TestCase(@":1000000009C00EC00DC00CC00BC00AC009C008C09A
 10001000")]
         public void TestForIncorrectStrings(string hexContent)
+        {
+            Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
+        }
+
+
+        /// <summary>
+        /// Test for checksums verifier.
+        /// </summary>
+        /// <param name="hexContent"></param>
+        [TestCase(@":1000000009C00EC00DC00CC00BC00AC009C008C09B
+:1000100007C006C011241FBECFE9CDBF02D017C054")]
+        [TestCase(@":1000000009C00EC00DC00CC10BC00AC009C008C09A
+:1000100007C006C011241FBECFE9CDBF02D017C054")]
+        public void TestForChecksumErrors(string hexContent)
         {
             Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
         }

@@ -22,6 +22,16 @@ namespace LibIntelHex.Implementations.Reader
         /// </summary>
         private readonly Regex CorrectLineRegexp = new Regex(@"^:([0-9A-F]{2}){5,}$");
 
+        private readonly IChecksumProcessor _checksumProcessor;
+        private readonly IBytesReaderWriter _bytesReaderWriter;
+
+        public HexReader(IChecksumProcessor checksumProcessor,
+            IBytesReaderWriter bytesReaderWriter)
+        {
+            _checksumProcessor = checksumProcessor;
+            _bytesReaderWriter = bytesReaderWriter;
+        }
+
         public SortedDictionary<int, byte> ReadFromString(string hexFileContent)
         {
             if (string.IsNullOrEmpty(hexFileContent))
@@ -59,9 +69,23 @@ namespace LibIntelHex.Implementations.Reader
                 .ToList();
 
             // Converting lines to byte arrays
-            List<List<string>> pairsLines = lines
+            var bytesLines = lines
                 .Select(l => StringsHelper.SplitStringIntoPairs(l))
+                .Select(pl => pl.Select(p => _bytesReaderWriter.FromHex(p)).ToList())
                 .ToList();
+
+            // Checking checksums
+            var linesWithTestedChecksums = bytesLines
+                .ToDictionary(pl => pl, pl => _checksumProcessor.VerifyChecksum(pl));
+
+            var firstLineWithWrongChecksum = linesWithTestedChecksums
+                .FirstOrDefault(lc => !lc.Value)
+                .Key;
+
+            if (firstLineWithWrongChecksum != null)
+            {
+                throw new ArgumentException($"HEX file contains line with a wrong checksum. Byte sequence with it: { firstLineWithWrongChecksum }", nameof(firstLineWithWrongChecksum));
+            }
 
             throw new NotImplementedException();
         }
