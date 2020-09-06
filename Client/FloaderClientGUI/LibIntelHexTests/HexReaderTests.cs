@@ -136,5 +136,17 @@ namespace LibIntelHexTests
             var ex = Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
             Assert.IsTrue(ex.Message.Contains("HEX file must contain one and only one End of File record."));
         }
+
+        /// <summary>
+        /// Test for EoF position
+        /// </summary>
+        /// <param name="hexContent"></param>
+        [TestCase(@":00000001FF
+:10004000215080409040E1F700C00000EBCFF894D1")]
+        public void TestForEoFPosition(string hexContent)
+        {
+            var ex = Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
+            Assert.IsTrue(ex.Message.Contains("HEX file must end with End of File record."));
+        }
     }
 }

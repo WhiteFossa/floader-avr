@@ -123,6 +123,12 @@ namespace LibIntelHex.Implementations.Reader
                 throw new ArgumentException($"HEX file must contain one and only one End of File record.");
             }
 
+            // EoF must be the last record
+            if (rawRecords.Last().Type != RecordType.EndOfFile)
+            {
+                throw new ArgumentException($"HEX file must end with End of File record.");
+            }
+
             // Processing records one by one and populating data dictionary
             var result = new SortedDictionary<int, byte>();
 
