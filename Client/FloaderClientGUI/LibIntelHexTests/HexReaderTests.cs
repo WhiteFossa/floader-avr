@@ -50,7 +50,8 @@ namespace LibIntelHexTests
         {
             var hexContent = @":1000000009C00EC00DC00CC00BC00AC009C008C09A
 ";
-            Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
+            var ex = Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
+            Assert.IsTrue(ex.Message.Contains("HEX file must contain at least two lines (DATA + EoF records)"));
         }
 
 
@@ -65,9 +66,9 @@ namespace LibIntelHexTests
 10001000")]
         public void TestForIncorrectStrings(string hexContent)
         {
-            Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
+            var ex = Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
+            Assert.IsTrue(ex.Message.Contains("HEX file contains incorrect line"));
         }
-
 
         /// <summary>
         /// Test for checksums verifier.
@@ -79,7 +80,61 @@ namespace LibIntelHexTests
 :1000100007C006C011241FBECFE9CDBF02D017C054")]
         public void TestForChecksumErrors(string hexContent)
         {
-            Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
+            var ex = Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
+            Assert.IsTrue(ex.Message.Contains("HEX file contains line with a wrong checksum."));
+        }
+
+        /// <summary>
+        /// Test for data lenght checker.
+        /// </summary>
+        /// <param name="hexContent"></param>
+        [TestCase(@":1000000009C00EC00DC00CC00BC00AC009C008C09A
+:1100100007C006C011241FBECFE9CDBF02D017C053")]
+        public void TestForDataLengthErrors(string hexContent)
+        {
+            var ex = Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
+            Assert.IsTrue(ex.Message.Contains("Wrong data length for sequence"));
+        }
+
+        /// <summary>
+        /// Test for a meaningless record type.
+        /// </summary>
+        /// <param name="hexContent"></param>
+        [TestCase(@":10004000215080409040E1F700C00000EBCFF894D1
+:020000141234A4
+:02005000FFCFE0")]
+        public void TestForUndefinedRecordTypes(string hexContent)
+        {
+            var ex = Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
+            Assert.IsTrue(ex.Message.Contains("Undefined record type for sequence"));
+        }
+
+        /// <summary>
+        /// Test for not allowed records.
+        /// </summary>
+        /// <param name="hexContent"></param>
+        [TestCase(@":10004000215080409040E1F700C00000EBCFF894D1
+:020000041234B4
+:02005000FFCFE0")]
+        public void TestForNotAllowedRecords(string hexContent)
+        {
+            var ex = Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
+            Assert.IsTrue(ex.Message.Contains("HEX file contains not allowed record with type"));
+        }
+
+        /// <summary>
+        /// Test for missing/duplicated EoF record
+        /// </summary>
+        /// <param name="hexContent"></param>
+        [TestCase(@":10004000215080409040E1F700C00000EBCFF894D1
+:1000100007C006C011241FBECFE9CDBF02D017C054")]
+        [TestCase(@":10004000215080409040E1F700C00000EBCFF894D1
+:00000001FF
+:00000001FF")]
+        public void TestForMissingOrDuplicatedEoFs(string hexContent)
+        {
+            var ex = Assert.Throws<ArgumentException>(() => _hexReader.ReadFromString(hexContent));
+            Assert.IsTrue(ex.Message.Contains("HEX file must contain one and only one End of File record."));
         }
     }
 }

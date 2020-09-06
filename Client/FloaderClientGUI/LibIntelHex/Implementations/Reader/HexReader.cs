@@ -1,4 +1,5 @@
-﻿using LibIntelHex.Implementations.Helpers;
+﻿using LibIntelHex.Enums;
+using LibIntelHex.Implementations.Helpers;
 using LibIntelHex.Interfaces;
 using LibIntelHex.Models;
 using System;
@@ -22,6 +23,12 @@ namespace LibIntelHex.Implementations.Reader
         /// 2) ":" is followed by at least 5 pairs of 0-9A-F
         /// </summary>
         private readonly Regex CorrectLineRegexp = new Regex(@"^:([0-9A-F]{2}){5,}$");
+
+        /// <summary>
+        /// Allowed record types.
+        /// StartSegmentAddress is meaningless, but IAR adds it, so we need to allow it for compatibility.
+        /// </summary>
+        private readonly List<RecordType> AllowedRecords = new List<RecordType>() { RecordType.Data, RecordType.EndOfFile, RecordType.StartSegmentAddress };
 
         private readonly IChecksumProcessor _checksumProcessor;
         private readonly IBytesReaderWriter _bytesReaderWriter;
@@ -51,17 +58,16 @@ namespace LibIntelHex.Implementations.Reader
                 .Select(l => l.ToUpper())
                 .ToList();
 
-            // Check lines for correctness
+            // Check lines for correctness)
             var linesCorrectness = lines
-                .ToDictionary(l => l, l => CorrectLineRegexp.IsMatch(l));
+                .Select(l => new { line = l, isCorrect = CorrectLineRegexp.IsMatch(l) });
 
             var firstIncorrectLine = linesCorrectness
-                .FirstOrDefault(lc => !lc.Value)
-                .Key;
+                .FirstOrDefault(lc => !lc.isCorrect);
 
-            if (!string.IsNullOrEmpty(firstIncorrectLine))
+            if (firstIncorrectLine != null)
             {
-                throw new ArgumentException($"HEX file contains incorrect line. Line: {firstIncorrectLine}", nameof(hexFileContent));
+                throw new ArgumentException($"HEX file contains incorrect line. Line: { firstIncorrectLine.line }", nameof(hexFileContent));
             }
 
             // Removing leading ":"
@@ -93,12 +99,48 @@ namespace LibIntelHex.Implementations.Reader
                 .Select(bl => bl.GetRange(0, bl.Count - 1))
                 .ToList();
 
-            // Debug
-            var records = bytesLines
-                .Select(bl => RecordBase.ParseBytes(bl))
+            // Raw, unprocessed records
+            var rawRecords = bytesLines
+                .Select(bl => RecordBase.ParseBytes(bl, null)) // We don't need to format this records
                 .ToList();
 
-            throw new NotImplementedException();
+            // Do we have non-allowed record types?
+            var notAllowedRecords = rawRecords
+                .Where(rr => !AllowedRecords.Contains(rr.Type));
+
+            if (notAllowedRecords.Any())
+            {
+                throw new ArgumentException($"HEX file contains not allowed record with type { notAllowedRecords.First().Type }.");
+            }
+
+            // Only one EoF record
+            var eofCount = rawRecords
+                .Where(rr => rr.Type == RecordType.EndOfFile)
+                .Count();
+
+            if (eofCount != 1)
+            {
+                throw new ArgumentException($"HEX file must contain one and only one End of File record.");
+            }
+
+            // Processing records one by one and populating data dictionary
+            var result = new SortedDictionary<int, byte>();
+
+            foreach (var record in rawRecords)
+            {
+                switch(record.Type)
+                {
+                    case RecordType.Data:
+                        break;
+                    case RecordType.StartSegmentAddress:
+                        // Just do nothing
+                        break;
+                    case RecordType.EndOfFile:
+                        return result;
+                }
+            }
+
+            throw new InvalidOperationException("Must never reach this place.");
         }
     }
 }

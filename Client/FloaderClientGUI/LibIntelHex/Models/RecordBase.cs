@@ -124,7 +124,7 @@ namespace LibIntelHex.Models
         /// Try to parse data bytes as base record. Data bytes must be stripped of ":" and checksum.
         /// </summary>
         /// <param name="bytes"></param>
-        public static RecordBase ParseBytes(List<byte> bytes)
+        public static RecordBase ParseBytes(List<byte> bytes, IRecordFormatter formatter)
         {
             var dataLength = (int)bytes[ReclenPosition];
 
@@ -139,15 +139,16 @@ namespace LibIntelHex.Models
 
             if (dataLength != data.Count)
             {
+                // TODO: Add formatter to display bytes content
                 throw new ArgumentException($"Wrong data length for sequence { bytes }. Expected { dataLength }, but got { data.Count }.");
             }
 
             if (!Enum.IsDefined(typeof(RecordType), recordTypeRaw))
             {
-                throw new ArgumentException($"Wrong record type for sequence { bytes }: { recordTypeRaw }");
+                throw new ArgumentException($"Undefined record type for sequence { bytes }: { recordTypeRaw }");
             }
 
-            return new RecordBase(address, (RecordType)recordTypeRaw, data, null); // We don't need to format this records
+            return new RecordBase(address, (RecordType)recordTypeRaw, data, formatter);
         }
     }
 }
