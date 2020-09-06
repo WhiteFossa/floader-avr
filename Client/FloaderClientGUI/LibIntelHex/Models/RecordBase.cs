@@ -21,6 +21,27 @@ namespace LibIntelHex.Models
         private const int MaxAddress = 0xFFFF;
 
         /// <summary>
+        /// Record length field position in record bytes list
+        /// </summary>
+        private const int ReclenPosition = 0;
+
+        /// <summary>
+        /// High and low address bytes positions in record bytes list
+        /// </summary>
+        private const int HighAddressPosition = 1;
+        private const int LowAddressPosition = 2;
+
+        /// <summary>
+        /// Record type field position in record bytes list
+        /// </summary>
+        private const int RecordTypePosition = 3;
+
+        /// <summary>
+        /// Data starts from this position in record bytes list
+        /// </summary>
+        private const int DataStartPosition = 4;
+
+        /// <summary>
         /// Data field length
         /// </summary>
         public byte DataLength { get; }
@@ -44,7 +65,7 @@ namespace LibIntelHex.Models
 
         public RecordBase(int address, RecordType type, List<byte> data, IRecordFormatter recordFormatter)
         {
-            _recordFormatter = recordFormatter;
+            _recordFormatter = recordFormatter; // Can be null if not provided
 
             if (address < 0 || address > MaxAddress)
             {
@@ -90,8 +111,43 @@ namespace LibIntelHex.Models
         /// <returns></returns>
         public override string ToString()
         {
+            if (_recordFormatter == null)
+            {
+                throw new InvalidOperationException("This record was created without formatter, thus being non-convertable to string.");
+            }
+
             var data = ToDataList();
             return _recordFormatter.FormatRawRecord(data);
+        }
+
+        /// <summary>
+        /// Try to parse data bytes as base record. Data bytes must be stripped of ":" and checksum.
+        /// </summary>
+        /// <param name="bytes"></param>
+        public static RecordBase ParseBytes(List<byte> bytes)
+        {
+            var dataLength = (int)bytes[ReclenPosition];
+
+            var addressHigh = (int)bytes[HighAddressPosition];
+            var addressLow = (int)bytes[LowAddressPosition];
+
+            var address = (addressHigh << 8) + addressLow;
+
+            var recordTypeRaw = (int)bytes[RecordTypePosition];
+
+            var data = bytes.GetRange(DataStartPosition, bytes.Count - DataStartPosition);
+
+            if (dataLength != data.Count)
+            {
+                throw new ArgumentException($"Wrong data length for sequence { bytes }. Expected { dataLength }, but got { data.Count }.");
+            }
+
+            if (!Enum.IsDefined(typeof(RecordType), recordTypeRaw))
+            {
+                throw new ArgumentException($"Wrong record type for sequence { bytes }: { recordTypeRaw }");
+            }
+
+            return new RecordBase(address, (RecordType)recordTypeRaw, data, null); // We don't need to format this records
         }
     }
 }

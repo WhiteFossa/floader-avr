@@ -1,5 +1,6 @@
 ﻿using LibIntelHex.Implementations.Helpers;
 using LibIntelHex.Interfaces;
+using LibIntelHex.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,13 +70,13 @@ namespace LibIntelHex.Implementations.Reader
                 .ToList();
 
             // Converting lines to byte arrays
-            var bytesLines = lines
+            var bytesLinesWithChecksums = lines
                 .Select(l => StringsHelper.SplitStringIntoPairs(l))
                 .Select(pl => pl.Select(p => _bytesReaderWriter.FromHex(p)).ToList())
                 .ToList();
 
             // Checking checksums
-            var linesWithTestedChecksums = bytesLines
+            var linesWithTestedChecksums = bytesLinesWithChecksums
                 .ToDictionary(pl => pl, pl => _checksumProcessor.VerifyChecksum(pl));
 
             var firstLineWithWrongChecksum = linesWithTestedChecksums
@@ -86,6 +87,16 @@ namespace LibIntelHex.Implementations.Reader
             {
                 throw new ArgumentException($"HEX file contains line with a wrong checksum. Byte sequence with it: { firstLineWithWrongChecksum }", nameof(firstLineWithWrongChecksum));
             }
+
+            // Stripping checksums
+            var bytesLines = bytesLinesWithChecksums
+                .Select(bl => bl.GetRange(0, bl.Count - 1))
+                .ToList();
+
+            // Debug
+            var records = bytesLines
+                .Select(bl => RecordBase.ParseBytes(bl))
+                .ToList();
 
             throw new NotImplementedException();
         }

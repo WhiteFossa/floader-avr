@@ -1,4 +1,6 @@
-﻿namespace LibIntelHex.Interfaces
+﻿using System.Collections.Generic;
+
+namespace LibIntelHex.Interfaces
 {
     /// <summary>
     /// All records have to implement this interface
