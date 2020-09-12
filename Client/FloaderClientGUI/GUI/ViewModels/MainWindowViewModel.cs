@@ -49,6 +49,10 @@ namespace FloaderClientGUI.ViewModels
         private bool _isDownloadEnabled;
         private bool _isRebootEnabled;
         private int _consoleCaretIndex;
+        private bool _isFlashUploadFileEnabled;
+        private bool _isEepromUploadFileEnabled;
+        private bool _isSelectFlashForUploadButtonEnabled;
+        private bool _isSelectEepromForUploadButtonEnabled;
 
         /// <summary>
         /// Text in console
@@ -101,7 +105,12 @@ namespace FloaderClientGUI.ViewModels
         public bool IsFlashUpload
         {
             get => _isFlashUpload;
-            set => this.RaiseAndSetIfChanged(ref _isFlashUpload, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _isFlashUpload, value);
+                SetUploadFlashFilePathState();
+                SetUploadButtonState();
+            }
         }
 
         /// <summary>
@@ -110,7 +119,12 @@ namespace FloaderClientGUI.ViewModels
         public bool IsEepromUpload
         {
             get => _isEepromUpload;
-            set => this.RaiseAndSetIfChanged(ref _isEepromUpload, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _isEepromUpload, value);
+                SetUploadEepromFilePathState();
+                SetUploadButtonState();
+            }
         }
 
         /// <summary>
@@ -211,7 +225,43 @@ namespace FloaderClientGUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _consoleCaretIndex, value);
         }
 
-#endregion Bound properties
+        /// <summary>
+        /// Is FLASH upload file text field enabled
+        /// </summary>
+        public bool IsFlashUploadFileEnabled
+        {
+            get => _isFlashUploadFileEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isFlashUploadFileEnabled, value);
+        }
+
+        /// <summary>
+        /// Is EEPROM upload file text field enabled
+        /// </summary>
+        public bool IsEepromUploadFileEnabled
+        {
+            get => _isEepromUploadFileEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isEepromUploadFileEnabled, value);
+        }
+
+        /// <summary>
+        /// "Select FLASH file for upload" button state
+        /// </summary>
+        public bool IsSelectFlashForUploadButtonEnabled
+        {
+            get => _isSelectFlashForUploadButtonEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isSelectFlashForUploadButtonEnabled, value);
+        }
+
+        /// <summary>
+        /// "Select EEPROM file for upload" button state
+        /// </summary>
+        public bool IsSelectEepromForUploadButtonEnabled
+        {
+            get => _isSelectEepromForUploadButtonEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isSelectEepromForUploadButtonEnabled, value);
+        }
+
+        #endregion Bound properties
 
 
         /// <summary>
@@ -381,6 +431,8 @@ namespace FloaderClientGUI.ViewModels
         {
             var dialog = PrepareOpenHexDialog();
             FlashUploadFile = (await dialog.ShowAsync(Program.GetMainWindow())).FirstOrDefault();
+
+            SetUploadButtonState();
         }
 
         /// <summary>
@@ -390,6 +442,8 @@ namespace FloaderClientGUI.ViewModels
         {
             var dialog = PrepareOpenHexDialog();
             EepromUploadFile = (await dialog.ShowAsync(Program.GetMainWindow())).FirstOrDefault();
+
+            SetUploadButtonState();
         }
 
         /// <summary>
@@ -406,6 +460,9 @@ namespace FloaderClientGUI.ViewModels
         public void Upload()
         {
             CheckReadyness();
+
+
+
             ConsoleText += $"Upload{ Environment.NewLine }";
         }
 
@@ -552,8 +609,7 @@ namespace FloaderClientGUI.ViewModels
         /// <param name="isEnable"></param>
         private void SetActionsButtonsState(bool isEnable)
         {
-            IsUploadEnabled = isEnable;
-
+            SetUploadButtonState();
             SetRebootButtonState();
             SetDownloadButtonState();
         }
@@ -595,6 +651,35 @@ Please, select another device.");
         private void SetRebootButtonState()
         {
             IsRebootEnabled = _isReady;
+        }
+
+        /// <summary>
+        /// As SetDownloadButtonState(), but for upload button
+        /// </summary>
+        private void SetUploadButtonState()
+        {
+            IsUploadEnabled = _isReady
+                &&
+                !string.IsNullOrEmpty(UploadBackupsDirectory)
+                && ((IsFlashUpload && !string.IsNullOrEmpty(FlashUploadFile)) || (IsEepromUpload && !string.IsNullOrEmpty(EepromUploadFile)));
+        }
+
+        /// <summary>
+        /// Enables or disables Upload FLASH File Path field and corresponding button
+        /// </summary>
+        private void SetUploadFlashFilePathState()
+        {
+            IsFlashUploadFileEnabled = IsFlashUpload;
+            IsSelectFlashForUploadButtonEnabled = IsFlashUpload;
+        }
+
+        /// <summary>
+        /// Enables or disables Upload EEPROM File Path field and corresponding button
+        /// </summary>
+        private void SetUploadEepromFilePathState()
+        {
+            IsEepromUploadFileEnabled = IsEepromUpload;
+            IsSelectEepromForUploadButtonEnabled = IsEepromUpload;
         }
     }
 }

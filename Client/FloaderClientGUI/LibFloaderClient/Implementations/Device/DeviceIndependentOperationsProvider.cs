@@ -10,6 +10,7 @@ using LibFloaderClient.Models.Port;
 using LibIntelHex.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -287,6 +288,31 @@ namespace LibFloaderClient.Implementations.Device
             IsSetUp();
 
             return _filenamesGenerator.GenerateEEPROMFilename(_deviceIdentificationData, isBackup);
+        }
+
+        public void UploadToDevice(string flashPath, string eepromPath, string backupsDirectory)
+        {
+            if (string.IsNullOrEmpty(backupsDirectory))
+            {
+                throw new ArgumentException("Backups directory must be specified.", nameof(backupsDirectory));
+            }
+
+            bool isUploadFlash = !string.IsNullOrEmpty(flashPath);
+            bool isUploadEeprom = !string.IsNullOrEmpty(eepromPath);
+
+            if (!isUploadFlash && !isUploadEeprom)
+            {
+                throw new ArgumentException("At least either FLASH or EEPROM files must be specified");
+            }
+
+            // Making backups
+            var flashBackupFilename = Path.Combine(backupsDirectory, GenerateFlashFileName(true));
+            var eepromBackupFilename = Path.Combine(backupsDirectory, GenerateEepromFileName(true));
+
+            _logger.LogInfo($"FLASH backup file: { flashBackupFilename }");
+            _logger.LogInfo($"EEPROM backup file: { eepromBackupFilename }");
+
+            DownloadFromDevice(flashBackupFilename, eepromBackupFilename);
         }
     }
 }

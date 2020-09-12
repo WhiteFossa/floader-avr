@@ -46,6 +46,12 @@ namespace LibFloaderClient.Interfaces.Device
         void DownloadFromDevice(string flashPath, string eepromPath);
 
         /// <summary>
+        /// Uploads given files into device. If file path is null or empty - then don't try to upload it.
+        /// Backups directory must be specified anyway
+        /// </summary>
+        void UploadToDevice(string flashPath, string eepromPath, string backupsDirectory);
+
+        /// <summary>
         /// Generate filename for FLASH file download/backup
         /// </summary>
         string GenerateFlashFileName(bool isBackup);
