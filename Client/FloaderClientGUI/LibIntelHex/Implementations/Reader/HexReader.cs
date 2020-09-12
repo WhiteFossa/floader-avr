@@ -137,11 +137,23 @@ namespace LibIntelHex.Implementations.Reader
                 switch(record.Type)
                 {
                     case RecordType.Data:
+                        var dataRecord = new DataRecord(record);
+
+                        var dataByteAddress = dataRecord.Address;
+                        foreach (var dataByte in dataRecord.Data)
+                        {
+                            result.Add(dataByteAddress, dataByte);
+                            dataByteAddress ++;
+                        }
+
                         break;
                     case RecordType.StartSegmentAddress:
                         // Just do nothing
                         break;
+
                     case RecordType.EndOfFile:
+                        // Constructing EoF record. We don't use it, but construction causes record validation
+                        _ = new EndOfFileRecord(record);
                         return result;
                 }
             }

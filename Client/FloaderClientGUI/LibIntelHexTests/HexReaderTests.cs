@@ -40,6 +40,11 @@ namespace LibIntelHexTests
             var result = _hexReader.ReadFromString(hexContent);
 
             Assert.AreEqual(0x09, result[0x00]); // Address 0x00, value 0x09
+            Assert.AreEqual(0xC0, result[0x01]);
+            Assert.AreEqual(0x07, result[0x10]);
+            Assert.AreEqual(0xC0, result[0x1F]);
+            Assert.AreEqual(0xFF, result[0x50]);
+            Assert.AreEqual(0xCF, result[0x51]);
         }
 
         /// <summary>
