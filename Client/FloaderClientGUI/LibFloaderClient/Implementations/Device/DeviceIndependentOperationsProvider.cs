@@ -361,10 +361,15 @@ namespace LibFloaderClient.Implementations.Device
             var eepromDataToUpload = new List<byte>();
 
             if (isUploadFlash)
-            { 
+            {
                 for (int address = 0; address <= maxWriteableFlashAddress; address++)
                 {
-                    flashDataToUpload[address] = flashHexData.ContainsKey(address) ? flashHexData[address] : EmptyDataFiller;
+                    flashDataToUpload.Add(EmptyDataFiller);
+                }
+
+                foreach (var address in flashHexData.Keys)
+                {
+                    flashDataToUpload[address] = flashHexData[address];
                 }
             }
 
@@ -372,7 +377,12 @@ namespace LibFloaderClient.Implementations.Device
             {
                 for (int address = 0; address <= maxWriteableEepromAddress; address++)
                 {
-                    eepromDataToUpload[address] = eepromHexData.ContainsKey(address) ? eepromHexData[address] : EmptyDataFiller;
+                    eepromDataToUpload.Add(EmptyDataFiller);
+                }
+
+                foreach (var address in eepromHexData.Keys)
+                {
+                    eepromDataToUpload[address] = eepromHexData[address];
                 }
             }
 
