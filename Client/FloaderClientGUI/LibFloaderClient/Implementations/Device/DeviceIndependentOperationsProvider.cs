@@ -319,12 +319,12 @@ namespace LibFloaderClient.Implementations.Device
 
             if (isUploadFlash)
             {
-                flashHexData = _hexReader.ReadFromString(flashPath);
+                flashHexData = _hexReader.ReadFromFile(flashPath);
             }
 
             if (isUploadEeprom)
             {
-                eepromHexData = _hexReader.ReadFromString(eepromPath);
+                eepromHexData = _hexReader.ReadFromFile(eepromPath);
             }
 
             // Are addresses valid?

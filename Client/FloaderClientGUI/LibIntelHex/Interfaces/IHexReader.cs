@@ -12,8 +12,11 @@ namespace LibIntelHex.Interfaces
         /// <summary>
         /// Parses Intel HEX file content, returning it as a sorted dictionary with data.
         /// </summary>
-        /// <param name="hexFileContent"></param>
-        /// <returns></returns>
         SortedDictionary<int, byte> ReadFromString(string hexFileContent);
+
+        /// <summary>
+        /// As ReadFromString(), but reads Intel HEX from file
+        /// </summary>
+        SortedDictionary<int, byte> ReadFromFile(string hexFilePath);
     }
 }

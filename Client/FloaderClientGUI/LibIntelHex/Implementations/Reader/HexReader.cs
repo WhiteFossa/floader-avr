@@ -4,6 +4,7 @@ using LibIntelHex.Interfaces;
 using LibIntelHex.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -38,6 +39,18 @@ namespace LibIntelHex.Implementations.Reader
         {
             _checksumProcessor = checksumProcessor;
             _bytesReaderWriter = bytesReaderWriter;
+        }
+
+        public SortedDictionary<int, byte> ReadFromFile(string hexFilePath)
+        {
+            if (string.IsNullOrEmpty(hexFilePath))
+            {
+                throw new ArgumentException("Path must not be empty.", nameof(hexFilePath));
+            }
+
+            var content = File.ReadAllText(hexFilePath);
+
+            return ReadFromString(content);
         }
 
         public SortedDictionary<int, byte> ReadFromString(string hexFileContent)
