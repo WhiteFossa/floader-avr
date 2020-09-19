@@ -99,7 +99,7 @@
                                 Text="{Binding UploadBackupsDirectory}" IsReadOnly="True" /> <!-- Backups directory -->
 
                             <Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
-                                Command="{Binding SelectBackupsDirectory}" /> <!-- Select backups directory button -->
+                                Command="{Binding SelectBackupsDirectoryAsync}" /> <!-- Select backups directory button -->
                         </Grid>
                     </DockPanel>
 

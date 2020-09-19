@@ -17,6 +17,7 @@ using LibFloaderClient.Interfaces.SerialPortsLister;
 using LibFloaderClient.Interfaces.Versioned.Common;
 using LibFloaderClient.Interfaces.Versioned.Driver;
 using LibIntelHex.Implementations;
+using LibIntelHex.Implementations.Reader;
 using LibIntelHex.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -69,6 +70,7 @@ namespace FloaderClientGUI
             services.AddSingleton<IChecksumProcessor, ChecksumProcessor>();
             services.AddSingleton<IHexWriter, HexWriter>();
             services.AddSingleton<IRecordFormatter, RecordFormatter>();
+            services.AddSingleton<IHexReader, HexReader>();
 
             return services;
         }

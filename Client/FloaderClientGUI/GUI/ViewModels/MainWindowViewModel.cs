@@ -449,9 +449,13 @@ namespace FloaderClientGUI.ViewModels
         /// <summary>
         /// Select directory, where pre-upload backups will be placed
         /// </summary>
-        public void SelectBackupsDirectory()
+        public async void SelectBackupsDirectoryAsync()
         {
-            UploadBackupsDirectory = "Backups directory";
+            var dialog = new OpenFolderDialog();
+            dialog.Title = "Select backups directory";
+            UploadBackupsDirectory = await dialog.ShowAsync(Program.GetMainWindow());
+
+            SetUploadButtonState();
         }
 
         /// <summary>
@@ -461,9 +465,14 @@ namespace FloaderClientGUI.ViewModels
         {
             CheckReadyness();
 
-
-
-            ConsoleText += $"Upload{ Environment.NewLine }";
+            try
+            {
+                _deviceIndependentOperationsProvider.UploadToDevice(FlashUploadFile, EepromUploadFile, UploadBackupsDirectory);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Error: { ex.Message }, Stack trace: { ex.StackTrace }");
+            }
         }
 
         /// <summary>

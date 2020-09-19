@@ -28,8 +28,14 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private const int EepromBaseAddress = 0;
 
+        /// <summary>
+        /// If data for address isn't specified in HEX file, use this filler when uploading data to MCU
+        /// </summary>
+        private const byte EmptyDataFiller = 255;
+
         private readonly ILogger _logger;
         private readonly IHexWriter _hexWriter;
+        private readonly IHexReader _hexReader;
         private readonly IFilenamesGenerator _filenamesGenerator;
 
         /// <summary>
@@ -54,11 +60,13 @@ namespace LibFloaderClient.Implementations.Device
 
         public DeviceIndependentOperationsProvider(ILogger logger,
             IHexWriter hexWriter,
+            IHexReader hexReader,
             IFilenamesGenerator filenamesGenerator)
         {
             _logger = logger;
             _hexWriter = hexWriter;
             _filenamesGenerator = filenamesGenerator;
+            _hexReader = hexReader;
         }
 
         public List<byte> ReadAllEEPROM()
@@ -305,14 +313,95 @@ namespace LibFloaderClient.Implementations.Device
                 throw new ArgumentException("At least either FLASH or EEPROM files must be specified");
             }
 
+            // Parsing HEX files
+            var flashHexData = new SortedDictionary<int, byte>();
+            var eepromHexData = new SortedDictionary<int, byte>();
+
+            if (isUploadFlash)
+            {
+                flashHexData = _hexReader.ReadFromString(flashPath);
+            }
+
+            if (isUploadEeprom)
+            {
+                eepromHexData = _hexReader.ReadFromString(eepromPath);
+            }
+
+            // Are addresses valid?
+            int maxWriteableFlashAddress = 0;
+            int maxWriteableEepromAddress = 0;
+
+            switch (_deviceIdentificationData.Version)
+            {
+                case (int)ProtocolVersion.First:
+                    var deviceData = GetDeviceDataV1();
+
+                    maxWriteableFlashAddress = deviceData.FlashPagesWriteable * deviceData.FlashPageSize - 1;
+                    maxWriteableEepromAddress = deviceData.EepromSize - 1;
+
+                    break;
+
+                default:
+                    ReportUnsupportedVersion();
+                    break;
+            }
+
+            if (flashHexData.Any(fhd => fhd.Key > maxWriteableFlashAddress))
+            {
+                throw new ArgumentException("Given FLASH file contains data for addresses in non-writeable FLASH area. Check file correctness.");
+            }
+
+            if (eepromHexData.Any(ehd => ehd.Key > maxWriteableEepromAddress))
+            {
+                throw new ArgumentException("Given EEPROM file contains data for addressess outside EEPROM. Check file correctness.");
+            }
+
+            // Constructing data arrays for upload
+            var flashDataToUpload = new List<byte>();
+            var eepromDataToUpload = new List<byte>();
+
+            if (isUploadFlash)
+            { 
+                for (int address = 0; address <= maxWriteableFlashAddress; address++)
+                {
+                    flashDataToUpload[address] = flashHexData.ContainsKey(address) ? flashHexData[address] : EmptyDataFiller;
+                }
+            }
+
+            if (isUploadEeprom)
+            {
+                for (int address = 0; address <= maxWriteableEepromAddress; address++)
+                {
+                    eepromDataToUpload[address] = eepromHexData.ContainsKey(address) ? eepromHexData[address] : EmptyDataFiller;
+                }
+            }
+
             // Making backups
             var flashBackupFilename = Path.Combine(backupsDirectory, GenerateFlashFileName(true));
             var eepromBackupFilename = Path.Combine(backupsDirectory, GenerateEepromFileName(true));
 
+            _logger.LogInfo("Backing up...");
             _logger.LogInfo($"FLASH backup file: { flashBackupFilename }");
             _logger.LogInfo($"EEPROM backup file: { eepromBackupFilename }");
 
             DownloadFromDevice(flashBackupFilename, eepromBackupFilename);
+
+            _logger.LogInfo("Done");
+
+            // Uploading
+            _logger.LogInfo("Uploading...");
+
+            if (isUploadFlash)
+            {
+                WriteAllFlash(flashDataToUpload);
+            }
+
+            if (isUploadEeprom)
+            {
+                WriteAllEEPROM(eepromDataToUpload);
+            }
+
+            _logger.LogInfo("Done");
         }
     }
 }
