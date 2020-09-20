@@ -26,6 +26,11 @@ namespace LibIntelHex.Implementations.Reader
         private readonly Regex CorrectLineRegexp = new Regex(@"^:([0-9A-F]{2}){5,}$");
 
         /// <summary>
+        /// Mask address from the data record with this value before adding it to segment address.
+        /// </summary>
+        private const int RecordAddressMask = 0xFFFF;
+
+        /// <summary>
         /// Allowed record types.
         /// StartSegmentAddress is meaningless, but IAR adds it, so we need to allow it for compatibility.
         /// </summary>
@@ -145,6 +150,8 @@ namespace LibIntelHex.Implementations.Reader
             // Processing records one by one and populating data dictionary
             var result = new SortedDictionary<int, byte>();
 
+            var segmentBaseAddress = 0;
+
             foreach (var record in rawRecords)
             {
                 switch(record.Type)
@@ -152,11 +159,12 @@ namespace LibIntelHex.Implementations.Reader
                     case RecordType.Data:
                         var dataRecord = new DataRecord(record);
 
-                        var dataByteAddress = dataRecord.Address;
-                        foreach (var dataByte in dataRecord.Data)
+                        var recordBaseAddress = dataRecord.Address;
+
+                        for (var recordOffset = 0; recordOffset < dataRecord.Data.Count; recordOffset ++)
                         {
-                            result.Add(dataByteAddress, dataByte);
-                            dataByteAddress ++;
+                            var actualAddress = segmentBaseAddress + ((recordBaseAddress + recordOffset) & RecordAddressMask);
+                            result.Add(actualAddress, dataRecord.Data[recordOffset]);
                         }
 
                         break;
