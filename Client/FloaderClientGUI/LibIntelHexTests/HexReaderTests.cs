@@ -48,6 +48,31 @@ namespace LibIntelHexTests
         }
 
         /// <summary>
+        /// Testing that data are readed correctly (data contains ESA record)
+        /// </summary>
+        [Test]
+        public void TestReadFromStringExtendedSegmentAddress()
+        {
+            var hexContent = @":020001020000FB
+:100000000C94B71B18951895189518950C94C20167
+:020002020000FA
+:1038A000E4DF01C0DEDF069618E38E3B910748F3A4
+:0400000300000000F9
+:00000001FF
+";
+
+            var result = _hexReader.ReadFromString(hexContent);
+
+            Assert.AreEqual(0x0C, result[0x10]); // Address 0x10, value 0x0C
+            Assert.AreEqual(0x94, result[0x11]);
+            Assert.AreEqual(0xB7, result[0x12]);
+
+            Assert.AreEqual(0xE4, result[0x38C0]); // Address 0x38C0, value 0xE4
+            Assert.AreEqual(0xDF, result[0x38C1]);
+            Assert.AreEqual(0x01, result[0x38C2]);
+        }
+
+        /// <summary>
         /// Testing for too short file detection
         /// </summary>
         [Test]

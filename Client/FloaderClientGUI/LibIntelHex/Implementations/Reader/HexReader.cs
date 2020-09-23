@@ -34,7 +34,7 @@ namespace LibIntelHex.Implementations.Reader
         /// Allowed record types.
         /// StartSegmentAddress is meaningless, but IAR adds it, so we need to allow it for compatibility.
         /// </summary>
-        private readonly List<RecordType> AllowedRecords = new List<RecordType>() { RecordType.Data, RecordType.EndOfFile, RecordType.StartSegmentAddress };
+        private readonly List<RecordType> AllowedRecords = new List<RecordType>() { RecordType.Data, RecordType.EndOfFile, RecordType.StartSegmentAddress, RecordType.ExtendedSegmentAddress };
 
         private readonly IChecksumProcessor _checksumProcessor;
         private readonly IBytesReaderWriter _bytesReaderWriter;
@@ -170,6 +170,13 @@ namespace LibIntelHex.Implementations.Reader
                         break;
                     case RecordType.StartSegmentAddress:
                         // Just do nothing
+                        break;
+
+                    case RecordType.ExtendedSegmentAddress:
+                        // Updating segment base address
+                        var esaRecord = new ExtendedSegmentAddressRecord(record);
+                        segmentBaseAddress = esaRecord.GetSegmentBaseAddress();
+
                         break;
 
                     case RecordType.EndOfFile:
