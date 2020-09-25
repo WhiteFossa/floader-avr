@@ -63,5 +63,25 @@ values
     (1, 1, 128, 120, 128, 512),
     (984410, 1, 128, 120, 128, 512);
     
--- Add new vendors and devices below --    
+-- Add new vendors and devices below --  
+
+-- Fetjulin's transmitters
+insert into
+    devices_names
+    (VendorId, ModelId, Name)
+values
+    (1, 2, 'FTX-2A ARDF transmitter'),
+    (1, 3, 'FTX-2 (PProg-FTX-168) settings entry device'),
+    (1, 20, 'FTX-2 (ver. 2.0) ARDF transmitter'),
+    (1, 21, 'FTX-2A (ver. 2.1) ARDF transmitter'),
+    (1, 22, 'FTX-2.2 (ver. 2.2) ARDF transmitter');
     
+insert into
+    devices_data_v1
+    (VendorId, ModelId, FlashPagesAll, FlashPagesWriteable, FlashPageSize, EepromSize)
+values
+    (1, 2, 128, 120, 128, 512),
+    (1, 3, 128, 120, 128, 512),
+    (1, 20, 128, 120, 128, 512),
+    (1, 21, 128, 120, 128, 512),
+    (1, 22, 128, 120, 128, 512);
