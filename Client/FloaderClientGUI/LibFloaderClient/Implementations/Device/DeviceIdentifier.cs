@@ -102,7 +102,7 @@ namespace LibFloaderClient.Implementations.Device
                         modelId: modelId,
                         serial: serial);
 
-                        _logger.LogInfo($@"Valid identification record received:
+                    _logger.LogInfo($@"Valid identification record received:
 Version: { result.Version },
 Vendor ID: { result.VendorId },
 Model ID: { result.ModelId },

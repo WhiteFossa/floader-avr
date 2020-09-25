@@ -35,7 +35,7 @@ namespace LibFloaderClient.Implementations.DAO
                 connection.Open();
 
                 return connection
-                    .QueryFirst<VendorDBO>(
+                    .QueryFirstOrDefault<VendorDBO>(
                         ResourcesHelper.GetResourceAsString(CurrentAssembly, "LibFloaderClient.Implementations.DAO.Queries.GetVendorNameData.sql"),
                         new { vendorId });
             }
@@ -48,7 +48,7 @@ namespace LibFloaderClient.Implementations.DAO
                 connection.Open();
 
                 return connection
-                    .QueryFirst<DeviceNameDBO>(
+                    .QueryFirstOrDefault<DeviceNameDBO>(
                         ResourcesHelper.GetResourceAsString(CurrentAssembly, "LibFloaderClient.Implementations.DAO.Queries.GetDeviceNameData.sql"),
                         new { vendorId, modelId });
             }
@@ -61,7 +61,7 @@ namespace LibFloaderClient.Implementations.DAO
                 connection.Open();
 
                 return connection
-                    .QueryFirst<DeviceDataV1DBO>(
+                    .QueryFirstOrDefault<DeviceDataV1DBO>(
                         ResourcesHelper.GetResourceAsString(CurrentAssembly, "LibFloaderClient.Implementations.DAO.Queries.GetDeviceDataV1.sql"),
                         new { vendorId, modelId });
             }
