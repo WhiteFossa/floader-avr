@@ -1,167 +1,179 @@
 <Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:FloaderClientGUI.ViewModels;assembly=FloaderClientGUI"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
-        Width="800" Height="600"
-        x:Class="FloaderClientGUI.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="Fossa's loader">
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:vm="clr-namespace:FloaderClientGUI.ViewModels;assembly=FloaderClientGUI"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+		Width="800" Height="600"
+		x:Class="FloaderClientGUI.Views.MainWindow"
+		Icon="/Assets/avalonia-logo.ico"
+		Title="Fossa's loader">
 
-    <Window.Styles>
-        <StyleInclude Source="/Styles/Common.xaml" />
-    </Window.Styles> 
+	<Window.Styles>
+		<StyleInclude Source="/Styles/Common.xaml" />
+	</Window.Styles> 
 
-    <!-- Main grid -->
-    <Grid ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto, Auto, *" >
+	<!-- Main grid -->
+	<Grid ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto, Auto, *, Auto" >
 
-        <!-- Port selection -->
-        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="0" >
-            <StackPanel>
-                <TextBlock Text="Port:" />
-                
-                <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto" >
-                    <TextBlock Text="Port:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- Port label -->
-                    <TextBlock Text="{Binding PortName}" Grid.Column="1" Grid.Row="0" /> <!-- Port name -->
-                    <Button Grid.Column="2" Grid.Row="0" Content="Select port"
-                        Command="{Binding SelectPortAsync}"/> <!-- Select port button -->
-                </Grid>
+		<!-- Port selection -->
+		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="0" >
+			<StackPanel>
+				<TextBlock Text="Port:" />
+				
+				<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto" >
+					<TextBlock Text="Port:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- Port label -->
+					<TextBlock Text="{Binding PortName}" Grid.Column="1" Grid.Row="0" /> <!-- Port name -->
+					<Button Grid.Column="2" Grid.Row="0" Content="Select port"
+						Command="{Binding SelectPortAsync}"/> <!-- Select port button -->
+				</Grid>
 
-            </StackPanel>
-        </Border>
+			</StackPanel>
+		</Border>
 
-        <!-- Device data -->
-        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="1" >
-            <StackPanel>
-                <TextBlock Text="Device:" />
+		<!-- Device data -->
+		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="1" >
+			<StackPanel>
+				<TextBlock Text="Device:" />
 
-                <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto, Auto">
-                    <TextBlock Text="Vendor:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- Vendor label -->
-                    <TextBlock Text="{Binding VendorName}" Grid.Column="1" Grid.Row="0" /> <!-- Vendor name -->
+				<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto, Auto">
+					<TextBlock Text="Vendor:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- Vendor label -->
+					<TextBlock Text="{Binding VendorName}" Grid.Column="1" Grid.Row="0" /> <!-- Vendor name -->
 
-                    <TextBlock Text="Model:" Grid.Column="0" Grid.Row="1" Classes="RightMargin" /> <!-- Model label -->
-                    <TextBlock Text="{Binding ModelName}" Grid.Column="1" Grid.Row="1" /> <!-- Model name -->
+					<TextBlock Text="Model:" Grid.Column="0" Grid.Row="1" Classes="RightMargin" /> <!-- Model label -->
+					<TextBlock Text="{Binding ModelName}" Grid.Column="1" Grid.Row="1" /> <!-- Model name -->
 
-                    <TextBlock Text="Serial number:" Grid.Column="0" Grid.Row="2" Classes="RightMargin" /> <!-- Serial number label -->
-                    <TextBlock Text="{Binding SerialNumber}" Grid.Column="1" Grid.Row="2" /> <!-- Serial number -->
+					<TextBlock Text="Serial number:" Grid.Column="0" Grid.Row="2" Classes="RightMargin" /> <!-- Serial number label -->
+					<TextBlock Text="{Binding SerialNumber}" Grid.Column="1" Grid.Row="2" /> <!-- Serial number -->
 
-                    <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="3">
-                        <Button Content="Poll" Command="{Binding PollDevice}"
-                            IsEnabled="{Binding IsPollDeviceEnabled}" /> <!-- Poll device button-->
+					<StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="3">
+						<Button Content="Poll" Command="{Binding PollDevice}"
+							IsEnabled="{Binding IsPollDeviceEnabled}" /> <!-- Poll device button-->
 
-                        <Button Content="Reboot" Classes="TopMargin" Command="{Binding Reboot}"
-                            IsEnabled="{Binding IsRebootEnabled}"/> <!-- Reboot into firmware button -->
-                    </StackPanel>
-                </Grid>
-            </StackPanel>
-        </Border>
+						<Button Content="Reboot" Classes="TopMargin" Command="{Binding Reboot}"
+							IsEnabled="{Binding IsRebootEnabled}"/> <!-- Reboot into firmware button -->
+					</StackPanel>
+				</Grid>
+			</StackPanel>
+		</Border>
 
-        <!-- Flash -->
-        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="2" >
-            <StackPanel>
-                <TextBlock Text="Upload:" />
-                    <DockPanel Classes="TopMargin">
-                        <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-                            <CheckBox Content="FLASH:" Classes="RightMargin" Grid.Column="0" Grid.Row="0"
-                                IsChecked="{Binding IsFlashUpload}" /> <!-- FLASH checkbox -->
+		<!-- Flash -->
+		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="2" >
+			<StackPanel>
+				<TextBlock Text="Upload:" />
+					<DockPanel Classes="TopMargin">
+						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
+							<CheckBox Content="FLASH:" Classes="RightMargin" Grid.Column="0" Grid.Row="0"
+								IsChecked="{Binding IsFlashUpload}" /> <!-- FLASH checkbox -->
 
-                            <TextBox Watermark="Select FLASH HEX file" Grid.Column="1" Grid.Row="0"
-                                Text="{Binding FlashUploadFile}" IsReadOnly="True"
-                                IsEnabled="{Binding IsFlashUploadFileEnabled}" /> <!-- FLASH file -->
+							<TextBox Watermark="Select FLASH HEX file" Grid.Column="1" Grid.Row="0"
+								Text="{Binding FlashUploadFile}" IsReadOnly="True"
+								IsEnabled="{Binding IsFlashUploadFileEnabled}" /> <!-- FLASH file -->
 
-                            <Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
-                                Command="{Binding SelectFlashForUploadAsync}"
-                                IsEnabled="{Binding IsSelectFlashForUploadButtonEnabled}" /> <!-- Select FLASH file button -->
-                        </Grid>
-                    </DockPanel>
+							<Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
+								Command="{Binding SelectFlashForUploadAsync}"
+								IsEnabled="{Binding IsSelectFlashForUploadButtonEnabled}" /> <!-- Select FLASH file button -->
+						</Grid>
+					</DockPanel>
 
-                    <DockPanel Classes="TopMargin">
-                        <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-                            <CheckBox Content="EEPROM:" Classes="RightMargin" Grid.Column="0" Grid.Row="0"
-                                IsChecked="{Binding IsEepromUpload}" /> <!-- EEPROM checkbox -->
+					<DockPanel Classes="TopMargin">
+						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
+							<CheckBox Content="EEPROM:" Classes="RightMargin" Grid.Column="0" Grid.Row="0"
+								IsChecked="{Binding IsEepromUpload}" /> <!-- EEPROM checkbox -->
 
-                            <TextBox Watermark="Select EEPROM HEX file" Grid.Column="1" Grid.Row="0"
-                                Text="{Binding EepromUploadFile}" IsReadOnly="True"
-                                IsEnabled="{Binding IsEepromUploadFileEnabled}" /> <!-- EEPROM file -->
+							<TextBox Watermark="Select EEPROM HEX file" Grid.Column="1" Grid.Row="0"
+								Text="{Binding EepromUploadFile}" IsReadOnly="True"
+								IsEnabled="{Binding IsEepromUploadFileEnabled}" /> <!-- EEPROM file -->
 
-                            <Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
-                                Command="{Binding SelectEepromForUploadAsync}"
-                                IsEnabled="{Binding IsSelectEepromForUploadButtonEnabled}" /> <!-- Select EEPROM file button -->
-                        </Grid>
-                    </DockPanel>
+							<Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
+								Command="{Binding SelectEepromForUploadAsync}"
+								IsEnabled="{Binding IsSelectEepromForUploadButtonEnabled}" /> <!-- Select EEPROM file button -->
+						</Grid>
+					</DockPanel>
 
-                    <DockPanel Classes="TopMargin">
-                        <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-                            <TextBlock Text="Backups:" Classes="RightMargin" Grid.Column="0" Grid.Row="0" /> <!-- Backups label -->
+					<DockPanel Classes="TopMargin">
+						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
+							<TextBlock Text="Backups:" Classes="RightMargin" Grid.Column="0" Grid.Row="0" /> <!-- Backups label -->
 
-                            <TextBox Watermark="Select backups directory" Grid.Column="1" Grid.Row="0"
-                                Text="{Binding UploadBackupsDirectory}" IsReadOnly="True" /> <!-- Backups directory -->
+							<TextBox Watermark="Select backups directory" Grid.Column="1" Grid.Row="0"
+								Text="{Binding UploadBackupsDirectory}" IsReadOnly="True" /> <!-- Backups directory -->
 
-                            <Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
-                                Command="{Binding SelectBackupsDirectoryAsync}" /> <!-- Select backups directory button -->
-                        </Grid>
-                    </DockPanel>
+							<Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
+								Command="{Binding SelectBackupsDirectoryAsync}" /> <!-- Select backups directory button -->
+						</Grid>
+					</DockPanel>
 
-                <StackPanel Orientation="Horizontal">
-                    <Button Classes="TopMargin" Content="Upload" Command="{Binding Upload}"
-                        IsEnabled="{Binding IsUploadEnabled}" /> <!-- Upload button -->
-                </StackPanel>
-            </StackPanel>
-        </Border>
+				<StackPanel Orientation="Horizontal">
+					<Button Classes="TopMargin" Content="Upload" Command="{Binding Upload}"
+						IsEnabled="{Binding IsUploadEnabled}" /> <!-- Upload button -->
+				</StackPanel>
+			</StackPanel>
+		</Border>
 
-        <!-- Read -->
-        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="3" >
-            <StackPanel>
-                <TextBlock Text="Download:" />
-                    <DockPanel Classes="TopMargin">
-                        <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-                            <TextBlock Text="FLASH:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
+		<!-- Read -->
+		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="3" >
+			<StackPanel>
+				<TextBlock Text="Download:" />
+					<DockPanel Classes="TopMargin">
+						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
+							<TextBlock Text="FLASH:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
 
-                            <TextBox Watermark="Write FLASH HEX into this file" Grid.Column="1" Grid.Row="0"
-                                Text="{Binding FlashDownloadFile}" IsReadOnly="True" /> <!-- FLASH file -->
+							<TextBox Watermark="Write FLASH HEX into this file" Grid.Column="1" Grid.Row="0"
+								Text="{Binding FlashDownloadFile}" IsReadOnly="True" /> <!-- FLASH file -->
 
-                            <Button Grid.Column="2" Grid.Row="0" Content="..." Classes="LeftMargin"
-                                Command="{Binding SelectFlashForDownloadAsync}" /> <!-- Select FLASH file button -->
-                        </Grid>
-                    </DockPanel>
+							<Button Grid.Column="2" Grid.Row="0" Content="..." Classes="LeftMargin"
+								Command="{Binding SelectFlashForDownloadAsync}" /> <!-- Select FLASH file button -->
+						</Grid>
+					</DockPanel>
 
-                    <DockPanel Classes="TopMargin">
-                        <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-                            <TextBlock Text="EEPROM:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
+					<DockPanel Classes="TopMargin">
+						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
+							<TextBlock Text="EEPROM:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
 
-                            <TextBox Watermark="Write EEPROM HEX into this file" Grid.Column="1" Grid.Row="0"
-                                Text="{Binding EepromDownloadFile}" IsReadOnly="True" /> <!-- EEPROM file -->
+							<TextBox Watermark="Write EEPROM HEX into this file" Grid.Column="1" Grid.Row="0"
+								Text="{Binding EepromDownloadFile}" IsReadOnly="True" /> <!-- EEPROM file -->
 
-                            <Button Grid.Column="2" Grid.Row="0" Content="..." Classes="LeftMargin"
-                                Command="{Binding SelectEepromForDownloadAsync}" /> <!-- Select EEPROM file button -->
-                        </Grid>
-                    </DockPanel>
+							<Button Grid.Column="2" Grid.Row="0" Content="..." Classes="LeftMargin"
+								Command="{Binding SelectEepromForDownloadAsync}" /> <!-- Select EEPROM file button -->
+						</Grid>
+					</DockPanel>
 
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Download" Classes="TopMargin" Command="{Binding Download}"
-                        IsEnabled="{Binding IsDownloadEnabled}" /> <!-- Download button -->
-                </StackPanel>
-            </StackPanel>
-        </Border>
+				<StackPanel Orientation="Horizontal">
+					<Button Content="Download" Classes="TopMargin" Command="{Binding Download}"
+						IsEnabled="{Binding IsDownloadEnabled}" /> <!-- Download button -->
+				</StackPanel>
+			</StackPanel>
+		</Border>
 
-        <!-- Console -->
-        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="4" >
-            <DockPanel>
-                <TextBlock Text="Console:" DockPanel.Dock="Top" /> <!-- Log textbox -->
+		<!-- Console -->
+		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="4" >
+			<DockPanel>
+				<TextBlock Text="Console:" DockPanel.Dock="Top" /> <!-- Log textbox -->
 
-                <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="*, Auto">
-                    <TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" AcceptsReturn="True" IsReadOnly="True"
-                        Text="{Binding ConsoleText}" CaretIndex="{Binding ConsoleCaretIndex}" />
+				<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="*, Auto">
+					<TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" AcceptsReturn="True" IsReadOnly="True"
+						Text="{Binding ConsoleText}" CaretIndex="{Binding ConsoleCaretIndex}" />
 
-                    <Button Grid.Column="0" Grid.Row="1" Content="Copy" Classes="TopMargin" 
-                        Command="{Binding CopyConsoleToClipboard}" /> <!-- Copy log -->
+					<Button Grid.Column="0" Grid.Row="1" Content="Copy" Classes="TopMargin" 
+						Command="{Binding CopyConsoleToClipboard}" /> <!-- Copy log -->
 
-                    <Button Grid.Column="2" Grid.Row="1" Content="Clear" Classes="TopMargin" 
-                        Command="{Binding ClearConsole}"/> <!-- Clear log -->
-                </Grid>
-            </DockPanel>
-        </Border>
-    </Grid>
+					<Button Grid.Column="2" Grid.Row="1" Content="Clear" Classes="TopMargin" 
+						Command="{Binding ClearConsole}"/> <!-- Clear log -->
+				</Grid>
+			</DockPanel>
+		</Border>
 
+		<!-- About -->
+		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="5" >
+			<StackPanel>
+				<TextBlock Text="About:" />
+				<DockPanel Classes="TopMargin">
+					<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
+						<Button Grid.Column="0" Grid.Row="0" Content="About" Classes="TopMargin" />
+						<Button Grid.Column="2" Grid.Row="0" Content="License" Classes="TopMargin" />
+					</Grid>
+				</DockPanel>
+			</StackPanel>
+		</Border>
+	</Grid>
 </Window>
