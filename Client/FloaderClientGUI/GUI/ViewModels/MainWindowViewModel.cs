@@ -498,7 +498,8 @@ namespace FloaderClientGUI.ViewModels
         public async void SelectFlashForDownloadAsync()
         {
             var dialog = PrepareSaveHexDialog();
-            dialog.InitialFileName = _deviceIndependentOperationsProvider.GenerateFlashFileName(isBackup: false);
+            // If not ready, we can't generate default filename, because it contains IDs read from device
+            dialog.InitialFileName = _isReady ? _deviceIndependentOperationsProvider.GenerateFlashFileName(isBackup: false) : string.Empty;
             FlashDownloadFile = await dialog.ShowAsync(Program.GetMainWindow());
         }
 
@@ -536,7 +537,7 @@ namespace FloaderClientGUI.ViewModels
         public async void SelectEepromForDownloadAsync()
         {
             var dialog = PrepareSaveHexDialog();
-            dialog.InitialFileName = _deviceIndependentOperationsProvider.GenerateEepromFileName(isBackup: false);
+            dialog.InitialFileName = _isReady ? _deviceIndependentOperationsProvider.GenerateEepromFileName(isBackup: false) : string.Empty;
             EepromDownloadFile = await dialog.ShowAsync(Program.GetMainWindow());
         }
 
