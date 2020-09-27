@@ -144,6 +144,14 @@ namespace LibFloaderClient.Implementations.Device
             _isSetUp = true;
         }
 
+        public void DeSetup()
+        {
+            _portSettings = null;
+            _deviceIdentificationData = null;
+            _versionSpecificDeviceData = null;
+            _isSetUp = false;
+        }
+
         public void WriteAllEEPROM(List<byte> toWrite)
         {
             IsSetUp();

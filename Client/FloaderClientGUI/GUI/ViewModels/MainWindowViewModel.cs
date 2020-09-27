@@ -425,6 +425,23 @@ namespace FloaderClientGUI.ViewModels
         }
 
         /// <summary>
+        /// De set-ups client in a such way, like "Poll" button was never pressed
+        /// </summary>
+        private void DeSetup()
+        {
+            // Logic
+            _isReady = false;
+            _deviceIndependentOperationsProvider.DeSetup();
+            _mainModel.VersionSpecificDeviceData = null;
+            _mainModel.DeviceIdentData = null;
+
+            // GUI
+            VendorName = string.Empty;
+            ModelName = string.Empty;
+            SerialNumber = string.Empty;
+        }
+
+        /// <summary>
         /// Select FLASH file to upload
         /// </summary>
         public async void SelectFlashForUploadAsync()
@@ -567,6 +584,7 @@ namespace FloaderClientGUI.ViewModels
         {
             CheckReadyness();
             _deviceIndependentOperationsProvider.RebootToFirmware();
+            DeSetup();
         }
         #endregion
 

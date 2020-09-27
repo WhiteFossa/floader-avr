@@ -16,6 +16,11 @@ namespace LibFloaderClient.Interfaces.Device
         void Setup(PortSettings portSettings, DeviceIdentifierData deviceIdentData, Object versionSpecificDeviceData);
 
         /// <summary>
+        /// Reverts Setup() action
+        /// </summary>
+        void DeSetup();
+
+        /// <summary>
         /// Read all FLASH memory (including bootloader)
         /// </summary>
         List<byte> ReadAllFlash();
