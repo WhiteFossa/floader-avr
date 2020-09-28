@@ -30,6 +30,7 @@ namespace FloaderClientGUI.ViewModels
         private IDeviceIndependentOperationsProvider _deviceIndependentOperationsProvider;
 
         public PortSelectionWindowViewModel PortSelectionVM { get; }
+        public AboutWindowViewModel AboutVM { get; }
 
 #region Bound properties
         private string _consoleText;
@@ -306,8 +307,8 @@ namespace FloaderClientGUI.ViewModels
             // Setting up logger
             _logger.SetLoggingFunction(AddLineToConsole);
 
-            // Setting up port selection VM
             PortSelectionVM = new PortSelectionWindowViewModel();
+            AboutVM = new AboutWindowViewModel();
 
             SetPollDeviceState();
 
@@ -587,6 +588,20 @@ namespace FloaderClientGUI.ViewModels
             _deviceIndependentOperationsProvider.RebootToFirmware();
             DeSetup();
         }
+
+        /// <summary>
+        /// Show about dialog
+        /// </summary>
+        public async void ShowAboutDialogAsync()
+        {
+            var aboutDialog = new AboutWindow()
+            {
+                DataContext = AboutVM
+            };
+
+            await aboutDialog.ShowDialog(Program.GetMainWindow());
+        }
+
         #endregion
 
         /// <summary>

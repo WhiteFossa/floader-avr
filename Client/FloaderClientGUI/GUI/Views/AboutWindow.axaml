@@ -1,0 +1,36 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
+		Width="400" Height="400"
+		x:Class="FloaderClientGUI.Views.AboutWindow"
+		Title="About Fossa's loader">
+
+	<Window.Styles>
+		<StyleInclude Source="/Styles/Common.xaml" />
+	</Window.Styles>
+
+		<StackPanel>
+			<TextBlock HorizontalAlignment="Center">Fossa's loader, version 0.0.1</TextBlock>
+			<TextBlock HorizontalAlignment="Center">Crossplatform bootloader for AVR MCUs.</TextBlock>
+
+			<TextBlock HorizontalAlignment="Center">By White Fossa aka Artyom Vetrov</TextBlock>
+			<TextBlock HorizontalAlignment="Center">and contributors.</TextBlock>
+
+			<TextBlock HorizontalAlignment="Center">License:</TextBlock>
+			<TextBlock HorizontalAlignment="Center">AGPLv3</TextBlock>
+			<TextBlock HorizontalAlignment="Center">or later version.</TextBlock>
+			
+			<Grid ColumnDefinitions="Auto, Auto, *" RowDefinitions="Auto">
+				<TextBlock Grid.Column="0" Grid.Row="0">Sources:</TextBlock>
+				<Button Grid.Column="1" Grid.Row="0" Content="https://github.com/WhiteFossa/floader-avr"/>
+			</Grid>
+
+			<Grid ColumnDefinitions="Auto, Auto, *" RowDefinitions="Auto">
+				<TextBlock Grid.Column="0" Grid.Row="0">Email:</TextBlock>
+				<Button Grid.Column="1" Grid.Row="0" Content="whitefossa@protonmail.com"/>
+			</Grid>
+
+		</StackPanel>
+</Window>
