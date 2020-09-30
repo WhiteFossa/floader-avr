@@ -1,72 +1,107 @@
- <Styles
-        xmlns = "https://github.com/avaloniaui"
-        xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:sys = "clr-namespace: System; assembly = netstandard">
+<Styles
+	xmlns = "https://github.com/avaloniaui"
+	xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:sys = "clr-namespace: System; assembly = netstandard">
 
-        <!-- Visible borders (for grouping) -->
-        <Style Selector="Border.VisibleBorders">
-            <Setter Property="BorderBrush" Value="Black" />
-            <Setter Property="BorderThickness" Value="1" />
+	<!-- Visible borders (for grouping) -->
+	<Style Selector="Border.VisibleBorders">
+		<Setter Property="BorderBrush" Value="Black" />
+		<Setter Property="BorderThickness" Value="1" />
 
-            <Setter Property="CornerRadius" Value="5" />
+		<Setter Property="CornerRadius" Value="5" />
 
-            <Setter Property="Padding" Value="5" />
-            <Setter Property="Margin" Value="1" />
-        </Style>
+		<Setter Property="Padding" Value="5" />
+		<Setter Property="Margin" Value="1" />
+	</Style>
 
-        <!-- Text block with right margin -->
-        <Style Selector="TextBlock.RightMargin">
-            <Setter Property="Margin" Value="0, 0, 5, 0" />
-        </Style>
+	<!-- Text block with right margin -->
+	<Style Selector="TextBlock.RightMargin">
+		<Setter Property="Margin" Value="0, 0, 5, 0" />
+	</Style>
 
-        <!-- Text block centrally vertically aligned -->
-        <Style Selector="TextBlock.ValignCenter">
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
+	<!-- Text block centrally vertically aligned -->
+	<Style Selector="TextBlock.ValignCenter">
+		<Setter Property="VerticalAlignment" Value="Center" />
+	</Style>
 
-        <!-- Text block centrally vertically aligned with right margin -->
-        <Style Selector="TextBlock.VCenterRightMargin">
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Margin" Value="0, 0, 5, 0" />
-        </Style>
+	<!-- Text block centrally vertically aligned with right margin -->
+	<Style Selector="TextBlock.VCenterRightMargin">
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="Margin" Value="0, 0, 5, 0" />
+	</Style>
 
-        <!-- Checkbox with right margin -->
-        <Style Selector="CheckBox.RightMargin">
-            <Setter Property="Margin" Value="0, 0, 5, 0" />
-        </Style>
-        
-        <!-- Checkbox with top margin -->
-        <Style Selector="CheckBox.TopMargin">
-            <Setter Property="Margin" Value="0, 5, 0, 0" />
-        </Style>
+	<!-- Checkbox with right margin -->
+	<Style Selector="CheckBox.RightMargin">
+		<Setter Property="Margin" Value="0, 0, 5, 0" />
+	</Style>
+		
+	<!-- Checkbox with top margin -->
+	<Style Selector="CheckBox.TopMargin">
+		<Setter Property="Margin" Value="0, 5, 0, 0" />
+	</Style>
 
-        <!-- Rounded buttons -->
-        <Style Selector="Button/template/ContentPresenter">
-            <Setter Property = "CornerRadius" Value = "5" />
-        </Style>
+	<!-- Rounded buttons -->
+	<Style Selector="Button/template/ContentPresenter">
+		<Setter Property = "CornerRadius" Value = "5" />
+	</Style>
 
-        <!-- Button with top margin -->
-        <Style Selector="Button.TopMargin">
-            <Setter Property="Margin" Value="0, 5, 0, 0" />
-        </Style>
+	<!-- Button with top margin -->
+	<Style Selector="Button.TopMargin">
+		<Setter Property="Margin" Value="0, 5, 0, 0" />
+	</Style>
 
-        <!-- Button with left margin -->
-        <Style Selector="Button.LeftMargin">
-            <Setter Property="Margin" Value="5, 0, 0, 0" />
-        </Style>
+	<!-- Button with left margin -->
+	<Style Selector="Button.LeftMargin">
+		<Setter Property="Margin" Value="5, 0, 0, 0" />
+	</Style>
 
-        <!-- Stack panel with top margin -->
-        <Style Selector="StackPanel.TopMargin">
-            <Setter Property="Margin" Value="0, 5, 0, 0" />
-        </Style>
+	<!-- Stack panel with top margin -->
+	<Style Selector="StackPanel.TopMargin">
+		<Setter Property="Margin" Value="0, 5, 0, 0" />
+	</Style>
 
-        <!-- Dock panel with top margin -->
-        <Style Selector="DockPanel.TopMargin">
-            <Setter Property="Margin" Value="0, 5, 0, 0" />
-        </Style>
+	<!-- Dock panel with top margin -->
+	<Style Selector="DockPanel.TopMargin">
+		<Setter Property="Margin" Value="0, 5, 0, 0" />
+	</Style>
 
-        <!-- List box with top margin -->
-        <Style Selector="ListBox.TopMargin">
-            <Setter Property="Margin" Value="0, 5, 0, 0" />
-        </Style>
+	<!-- List box with top margin -->
+	<Style Selector="ListBox.TopMargin">
+		<Setter Property="Margin" Value="0, 5, 0, 0" />
+	</Style>
+
+	<!-- Centrally-aligned text block -->
+	<Style Selector="TextBlock.Center">
+		<Setter Property="HorizontalAlignment" Value="Center" />
+	</Style>
+	
+	<!-- H1 (text block) -->
+	<Style Selector="TextBlock.H1">
+		<Setter Property="FontSize" Value="24" />
+		<Setter Property="FontWeight" Value="Bold" />
+	</Style>
+
+	<!-- H2 (text block) -->
+	<Style Selector="TextBlock.H2">
+		<Setter Property="FontSize" Value="20" />
+		<Setter Property="FontWeight" Value="Bold" />
+	</Style>
+
+	<!-- H3 (text block) -->
+	<Style Selector="TextBlock.H3">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontWeight" Value="Bold" />
+	</Style>
+
+	<!-- Link button -->
+	<Style Selector="Button.Link">
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Padding" Value="5, 0, 0, 0" />
+	</Style>
+
+	<Style Selector="Button.Link:pressed /template/ContentPresenter">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Background" Value="#E0E0E0" />
+	</Style>
 </Styles> 

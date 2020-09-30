@@ -26,6 +26,16 @@ namespace FloaderClientGUI
     public class Program
     {
         /// <summary>
+        /// Program name
+        /// </summary>
+        public const string AppName = "Fossa's loader";
+
+        /// <summary>
+        /// Program version
+        /// </summary>
+        public const string AppVersion = "0.0.1";
+
+        /// <summary>
         /// Dependency injection service provider
         /// </summary>
         public static ServiceProvider Di {get; set; }
@@ -83,6 +93,14 @@ namespace FloaderClientGUI
                 return desktopLifetime.MainWindow;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Get full application name
+        /// </summary>
+        public static string GetFullAppName()
+        {
+            return $"{ AppName } v{AppVersion}";
         }
     }
 }

@@ -12,24 +12,24 @@
 	</Window.Styles>
 
 		<StackPanel>
-			<TextBlock HorizontalAlignment="Center">Fossa's loader, version 0.0.1</TextBlock>
-			<TextBlock HorizontalAlignment="Center">Crossplatform bootloader for AVR MCUs.</TextBlock>
+			<TextBlock Classes="Center H1" Text="{Binding VersionText}" />
+			<TextBlock Classes="Center H2">Crossplatform bootloader for AVR MCUs.</TextBlock>
 
-			<TextBlock HorizontalAlignment="Center">By White Fossa aka Artyom Vetrov</TextBlock>
-			<TextBlock HorizontalAlignment="Center">and contributors.</TextBlock>
+			<TextBlock Classes="Center H3">By White Fossa aka Artyom Vetrov</TextBlock>
+			<TextBlock Classes="Center H3">and contributors.</TextBlock>
 
-			<TextBlock HorizontalAlignment="Center">License:</TextBlock>
-			<TextBlock HorizontalAlignment="Center">AGPLv3</TextBlock>
-			<TextBlock HorizontalAlignment="Center">or later version.</TextBlock>
+			<TextBlock Classes="Center H2">License:</TextBlock>
+			<TextBlock Classes="Center H1">AGPLv3</TextBlock>
+			<TextBlock Classes="Center H2">or later version.</TextBlock>
 			
 			<Grid ColumnDefinitions="Auto, Auto, *" RowDefinitions="Auto">
 				<TextBlock Grid.Column="0" Grid.Row="0">Sources:</TextBlock>
-				<Button Grid.Column="1" Grid.Row="0" Content="https://github.com/WhiteFossa/floader-avr"/>
+				<Button Grid.Column="1" Grid.Row="0" Classes="Link" Content="https://github.com/WhiteFossa/floader-avr"/>
 			</Grid>
 
 			<Grid ColumnDefinitions="Auto, Auto, *" RowDefinitions="Auto">
 				<TextBlock Grid.Column="0" Grid.Row="0">Email:</TextBlock>
-				<Button Grid.Column="1" Grid.Row="0" Content="whitefossa@protonmail.com"/>
+				<Button Grid.Column="1" Grid.Row="0" Classes="Link" Content="whitefossa@protonmail.com"/>
 			</Grid>
 
 		</StackPanel>
