@@ -12,7 +12,7 @@
 	</Window.Styles>
 
 		<StackPanel>
-			<TextBlock Classes="Center H1" Text="{Binding VersionText}" />
+			<TextBlock Classes="Center H1" Text="{ Binding VersionText }" />
 			<TextBlock Classes="Center H2">Crossplatform bootloader for AVR MCUs.</TextBlock>
 
 			<TextBlock Classes="Center H3">By White Fossa aka Artyom Vetrov</TextBlock>
@@ -24,12 +24,14 @@
 			
 			<Grid ColumnDefinitions="Auto, Auto, *" RowDefinitions="Auto">
 				<TextBlock Grid.Column="0" Grid.Row="0">Sources:</TextBlock>
-				<Button Grid.Column="1" Grid.Row="0" Classes="Link" Content="https://github.com/WhiteFossa/floader-avr"/>
+				<Button Grid.Column="1" Grid.Row="0" Classes="Link" Content="{ Binding SourcesAddressText }"
+						Command="{ Binding OpenSourcesURL }" />
 			</Grid>
 
 			<Grid ColumnDefinitions="Auto, Auto, *" RowDefinitions="Auto">
 				<TextBlock Grid.Column="0" Grid.Row="0">Email:</TextBlock>
-				<Button Grid.Column="1" Grid.Row="0" Classes="Link" Content="whitefossa@protonmail.com"/>
+				<Button Grid.Column="1" Grid.Row="0" Classes="Link" Content="{ Binding ContactEmailText }"
+						Command="{ Binding ComposeEmail }" />
 			</Grid>
 
 		</StackPanel>
