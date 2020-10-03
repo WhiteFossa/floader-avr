@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using LibFloaderClient.Implementations.Helpers;
+using ReactiveUI;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -44,12 +45,12 @@ namespace FloaderClientGUI.ViewModels
 
         public void OpenSourcesURL()
         {
-
+            OpenUrlHelper.Open(SourcesAddress);
         }
 
         public void ComposeEmail()
         {
-
+            OpenUrlHelper.Open($"mailto:{ ContactEmail }");
         }
 
         #endregion
