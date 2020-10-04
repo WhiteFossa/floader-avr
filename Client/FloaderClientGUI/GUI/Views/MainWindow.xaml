@@ -150,16 +150,8 @@
 			<DockPanel>
 				<TextBlock Text="Console:" DockPanel.Dock="Top" /> <!-- Log textbox -->
 
-				<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="*, Auto">
-					<TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" AcceptsReturn="True" IsReadOnly="True"
+				<TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" AcceptsReturn="True" IsReadOnly="True"
 						Text="{Binding ConsoleText}" CaretIndex="{Binding ConsoleCaretIndex}" />
-
-					<Button Grid.Column="0" Grid.Row="1" Content="Copy" Classes="TopMargin" 
-						Command="{Binding CopyConsoleToClipboard}" /> <!-- Copy log -->
-
-					<Button Grid.Column="2" Grid.Row="1" Content="Clear" Classes="TopMargin" 
-						Command="{Binding ClearConsole}"/> <!-- Clear log -->
-				</Grid>
 			</DockPanel>
 		</Border>
 

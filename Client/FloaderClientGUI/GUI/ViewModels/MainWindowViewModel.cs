@@ -1,7 +1,6 @@
 ﻿using Avalonia.Controls;
 using FloaderClientGUI.Models;
 using FloaderClientGUI.Views;
-using LibFloaderClient.Implementations.Enums.Device;
 using LibFloaderClient.Implementations.Port;
 using LibFloaderClient.Interfaces.DAO;
 using LibFloaderClient.Interfaces.Device;
@@ -16,7 +15,6 @@ using ReactiveUI;
 using System;
 using System.Linq;
 using System.Text;
-using TextCopy;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -316,22 +314,6 @@ namespace FloaderClientGUI.ViewModels
         }
 
 #region Commands
-        /// <summary>
-        /// Command to clear console
-        /// </summary>
-        public void ClearConsole()
-        {
-            ConsoleText = string.Empty;
-        }
-
-        /// <summary>
-        /// Copies console content to clipboard
-        /// </summary>
-        public void CopyConsoleToClipboard()
-        {
-            ClipboardService.SetText(ConsoleText);
-        }
-
         /// <summary>
         /// Command to select port
         /// </summary>
