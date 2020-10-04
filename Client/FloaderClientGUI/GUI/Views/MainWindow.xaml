@@ -161,7 +161,6 @@
 				<DockPanel Classes="TopMargin">
 					<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
 						<Button Grid.Column="0" Grid.Row="0" Content="About" Classes="TopMargin" Command="{Binding ShowAboutDialogAsync}" />
-						<Button Grid.Column="2" Grid.Row="0" Content="License" Classes="TopMargin" />
 					</Grid>
 				</DockPanel>
 			</StackPanel>
