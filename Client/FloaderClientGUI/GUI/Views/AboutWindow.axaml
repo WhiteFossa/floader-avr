@@ -11,7 +11,9 @@
 		<StyleInclude Source="/Styles/Common.xaml" />
 	</Window.Styles>
 
-		<StackPanel Margin="5">
+	<Grid ColumnDefinitions="*" RowDefinitions="Auto, *" >
+
+		<StackPanel Margin="5" Grid.Column="0" Grid.Row="0">
 			<TextBlock Classes="Center H1" Text="{ Binding VersionText }" />
 			<TextBlock Classes="Center H2">Crossplatform bootloader for AVR MCUs.</TextBlock>
 
@@ -21,7 +23,7 @@
 			<TextBlock Classes="Center H2">License:</TextBlock>
 			<TextBlock Classes="Center H1">AGPLv3</TextBlock>
 			<TextBlock Classes="Center H2">or later version.</TextBlock>
-			
+
 			<Grid ColumnDefinitions="Auto, Auto, *" RowDefinitions="Auto">
 				<TextBlock Grid.Column="0" Grid.Row="0">Sources:</TextBlock>
 				<Button Grid.Column="1" Grid.Row="0" Classes="Link" Content="{ Binding SourcesAddressText }"
@@ -33,6 +35,11 @@
 				<Button Grid.Column="1" Grid.Row="0" Classes="Link" Content="{ Binding ContactEmailText }"
 						Command="{ Binding ComposeEmail }" />
 			</Grid>
-
 		</StackPanel>
+
+		<DockPanel Margin="5" Grid.Column="0" Grid.Row="1">
+			<TextBlock DockPanel.Dock="Top">License text:</TextBlock>
+			<TextBox AcceptsReturn="True" IsReadOnly="True" Text="License will be here" />
+		</DockPanel>
+	</Grid>
 </Window>

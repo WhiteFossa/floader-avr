@@ -150,8 +150,7 @@
 			<DockPanel>
 				<TextBlock Text="Console:" DockPanel.Dock="Top" /> <!-- Log textbox -->
 
-				<TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" AcceptsReturn="True" IsReadOnly="True"
-						Text="{Binding ConsoleText}" CaretIndex="{Binding ConsoleCaretIndex}" />
+				<TextBox AcceptsReturn="True" IsReadOnly="True" Text="{Binding ConsoleText}" CaretIndex="{Binding ConsoleCaretIndex}" />
 			</DockPanel>
 		</Border>
 

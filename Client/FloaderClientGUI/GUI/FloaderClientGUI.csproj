@@ -15,15 +15,15 @@
     <AvaloniaResource Include="Styles\**" /> 
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.0-preview2" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.0-preview2" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-preview2" />
+    <PackageReference Include="Avalonia" Version="0.10.0-preview5" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.0-preview5" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-preview5" />
     <PackageReference Include="MessageBox.Avalonia" Version="0.10.0-prev2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LibFloaderClient\LibFloaderClient.csproj" />
     <ProjectReference Include="..\LibIntelHex\LibIntelHex.csproj" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.6" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.8" />
   </ItemGroup>
 </Project>
