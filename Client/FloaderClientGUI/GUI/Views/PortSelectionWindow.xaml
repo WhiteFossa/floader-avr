@@ -1,85 +1,85 @@
 <Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:FloaderClientGUI.ViewModels;assembly=FloaderClientGUI"
-        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
-        Width="300" Height="400"
-        x:Class="FloaderClientGUI.Views.PortSelectionWindow"
-        Title="Port selection">
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:vm="clr-namespace:FloaderClientGUI.ViewModels;assembly=FloaderClientGUI"
+		mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
+		Width="300" Height="400"
+		x:Class="FloaderClientGUI.Views.PortSelectionWindow"
+		Title="Port selection">
 
-    <Window.Styles>
-        <StyleInclude Source="/Styles/Common.xaml" />
-    </Window.Styles> 
+	<Window.Styles>
+		<StyleInclude Source="/Styles/Common.xaml" />
+	</Window.Styles> 
 
-     <!-- Main grid -->
-    <Grid ColumnDefinitions="*" RowDefinitions="*, Auto, Auto" >
+	 <!-- Main grid -->
+	<Grid ColumnDefinitions="*" RowDefinitions="*, Auto, Auto" >
 
-        <!-- Ports list -->
-        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="0" >
-            <DockPanel>
-                <TextBlock Text="Ports list:" DockPanel.Dock="Top" />
+		<!-- Ports list -->
+		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="0" >
+			<DockPanel>
+				<TextBlock Text="Ports list:" DockPanel.Dock="Top" />
 
-                <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, *">
-                    <Button Content="Refresh" Grid.Column="1" Grid.Row="0" Command="{Binding RefreshPortsList}" /> <!-- Refresh ports list button-->
+				<Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, *">
+					<Button Content="Refresh" Grid.Column="1" Grid.Row="0" Command="{Binding RefreshPortsList}" /> <!-- Refresh ports list button-->
 
-                    <ListBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Classes="TopMargin"
-                        Items="{Binding Ports}" SelectedItem="{Binding SelectedPort}" > <!-- Ports list -->
-                    </ListBox>
-                </Grid>
-            </DockPanel>
-        </Border>
+					<ListBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Classes="TopMargin"
+						Items="{Binding Ports}" SelectedItem="{Binding SelectedPort}" Name="PortsListBox"> <!-- Ports list -->
+					</ListBox>
+				</Grid>
+			</DockPanel>
+		</Border>
 
-        <!-- Advanced settings -->
-        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="1" >
-            <StackPanel>
-                <TextBlock Text="Advanced options:" />
+		<!-- Advanced settings -->
+		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="1" >
+			<StackPanel>
+				<TextBlock Text="Advanced options:" />
 
-                <DockPanel Classes="TopMargin">
-                    <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-                        <CheckBox Content="Override defaults?" Grid.Column="0" Grid.Row="0"
-                        IsChecked="{Binding IsOverrideDefaults}" /> <!-- Override defaults checkbox -->
+				<DockPanel Classes="TopMargin">
+					<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
+						<CheckBox Content="Override defaults?" Grid.Column="0" Grid.Row="0"
+						IsChecked="{Binding IsOverrideDefaults}" /> <!-- Override defaults checkbox -->
 
-                        <Button Grid.Column="2" Grid.Row="0" Content="Reset" Command="{Binding ResetAdvancedSettings}"
-                            IsEnabled="{Binding IsResetToDefaultsEnabled}" /> <!-- Reset advanced settings -->
-                    </Grid>
-                </DockPanel>
+						<Button Grid.Column="2" Grid.Row="0" Content="Reset" Command="{Binding ResetAdvancedSettings}"
+							IsEnabled="{Binding IsResetToDefaultsEnabled}" /> <!-- Reset advanced settings -->
+					</Grid>
+				</DockPanel>
 
-                <StackPanel Orientation="Horizontal" Classes="TopMargin">
-                    <TextBlock Text="Baudrate:" Classes="VCenterRightMargin" />
-                    <ComboBox IsEnabled="{Binding IsBaudrateEnabled}"  Items="{Binding Baudrates}"
-                        SelectedItem="{Binding SelectedBaudrate}" /> <!-- Baudrate combobox -->
-                </StackPanel>
+				<StackPanel Orientation="Horizontal" Classes="TopMargin">
+					<TextBlock Text="Baudrate:" Classes="VCenterRightMargin" />
+					<ComboBox IsEnabled="{Binding IsBaudrateEnabled}"  Items="{Binding Baudrates}"
+						SelectedItem="{Binding SelectedBaudrate}" /> <!-- Baudrate combobox -->
+				</StackPanel>
 
-                <StackPanel Orientation="Horizontal" Classes="TopMargin">
-                    <TextBlock Text="Parity:" Classes="VCenterRightMargin" />
-                    <ComboBox IsEnabled="{Binding IsParityEnabled}" Items="{Binding Parities}"
-                        SelectedItem="{Binding SelectedParity}" /> <!-- Parity combobox -->
-                </StackPanel>
+				<StackPanel Orientation="Horizontal" Classes="TopMargin">
+					<TextBlock Text="Parity:" Classes="VCenterRightMargin" />
+					<ComboBox IsEnabled="{Binding IsParityEnabled}" Items="{Binding Parities}"
+						SelectedItem="{Binding SelectedParity}" /> <!-- Parity combobox -->
+				</StackPanel>
 
-                <StackPanel Orientation="Horizontal" Classes="TopMargin">
-                    <TextBlock Text="Data bits:" Classes="VCenterRightMargin" />
-                    <ComboBox IsEnabled="{Binding IsDataBitsEnabled}"  Items="{Binding PortDataBits}"
-                        SelectedItem="{Binding SelectedPortDataBits}" /> <!-- Data bits combobox -->
-                </StackPanel>
+				<StackPanel Orientation="Horizontal" Classes="TopMargin">
+					<TextBlock Text="Data bits:" Classes="VCenterRightMargin" />
+					<ComboBox IsEnabled="{Binding IsDataBitsEnabled}"  Items="{Binding PortDataBits}"
+						SelectedItem="{Binding SelectedPortDataBits}" /> <!-- Data bits combobox -->
+				</StackPanel>
 
-                <StackPanel Orientation="Horizontal" Classes="TopMargin">
-                    <TextBlock Text="Stop bits:" Classes="VCenterRightMargin" />
-                    <ComboBox SelectedIndex="0" IsEnabled="{Binding IsStopBitsEnabled}"
-                        Items="{Binding PortStopBits}" SelectedItem="{Binding SelectedPortStopBits}" /> <!-- Stop bits combobox -->
-                </StackPanel>
-            </StackPanel>
-        </Border>
+				<StackPanel Orientation="Horizontal" Classes="TopMargin">
+					<TextBlock Text="Stop bits:" Classes="VCenterRightMargin" />
+					<ComboBox SelectedIndex="0" IsEnabled="{Binding IsStopBitsEnabled}"
+						Items="{Binding PortStopBits}" SelectedItem="{Binding SelectedPortStopBits}" /> <!-- Stop bits combobox -->
+				</StackPanel>
+			</StackPanel>
+		</Border>
 
-        <!-- Buttons -->
-        <Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="2" >
-            <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-                <Button Grid.Column="0" Grid.Row="0" Content="OK" IsEnabled="{Binding IsOkBtnEnabled}"
-                    Command="{Binding OK}" CommandParameter="{Binding $parent[Window]}" />
+		<!-- Buttons -->
+		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="2" >
+			<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
+				<Button Grid.Column="0" Grid.Row="0" Content="OK" IsEnabled="{Binding IsOkBtnEnabled}"
+					Command="{Binding OK}" CommandParameter="{Binding $parent[Window]}" />
 
-                <Button Grid.Column="2" Grid.Row="0" Content="Cancel" Command="{Binding Cancel}" 
-                    CommandParameter="{Binding $parent[Window]}"/>
-            </Grid>
-        </Border>
-    </Grid>
+				<Button Grid.Column="2" Grid.Row="0" Content="Cancel" Command="{Binding Cancel}" 
+					CommandParameter="{Binding $parent[Window]}"/>
+			</Grid>
+		</Border>
+	</Grid>
 </Window>
