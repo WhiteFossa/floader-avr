@@ -369,6 +369,7 @@ namespace FloaderClientGUI.ViewModels
             {
                 var message = $"Bootloader protocol version { _mainModel.DeviceIdentData.Version } is not supported.";
                 _logger.LogError(message);
+                LockProceeding();
 
                 MessageBoxManager.GetMessageBoxStandardWindow(
                     new MessageBoxStandardParams()
@@ -380,7 +381,6 @@ namespace FloaderClientGUI.ViewModels
                     })
                     .Show();
 
-                LockProceeding();
                 return;
             }
 
@@ -392,6 +392,7 @@ namespace FloaderClientGUI.ViewModels
             {
                 var message = $"Vendor with ID={ _mainModel.DeviceIdentData.VendorId } wasn't found in database.";
                 _logger.LogError(message);
+                LockProceeding();
 
                 MessageBoxManager.GetMessageBoxStandardWindow(
                     new MessageBoxStandardParams()
@@ -403,17 +404,29 @@ namespace FloaderClientGUI.ViewModels
                     })
                     .Show();
 
-                LockProceeding();
                 return;
             }
             _logger.LogInfo($"Vendor ID={ vendorData.Id }, Vendor name=\"{ vendorData.Name }\"");
 
             _logger.LogInfo($"Querying device name data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }, Model ID={ _mainModel.DeviceIdentData.ModelId }");
+
             var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
             if (nameData == null)
             {
-                _logger.LogError($"Device model with Vendor ID={ _mainModel.DeviceIdentData.VendorId } and ModelID={ _mainModel.DeviceIdentData.ModelId } wasn't found in database.");
+                var message = $"Device model with Vendor ID={ _mainModel.DeviceIdentData.VendorId } and ModelID={ _mainModel.DeviceIdentData.ModelId } wasn't found in database.";
+                _logger.LogError(message);
                 LockProceeding();
+
+                MessageBoxManager.GetMessageBoxStandardWindow(
+                    new MessageBoxStandardParams()
+                    {
+                        ContentTitle = "Unknown model",
+                        ContentMessage = message,
+                        Icon = Icon.Error,
+                        ButtonDefinitions = ButtonEnum.Ok
+                    })
+                    .Show();
+
                 return;
             }
             _logger.LogInfo($"Vendor ID={ nameData.VendorId }, Model ID={ nameData.ModelId }, Model name=\"{ nameData.Name }\"");
