@@ -21,6 +21,7 @@ namespace FloaderClientGUI.ViewModels
         private string _versionText;
         private string _sourcesAddressText;
         private string _contactEmailText;
+        private string _license;
 
         public string VersionText
         {
@@ -38,6 +39,12 @@ namespace FloaderClientGUI.ViewModels
         {
             get => _contactEmailText;
             set => this.RaiseAndSetIfChanged(ref _contactEmailText, value);
+        }
+
+        public string License
+        {
+            get => _license;
+            set => this.RaiseAndSetIfChanged(ref _license, value);
         }
 
         #endregion
@@ -61,6 +68,10 @@ namespace FloaderClientGUI.ViewModels
             VersionText = Program.GetFullAppName();
             SourcesAddressText = SourcesAddress;
             ContactEmailText = ContactEmail;
+
+            // Loading license
+            License = ResourcesHelper.GetResourceAsString(typeof(FloaderClientGUI.ViewModels.AboutWindowViewModel),
+                "FloaderClientGUI.Resources.agpl3.txt");
         }
     }
 }

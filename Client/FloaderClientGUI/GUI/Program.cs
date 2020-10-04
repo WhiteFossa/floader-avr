@@ -28,7 +28,7 @@ namespace FloaderClientGUI
         /// <summary>
         /// Program name
         /// </summary>
-        public const string AppName = "Fossa's loader";
+        public const string AppName = "Fossa's AVR loader";
 
         /// <summary>
         /// Program version

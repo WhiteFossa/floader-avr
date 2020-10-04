@@ -15,6 +15,12 @@
     <AvaloniaResource Include="Styles\**" /> 
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Resources\agpl3.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\agpl3.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.0-preview5" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.0-preview5" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-preview5" />
