@@ -8,6 +8,6 @@
 from
 	devices_data_v1
 where
-	VendorId = @vendorId
+	VendorId = @VendorId
 	and
-	ModelId = @modelId
+	ModelId = @ModelId

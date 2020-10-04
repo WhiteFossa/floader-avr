@@ -5,6 +5,6 @@
 from
 	devices_names
 where
-	VendorId = @vendorId
+	VendorId = @VendorId
 	and
-	ModelId = @modelId
+	ModelId = @ModelId

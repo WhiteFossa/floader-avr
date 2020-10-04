@@ -4,4 +4,4 @@
 from
 	vendors_names
 where
-	Id = @vendorId
+	Id = @VendorId
