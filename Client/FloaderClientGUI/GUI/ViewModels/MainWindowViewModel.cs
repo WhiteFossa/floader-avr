@@ -367,17 +367,42 @@ namespace FloaderClientGUI.ViewModels
             // Is version acceptable?
             if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
             {
-                _logger.LogError($"Bootloader protocol version { _mainModel.DeviceIdentData.Version } is not supported.");
+                var message = $"Bootloader protocol version { _mainModel.DeviceIdentData.Version } is not supported.";
+                _logger.LogError(message);
+
+                MessageBoxManager.GetMessageBoxStandardWindow(
+                    new MessageBoxStandardParams()
+                    {
+                        ContentTitle = "Unsupported protocol version",
+                        ContentMessage = message,
+                        Icon = Icon.Error,
+                        ButtonDefinitions = ButtonEnum.Ok
+                    })
+                    .Show();
+
                 LockProceeding();
                 return;
             }
 
             // Human-readable port info
             _logger.LogInfo($"Queriying vendor data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }");
+
             var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
             if (vendorData == null)
             {
-                _logger.LogError($"Vendor with ID={ _mainModel.DeviceIdentData.VendorId } wasn't found in database.");
+                var message = $"Vendor with ID={ _mainModel.DeviceIdentData.VendorId } wasn't found in database.";
+                _logger.LogError(message);
+
+                MessageBoxManager.GetMessageBoxStandardWindow(
+                    new MessageBoxStandardParams()
+                    {
+                        ContentTitle = "Unknown vendor",
+                        ContentMessage = message,
+                        Icon = Icon.Error,
+                        ButtonDefinitions = ButtonEnum.Ok
+                    })
+                    .Show();
+
                 LockProceeding();
                 return;
             }
