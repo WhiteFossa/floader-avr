@@ -23,7 +23,8 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="800"
 		Width="500" Height="800"
 		x:Class="FloaderClientGUI.Views.AboutWindow"
-		Title="About Fossa's loader">
+		Title="About Fossa's loader"
+		Icon="/Assets/AppIcon.png">
 
 	<Window.Styles>
 		<StyleInclude Source="/Styles/Common.xaml" />

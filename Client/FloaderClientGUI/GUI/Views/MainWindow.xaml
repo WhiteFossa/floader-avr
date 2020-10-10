@@ -24,7 +24,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
 		Width="800" Height="600"
 		x:Class="FloaderClientGUI.Views.MainWindow"
-		Icon="/Assets/avalonia-logo.ico"
+		Icon="/Assets/AppIcon.png"
 		Title="Fossa's loader">
 
 	<Window.Styles>

@@ -24,7 +24,8 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
 		Width="300" Height="400"
 		x:Class="FloaderClientGUI.Views.PortSelectionWindow"
-		Title="Port selection">
+		Title="Port selection"
+		Icon="/Assets/AppIcon.png">
 
 	<Window.Styles>
 		<StyleInclude Source="/Styles/Common.xaml" />

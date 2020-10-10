@@ -15,6 +15,7 @@
     <AvaloniaResource Include="Styles\**" /> 
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\AppIcon.png" />
     <None Remove="Resources\agpl3.txt" />
   </ItemGroup>
   <ItemGroup>
