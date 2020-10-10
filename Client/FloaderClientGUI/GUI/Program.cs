@@ -85,7 +85,6 @@ namespace FloaderClientGUI
 
             services.AddSingleton<ILogger, Logger>();
             services.AddSingleton<ISerialPortsLister, SerialPortsLister>();
-            services.AddSingleton<IDeviceIdentifier, DeviceIdentifier>();
             services.AddSingleton<IVersionValidator, VersionValidator>();
             services.AddSingleton<IDao, Dao>();
             services.AddSingleton<IDeviceDataGetter, DeviceDataGetter>();

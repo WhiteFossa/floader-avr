@@ -17,9 +17,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using Avalonia.Controls;
+using Avalonia.Threading;
 using FloaderClientGUI.Models;
 using FloaderClientGUI.Views;
 using LibFloaderClient.Implementations.Device;
+using LibFloaderClient.Implementations.Enums.Device;
 using LibFloaderClient.Implementations.Port;
 using LibFloaderClient.Interfaces.DAO;
 using LibFloaderClient.Interfaces.Device;
@@ -41,7 +43,6 @@ namespace FloaderClientGUI.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         private ILogger _logger;
-        private IDeviceIdentifier _deviceIdentifier;
         private IVersionValidator _versionValidator;
         private IDao _dao;
         private IDeviceDataGetter _deviceDataGetter;
@@ -316,7 +317,6 @@ namespace FloaderClientGUI.ViewModels
 
             // DI
             _logger = Program.Di.GetService<ILogger>();
-            _deviceIdentifier = Program.Di.GetService<IDeviceIdentifier>();
             _versionValidator = Program.Di.GetService<IVersionValidator>();
             _dao = Program.Di.GetService<IDao>();
             _deviceDataGetter = Program.Di.GetService<IDeviceDataGetter>();
@@ -369,12 +369,136 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void OnDeviceIdentification(DeviceIdentifierData data)
         {
-            _logger.LogInfo("Device identified!");
-            _logger.LogInfo($"Status: { data.Status }");
-            _logger.LogInfo($"Version: { data.Version }");
-            _logger.LogInfo($"Vendor: { data.VendorId }");
-            _logger.LogInfo($"Model: { data.ModelId }");
-            _logger.LogInfo($"Serial: { data.Serial }");
+            // Doing everything in main thread
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                _mainModel.DeviceIdentData = data;
+
+                // Is successfull?
+                if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.Timeout)
+                {
+                    var message = $"Attempt to identify device timed out. Check port and device state - it must be in bootloader mode.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Identification timeout",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+    
+                    return;
+                }
+                else if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.WrongSignature)
+                {
+                    var message = $@"Device responded to identification request in unusual way, probably it's not Fossa's bootloader device.
+Check port and device state - it must be in bootloader mode.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Wrong device response",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+
+                _logger.LogInfo($@"Device identified:
+Version: { _mainModel.DeviceIdentData.Version },
+Vendor ID: { _mainModel.DeviceIdentData.VendorId },
+Model ID: { _mainModel.DeviceIdentData.ModelId },
+Serial number: { _mainModel.DeviceIdentData.Serial }.");
+
+                // Is version acceptable?
+                if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
+                {
+                    var message = $"Bootloader protocol version { _mainModel.DeviceIdentData.Version } is not supported.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Unsupported protocol version",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+
+                // Human - readable port info
+                _logger.LogInfo($"Queriying vendor data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }");
+
+                var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
+                if (vendorData == null)
+                {
+                    var message = $"Vendor with ID={ _mainModel.DeviceIdentData.VendorId } wasn't found in database.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Unknown vendor",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+                _logger.LogInfo($"Vendor ID={ vendorData.Id }, Vendor name=\"{ vendorData.Name }\"");
+
+                _logger.LogInfo($"Querying device name data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }, Model ID={ _mainModel.DeviceIdentData.ModelId }");
+
+                var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
+                if (nameData == null)
+                {
+                    var message = $"Device model with Vendor ID={ _mainModel.DeviceIdentData.VendorId } and ModelID={ _mainModel.DeviceIdentData.ModelId } wasn't found in database.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Unknown model",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+                _logger.LogInfo($"Vendor ID={ nameData.VendorId }, Model ID={ nameData.ModelId }, Model name=\"{ nameData.Name }\"");
+
+                _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentData.Serial);
+                VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
+                ModelName = _mainModel.DeviceHumanReadableDescription.Model;
+                SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
+
+                // Versioned data
+                _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
+
+                // Initializing operations provider and we are ready to go
+                _deviceIndependentOperationsProvider.Setup(_mainModel.PortSettings, _mainModel.DeviceIdentData, _mainModel.VersionSpecificDeviceData);
+
+                _isReady = true;
+            });
         }
 
         /// <summary>
@@ -390,97 +514,6 @@ namespace FloaderClientGUI.ViewModels
             var threadedIdentifier = new ThreadedDeviceIdentifier(_mainModel.PortSettings, OnDeviceIdentification);
             var identificationThread = new Thread(new ThreadStart(threadedIdentifier.Identify));
             identificationThread.Start();
-
-            try
-            {
-                _mainModel.DeviceIdentData = _deviceIdentifier.Identify(_mainModel.PortSettings);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                LockProceeding();
-                return;
-            }
-
-            // Is version acceptable?
-            if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
-            {
-                var message = $"Bootloader protocol version { _mainModel.DeviceIdentData.Version } is not supported.";
-                _logger.LogError(message);
-                LockProceeding();
-
-                MessageBoxManager.GetMessageBoxStandardWindow(
-                    new MessageBoxStandardParams()
-                    {
-                        ContentTitle = "Unsupported protocol version",
-                        ContentMessage = message,
-                        Icon = Icon.Error,
-                        ButtonDefinitions = ButtonEnum.Ok
-                    })
-                    .Show();
-
-                return;
-            }
-
-            // Human-readable port info
-            _logger.LogInfo($"Queriying vendor data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }");
-
-            var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
-            if (vendorData == null)
-            {
-                var message = $"Vendor with ID={ _mainModel.DeviceIdentData.VendorId } wasn't found in database.";
-                _logger.LogError(message);
-                LockProceeding();
-
-                MessageBoxManager.GetMessageBoxStandardWindow(
-                    new MessageBoxStandardParams()
-                    {
-                        ContentTitle = "Unknown vendor",
-                        ContentMessage = message,
-                        Icon = Icon.Error,
-                        ButtonDefinitions = ButtonEnum.Ok
-                    })
-                    .Show();
-
-                return;
-            }
-            _logger.LogInfo($"Vendor ID={ vendorData.Id }, Vendor name=\"{ vendorData.Name }\"");
-
-            _logger.LogInfo($"Querying device name data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }, Model ID={ _mainModel.DeviceIdentData.ModelId }");
-
-            var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
-            if (nameData == null)
-            {
-                var message = $"Device model with Vendor ID={ _mainModel.DeviceIdentData.VendorId } and ModelID={ _mainModel.DeviceIdentData.ModelId } wasn't found in database.";
-                _logger.LogError(message);
-                LockProceeding();
-
-                MessageBoxManager.GetMessageBoxStandardWindow(
-                    new MessageBoxStandardParams()
-                    {
-                        ContentTitle = "Unknown model",
-                        ContentMessage = message,
-                        Icon = Icon.Error,
-                        ButtonDefinitions = ButtonEnum.Ok
-                    })
-                    .Show();
-
-                return;
-            }
-            _logger.LogInfo($"Vendor ID={ nameData.VendorId }, Model ID={ nameData.ModelId }, Model name=\"{ nameData.Name }\"");
-
-            _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentData.Serial);
-            VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
-            ModelName = _mainModel.DeviceHumanReadableDescription.Model;
-            SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
-
-            // Versioned data
-            _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
-
-            // Initializing operations provider and we are ready to go
-            _deviceIndependentOperationsProvider.Setup(_mainModel.PortSettings, _mainModel.DeviceIdentData, _mainModel.VersionSpecificDeviceData);
-
-            _isReady = true;
         }
 
         /// <summary>
