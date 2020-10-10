@@ -1,4 +1,22 @@
-﻿using LibIntelHex.Enums;
+﻿/*
+                    Fossa's AVR bootloader client
+Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+using LibIntelHex.Enums;
 using LibIntelHex.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -13,8 +31,6 @@ namespace LibIntelHex.Models
         /// <summary>
         /// Constructs data record from base record and trying to validate it
         /// </summary>
-        /// <param name="baseRecord"></param>
-        /// <param name="formatter"></param>
         public DataRecord(RecordBase baseRecord, IRecordFormatter formatter = null) : base(baseRecord.Address, baseRecord.Type, baseRecord.Data, formatter)
         {
             if (!Validate(baseRecord))
@@ -31,8 +47,6 @@ namespace LibIntelHex.Models
         /// <summary>
         /// Returns true if giben base record is a valid Data Record.
         /// </summary>
-        /// <param name="recordBase"></param>
-        /// <returns></returns>
         public static bool Validate(RecordBase recordBase)
         {
             if (recordBase.Type != RecordType.Data)
