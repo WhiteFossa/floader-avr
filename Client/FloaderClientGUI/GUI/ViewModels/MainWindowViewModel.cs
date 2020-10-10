@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 using Avalonia.Controls;
 using FloaderClientGUI.Models;
 using FloaderClientGUI.Views;
+using LibFloaderClient.Implementations.Device;
 using LibFloaderClient.Implementations.Port;
 using LibFloaderClient.Interfaces.DAO;
 using LibFloaderClient.Interfaces.Device;
@@ -33,6 +34,7 @@ using ReactiveUI;
 using System;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -362,6 +364,20 @@ namespace FloaderClientGUI.ViewModels
         }
 
         /// <summary>
+        /// Called when device identified.
+        /// TODO: Move out from commands region.
+        /// </summary>
+        public void OnDeviceIdentification(DeviceIdentifierData data)
+        {
+            _logger.LogInfo("Device identified!");
+            _logger.LogInfo($"Status: { data.Status }");
+            _logger.LogInfo($"Version: { data.Version }");
+            _logger.LogInfo($"Vendor: { data.VendorId }");
+            _logger.LogInfo($"Model: { data.ModelId }");
+            _logger.LogInfo($"Serial: { data.Serial }");
+        }
+
+        /// <summary>
         /// Command to poll device
         /// </summary>
         public void PollDevice()
@@ -370,6 +386,10 @@ namespace FloaderClientGUI.ViewModels
             {
                 throw new InvalidOperationException("Port not specified.");
             }
+
+            var threadedIdentifier = new ThreadedDeviceIdentifier(_mainModel.PortSettings, OnDeviceIdentification);
+            var identificationThread = new Thread(new ThreadStart(threadedIdentifier.Identify));
+            identificationThread.Start();
 
             try
             {
