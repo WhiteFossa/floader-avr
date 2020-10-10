@@ -3,6 +3,8 @@ Almost ten years ago I've wrote opensource (GPLv3) bootloader for AVR MCUs (in a
 
 So, I'm going to revive it, refactor assembler part, and rewrite client in .NET Core.
 
+Releases are here: https://files.whitefossa.org/floader/
+
 Used 3rd party code:
 - https://www.nuget.org/packages/System.IO.Ports/ (MIT)
 - dotnet add package Avalonia.ReactiveUI (MIT)
