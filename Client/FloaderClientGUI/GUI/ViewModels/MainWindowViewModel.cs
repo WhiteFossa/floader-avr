@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using Avalonia.Controls;
 using Avalonia.Threading;
+using FloaderClientGUI.GUISpecific;
 using FloaderClientGUI.Models;
 using FloaderClientGUI.Views;
 using LibFloaderClient.Implementations.Device;
@@ -48,6 +49,11 @@ namespace FloaderClientGUI.ViewModels
         private IDeviceDataGetter _deviceDataGetter;
         private IDeviceIndependentOperationsProvider _deviceIndependentOperationsProvider;
 
+        /// <summary>
+        /// We store interface state here
+        /// </summary>
+        private MainWindowInterfaceState _interfaceState = new MainWindowInterfaceState();
+
         public PortSelectionWindowViewModel PortSelectionVM { get; }
         public AboutWindowViewModel AboutVM { get; }
 
@@ -73,6 +79,8 @@ namespace FloaderClientGUI.ViewModels
         private bool _isEepromUploadFileEnabled;
         private bool _isSelectFlashForUploadButtonEnabled;
         private bool _isSelectEepromForUploadButtonEnabled;
+        private bool _isSelectPortEnabled;
+        private bool _isFlashUploadCheckboxEnabled;
 
         /// <summary>
         /// Text in console
@@ -281,6 +289,24 @@ namespace FloaderClientGUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _isSelectEepromForUploadButtonEnabled, value);
         }
 
+        /// <summary>
+        /// Is "Select Port" button enabled
+        /// </summary>
+        public bool IsSelectPortEnabled
+        {
+            get => _isSelectPortEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isSelectPortEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Upload flash" checkbox enabled
+        /// </summary>
+        public bool IsFlashUploadCheckboxEnabled
+        {
+            get => _isFlashUploadCheckboxEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isFlashUploadCheckboxEnabled, value);
+        }
+
         #endregion Bound properties
 
 
@@ -331,6 +357,10 @@ namespace FloaderClientGUI.ViewModels
             SetPollDeviceState();
 
             _isReady = false;
+
+            // Initial interface state
+            IsSelectPortEnabled = true;
+            IsFlashUploadCheckboxEnabled = true;
         }
 
 #region Commands
@@ -364,152 +394,17 @@ namespace FloaderClientGUI.ViewModels
         }
 
         /// <summary>
-        /// Called when device identified.
-        /// TODO: Move out from commands region.
-        /// </summary>
-        public void OnDeviceIdentification(DeviceIdentifierData data)
-        {
-            // Doing everything in main thread
-            Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                _mainModel.DeviceIdentData = data;
-
-                // Is successfull?
-                if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.Timeout)
-                {
-                    var message = $"Attempt to identify device timed out. Check port and device state - it must be in bootloader mode.";
-                    _logger.LogError(message);
-                    LockProceeding();
-
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = "Identification timeout",
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
-    
-                    return;
-                }
-                else if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.WrongSignature)
-                {
-                    var message = $@"Device responded to identification request in unusual way, probably it's not Fossa's bootloader device.
-Check port and device state - it must be in bootloader mode.";
-                    _logger.LogError(message);
-                    LockProceeding();
-
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = "Wrong device response",
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
-
-                    return;
-                }
-
-                _logger.LogInfo($@"Device identified:
-Version: { _mainModel.DeviceIdentData.Version },
-Vendor ID: { _mainModel.DeviceIdentData.VendorId },
-Model ID: { _mainModel.DeviceIdentData.ModelId },
-Serial number: { _mainModel.DeviceIdentData.Serial }.");
-
-                // Is version acceptable?
-                if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
-                {
-                    var message = $"Bootloader protocol version { _mainModel.DeviceIdentData.Version } is not supported.";
-                    _logger.LogError(message);
-                    LockProceeding();
-
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = "Unsupported protocol version",
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
-
-                    return;
-                }
-
-                // Human - readable port info
-                _logger.LogInfo($"Queriying vendor data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }");
-
-                var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
-                if (vendorData == null)
-                {
-                    var message = $"Vendor with ID={ _mainModel.DeviceIdentData.VendorId } wasn't found in database.";
-                    _logger.LogError(message);
-                    LockProceeding();
-
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = "Unknown vendor",
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
-
-                    return;
-                }
-                _logger.LogInfo($"Vendor ID={ vendorData.Id }, Vendor name=\"{ vendorData.Name }\"");
-
-                _logger.LogInfo($"Querying device name data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }, Model ID={ _mainModel.DeviceIdentData.ModelId }");
-
-                var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
-                if (nameData == null)
-                {
-                    var message = $"Device model with Vendor ID={ _mainModel.DeviceIdentData.VendorId } and ModelID={ _mainModel.DeviceIdentData.ModelId } wasn't found in database.";
-                    _logger.LogError(message);
-                    LockProceeding();
-
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = "Unknown model",
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
-
-                    return;
-                }
-                _logger.LogInfo($"Vendor ID={ nameData.VendorId }, Model ID={ nameData.ModelId }, Model name=\"{ nameData.Name }\"");
-
-                _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentData.Serial);
-                VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
-                ModelName = _mainModel.DeviceHumanReadableDescription.Model;
-                SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
-
-                // Versioned data
-                _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
-
-                // Initializing operations provider and we are ready to go
-                _deviceIndependentOperationsProvider.Setup(_mainModel.PortSettings, _mainModel.DeviceIdentData, _mainModel.VersionSpecificDeviceData);
-
-                _isReady = true;
-            });
-        }
-
-        /// <summary>
         /// Command to poll device
         /// </summary>
         public void PollDevice()
         {
             if (_mainModel.PortSettings == null)
             {
+                // TODO: Show message here
                 throw new InvalidOperationException("Port not specified.");
             }
+
+            SaveStateAndLockInterface();
 
             var threadedIdentifier = new ThreadedDeviceIdentifier(_mainModel.PortSettings, OnDeviceIdentification);
             var identificationThread = new Thread(new ThreadStart(threadedIdentifier.Identify));
@@ -696,6 +591,145 @@ Serial number: { _mainModel.DeviceIdentData.Serial }.");
         #endregion
 
         /// <summary>
+        /// Called when device identified.
+        /// TODO: Move out from commands region.
+        /// </summary>
+        public void OnDeviceIdentification(DeviceIdentifierData data)
+        {
+            // Doing everything in main thread
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                _mainModel.DeviceIdentData = data;
+
+                // Is successfull?
+                if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.Timeout)
+                {
+                    var message = $"Attempt to identify device timed out. Check port and device state - it must be in bootloader mode.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Identification timeout",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+                else if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.WrongSignature)
+                {
+                    var message = $@"Device responded to identification request in unusual way, probably it's not Fossa's bootloader device.
+Check port and device state - it must be in bootloader mode.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Wrong device response",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+
+                _logger.LogInfo($@"Device identified:
+Version: { _mainModel.DeviceIdentData.Version },
+Vendor ID: { _mainModel.DeviceIdentData.VendorId },
+Model ID: { _mainModel.DeviceIdentData.ModelId },
+Serial number: { _mainModel.DeviceIdentData.Serial }.");
+
+                // Is version acceptable?
+                if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
+                {
+                    var message = $"Bootloader protocol version { _mainModel.DeviceIdentData.Version } is not supported.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Unsupported protocol version",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+
+                // Human - readable port info
+                _logger.LogInfo($"Queriying vendor data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }");
+
+                var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
+                if (vendorData == null)
+                {
+                    var message = $"Vendor with ID={ _mainModel.DeviceIdentData.VendorId } wasn't found in database.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Unknown vendor",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+                _logger.LogInfo($"Vendor ID={ vendorData.Id }, Vendor name=\"{ vendorData.Name }\"");
+
+                _logger.LogInfo($"Querying device name data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }, Model ID={ _mainModel.DeviceIdentData.ModelId }");
+
+                var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
+                if (nameData == null)
+                {
+                    var message = $"Device model with Vendor ID={ _mainModel.DeviceIdentData.VendorId } and ModelID={ _mainModel.DeviceIdentData.ModelId } wasn't found in database.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Unknown model",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+                _logger.LogInfo($"Vendor ID={ nameData.VendorId }, Model ID={ nameData.ModelId }, Model name=\"{ nameData.Name }\"");
+
+                _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentData.Serial);
+                VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
+                ModelName = _mainModel.DeviceHumanReadableDescription.Model;
+                SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
+
+                // Versioned data
+                _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
+
+                // Initializing operations provider and we are ready to go
+                _deviceIndependentOperationsProvider.Setup(_mainModel.PortSettings, _mainModel.DeviceIdentData, _mainModel.VersionSpecificDeviceData);
+
+                // TODO: Rollback it
+                //_isReady = true;
+            });
+        }
+
+        /// <summary>
         /// Adds a new text line to console. Feed it to logger
         /// </summary>
         public void AddLineToConsole(string line)
@@ -814,6 +848,54 @@ Please, select another device.");
         {
             IsEepromUploadFileEnabled = IsEepromUpload;
             IsSelectEepromForUploadButtonEnabled = IsEepromUpload;
+        }
+
+        /// <summary>
+        /// Saves interface state and lock interface (makes everything disabled).
+        /// Use this method when starting long-running operations.
+        /// </summary>
+        private void SaveStateAndLockInterface()
+        {
+            if (_interfaceState.IsInterfaceLocked)
+            {
+                throw new InvalidOperationException("Interface already locked.");
+            }
+
+            _interfaceState.IsSelectPortEnabled = IsSelectPortEnabled;
+            _interfaceState.IsPollDeviceEnabled = IsPollDeviceEnabled;
+            _interfaceState.IsRebootEnabled = IsRebootEnabled;
+            _interfaceState.IsFlashUploadCheckboxEnabled = IsFlashUploadCheckboxEnabled;
+            _interfaceState.IsFlashUploadFileEnabled = IsFlashUploadFileEnabled;
+            _interfaceState.IsSelectFlashForUploadButtonEnabled = IsSelectFlashForUploadButtonEnabled;
+
+            IsSelectPortEnabled = false;
+            IsPollDeviceEnabled = false;
+            IsRebootEnabled = false;
+            IsFlashUploadCheckboxEnabled = false;
+            IsFlashUploadFileEnabled = false;
+            IsSelectFlashForUploadButtonEnabled = false;
+
+            _interfaceState.IsInterfaceLocked = true;
+        }
+
+        /// <summary>
+        /// Reverts actions, made by SaveStateAndLockInterface()
+        /// </summary>
+        private void LoadStateAndUnlockInterface()
+        {
+            if (!_interfaceState.IsInterfaceLocked)
+            {
+                throw new InvalidOperationException("Interface already unlocked.");
+            }
+
+            IsSelectPortEnabled = _interfaceState.IsSelectPortEnabled;
+            IsPollDeviceEnabled = _interfaceState.IsPollDeviceEnabled;
+            IsRebootEnabled = _interfaceState.IsRebootEnabled;
+            IsFlashUploadCheckboxEnabled = _interfaceState.IsFlashUploadCheckboxEnabled;
+            IsFlashUploadFileEnabled = _interfaceState.IsFlashUploadFileEnabled;
+            IsSelectFlashForUploadButtonEnabled = _interfaceState.IsSelectFlashForUploadButtonEnabled;
+
+            _interfaceState.IsInterfaceLocked = false;
         }
     }
 }
