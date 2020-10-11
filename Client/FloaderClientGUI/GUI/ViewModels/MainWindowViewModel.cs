@@ -81,6 +81,10 @@ namespace FloaderClientGUI.ViewModels
         private bool _isSelectEepromForUploadButtonEnabled;
         private bool _isSelectPortEnabled;
         private bool _isFlashUploadCheckboxEnabled;
+        private bool _isEepromUploadCheckboxEnabled;
+        private bool _isUploadBackupsDirectoryEnabled;
+        private bool _isSelectUploadBackupsDirectoryButtonEnabled;
+        private bool _isFlashDownloadFileEnabled;
 
         /// <summary>
         /// Text in console
@@ -299,12 +303,48 @@ namespace FloaderClientGUI.ViewModels
         }
 
         /// <summary>
-        /// Is "Upload flash" checkbox enabled
+        /// Is "Upload FLASH" checkbox enabled
         /// </summary>
         public bool IsFlashUploadCheckboxEnabled
         {
             get => _isFlashUploadCheckboxEnabled;
             set => this.RaiseAndSetIfChanged(ref _isFlashUploadCheckboxEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Upload EEPROM" checkbox enabled
+        /// </summary>
+        public bool IsEepromUploadCheckboxEnabled
+        {
+            get => _isEepromUploadCheckboxEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isEepromUploadCheckboxEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Backups Directory" text field enabled
+        /// </summary>
+        public bool IsUploadBackupsDirectoryEnabled
+        {
+            get => _isUploadBackupsDirectoryEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isUploadBackupsDirectoryEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Select Backups Directory" button enabled
+        /// </summary>
+        public bool IsSelectUploadBackupsDirectoryButtonEnabled
+        {
+            get => _isSelectUploadBackupsDirectoryButtonEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isSelectUploadBackupsDirectoryButtonEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Download Flash File" text field enabled
+        /// </summary>
+        public bool IsFlashDownloadFileEnabled
+        {
+            get => _isFlashDownloadFileEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isFlashDownloadFileEnabled, value);
         }
 
         #endregion Bound properties
@@ -361,6 +401,10 @@ namespace FloaderClientGUI.ViewModels
             // Initial interface state
             IsSelectPortEnabled = true;
             IsFlashUploadCheckboxEnabled = true;
+            IsEepromUploadCheckboxEnabled = true;
+            IsUploadBackupsDirectoryEnabled = true;
+            IsSelectUploadBackupsDirectoryButtonEnabled = true;
+            IsFlashDownloadFileEnabled = true;
         }
 
 #region Commands
@@ -867,6 +911,13 @@ Please, select another device.");
             _interfaceState.IsFlashUploadCheckboxEnabled = IsFlashUploadCheckboxEnabled;
             _interfaceState.IsFlashUploadFileEnabled = IsFlashUploadFileEnabled;
             _interfaceState.IsSelectFlashForUploadButtonEnabled = IsSelectFlashForUploadButtonEnabled;
+            _interfaceState.IsEepromUploadCheckboxEnabled = IsEepromUploadCheckboxEnabled;
+            _interfaceState.IsEepromUploadFileEnabled = IsEepromUploadFileEnabled;
+            _interfaceState.IsSelectEepromForUploadButtonEnabled = IsSelectEepromForUploadButtonEnabled;
+            _interfaceState.IsUploadBackupsDirectoryEnabled = IsUploadBackupsDirectoryEnabled;
+            _interfaceState.IsSelectUploadBackupsDirectoryButtonEnabled = IsSelectUploadBackupsDirectoryButtonEnabled;
+            _interfaceState.IsUploadButtonEnabled = IsUploadEnabled;
+            _interfaceState.IsFlashDownloadFileEnabled = IsFlashDownloadFileEnabled;
 
             IsSelectPortEnabled = false;
             IsPollDeviceEnabled = false;
@@ -874,6 +925,13 @@ Please, select another device.");
             IsFlashUploadCheckboxEnabled = false;
             IsFlashUploadFileEnabled = false;
             IsSelectFlashForUploadButtonEnabled = false;
+            IsEepromUploadCheckboxEnabled = false;
+            IsEepromUploadFileEnabled = false;
+            IsSelectEepromForUploadButtonEnabled = false;
+            IsUploadBackupsDirectoryEnabled = false;
+            IsSelectUploadBackupsDirectoryButtonEnabled = false;
+            IsUploadEnabled = false;
+            IsFlashDownloadFileEnabled = false;
 
             _interfaceState.IsInterfaceLocked = true;
         }
@@ -894,6 +952,13 @@ Please, select another device.");
             IsFlashUploadCheckboxEnabled = _interfaceState.IsFlashUploadCheckboxEnabled;
             IsFlashUploadFileEnabled = _interfaceState.IsFlashUploadFileEnabled;
             IsSelectFlashForUploadButtonEnabled = _interfaceState.IsSelectFlashForUploadButtonEnabled;
+            IsEepromUploadCheckboxEnabled = _interfaceState.IsEepromUploadCheckboxEnabled;
+            IsEepromUploadFileEnabled = _interfaceState.IsEepromUploadFileEnabled;
+            IsSelectEepromForUploadButtonEnabled = _interfaceState.IsSelectEepromForUploadButtonEnabled;
+            IsUploadBackupsDirectoryEnabled = _interfaceState.IsUploadBackupsDirectoryEnabled;
+            IsSelectUploadBackupsDirectoryButtonEnabled = _interfaceState.IsSelectUploadBackupsDirectoryButtonEnabled;
+            IsUploadEnabled = _interfaceState.IsUploadButtonEnabled;
+            IsFlashDownloadFileEnabled = _interfaceState.IsFlashDownloadFileEnabled;
 
             _interfaceState.IsInterfaceLocked = false;
         }

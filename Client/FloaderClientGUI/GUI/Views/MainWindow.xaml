@@ -97,7 +97,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 					<DockPanel Classes="TopMargin">
 						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
 							<CheckBox Content="EEPROM:" Classes="RightMargin" Grid.Column="0" Grid.Row="0"
-								IsChecked="{Binding IsEepromUpload}" /> <!-- EEPROM checkbox -->
+								IsChecked="{Binding IsEepromUpload}" IsEnabled="{ Binding IsEepromUploadCheckboxEnabled }" /> <!-- EEPROM checkbox -->
 
 							<TextBox Watermark="Select EEPROM HEX file" Grid.Column="1" Grid.Row="0"
 								Text="{Binding EepromUploadFile}" IsReadOnly="True"
@@ -114,10 +114,12 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 							<TextBlock Text="Backups:" Classes="RightMargin" Grid.Column="0" Grid.Row="0" /> <!-- Backups label -->
 
 							<TextBox Watermark="Select backups directory" Grid.Column="1" Grid.Row="0"
-								Text="{Binding UploadBackupsDirectory}" IsReadOnly="True" /> <!-- Backups directory -->
+								Text="{Binding UploadBackupsDirectory}" IsReadOnly="True"
+								IsEnabled="{Binding IsUploadBackupsDirectoryEnabled }" /> <!-- Backups directory -->
 
 							<Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
-								Command="{Binding SelectBackupsDirectoryAsync}" /> <!-- Select backups directory button -->
+								Command="{Binding SelectBackupsDirectoryAsync}"
+								IsEnabled="{Binding IsSelectUploadBackupsDirectoryButtonEnabled}" /> <!-- Select backups directory button -->
 						</Grid>
 					</DockPanel>
 
@@ -137,7 +139,8 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 							<TextBlock Text="FLASH:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
 
 							<TextBox Watermark="Write FLASH HEX into this file" Grid.Column="1" Grid.Row="0"
-								Text="{Binding FlashDownloadFile}" IsReadOnly="True" /> <!-- FLASH file -->
+								Text="{Binding FlashDownloadFile}" IsReadOnly="True"
+								IsEnabled="{Binding IsFlashDownloadFileEnabled}" /> <!-- FLASH file -->
 
 							<Button Grid.Column="2" Grid.Row="0" Content="..." Classes="LeftMargin"
 								Command="{Binding SelectFlashForDownloadAsync}" /> <!-- Select FLASH file button -->

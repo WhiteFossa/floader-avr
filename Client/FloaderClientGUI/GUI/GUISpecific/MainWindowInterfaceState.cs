@@ -38,5 +38,12 @@ namespace FloaderClientGUI.GUISpecific
         public bool IsFlashUploadCheckboxEnabled { get; set; }
         public bool IsFlashUploadFileEnabled { get; set; }
         public bool IsSelectFlashForUploadButtonEnabled { get; set; }
+        public bool IsEepromUploadCheckboxEnabled { get; set; }
+        public bool IsEepromUploadFileEnabled { get; set; }
+        public bool IsSelectEepromForUploadButtonEnabled { get; set; }
+        public bool IsUploadBackupsDirectoryEnabled { get; set; }
+        public bool IsSelectUploadBackupsDirectoryButtonEnabled { get; set; }
+        public bool IsUploadButtonEnabled { get; set; }
+        public bool IsFlashDownloadFileEnabled { get; set; }
     }
 }
