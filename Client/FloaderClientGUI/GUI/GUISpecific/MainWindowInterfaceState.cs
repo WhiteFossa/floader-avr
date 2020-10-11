@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
+using System.Reactive.Disposables;
 using System.Text;
 
 namespace FloaderClientGUI.GUISpecific
@@ -45,5 +46,10 @@ namespace FloaderClientGUI.GUISpecific
         public bool IsSelectUploadBackupsDirectoryButtonEnabled { get; set; }
         public bool IsUploadButtonEnabled { get; set; }
         public bool IsFlashDownloadFileEnabled { get; set; }
+        public bool IsSelectFlashDownloadFileButtonEnabled { get; set; }
+        public bool IsEepromDownloadFileEnabled { get; set; }
+        public bool IsSelectEepromDownloadFileButtonEnabled { get; set; }
+        public bool IsDownloadButtonEnabled { get; set; }
+        public bool IsAboutButtonEnabled { get; set; }
     }
 }

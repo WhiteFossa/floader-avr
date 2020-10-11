@@ -143,7 +143,8 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 								IsEnabled="{Binding IsFlashDownloadFileEnabled}" /> <!-- FLASH file -->
 
 							<Button Grid.Column="2" Grid.Row="0" Content="..." Classes="LeftMargin"
-								Command="{Binding SelectFlashForDownloadAsync}" /> <!-- Select FLASH file button -->
+								Command="{Binding SelectFlashForDownloadAsync}"
+								IsEnabled="{Binding IsSelectFlashDownloadFileButtonEnabled} "/> <!-- Select FLASH file button -->
 						</Grid>
 					</DockPanel>
 
@@ -152,10 +153,12 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 							<TextBlock Text="EEPROM:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
 
 							<TextBox Watermark="Write EEPROM HEX into this file" Grid.Column="1" Grid.Row="0"
-								Text="{Binding EepromDownloadFile}" IsReadOnly="True" /> <!-- EEPROM file -->
+								Text="{Binding EepromDownloadFile}" IsReadOnly="True"
+								IsEnabled="{Binding IsEepromDownloadFileEnabled}" /> <!-- EEPROM file -->
 
 							<Button Grid.Column="2" Grid.Row="0" Content="..." Classes="LeftMargin"
-								Command="{Binding SelectEepromForDownloadAsync}" /> <!-- Select EEPROM file button -->
+								Command="{Binding SelectEepromForDownloadAsync}"
+								IsEnabled="{Binding IsSelectEepromDownloadFileButtonEnabled}" /><!-- Select EEPROM file button -->
 						</Grid>
 					</DockPanel>
 
@@ -181,7 +184,8 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 				<TextBlock Text="About:" />
 				<DockPanel Classes="TopMargin">
 					<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-						<Button Grid.Column="0" Grid.Row="0" Content="About" Classes="TopMargin" Command="{Binding ShowAboutDialogAsync}" />
+						<Button Grid.Column="0" Grid.Row="0" Content="About" Classes="TopMargin" Command="{Binding ShowAboutDialogAsync}"
+							IsEnabled="{Binding IsAboutButtonEnabled}" />
 					</Grid>
 				</DockPanel>
 			</StackPanel>
