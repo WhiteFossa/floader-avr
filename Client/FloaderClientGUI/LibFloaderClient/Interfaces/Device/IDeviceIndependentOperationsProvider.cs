@@ -24,6 +24,11 @@ using System.Collections.Generic;
 namespace LibFloaderClient.Interfaces.Device
 {
     /// <summary>
+    /// Called when EEPROM read is completed
+    /// </summary>
+    public delegate void EepromReadCompletedCallbackDelegate(EepromReadResult data);
+
+    /// <summary>
     /// Wrapper over device driver, hiding versioned details and allowing to write/read all pages at once
     /// </summary>
     public interface IDeviceIndependentOperationsProvider
@@ -51,7 +56,7 @@ namespace LibFloaderClient.Interfaces.Device
         /// <summary>
         /// Read all EEPROM
         /// </summary>
-        List<byte> ReadAllEEPROM();
+        void ReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate);
 
         /// <summary>
         /// Write all EEPROM

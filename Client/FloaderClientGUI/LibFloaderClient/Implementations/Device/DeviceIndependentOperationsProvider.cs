@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace LibFloaderClient.Implementations.Device
 {
@@ -75,6 +76,11 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private DeviceIdentifierData _deviceIdentificationData;
 
+        /// <summary>
+        /// Save EEPROM dump here
+        /// </summary>
+        private string _eepromSavePath;
+
         public DeviceIndependentOperationsProvider(ILogger logger,
             IHexWriter hexWriter,
             IHexReader hexReader,
@@ -86,21 +92,16 @@ namespace LibFloaderClient.Implementations.Device
             _hexReader = hexReader;
         }
 
-        public List<byte> ReadAllEEPROM()
+        public void ReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate)
         {
+            _ = readCompletedDelegate ?? throw new ArgumentNullException(nameof(readCompletedDelegate));
+
             IsSetUp();
 
-            switch (_deviceIdentificationData.Version)
-            {
-                case (int)ProtocolVersion.First:
-                    using (var driver = GetDeviceDriverV1())
-                    {
-                        return driver.ReadEEPROM();
-                    }
-
-                default:
-                    throw ReportUnsupportedVersion();
-            }
+            var threadedEepromReader = new ThreadedEepromReader(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
+                readCompletedDelegate);
+            var eepromReaderThread = new Thread(new ThreadStart(threadedEepromReader.Read));
+            eepromReaderThread.Start();
         }
 
         public List<byte> ReadAllFlash()
@@ -115,7 +116,8 @@ namespace LibFloaderClient.Implementations.Device
                 case (int)ProtocolVersion.First:
 
                     var deviceData = GetDeviceDataV1();
-                    using (var driver = GetDeviceDriverV1())
+                    using (var driver = GetDeviceDriverV1(version: _deviceIdentificationData.Version,
+                        portSettings: _portSettings, versionSpecificDeviceData: _versionSpecificDeviceData, logger: _logger))
                     {
 
                         for (var pageAddress = 0; pageAddress < deviceData.FlashPagesAll; pageAddress++)
@@ -129,7 +131,7 @@ namespace LibFloaderClient.Implementations.Device
                     break;
 
                 default:
-                    throw ReportUnsupportedVersion();
+                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
             }
 
             return result;
@@ -142,14 +144,15 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    using (var driver = GetDeviceDriverV1())
+                    using (var driver = GetDeviceDriverV1(version: _deviceIdentificationData.Version,
+                        portSettings: _portSettings, versionSpecificDeviceData: _versionSpecificDeviceData, logger: _logger))
                     {
                         driver.Reboot();
                     }
                     break;
 
                 default:
-                    throw ReportUnsupportedVersion();
+                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
             }
         }
 
@@ -176,14 +179,15 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    using (var driver = GetDeviceDriverV1())
+                    using (var driver = GetDeviceDriverV1(version: _deviceIdentificationData.Version,
+                        portSettings: _portSettings, versionSpecificDeviceData: _versionSpecificDeviceData, logger: _logger))
                     {
                         driver.WriteEEPROM(toWrite);
                     }
                     break;
 
                 default:
-                    throw ReportUnsupportedVersion();
+                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
             }
         }
 
@@ -198,7 +202,8 @@ namespace LibFloaderClient.Implementations.Device
                 case (int)ProtocolVersion.First:
 
                     var deviceData = GetDeviceDataV1();
-                    using (var driver = GetDeviceDriverV1())
+                    using (var driver = GetDeviceDriverV1(version: _deviceIdentificationData.Version,
+                        portSettings: _portSettings, versionSpecificDeviceData: deviceData, logger: _logger))
                     {
                         for (var pageAddress = 0; pageAddress < deviceData.FlashPagesWriteable; pageAddress++)
                         {
@@ -229,7 +234,7 @@ namespace LibFloaderClient.Implementations.Device
                     break;
 
                 default:
-                    throw ReportUnsupportedVersion();
+                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
             }
         }
 
@@ -243,19 +248,19 @@ namespace LibFloaderClient.Implementations.Device
             }
         }
 
-        private InvalidOperationException ReportUnsupportedVersion()
+        public static InvalidOperationException ReportUnsupportedVersion(int version)
         {
-            return new InvalidOperationException($"Unsupported version { _deviceIdentificationData.Version }.");
+            return new InvalidOperationException($"Unsupported version { version }.");
         }
 
-        private IDeviceDriverV1 GetDeviceDriverV1()
+        public static IDeviceDriverV1 GetDeviceDriverV1(int version, PortSettings portSettings, object versionSpecificDeviceData, ILogger logger)
         {
-            if (_deviceIdentificationData.Version != (int)ProtocolVersion.First)
+            if (version != (int)ProtocolVersion.First)
             {
                 throw ReportNonV1Version();
             }
 
-            return (IDeviceDriverV1)new DeviceDriverV1(_portSettings, GetDeviceDataV1(), _logger);
+            return (IDeviceDriverV1)new DeviceDriverV1(portSettings, (DeviceDataV1)versionSpecificDeviceData, logger);
         }
 
         private DeviceDataV1 GetDeviceDataV1()
@@ -268,7 +273,7 @@ namespace LibFloaderClient.Implementations.Device
             return (DeviceDataV1)_versionSpecificDeviceData;
         }
 
-        private InvalidOperationException ReportNonV1Version()
+        public static InvalidOperationException ReportNonV1Version()
         {
             return new InvalidOperationException("Version must be 1.");
         }
@@ -290,6 +295,8 @@ namespace LibFloaderClient.Implementations.Device
                 throw new ArgumentException("FLASH and EEPROM files must differ.");
             }
 
+            _eepromSavePath = eepromPath;
+
             _logger.LogInfo($"Downloading FLASH into { flashPath }...");
             var flashData = ReadAllFlash();
 
@@ -298,15 +305,25 @@ namespace LibFloaderClient.Implementations.Device
             _hexWriter.WriteToFile(flashPath);
             _logger.LogInfo("Done");
 
-            _logger.LogInfo($"Downloading EEPROM into { eepromPath }...");
-            var eepromData = ReadAllEEPROM();
+            _logger.LogInfo($"Downloading EEPROM into { _eepromSavePath }...");
+            ReadAllEEPROM(OnEepromReadCompleted);
+        }
 
+        /// <summary>
+        /// Called when EEPROM read completed
+        /// </summary>
+        /// <param name="data"></param>
+        public void OnEepromReadCompleted(EepromReadResult data)
+        {
             _logger.LogInfo($"Downloaded. Writting to file...");
-            _hexWriter.LoadFromList(EepromBaseAddress, eepromData);
-            _hexWriter.WriteToFile(eepromPath);
+            _hexWriter.LoadFromList(EepromBaseAddress, data.Data);
+            _hexWriter.WriteToFile(_eepromSavePath);
             _logger.LogInfo("Done");
 
             _logger.LogInfo("Download completed.");
+
+            // To reduce risk of buggy reuse
+            _eepromSavePath = null;
         }
 
         public string GenerateFlashFileName(bool isBackup)
@@ -367,7 +384,7 @@ namespace LibFloaderClient.Implementations.Device
                     break;
 
                 default:
-                    ReportUnsupportedVersion();
+                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
                     break;
             }
 
