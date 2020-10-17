@@ -34,6 +34,11 @@ namespace LibFloaderClient.Interfaces.Device
     public delegate void EepromWriteCompletedCallbackDelegate();
 
     /// <summary>
+    /// Called when all data is downloaded from device
+    /// </summary>
+    public delegate void DownloadFromDeviceCompletedCallbackDelegate();
+
+    /// <summary>
     /// Wrapper over device driver, hiding versioned details and allowing to write/read all pages at once
     /// </summary>
     public interface IDeviceIndependentOperationsProvider
@@ -59,14 +64,14 @@ namespace LibFloaderClient.Interfaces.Device
         void WriteAllFlash(List<byte> toWrite);
 
         /// <summary>
-        /// Read all EEPROM
+        /// Initiates all EEPROM read. Exits immediately, without waiting for read completion
         /// </summary>
-        void ReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate);
+        void InitiateReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate);
 
         /// <summary>
-        /// Write all EEPROM
+        /// Initiates all EEPROM write. Exits immediately, without waiting for write completion
         /// </summary>
-        void WriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate);
+        void InitiateWriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate);
 
         /// <summary>
         /// Reboot device to firmware
@@ -74,9 +79,10 @@ namespace LibFloaderClient.Interfaces.Device
         void RebootToFirmware();
 
         /// <summary>
-        /// Download data from device into given HEX files
+        /// Starts download from device into given HEX files. Exits immediately. If downloadCompleteDelegate isn't null, then
+        /// that delegate will be called on completion
         /// </summary>
-        void DownloadFromDevice(string flashPath, string eepromPath);
+        void InitiateDownloadFromDevice(string flashPath, string eepromPath, DownloadFromDeviceCompletedCallbackDelegate downloadCompletedDelegate = null);
 
         /// <summary>
         /// Uploads given files into device. If file path is null or empty - then don't try to upload it.

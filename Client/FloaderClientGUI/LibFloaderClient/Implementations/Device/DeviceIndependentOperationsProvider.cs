@@ -77,9 +77,39 @@ namespace LibFloaderClient.Implementations.Device
         private DeviceIdentifierData _deviceIdentificationData;
 
         /// <summary>
+        /// Save FLASH dump here
+        /// </summary>
+        private string _flashSavePath;
+
+        /// <summary>
         /// Save EEPROM dump here
         /// </summary>
         private string _eepromSavePath;
+
+        /// <summary>
+        /// If not null, then will be called when download from device is completed
+        /// </summary>
+        DownloadFromDeviceCompletedCallbackDelegate _downloadCompletedDelegate;
+
+        /// <summary>
+        /// Do we need to upload FLASH?
+        /// </summary>
+        private bool _isUploadFlash;
+
+        /// <summary>
+        /// Do we need to upload EEPROM?
+        /// </summary>
+        private bool _isUploadEeprom;
+
+        /// <summary>
+        /// All FLASH data to upload
+        /// </summary>
+        List<byte> _flashDataToUpload = new List<byte>();
+
+        /// <summary>
+        /// All EEPROM data to upload
+        /// </summary>
+        List<byte> _eepromDataToUpload = new List<byte>();
 
         public DeviceIndependentOperationsProvider(ILogger logger,
             IHexWriter hexWriter,
@@ -92,7 +122,7 @@ namespace LibFloaderClient.Implementations.Device
             _hexReader = hexReader;
         }
 
-        public void ReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate)
+        public void InitiateReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate)
         {
             _ = readCompletedDelegate ?? throw new ArgumentNullException(nameof(readCompletedDelegate));
 
@@ -172,7 +202,7 @@ namespace LibFloaderClient.Implementations.Device
             _isSetUp = false;
         }
 
-        public void WriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate)
+        public void InitiateWriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate)
         {
             _ = writeCompletedDelegate ?? throw new ArgumentNullException(nameof(writeCompletedDelegate));
 
@@ -271,7 +301,7 @@ namespace LibFloaderClient.Implementations.Device
             return new InvalidOperationException("Version must be 1.");
         }
 
-        public void DownloadFromDevice(string flashPath, string eepromPath)
+        public void InitiateDownloadFromDevice(string flashPath, string eepromPath, DownloadFromDeviceCompletedCallbackDelegate downloadCompletedDelegate)
         {
             if (string.IsNullOrEmpty(flashPath))
             {
@@ -289,21 +319,25 @@ namespace LibFloaderClient.Implementations.Device
             }
 
             _eepromSavePath = eepromPath;
+            _flashSavePath = flashPath;
+            _downloadCompletedDelegate = downloadCompletedDelegate;
 
-            _logger.LogInfo($"Downloading FLASH into { flashPath }...");
+            _logger.LogInfo($"Downloading FLASH into { _flashSavePath }...");
             var flashData = ReadAllFlash();
 
             _logger.LogInfo($"Downloaded. Writting to file...");
             _hexWriter.LoadFromList(FlashBaseAddress, flashData);
-            _hexWriter.WriteToFile(flashPath);
+            _hexWriter.WriteToFile(_flashSavePath);
+
+            _flashSavePath = null; // To reduce risk of buggy reuse
             _logger.LogInfo("Done");
 
             _logger.LogInfo($"Downloading EEPROM into { _eepromSavePath }...");
-            ReadAllEEPROM(OnEepromReadCompletedDuringDownloadFromDevice);
+            InitiateReadAllEEPROM(OnEepromReadCompletedDuringDownloadFromDevice);
         }
 
         /// <summary>
-        /// Called when EEPROM read completed
+        /// Called when EEPROM read completed during download from device
         /// </summary>
         public void OnEepromReadCompletedDuringDownloadFromDevice(EepromReadResult data)
         {
@@ -314,8 +348,9 @@ namespace LibFloaderClient.Implementations.Device
 
             _logger.LogInfo("Download completed.");
 
-            // To reduce risk of buggy reuse
-            _eepromSavePath = null;
+            _eepromSavePath = null; // To reduce risk of buggy reuse
+
+            _downloadCompletedDelegate?.Invoke();
         }
 
         public string GenerateFlashFileName(bool isBackup)
@@ -339,10 +374,10 @@ namespace LibFloaderClient.Implementations.Device
                 throw new ArgumentException("Backups directory must be specified.", nameof(backupsDirectory));
             }
 
-            bool isUploadFlash = !string.IsNullOrEmpty(flashPath);
-            bool isUploadEeprom = !string.IsNullOrEmpty(eepromPath);
+            _isUploadFlash = !string.IsNullOrEmpty(flashPath);
+            _isUploadEeprom = !string.IsNullOrEmpty(eepromPath);
 
-            if (!isUploadFlash && !isUploadEeprom)
+            if (!_isUploadFlash && !_isUploadEeprom)
             {
                 throw new ArgumentException("At least either FLASH or EEPROM files must be specified");
             }
@@ -351,12 +386,12 @@ namespace LibFloaderClient.Implementations.Device
             var flashHexData = new SortedDictionary<int, byte>();
             var eepromHexData = new SortedDictionary<int, byte>();
 
-            if (isUploadFlash)
+            if (_isUploadFlash)
             {
                 flashHexData = _hexReader.ReadFromFile(flashPath);
             }
 
-            if (isUploadEeprom)
+            if (_isUploadEeprom)
             {
                 eepromHexData = _hexReader.ReadFromFile(eepromPath);
             }
@@ -390,32 +425,29 @@ namespace LibFloaderClient.Implementations.Device
             }
 
             // Constructing data arrays for upload
-            var flashDataToUpload = new List<byte>();
-            var eepromDataToUpload = new List<byte>();
-
-            if (isUploadFlash)
+            if (_isUploadFlash)
             {
                 for (int address = 0; address <= maxWriteableFlashAddress; address++)
                 {
-                    flashDataToUpload.Add(EmptyDataFiller);
+                    _flashDataToUpload.Add(EmptyDataFiller);
                 }
 
                 foreach (var address in flashHexData.Keys)
                 {
-                    flashDataToUpload[address] = flashHexData[address];
+                    _flashDataToUpload[address] = flashHexData[address];
                 }
             }
 
-            if (isUploadEeprom)
+            if (_isUploadEeprom)
             {
                 for (int address = 0; address <= maxWriteableEepromAddress; address++)
                 {
-                    eepromDataToUpload.Add(EmptyDataFiller);
+                    _eepromDataToUpload.Add(EmptyDataFiller);
                 }
 
                 foreach (var address in eepromHexData.Keys)
                 {
-                    eepromDataToUpload[address] = eepromHexData[address];
+                    _eepromDataToUpload[address] = eepromHexData[address];
                 }
             }
 
@@ -427,21 +459,27 @@ namespace LibFloaderClient.Implementations.Device
             _logger.LogInfo($"FLASH backup file: { flashBackupFilename }");
             _logger.LogInfo($"EEPROM backup file: { eepromBackupFilename }");
 
-            DownloadFromDevice(flashBackupFilename, eepromBackupFilename);
+            InitiateDownloadFromDevice(flashBackupFilename, eepromBackupFilename, MakeActualUpload);
+        }
 
+        /// <summary>
+        /// Make actual upload (called when backups are done)
+        /// </summary>
+        private void MakeActualUpload()
+        {
             _logger.LogInfo("Done");
 
             // Uploading
             _logger.LogInfo("Uploading...");
 
-            if (isUploadFlash)
+            if (_isUploadFlash)
             {
-                WriteAllFlash(flashDataToUpload);
+                WriteAllFlash(_flashDataToUpload);
             }
 
-            if (isUploadEeprom)
+            if (_isUploadEeprom)
             {
-                WriteAllEEPROM(eepromDataToUpload, OnEepromWriteCompletedDuringUploadToDevice);
+                InitiateWriteAllEEPROM(_eepromDataToUpload, OnEepromWriteCompletedDuringUploadToDevice);
             }
             else
             {

@@ -645,7 +645,7 @@ namespace FloaderClientGUI.ViewModels
 
             try
             {
-                _deviceIndependentOperationsProvider.DownloadFromDevice(FlashDownloadFile, EepromDownloadFile);
+                _deviceIndependentOperationsProvider.InitiateDownloadFromDevice(FlashDownloadFile, EepromDownloadFile);
             }
             catch(Exception ex)
             {
