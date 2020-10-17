@@ -56,14 +56,13 @@ namespace LibFloaderClient.Implementations.Device
             switch (_identificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    using (var driver = DeviceIndependentOperationsProvider.GetDeviceDriverV1(version: _identificationData.Version, portSettings: _portSettings,
-                        versionSpecificDeviceData: _versionSpecificDeviceData, logger: _logger))
+                    using (var driver = GetDeviceDriverV1())
                     {
                         result = new EepromReadResult(driver.ReadEEPROM());
                     }
                     break;
                 default:
-                    throw DeviceIndependentOperationsProvider.ReportUnsupportedVersion(_identificationData.Version);
+                    throw ReportUnsupportedVersion();
             }
 
             _eepromReadCompletedCallbackDelegate(result);

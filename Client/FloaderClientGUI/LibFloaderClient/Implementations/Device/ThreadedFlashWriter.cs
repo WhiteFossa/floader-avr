@@ -23,13 +23,14 @@ using LibFloaderClient.Models.Device;
 using LibFloaderClient.Models.Port;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LibFloaderClient.Implementations.Device
 {
     /// <summary>
-    /// Use it to write EEPROM
+    /// Use it to write FLASH
     /// </summary>
-    public class ThreadedEepromWriter : BaseThreadedOperationsProvider
+    public class ThreadedFlashWriter : BaseThreadedOperationsProvider
     {
         /// <summary>
         /// Data to write
@@ -39,38 +40,66 @@ namespace LibFloaderClient.Implementations.Device
         /// <summary>
         /// Callback on completed write
         /// </summary>
-        private readonly EepromWriteCompletedCallbackDelegate _eepromWriteCompletedCallbackDelegate;
+        private readonly FlashWriteCompletedCallbackDelegate _flashWriteCompletedCallbackDelegate;
 
-        public ThreadedEepromWriter(DeviceIdentifierData identificationData,
+        public ThreadedFlashWriter(DeviceIdentifierData identificationData,
             PortSettings portSettings,
             object versionSpecificDeviceData,
             ILogger logger,
             List<byte> toWrite,
-            EepromWriteCompletedCallbackDelegate eepromWriteCompletedCallbackDelegate)
+            FlashWriteCompletedCallbackDelegate flashWriteCompletedCallbackDelegate)
             : base(identificationData, portSettings, versionSpecificDeviceData, logger)
         {
             _toWrite = toWrite ?? throw new ArgumentNullException(nameof(toWrite));
 
-            _eepromWriteCompletedCallbackDelegate = eepromWriteCompletedCallbackDelegate
-                ?? throw new ArgumentNullException(nameof(eepromWriteCompletedCallbackDelegate));
+            _flashWriteCompletedCallbackDelegate = flashWriteCompletedCallbackDelegate
+                ?? throw new ArgumentNullException(nameof(flashWriteCompletedCallbackDelegate));
         }
 
         public void Write()
         {
+            _logger.LogInfo($"Writing whole FLASH (except bootloader)...");
+
             switch (_identificationData.Version)
             {
                 case (int)ProtocolVersion.First:
+
+                    var deviceData = GetDeviceDataV1();
                     using (var driver = GetDeviceDriverV1())
                     {
-                        driver.WriteEEPROM(_toWrite);
+                        for (var pageAddress = 0; pageAddress < deviceData.FlashPagesWriteable; pageAddress++)
+                        {
+                            // Preparing page data
+                            var pageData = _toWrite.GetRange(pageAddress * deviceData.FlashPageSize, deviceData.FlashPageSize);
+
+                            // Writing
+                            _logger.LogInfo("Writing...");
+                            driver.WriteFLASHPage(pageAddress, pageData);
+
+                            // Verifying
+                            _logger.LogInfo("Verifying...");
+                            var readback = driver.ReadFLASHPage(pageAddress);
+
+                            if (!readback.SequenceEqual(pageData))
+                            {
+                                var message = $"Page { pageAddress + 1 } verification failed.";
+                                _logger.LogError(message);
+                                throw new InvalidOperationException(message);
+                            }
+
+                            _logger.LogInfo("Verification is OK");
+                        }
                     }
+
+                    _logger.LogInfo("FLASH written successfully.");
+
                     break;
 
                 default:
                     throw ReportUnsupportedVersion();
             }
 
-            _eepromWriteCompletedCallbackDelegate();
+            _flashWriteCompletedCallbackDelegate();
         }
     }
 }

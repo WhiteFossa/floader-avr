@@ -41,9 +41,8 @@ namespace LibFloaderClient.Implementations.Device
             {
                 case (int)ProtocolVersion.First:
 
-                    var deviceData = DeviceIndependentOperationsProvider.GetDeviceDataV1(_identificationData, _versionSpecificDeviceData);
-                    using (var driver = DeviceIndependentOperationsProvider.GetDeviceDriverV1(version: _identificationData.Version, portSettings: _portSettings,
-                        versionSpecificDeviceData: _versionSpecificDeviceData, logger: _logger))
+                    var deviceData =GetDeviceDataV1();
+                    using (var driver = GetDeviceDriverV1())
                     {
 
                         for (var pageAddress = 0; pageAddress < deviceData.FlashPagesAll; pageAddress++)
@@ -52,12 +51,11 @@ namespace LibFloaderClient.Implementations.Device
                         }
                     }
 
-
                     _logger.LogInfo($"{ result.Count } of expected { deviceData.FlashPagesAll * deviceData.FlashPageSize } bytes read.");
                     break;
 
                 default:
-                    throw DeviceIndependentOperationsProvider.ReportUnsupportedVersion(_identificationData.Version);
+                    throw ReportUnsupportedVersion();
             }
 
             _flashReadCompletedCallbackDelegate(new FlashReadResult(result));

@@ -16,8 +16,12 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using LibFloaderClient.Implementations.Enums.Device;
+using LibFloaderClient.Implementations.Versioned.Driver;
 using LibFloaderClient.Interfaces.Logger;
+using LibFloaderClient.Interfaces.Versioned.Driver;
 using LibFloaderClient.Models.Device;
+using LibFloaderClient.Models.Device.Versioned;
 using LibFloaderClient.Models.Port;
 using System;
 
@@ -57,6 +61,21 @@ namespace LibFloaderClient.Implementations.Device
             _portSettings = portSettings ?? throw new ArgumentNullException(nameof(portSettings));
             _versionSpecificDeviceData = versionSpecificDeviceData ?? throw new ArgumentNullException(nameof(versionSpecificDeviceData));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        protected DeviceDataV1 GetDeviceDataV1()
+        {
+            return DeviceIndependentOperationsProvider.GetDeviceDataV1(_identificationData, _versionSpecificDeviceData);
+        }
+
+        protected IDeviceDriverV1 GetDeviceDriverV1()
+        {
+            return DeviceIndependentOperationsProvider.GetDeviceDriverV1(_identificationData, _versionSpecificDeviceData, _portSettings, _logger);
+        }
+
+        protected InvalidOperationException ReportUnsupportedVersion()
+        {
+            return DeviceIndependentOperationsProvider.ReportUnsupportedVersion(_identificationData.Version);
         }
     }
 }

@@ -153,8 +153,8 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    using (var driver = GetDeviceDriverV1(version: _deviceIdentificationData.Version,
-                        portSettings: _portSettings, versionSpecificDeviceData: _versionSpecificDeviceData, logger: _logger))
+                    using (var driver = GetDeviceDriverV1(identificationData: _deviceIdentificationData, portSettings: _portSettings,
+                        versionSpecificDeviceData: _versionSpecificDeviceData, logger: _logger))
                     {
                         driver.Reboot();
                     }
@@ -193,51 +193,16 @@ namespace LibFloaderClient.Implementations.Device
             eepromWriterThread.Start();
         }
 
-        public void WriteAllFlash(List<byte> toWrite)
+        public void InitiateWriteAllFlash(List<byte> toWrite, FlashWriteCompletedCallbackDelegate writeCompletedDelegate)
         {
+            _ = writeCompletedDelegate ?? throw new ArgumentNullException(nameof(writeCompletedDelegate));
+
             IsSetUp();
 
-            _logger.LogInfo($"Writing whole FLASH (except bootloader)...");
-
-            switch (_deviceIdentificationData.Version)
-            {
-                case (int)ProtocolVersion.First:
-
-                    var deviceData = GetDeviceDataV1(_deviceIdentificationData, _versionSpecificDeviceData);
-                    using (var driver = GetDeviceDriverV1(version: _deviceIdentificationData.Version,
-                        portSettings: _portSettings, versionSpecificDeviceData: deviceData, logger: _logger))
-                    {
-                        for (var pageAddress = 0; pageAddress < deviceData.FlashPagesWriteable; pageAddress++)
-                        {
-                            // Preparing page data
-                            var pageData = toWrite.GetRange(pageAddress * deviceData.FlashPageSize, deviceData.FlashPageSize);
-
-                            // Writing
-                            _logger.LogInfo("Writing...");
-                            driver.WriteFLASHPage(pageAddress, pageData);
-
-                            // Verifying
-                            _logger.LogInfo("Verifying...");
-                            var readback = driver.ReadFLASHPage(pageAddress);
-
-                            if (!readback.SequenceEqual(pageData))
-                            {
-                                var message = $"Page { pageAddress + 1 } verification failed.";
-                                _logger.LogError(message);
-                                throw new InvalidOperationException(message);
-                            }
-
-                            _logger.LogInfo("Verification is OK");
-                        }
-                    }
-
-                    _logger.LogInfo("FLASH written successfully.");
-
-                    break;
-
-                default:
-                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
-            }
+            var threadedFlashWriter = new ThreadedFlashWriter(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
+                toWrite, writeCompletedDelegate);
+            var flashWriterThread = new Thread(new ThreadStart(threadedFlashWriter.Write));
+            flashWriterThread.Start();
         }
 
         private void IsSetUp()
@@ -248,36 +213,6 @@ namespace LibFloaderClient.Implementations.Device
                 _logger.LogError(msg);
                 throw new InvalidOperationException(msg);
             }
-        }
-
-        public static InvalidOperationException ReportUnsupportedVersion(int version)
-        {
-            return new InvalidOperationException($"Unsupported version { version }.");
-        }
-
-        public static IDeviceDriverV1 GetDeviceDriverV1(int version, PortSettings portSettings, object versionSpecificDeviceData, ILogger logger)
-        {
-            if (version != (int)ProtocolVersion.First)
-            {
-                throw ReportNonV1Version();
-            }
-
-            return (IDeviceDriverV1)new DeviceDriverV1(portSettings, (DeviceDataV1)versionSpecificDeviceData, logger);
-        }
-
-        public static DeviceDataV1 GetDeviceDataV1(DeviceIdentifierData deviceIdentificationData, object versionSpecificDeviceData)
-        {
-            if (deviceIdentificationData.Version != (int)ProtocolVersion.First)
-            {
-                throw ReportNonV1Version();
-            }
-
-            return (DeviceDataV1)versionSpecificDeviceData;
-        }
-
-        public static InvalidOperationException ReportNonV1Version()
-        {
-            return new InvalidOperationException("Version must be 1.");
         }
 
         public void InitiateDownloadFromDevice(string flashPath, string eepromPath, DownloadFromDeviceCompletedCallbackDelegate downloadCompletedDelegate)
@@ -459,9 +394,20 @@ namespace LibFloaderClient.Implementations.Device
 
             if (_isUploadFlash)
             {
-                WriteAllFlash(_flashDataToUpload);
+                InitiateWriteAllFlash(_flashDataToUpload, OnFlashWriteCompletedDuringUploadToDevice);
             }
+            else
+            {
+                UploadEeprom();
+            }
+        }
 
+        private void OnFlashWriteCompletedDuringUploadToDevice()
+        {
+            UploadEeprom();
+        }
+        private void UploadEeprom()
+        {
             if (_isUploadEeprom)
             {
                 InitiateWriteAllEEPROM(_eepromDataToUpload, OnEepromWriteCompletedDuringUploadToDevice);
@@ -481,5 +427,42 @@ namespace LibFloaderClient.Implementations.Device
         {
             _logger.LogInfo("Done");
         }
+
+        #region Helper stuff
+
+        public static InvalidOperationException ReportUnsupportedVersion(int version)
+        {
+            return new InvalidOperationException($"Unsupported version { version }.");
+        }
+
+        public static InvalidOperationException ReportNonV1Version()
+        {
+            return new InvalidOperationException("Version must be 1.");
+        }
+
+        public static DeviceDataV1 GetDeviceDataV1(DeviceIdentifierData identificationData, object versionSpecificDeviceData)
+        {
+            if (identificationData.Version != (int)ProtocolVersion.First)
+            {
+                throw ReportNonV1Version();
+            }
+
+            return (DeviceDataV1)versionSpecificDeviceData;
+        }
+
+        public static IDeviceDriverV1 GetDeviceDriverV1(DeviceIdentifierData identificationData,
+            object versionSpecificDeviceData,
+            PortSettings portSettings,
+            ILogger logger)
+        {
+            if (identificationData.Version != (int)ProtocolVersion.First)
+            {
+                throw ReportNonV1Version();
+            }
+
+            return (IDeviceDriverV1)new DeviceDriverV1(portSettings, GetDeviceDataV1(identificationData, versionSpecificDeviceData), logger);
+        }
+
+        #endregion
     }
 }

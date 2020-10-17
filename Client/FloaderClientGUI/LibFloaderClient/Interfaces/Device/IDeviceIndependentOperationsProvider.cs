@@ -39,6 +39,11 @@ namespace LibFloaderClient.Interfaces.Device
     public delegate void EepromWriteCompletedCallbackDelegate();
 
     /// <summary>
+    /// Called when FLASH write is completed
+    /// </summary>
+    public delegate void FlashWriteCompletedCallbackDelegate();
+
+    /// <summary>
     /// Called when all data is downloaded from device
     /// </summary>
     public delegate void DownloadFromDeviceCompletedCallbackDelegate();
@@ -64,9 +69,9 @@ namespace LibFloaderClient.Interfaces.Device
         void InitiateReadAllFlash(FlashReadCompletedCallbackDelegate readCompletedDelegate);
 
         /// <summary>
-        /// Write all FLASH memory (NOT including bootloader)
+        /// Initiates all FLASH memory (NOT including bootloader) write. Exits immediately, without waiting for write completion
         /// </summary>
-        void WriteAllFlash(List<byte> toWrite);
+        void InitiateWriteAllFlash(List<byte> toWrite, FlashWriteCompletedCallbackDelegate writeCompletedDelegate);
 
         /// <summary>
         /// Initiates all EEPROM read. Exits immediately, without waiting for read completion
