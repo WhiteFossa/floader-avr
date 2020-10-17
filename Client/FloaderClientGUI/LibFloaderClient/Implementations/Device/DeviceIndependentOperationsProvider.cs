@@ -134,37 +134,16 @@ namespace LibFloaderClient.Implementations.Device
             eepromReaderThread.Start();
         }
 
-        public List<byte> ReadAllFlash()
+        public void InitiateReadAllFlash(FlashReadCompletedCallbackDelegate readCompletedDelegate)
         {
+            _ = readCompletedDelegate ?? throw new ArgumentNullException(nameof(readCompletedDelegate));
+
             IsSetUp();
 
-            _logger.LogInfo($"Reading whole FLASH (bootloader included)");
-
-            var result = new List<byte>();
-            switch (_deviceIdentificationData.Version)
-            {
-                case (int)ProtocolVersion.First:
-
-                    var deviceData = GetDeviceDataV1();
-                    using (var driver = GetDeviceDriverV1(version: _deviceIdentificationData.Version,
-                        portSettings: _portSettings, versionSpecificDeviceData: _versionSpecificDeviceData, logger: _logger))
-                    {
-
-                        for (var pageAddress = 0; pageAddress < deviceData.FlashPagesAll; pageAddress++)
-                        {
-                            result.AddRange(driver.ReadFLASHPage(pageAddress));
-                        }
-                    }
-
-                    
-                    _logger.LogInfo($"{ result.Count } of expected { deviceData.FlashPagesAll * deviceData.FlashPageSize } bytes read.");
-                    break;
-
-                default:
-                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
-            }
-
-            return result;
+            var threadedFlashReader = new ThreadedFlashReader(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
+                readCompletedDelegate);
+            var flashReaderThread = new Thread(new ThreadStart(threadedFlashReader.Read));
+            flashReaderThread.Start();
         }
 
         public void RebootToFirmware()
@@ -224,7 +203,7 @@ namespace LibFloaderClient.Implementations.Device
             {
                 case (int)ProtocolVersion.First:
 
-                    var deviceData = GetDeviceDataV1();
+                    var deviceData = GetDeviceDataV1(_deviceIdentificationData, _versionSpecificDeviceData);
                     using (var driver = GetDeviceDriverV1(version: _deviceIdentificationData.Version,
                         portSettings: _portSettings, versionSpecificDeviceData: deviceData, logger: _logger))
                     {
@@ -286,14 +265,14 @@ namespace LibFloaderClient.Implementations.Device
             return (IDeviceDriverV1)new DeviceDriverV1(portSettings, (DeviceDataV1)versionSpecificDeviceData, logger);
         }
 
-        private DeviceDataV1 GetDeviceDataV1()
+        public static DeviceDataV1 GetDeviceDataV1(DeviceIdentifierData deviceIdentificationData, object versionSpecificDeviceData)
         {
-            if (_deviceIdentificationData.Version != (int)ProtocolVersion.First)
+            if (deviceIdentificationData.Version != (int)ProtocolVersion.First)
             {
                 throw ReportNonV1Version();
             }
 
-            return (DeviceDataV1)_versionSpecificDeviceData;
+            return (DeviceDataV1)versionSpecificDeviceData;
         }
 
         public static InvalidOperationException ReportNonV1Version()
@@ -323,10 +302,16 @@ namespace LibFloaderClient.Implementations.Device
             _downloadCompletedDelegate = downloadCompletedDelegate;
 
             _logger.LogInfo($"Downloading FLASH into { _flashSavePath }...");
-            var flashData = ReadAllFlash();
+           InitiateReadAllFlash(OnFlashReadCompletedDuringDownloadFromDevice);
+        }
 
+        /// <summary>
+        /// Called when FLASH read completed during download from device
+        /// </summary>
+        private void OnFlashReadCompletedDuringDownloadFromDevice(FlashReadResult data)
+        {
             _logger.LogInfo($"Downloaded. Writting to file...");
-            _hexWriter.LoadFromList(FlashBaseAddress, flashData);
+            _hexWriter.LoadFromList(FlashBaseAddress, data.Data);
             _hexWriter.WriteToFile(_flashSavePath);
 
             _flashSavePath = null; // To reduce risk of buggy reuse
@@ -339,7 +324,7 @@ namespace LibFloaderClient.Implementations.Device
         /// <summary>
         /// Called when EEPROM read completed during download from device
         /// </summary>
-        public void OnEepromReadCompletedDuringDownloadFromDevice(EepromReadResult data)
+        private void OnEepromReadCompletedDuringDownloadFromDevice(EepromReadResult data)
         {
             _logger.LogInfo($"Downloaded. Writting to file...");
             _hexWriter.LoadFromList(EepromBaseAddress, data.Data);
@@ -403,7 +388,7 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    var deviceData = GetDeviceDataV1();
+                    var deviceData = GetDeviceDataV1(_deviceIdentificationData, _versionSpecificDeviceData);
 
                     maxWriteableFlashAddress = deviceData.FlashPagesWriteable * deviceData.FlashPageSize - 1;
                     maxWriteableEepromAddress = deviceData.EepromSize - 1;
