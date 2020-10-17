@@ -73,6 +73,7 @@ namespace LibFloaderClient.Implementations.Device
                             var pageData = _toWrite.GetRange(pageAddress * deviceData.FlashPageSize, deviceData.FlashPageSize);
 
                             // Writing
+                            _logger.LogInfo($"Page { pageAddress }:");
                             _logger.LogInfo("Writing...");
                             driver.WriteFLASHPage(pageAddress, pageData);
 
