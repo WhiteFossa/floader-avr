@@ -92,6 +92,11 @@ namespace LibFloaderClient.Implementations.Device
         DownloadFromDeviceCompletedCallbackDelegate _downloadCompletedDelegate;
 
         /// <summary>
+        /// If not null, then will be called when upload to device is completed
+        /// </summary>
+        UploadToDeviceCompletedCallbackDelegate _uploadCompletedDelegate;
+
+        /// <summary>
         /// Do we need to upload FLASH?
         /// </summary>
         private bool _isUploadFlash;
@@ -287,8 +292,11 @@ namespace LibFloaderClient.Implementations.Device
             return _filenamesGenerator.GenerateEEPROMFilename(_deviceIdentificationData, isBackup);
         }
 
-        public void UploadToDevice(string flashPath, string eepromPath, string backupsDirectory)
+        public void InitializeUploadToDevice(string flashPath, string eepromPath, string backupsDirectory,
+            UploadToDeviceCompletedCallbackDelegate uploadCompletedDelegate)
         {
+            _uploadCompletedDelegate = uploadCompletedDelegate;
+
             if (string.IsNullOrEmpty(backupsDirectory))
             {
                 throw new ArgumentException("Backups directory must be specified.", nameof(backupsDirectory));
@@ -426,6 +434,8 @@ namespace LibFloaderClient.Implementations.Device
         private void CompleteUpload()
         {
             _logger.LogInfo("Done");
+
+            _uploadCompletedDelegate();
         }
 
         #region Helper stuff

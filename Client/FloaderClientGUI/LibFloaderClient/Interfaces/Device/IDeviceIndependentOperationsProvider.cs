@@ -49,6 +49,11 @@ namespace LibFloaderClient.Interfaces.Device
     public delegate void DownloadFromDeviceCompletedCallbackDelegate();
 
     /// <summary>
+    /// Called when all data is uploaded to device
+    /// </summary>
+    public delegate void UploadToDeviceCompletedCallbackDelegate();
+
+    /// <summary>
     /// Wrapper over device driver, hiding versioned details and allowing to write/read all pages at once
     /// </summary>
     public interface IDeviceIndependentOperationsProvider
@@ -95,10 +100,12 @@ namespace LibFloaderClient.Interfaces.Device
         void InitiateDownloadFromDevice(string flashPath, string eepromPath, DownloadFromDeviceCompletedCallbackDelegate downloadCompletedDelegate = null);
 
         /// <summary>
-        /// Uploads given files into device. If file path is null or empty - then don't try to upload it.
-        /// Backups directory must be specified anyway
+        /// Initializes given files upload into device. If file path is null or empty - then don't try to upload it.
+        /// Backups directory must be specified anyway. Exist immediately.
+        /// If uploadCompletedDelegate isn't null, then call it on completion
         /// </summary>
-        void UploadToDevice(string flashPath, string eepromPath, string backupsDirectory);
+        void InitializeUploadToDevice(string flashPath, string eepromPath, string backupsDirectory,
+            UploadToDeviceCompletedCallbackDelegate uploadCompletedDelegate = null);
 
         /// <summary>
         /// Generate filename for FLASH file download/backup

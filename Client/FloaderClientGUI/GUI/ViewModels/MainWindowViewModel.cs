@@ -559,7 +559,7 @@ namespace FloaderClientGUI.ViewModels
 
             try
             {
-                _deviceIndependentOperationsProvider.UploadToDevice(_isFlashUpload ? FlashUploadFile : string.Empty,
+                _deviceIndependentOperationsProvider.InitializeUploadToDevice(_isFlashUpload ? FlashUploadFile : string.Empty,
                     _isEepromUpload ? EepromUploadFile : string.Empty,
                     UploadBackupsDirectory);
             }
