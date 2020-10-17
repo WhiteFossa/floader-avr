@@ -27,18 +27,12 @@ namespace LibFloaderClient.Models.Device
     public class EepromReadResult
     {
         /// <summary>
-        /// Was data read successfully?
-        /// </summary>
-        public bool IsSuccessfull { get; private set; }
-
-        /// <summary>
         /// Read data
         /// </summary>
         public List<byte> Data { get; private set; }
 
-        public EepromReadResult(bool isSuccessfull, List<byte> data)
+        public EepromReadResult(List<byte> data)
         {
-            IsSuccessfull = isSuccessfull;
             Data = data ?? throw new ArgumentNullException(nameof(data));
         }
     }

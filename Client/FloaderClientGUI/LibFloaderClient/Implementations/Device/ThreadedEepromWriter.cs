@@ -22,51 +22,56 @@ using LibFloaderClient.Interfaces.Logger;
 using LibFloaderClient.Models.Device;
 using LibFloaderClient.Models.Port;
 using System;
+using System.Collections.Generic;
 
 namespace LibFloaderClient.Implementations.Device
 {
     /// <summary>
-    /// Use it to read EEPROM
+    /// Use it to write EEPROM
     /// </summary>
-    public class ThreadedEepromReader : BaseThreadedOperationsProvider
+    public class ThreadedEepromWriter : BaseThreadedOperationsProvider
     {
         /// <summary>
-        /// Callback on completed read
+        /// Data to write
         /// </summary>
-        private readonly EepromReadCompletedCallbackDelegate _eepromReadCompletedCallbackDelegate;
+        private readonly List<byte> _toWrite;
 
-        public ThreadedEepromReader(DeviceIdentifierData identificationData,
+        /// <summary>
+        /// Callback on completed write
+        /// </summary>
+        private readonly EepromWriteCompletedCallbackDelegate _eepromWriteCompletedCallbackDelegate;
+
+        public ThreadedEepromWriter(DeviceIdentifierData identificationData,
             PortSettings portSettings,
             object versionSpecificDeviceData,
             ILogger logger,
-            EepromReadCompletedCallbackDelegate eepromReadCompletedCallbackDelegate)
+            List<byte> toWrite,
+            EepromWriteCompletedCallbackDelegate eepromWriteCompletedCallbackDelegate)
             : base(identificationData, portSettings, versionSpecificDeviceData, logger)
         {
-            _eepromReadCompletedCallbackDelegate = eepromReadCompletedCallbackDelegate
-                ?? throw new ArgumentNullException(nameof(eepromReadCompletedCallbackDelegate));
+            _toWrite = toWrite ?? throw new ArgumentNullException(nameof(toWrite));
+
+            _eepromWriteCompletedCallbackDelegate = eepromWriteCompletedCallbackDelegate
+                ?? throw new ArgumentNullException(nameof(eepromWriteCompletedCallbackDelegate));
         }
 
-        /// <summary>
-        /// Attempt to read device EEPROM
-        /// </summary>
-        public void Read()
+        public void Write()
         {
-            EepromReadResult result = null;
-
             switch (_identificationData.Version)
             {
                 case (int)ProtocolVersion.First:
                     using (var driver = DeviceIndependentOperationsProvider.GetDeviceDriverV1(version: _identificationData.Version, portSettings: _portSettings,
                         versionSpecificDeviceData: _versionSpecificDeviceData, logger: _logger))
                     {
-                        result = new EepromReadResult(driver.ReadEEPROM());
+                        driver.WriteEEPROM(_toWrite);
                     }
                     break;
+
                 default:
                     throw DeviceIndependentOperationsProvider.ReportUnsupportedVersion(_identificationData.Version);
             }
 
-            _eepromReadCompletedCallbackDelegate(result);
+            _eepromWriteCompletedCallbackDelegate();
         }
     }
 }

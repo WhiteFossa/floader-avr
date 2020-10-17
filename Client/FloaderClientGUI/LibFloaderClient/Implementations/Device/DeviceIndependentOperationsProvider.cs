@@ -172,23 +172,16 @@ namespace LibFloaderClient.Implementations.Device
             _isSetUp = false;
         }
 
-        public void WriteAllEEPROM(List<byte> toWrite)
+        public void WriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate)
         {
+            _ = writeCompletedDelegate ?? throw new ArgumentNullException(nameof(writeCompletedDelegate));
+
             IsSetUp();
 
-            switch (_deviceIdentificationData.Version)
-            {
-                case (int)ProtocolVersion.First:
-                    using (var driver = GetDeviceDriverV1(version: _deviceIdentificationData.Version,
-                        portSettings: _portSettings, versionSpecificDeviceData: _versionSpecificDeviceData, logger: _logger))
-                    {
-                        driver.WriteEEPROM(toWrite);
-                    }
-                    break;
-
-                default:
-                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
-            }
+            var threadedEepromWriter = new ThreadedEepromWriter(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
+                toWrite, writeCompletedDelegate);
+            var eepromWriterThread = new Thread(new ThreadStart(threadedEepromWriter.Write));
+            eepromWriterThread.Start();
         }
 
         public void WriteAllFlash(List<byte> toWrite)
@@ -306,14 +299,13 @@ namespace LibFloaderClient.Implementations.Device
             _logger.LogInfo("Done");
 
             _logger.LogInfo($"Downloading EEPROM into { _eepromSavePath }...");
-            ReadAllEEPROM(OnEepromReadCompleted);
+            ReadAllEEPROM(OnEepromReadCompletedDuringDownloadFromDevice);
         }
 
         /// <summary>
         /// Called when EEPROM read completed
         /// </summary>
-        /// <param name="data"></param>
-        public void OnEepromReadCompleted(EepromReadResult data)
+        public void OnEepromReadCompletedDuringDownloadFromDevice(EepromReadResult data)
         {
             _logger.LogInfo($"Downloaded. Writting to file...");
             _hexWriter.LoadFromList(EepromBaseAddress, data.Data);
@@ -385,7 +377,6 @@ namespace LibFloaderClient.Implementations.Device
 
                 default:
                     throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
-                    break;
             }
 
             if (flashHexData.Any(fhd => fhd.Key > maxWriteableFlashAddress))
@@ -450,9 +441,21 @@ namespace LibFloaderClient.Implementations.Device
 
             if (isUploadEeprom)
             {
-                WriteAllEEPROM(eepromDataToUpload);
+                WriteAllEEPROM(eepromDataToUpload, OnEepromWriteCompletedDuringUploadToDevice);
             }
+            else
+            {
+                CompleteUpload();
+            }
+        }
 
+        private void OnEepromWriteCompletedDuringUploadToDevice()
+        {
+            CompleteUpload();
+        }
+
+        private void CompleteUpload()
+        {
             _logger.LogInfo("Done");
         }
     }

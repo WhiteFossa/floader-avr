@@ -29,6 +29,11 @@ namespace LibFloaderClient.Interfaces.Device
     public delegate void EepromReadCompletedCallbackDelegate(EepromReadResult data);
 
     /// <summary>
+    /// Called when EEPROM write is completed
+    /// </summary>
+    public delegate void EepromWriteCompletedCallbackDelegate();
+
+    /// <summary>
     /// Wrapper over device driver, hiding versioned details and allowing to write/read all pages at once
     /// </summary>
     public interface IDeviceIndependentOperationsProvider
@@ -61,7 +66,7 @@ namespace LibFloaderClient.Interfaces.Device
         /// <summary>
         /// Write all EEPROM
         /// </summary>
-        void WriteAllEEPROM(List<byte> toWrite);
+        void WriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate);
 
         /// <summary>
         /// Reboot device to firmware
