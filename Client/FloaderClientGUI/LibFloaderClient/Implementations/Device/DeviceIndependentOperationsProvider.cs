@@ -109,12 +109,17 @@ namespace LibFloaderClient.Implementations.Device
         /// <summary>
         /// All FLASH data to upload
         /// </summary>
-        List<byte> _flashDataToUpload = new List<byte>();
+        private List<byte> _flashDataToUpload = new List<byte>();
 
         /// <summary>
         /// All EEPROM data to upload
         /// </summary>
-        List<byte> _eepromDataToUpload = new List<byte>();
+        private List<byte> _eepromDataToUpload = new List<byte>();
+
+        /// <summary>
+        /// Progress delegate for current process
+        /// </summary>
+        private ProgressDelegate _progressDelegate = null;
 
         public DeviceIndependentOperationsProvider(ILogger logger,
             IHexWriter hexWriter,
@@ -139,14 +144,14 @@ namespace LibFloaderClient.Implementations.Device
             eepromReaderThread.Start();
         }
 
-        public void InitiateReadAllFlash(FlashReadCompletedCallbackDelegate readCompletedDelegate)
+        public void InitiateReadAllFlash(FlashReadCompletedCallbackDelegate readCompletedDelegate, ProgressDelegate progressDelegate = null)
         {
             _ = readCompletedDelegate ?? throw new ArgumentNullException(nameof(readCompletedDelegate));
 
             IsSetUp();
 
             var threadedFlashReader = new ThreadedFlashReader(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
-                readCompletedDelegate);
+                readCompletedDelegate, progressDelegate);
             var flashReaderThread = new Thread(new ThreadStart(threadedFlashReader.Read));
             flashReaderThread.Start();
         }
@@ -220,7 +225,8 @@ namespace LibFloaderClient.Implementations.Device
             }
         }
 
-        public void InitiateDownloadFromDevice(string flashPath, string eepromPath, DownloadFromDeviceCompletedCallbackDelegate downloadCompletedDelegate)
+        public void InitiateDownloadFromDevice(string flashPath, string eepromPath, DownloadFromDeviceCompletedCallbackDelegate downloadCompletedDelegate = null,
+            ProgressDelegate progressDelegate = null)
         {
             if (string.IsNullOrEmpty(flashPath))
             {
@@ -240,9 +246,10 @@ namespace LibFloaderClient.Implementations.Device
             _eepromSavePath = eepromPath;
             _flashSavePath = flashPath;
             _downloadCompletedDelegate = downloadCompletedDelegate;
+            _progressDelegate = progressDelegate;
 
             _logger.LogInfo($"Downloading FLASH into { _flashSavePath }...");
-           InitiateReadAllFlash(OnFlashReadCompletedDuringDownloadFromDevice);
+           InitiateReadAllFlash(OnFlashReadCompletedDuringDownloadFromDevice, _progressDelegate);
         }
 
         /// <summary>
@@ -275,6 +282,7 @@ namespace LibFloaderClient.Implementations.Device
 
             _eepromSavePath = null; // To reduce risk of buggy reuse
 
+            _progressDelegate = null; // Download process is completed
             _downloadCompletedDelegate?.Invoke();
         }
 
@@ -472,6 +480,15 @@ namespace LibFloaderClient.Implementations.Device
 
             return (IDeviceDriverV1)new DeviceDriverV1(portSettings, GetDeviceDataV1(identificationData, versionSpecificDeviceData), logger);
         }
+
+        private void SetProgress(double current, double max)
+        {
+            if (_progressDelegate != null)
+            {
+                _progressDelegate(new ProgressData(current, max));
+            }
+        }
+
 
         #endregion
     }

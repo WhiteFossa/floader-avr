@@ -32,7 +32,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 	</Window.Styles>
 
 	<!-- Main grid -->
-	<Grid ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto, Auto, *, Auto" >
+	<Grid ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, *, Auto" >
 
 		<!-- Port selection -->
 		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="0" >
@@ -169,8 +169,16 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 			</StackPanel>
 		</Border>
 
-		<!-- Console -->
+		<!-- Progress -->
 		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="4" >
+			<DockPanel>
+				<TextBlock Text="Progress:" DockPanel.Dock="Top" />
+				<ProgressBar Minimum="0" Value="{Binding ProgressValue}" Maximum="1" />
+			</DockPanel>
+		</Border>
+
+		<!-- Console -->
+		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="5" >
 			<DockPanel>
 				<TextBlock Text="Console:" DockPanel.Dock="Top" /> <!-- Log textbox -->
 
@@ -179,7 +187,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		</Border>
 
 		<!-- About -->
-		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="5" >
+		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="6" >
 			<StackPanel>
 				<TextBlock Text="About:" />
 				<DockPanel Classes="TopMargin">

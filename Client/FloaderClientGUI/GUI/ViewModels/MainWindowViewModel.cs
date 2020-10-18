@@ -89,6 +89,7 @@ namespace FloaderClientGUI.ViewModels
         private bool _isEepromDownloadFileEnabled;
         private bool _isSelectEepromDownloadFileButtonEnabled;
         private bool _isAboutButtonEnabled;
+        private double _progressValue;
 
         /// <summary>
         /// Text in console
@@ -387,6 +388,15 @@ namespace FloaderClientGUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _isAboutButtonEnabled, value);
         }
 
+        /// <summary>
+        /// Current progressbar value [0-1]
+        /// </summary>
+        public double ProgressValue
+        {
+            get => _progressValue;
+            set => this.RaiseAndSetIfChanged(ref _progressValue, value);
+        }
+
         #endregion Bound properties
 
 
@@ -652,7 +662,7 @@ namespace FloaderClientGUI.ViewModels
 
             try
             {
-                _deviceIndependentOperationsProvider.InitiateDownloadFromDevice(FlashDownloadFile, EepromDownloadFile, OnDownloadCompleted);
+                _deviceIndependentOperationsProvider.InitiateDownloadFromDevice(FlashDownloadFile, EepromDownloadFile, OnDownloadCompleted, SetProgressValue);
             }
             catch(Exception ex)
             {
@@ -1049,6 +1059,14 @@ Please, select another device.");
             {
                 LoadStateAndUnlockInterface();
             });
+        }
+
+        /// <summary>
+        /// Set progressbar value
+        /// </summary>
+        private void SetProgressValue(ProgressData data)
+        {
+            ProgressValue = data.Current / data.Max;
         }
     }
 }

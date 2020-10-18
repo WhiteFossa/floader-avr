@@ -18,15 +18,22 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private readonly FlashReadCompletedCallbackDelegate _flashReadCompletedCallbackDelegate;
 
+        /// <summary>
+        /// Delegate to show progress
+        /// </summary>
+        private readonly ProgressDelegate _progressDelegate;
+
         public ThreadedFlashReader(DeviceIdentifierData identificationData,
            PortSettings portSettings,
            object versionSpecificDeviceData,
            ILogger logger,
-           FlashReadCompletedCallbackDelegate flashReadCompletedCallbackDelegate)
+           FlashReadCompletedCallbackDelegate flashReadCompletedCallbackDelegate,
+           ProgressDelegate progressDelegate = null)
            : base(identificationData, portSettings, versionSpecificDeviceData, logger)
         {
             _flashReadCompletedCallbackDelegate = flashReadCompletedCallbackDelegate
                 ?? throw new ArgumentNullException(nameof(flashReadCompletedCallbackDelegate));
+            _progressDelegate = progressDelegate;
         }
 
         /// <summary>
@@ -48,6 +55,8 @@ namespace LibFloaderClient.Implementations.Device
                         for (var pageAddress = 0; pageAddress < deviceData.FlashPagesAll; pageAddress++)
                         {
                             result.AddRange(driver.ReadFLASHPage(pageAddress));
+
+                            _progressDelegate?.Invoke(new ProgressData(pageAddress + 1, deviceData.FlashPagesAll));
                         }
                     }
 

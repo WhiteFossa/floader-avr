@@ -54,6 +54,11 @@ namespace LibFloaderClient.Interfaces.Device
     public delegate void UploadToDeviceCompletedCallbackDelegate();
 
     /// <summary>
+    /// Delegate, used to indicate current progress.
+    /// </summary>
+    public delegate void ProgressDelegate(ProgressData data);
+
+    /// <summary>
     /// Wrapper over device driver, hiding versioned details and allowing to write/read all pages at once
     /// </summary>
     public interface IDeviceIndependentOperationsProvider
@@ -71,7 +76,7 @@ namespace LibFloaderClient.Interfaces.Device
         /// <summary>
         /// Initiates all FLASH (including bootloader) read. Exits immediately, without waiting for read completion
         /// </summary>
-        void InitiateReadAllFlash(FlashReadCompletedCallbackDelegate readCompletedDelegate);
+        void InitiateReadAllFlash(FlashReadCompletedCallbackDelegate readCompletedDelegate, ProgressDelegate progressDelegate = null);
 
         /// <summary>
         /// Initiates all FLASH memory (NOT including bootloader) write. Exits immediately, without waiting for write completion
@@ -97,7 +102,8 @@ namespace LibFloaderClient.Interfaces.Device
         /// Starts download from device into given HEX files. Exits immediately. If downloadCompleteDelegate isn't null, then
         /// that delegate will be called on completion
         /// </summary>
-        void InitiateDownloadFromDevice(string flashPath, string eepromPath, DownloadFromDeviceCompletedCallbackDelegate downloadCompletedDelegate = null);
+        void InitiateDownloadFromDevice(string flashPath, string eepromPath, DownloadFromDeviceCompletedCallbackDelegate downloadCompletedDelegate = null,
+            ProgressDelegate progressDelegate = null);
 
         /// <summary>
         /// Initializes given files upload into device. If file path is null or empty - then don't try to upload it.
