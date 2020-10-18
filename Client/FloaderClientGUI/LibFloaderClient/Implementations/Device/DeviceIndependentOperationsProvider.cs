@@ -292,7 +292,7 @@ namespace LibFloaderClient.Implementations.Device
             return _filenamesGenerator.GenerateEEPROMFilename(_deviceIdentificationData, isBackup);
         }
 
-        public void InitializeUploadToDevice(string flashPath, string eepromPath, string backupsDirectory,
+        public void InitiateUploadToDevice(string flashPath, string eepromPath, string backupsDirectory,
             UploadToDeviceCompletedCallbackDelegate uploadCompletedDelegate)
         {
             _uploadCompletedDelegate = uploadCompletedDelegate;

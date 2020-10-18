@@ -557,11 +557,14 @@ namespace FloaderClientGUI.ViewModels
         {
             CheckReadyness();
 
+            SaveStateAndLockInterface();
+
             try
             {
-                _deviceIndependentOperationsProvider.InitializeUploadToDevice(_isFlashUpload ? FlashUploadFile : string.Empty,
+                _deviceIndependentOperationsProvider.InitiateUploadToDevice(_isFlashUpload ? FlashUploadFile : string.Empty,
                     _isEepromUpload ? EepromUploadFile : string.Empty,
-                    UploadBackupsDirectory);
+                    UploadBackupsDirectory,
+                    OnUploadCompleted);
             }
             catch(Exception ex)
             {
@@ -645,9 +648,11 @@ namespace FloaderClientGUI.ViewModels
                 return;
             }
 
+            SaveStateAndLockInterface();
+
             try
             {
-                _deviceIndependentOperationsProvider.InitiateDownloadFromDevice(FlashDownloadFile, EepromDownloadFile);
+                _deviceIndependentOperationsProvider.InitiateDownloadFromDevice(FlashDownloadFile, EepromDownloadFile, OnDownloadCompleted);
             }
             catch(Exception ex)
             {
@@ -1022,6 +1027,28 @@ Please, select another device.");
             IsAboutButtonEnabled = _interfaceState.IsAboutButtonEnabled;
 
             _interfaceState.IsInterfaceLocked = false;
+        }
+
+        /// <summary>
+        /// Called when download from device is completed
+        /// </summary>
+        private void OnDownloadCompleted()
+        {
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                LoadStateAndUnlockInterface();
+            });
+        }
+
+        /// <summary>
+        /// Called when upload to device is completed
+        /// </summary>
+        private void OnUploadCompleted()
+        {
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                LoadStateAndUnlockInterface();
+            });
         }
     }
 }

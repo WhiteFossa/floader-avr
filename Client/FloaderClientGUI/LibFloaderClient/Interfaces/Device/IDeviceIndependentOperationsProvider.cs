@@ -104,7 +104,7 @@ namespace LibFloaderClient.Interfaces.Device
         /// Backups directory must be specified anyway. Exist immediately.
         /// If uploadCompletedDelegate isn't null, then call it on completion
         /// </summary>
-        void InitializeUploadToDevice(string flashPath, string eepromPath, string backupsDirectory,
+        void InitiateUploadToDevice(string flashPath, string eepromPath, string backupsDirectory,
             UploadToDeviceCompletedCallbackDelegate uploadCompletedDelegate = null);
 
         /// <summary>
