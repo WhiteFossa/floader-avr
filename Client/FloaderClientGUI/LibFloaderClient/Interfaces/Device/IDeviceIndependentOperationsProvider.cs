@@ -81,17 +81,17 @@ namespace LibFloaderClient.Interfaces.Device
         /// <summary>
         /// Initiates all FLASH memory (NOT including bootloader) write. Exits immediately, without waiting for write completion
         /// </summary>
-        void InitiateWriteAllFlash(List<byte> toWrite, FlashWriteCompletedCallbackDelegate writeCompletedDelegate);
+        void InitiateWriteAllFlash(List<byte> toWrite, FlashWriteCompletedCallbackDelegate writeCompletedDelegate, ProgressDelegate progressDelegate = null);
 
         /// <summary>
         /// Initiates all EEPROM read. Exits immediately, without waiting for read completion
         /// </summary>
-        void InitiateReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate);
+        void InitiateReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate, ProgressDelegate progressDelegate = null);
 
         /// <summary>
         /// Initiates all EEPROM write. Exits immediately, without waiting for write completion
         /// </summary>
-        void InitiateWriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate);
+        void InitiateWriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate, ProgressDelegate progressDelegate = null);
 
         /// <summary>
         /// Reboot device to firmware
@@ -111,7 +111,7 @@ namespace LibFloaderClient.Interfaces.Device
         /// If uploadCompletedDelegate isn't null, then call it on completion
         /// </summary>
         void InitiateUploadToDevice(string flashPath, string eepromPath, string backupsDirectory,
-            UploadToDeviceCompletedCallbackDelegate uploadCompletedDelegate = null);
+            UploadToDeviceCompletedCallbackDelegate uploadCompletedDelegate = null, ProgressDelegate progressDelegate = null);
 
         /// <summary>
         /// Generate filename for FLASH file download/backup

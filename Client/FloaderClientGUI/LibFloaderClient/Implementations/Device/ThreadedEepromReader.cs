@@ -35,15 +35,23 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private readonly EepromReadCompletedCallbackDelegate _eepromReadCompletedCallbackDelegate;
 
+        /// <summary>
+        /// Delegate to show progress
+        /// </summary>
+        private readonly ProgressDelegate _progressDelegate;
+
         public ThreadedEepromReader(DeviceIdentifierData identificationData,
             PortSettings portSettings,
             object versionSpecificDeviceData,
             ILogger logger,
-            EepromReadCompletedCallbackDelegate eepromReadCompletedCallbackDelegate)
+            EepromReadCompletedCallbackDelegate eepromReadCompletedCallbackDelegate,
+            ProgressDelegate progressDelegate = null)
             : base(identificationData, portSettings, versionSpecificDeviceData, logger)
         {
             _eepromReadCompletedCallbackDelegate = eepromReadCompletedCallbackDelegate
                 ?? throw new ArgumentNullException(nameof(eepromReadCompletedCallbackDelegate));
+
+            _progressDelegate = progressDelegate;
         }
 
         /// <summary>
@@ -58,7 +66,9 @@ namespace LibFloaderClient.Implementations.Device
                 case (int)ProtocolVersion.First:
                     using (var driver = GetDeviceDriverV1())
                     {
+                        _progressDelegate?.Invoke(new ProgressData(0, 1));
                         result = new EepromReadResult(driver.ReadEEPROM());
+                        _progressDelegate?.Invoke(new ProgressData(1, 1));
                     }
                     break;
                 default:

@@ -574,7 +574,8 @@ namespace FloaderClientGUI.ViewModels
                 _deviceIndependentOperationsProvider.InitiateUploadToDevice(_isFlashUpload ? FlashUploadFile : string.Empty,
                     _isEepromUpload ? EepromUploadFile : string.Empty,
                     UploadBackupsDirectory,
-                    OnUploadCompleted);
+                    OnUploadCompleted,
+                    SetProgressValue);
             }
             catch(Exception ex)
             {

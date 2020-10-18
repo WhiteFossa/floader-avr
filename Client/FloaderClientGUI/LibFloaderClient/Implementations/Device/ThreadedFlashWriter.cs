@@ -42,18 +42,25 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private readonly FlashWriteCompletedCallbackDelegate _flashWriteCompletedCallbackDelegate;
 
+        /// <summary>
+        /// Delegate to show progress
+        /// </summary>
+        private readonly ProgressDelegate _progressDelegate;
+
         public ThreadedFlashWriter(DeviceIdentifierData identificationData,
             PortSettings portSettings,
             object versionSpecificDeviceData,
             ILogger logger,
             List<byte> toWrite,
-            FlashWriteCompletedCallbackDelegate flashWriteCompletedCallbackDelegate)
+            FlashWriteCompletedCallbackDelegate flashWriteCompletedCallbackDelegate,
+            ProgressDelegate progressDelegate = null)
             : base(identificationData, portSettings, versionSpecificDeviceData, logger)
         {
             _toWrite = toWrite ?? throw new ArgumentNullException(nameof(toWrite));
 
             _flashWriteCompletedCallbackDelegate = flashWriteCompletedCallbackDelegate
                 ?? throw new ArgumentNullException(nameof(flashWriteCompletedCallbackDelegate));
+            _progressDelegate = progressDelegate;
         }
 
         public void Write()
@@ -73,12 +80,9 @@ namespace LibFloaderClient.Implementations.Device
                             var pageData = _toWrite.GetRange(pageAddress * deviceData.FlashPageSize, deviceData.FlashPageSize);
 
                             // Writing
-                            _logger.LogInfo($"Page { pageAddress }:");
-                            _logger.LogInfo("Writing...");
                             driver.WriteFLASHPage(pageAddress, pageData);
 
                             // Verifying
-                            _logger.LogInfo("Verifying...");
                             var readback = driver.ReadFLASHPage(pageAddress);
 
                             if (!readback.SequenceEqual(pageData))
@@ -88,11 +92,9 @@ namespace LibFloaderClient.Implementations.Device
                                 throw new InvalidOperationException(message);
                             }
 
-                            _logger.LogInfo("Verification is OK");
+                            _progressDelegate?.Invoke(new ProgressData(pageAddress + 1, deviceData.FlashPagesWriteable));
                         }
                     }
-
-                    _logger.LogInfo("FLASH written successfully.");
 
                     break;
 

@@ -41,18 +41,25 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private readonly EepromWriteCompletedCallbackDelegate _eepromWriteCompletedCallbackDelegate;
 
+        /// <summary>
+        /// Delegate to show progress
+        /// </summary>
+        private readonly ProgressDelegate _progressDelegate;
+
         public ThreadedEepromWriter(DeviceIdentifierData identificationData,
             PortSettings portSettings,
             object versionSpecificDeviceData,
             ILogger logger,
             List<byte> toWrite,
-            EepromWriteCompletedCallbackDelegate eepromWriteCompletedCallbackDelegate)
+            EepromWriteCompletedCallbackDelegate eepromWriteCompletedCallbackDelegate,
+            ProgressDelegate progressDelegate = null)
             : base(identificationData, portSettings, versionSpecificDeviceData, logger)
         {
             _toWrite = toWrite ?? throw new ArgumentNullException(nameof(toWrite));
 
             _eepromWriteCompletedCallbackDelegate = eepromWriteCompletedCallbackDelegate
                 ?? throw new ArgumentNullException(nameof(eepromWriteCompletedCallbackDelegate));
+            _progressDelegate = progressDelegate;
         }
 
         public void Write()
@@ -62,7 +69,7 @@ namespace LibFloaderClient.Implementations.Device
                 case (int)ProtocolVersion.First:
                     using (var driver = GetDeviceDriverV1())
                     {
-                        driver.WriteEEPROM(_toWrite);
+                        driver.WriteEEPROM(_toWrite, _progressDelegate);
                     }
                     break;
 

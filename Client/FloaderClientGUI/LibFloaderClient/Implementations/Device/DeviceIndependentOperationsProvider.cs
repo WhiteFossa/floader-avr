@@ -132,14 +132,14 @@ namespace LibFloaderClient.Implementations.Device
             _hexReader = hexReader;
         }
 
-        public void InitiateReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate)
+        public void InitiateReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate, ProgressDelegate progressDelegate = null)
         {
             _ = readCompletedDelegate ?? throw new ArgumentNullException(nameof(readCompletedDelegate));
 
             IsSetUp();
 
             var threadedEepromReader = new ThreadedEepromReader(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
-                readCompletedDelegate);
+                readCompletedDelegate, progressDelegate);
             var eepromReaderThread = new Thread(new ThreadStart(threadedEepromReader.Read));
             eepromReaderThread.Start();
         }
@@ -191,26 +191,26 @@ namespace LibFloaderClient.Implementations.Device
             _isSetUp = false;
         }
 
-        public void InitiateWriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate)
+        public void InitiateWriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate, ProgressDelegate progressDelegate = null)
         {
             _ = writeCompletedDelegate ?? throw new ArgumentNullException(nameof(writeCompletedDelegate));
 
             IsSetUp();
 
             var threadedEepromWriter = new ThreadedEepromWriter(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
-                toWrite, writeCompletedDelegate);
+                toWrite, writeCompletedDelegate, progressDelegate);
             var eepromWriterThread = new Thread(new ThreadStart(threadedEepromWriter.Write));
             eepromWriterThread.Start();
         }
 
-        public void InitiateWriteAllFlash(List<byte> toWrite, FlashWriteCompletedCallbackDelegate writeCompletedDelegate)
+        public void InitiateWriteAllFlash(List<byte> toWrite, FlashWriteCompletedCallbackDelegate writeCompletedDelegate, ProgressDelegate progressDelegate = null)
         {
             _ = writeCompletedDelegate ?? throw new ArgumentNullException(nameof(writeCompletedDelegate));
 
             IsSetUp();
 
             var threadedFlashWriter = new ThreadedFlashWriter(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
-                toWrite, writeCompletedDelegate);
+                toWrite, writeCompletedDelegate, progressDelegate);
             var flashWriterThread = new Thread(new ThreadStart(threadedFlashWriter.Write));
             flashWriterThread.Start();
         }
@@ -265,7 +265,7 @@ namespace LibFloaderClient.Implementations.Device
             _logger.LogInfo("Done");
 
             _logger.LogInfo($"Downloading EEPROM into { _eepromSavePath }...");
-            InitiateReadAllEEPROM(OnEepromReadCompletedDuringDownloadFromDevice);
+            InitiateReadAllEEPROM(OnEepromReadCompletedDuringDownloadFromDevice, _progressDelegate);
         }
 
         /// <summary>
@@ -281,8 +281,6 @@ namespace LibFloaderClient.Implementations.Device
             _logger.LogInfo("Download completed.");
 
             _eepromSavePath = null; // To reduce risk of buggy reuse
-
-            _progressDelegate = null; // Download process is completed
             _downloadCompletedDelegate?.Invoke();
         }
 
@@ -301,10 +299,8 @@ namespace LibFloaderClient.Implementations.Device
         }
 
         public void InitiateUploadToDevice(string flashPath, string eepromPath, string backupsDirectory,
-            UploadToDeviceCompletedCallbackDelegate uploadCompletedDelegate)
+            UploadToDeviceCompletedCallbackDelegate uploadCompletedDelegate = null, ProgressDelegate progressDelegate = null)
         {
-            _uploadCompletedDelegate = uploadCompletedDelegate;
-
             if (string.IsNullOrEmpty(backupsDirectory))
             {
                 throw new ArgumentException("Backups directory must be specified.", nameof(backupsDirectory));
@@ -317,6 +313,9 @@ namespace LibFloaderClient.Implementations.Device
             {
                 throw new ArgumentException("At least either FLASH or EEPROM files must be specified");
             }
+
+            _uploadCompletedDelegate = uploadCompletedDelegate;
+            _progressDelegate = progressDelegate;
 
             // Parsing HEX files
             var flashHexData = new SortedDictionary<int, byte>();
@@ -395,7 +394,7 @@ namespace LibFloaderClient.Implementations.Device
             _logger.LogInfo($"FLASH backup file: { flashBackupFilename }");
             _logger.LogInfo($"EEPROM backup file: { eepromBackupFilename }");
 
-            InitiateDownloadFromDevice(flashBackupFilename, eepromBackupFilename, MakeActualUpload);
+            InitiateDownloadFromDevice(flashBackupFilename, eepromBackupFilename, MakeActualUpload, _progressDelegate);
         }
 
         /// <summary>
@@ -410,7 +409,7 @@ namespace LibFloaderClient.Implementations.Device
 
             if (_isUploadFlash)
             {
-                InitiateWriteAllFlash(_flashDataToUpload, OnFlashWriteCompletedDuringUploadToDevice);
+                InitiateWriteAllFlash(_flashDataToUpload, OnFlashWriteCompletedDuringUploadToDevice, _progressDelegate);
             }
             else
             {
@@ -426,7 +425,7 @@ namespace LibFloaderClient.Implementations.Device
         {
             if (_isUploadEeprom)
             {
-                InitiateWriteAllEEPROM(_eepromDataToUpload, OnEepromWriteCompletedDuringUploadToDevice);
+                InitiateWriteAllEEPROM(_eepromDataToUpload, OnEepromWriteCompletedDuringUploadToDevice, _progressDelegate);
             }
             else
             {

@@ -17,9 +17,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using LibFloaderClient.Implementations.Exceptions;
+using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Logger;
 using LibFloaderClient.Interfaces.SerialPortDriver;
 using LibFloaderClient.Interfaces.Versioned.Driver;
+using LibFloaderClient.Models.Device;
 using LibFloaderClient.Models.Device.Versioned;
 using LibFloaderClient.Models.Port;
 using System;
@@ -189,7 +191,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
             }
         }
 
-        public void WriteEEPROM(List<byte> toWrite)
+        public void WriteEEPROM(List<byte> toWrite, ProgressDelegate progressDelegate = null)
         {
             CheckIfDisposed();
 
@@ -224,6 +226,8 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                     _logger.LogError(message);
                     throw new InvalidOperationException(message);
                 }
+
+                progressDelegate?.Invoke(new ProgressData(byteAddress + 1, _deviceData.EepromSize));
             }
         }
 

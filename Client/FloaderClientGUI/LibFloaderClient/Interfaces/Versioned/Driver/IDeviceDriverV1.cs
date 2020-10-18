@@ -16,6 +16,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using LibFloaderClient.Interfaces.Device;
 using System;
 using System.Collections.Generic;
 
@@ -41,7 +42,7 @@ namespace LibFloaderClient.Interfaces.Versioned.Driver
         /// <summary>
         /// Writes data to EEPROM. toWrite list must have EEPROM size elements.
         /// </summary>
-        void WriteEEPROM(List<byte> toWrite);
+        void WriteEEPROM(List<byte> toWrite, ProgressDelegate progressDelegate = null);
 
         /// <summary>
         /// Reads FLASH page with given address or throws an exception in case of error. Result never is null.
