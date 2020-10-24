@@ -1,5 +1,5 @@
 <!--
-Fossa's AVR bootloader client
+						Fossa's AVR bootloader client
 Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 
 	This program is free software: you can redistribute it and/or modify
@@ -21,8 +21,8 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		xmlns:vm="clr-namespace:FloaderClientGUI.ViewModels;assembly=FloaderClientGUI"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
-		Width="800" Height="600"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
+		Width="800" Height="700"
 		x:Class="FloaderClientGUI.Views.MainWindow"
 		Icon="/Assets/AppIcon.png"
 		Title="Fossa's loader">
@@ -32,7 +32,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 	</Window.Styles>
 
 	<!-- Main grid -->
-	<Grid ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto, Auto, *, Auto" >
+	<Grid ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, *, Auto" >
 
 		<!-- Port selection -->
 		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="0" >
@@ -43,7 +43,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 					<TextBlock Text="Port:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- Port label -->
 					<TextBlock Text="{Binding PortName}" Grid.Column="1" Grid.Row="0" /> <!-- Port name -->
 					<Button Grid.Column="2" Grid.Row="0" Content="Select port"
-						Command="{Binding SelectPortAsync}"/> <!-- Select port button -->
+						Command="{ Binding SelectPortAsync }" IsEnabled="{ Binding IsSelectPortEnabled }"/> <!-- Select port button -->
 				</Grid>
 
 			</StackPanel>
@@ -69,7 +69,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 							IsEnabled="{Binding IsPollDeviceEnabled}" /> <!-- Poll device button-->
 
 						<Button Content="Reboot" Classes="TopMargin" Command="{Binding Reboot}"
-							IsEnabled="{Binding IsRebootEnabled}"/> <!-- Reboot into firmware button -->
+							IsEnabled="{Binding IsRebootEnabled }"/> <!-- Reboot into firmware button -->
 					</StackPanel>
 				</Grid>
 			</StackPanel>
@@ -82,7 +82,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 					<DockPanel Classes="TopMargin">
 						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
 							<CheckBox Content="FLASH:" Classes="RightMargin" Grid.Column="0" Grid.Row="0"
-								IsChecked="{Binding IsFlashUpload}" /> <!-- FLASH checkbox -->
+								IsChecked="{Binding IsFlashUpload}" IsEnabled="{ Binding IsFlashUploadCheckboxEnabled }" /> <!-- FLASH checkbox -->
 
 							<TextBox Watermark="Select FLASH HEX file" Grid.Column="1" Grid.Row="0"
 								Text="{Binding FlashUploadFile}" IsReadOnly="True"
@@ -97,7 +97,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 					<DockPanel Classes="TopMargin">
 						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
 							<CheckBox Content="EEPROM:" Classes="RightMargin" Grid.Column="0" Grid.Row="0"
-								IsChecked="{Binding IsEepromUpload}" /> <!-- EEPROM checkbox -->
+								IsChecked="{Binding IsEepromUpload}" IsEnabled="{ Binding IsEepromUploadCheckboxEnabled }" /> <!-- EEPROM checkbox -->
 
 							<TextBox Watermark="Select EEPROM HEX file" Grid.Column="1" Grid.Row="0"
 								Text="{Binding EepromUploadFile}" IsReadOnly="True"
@@ -114,10 +114,12 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 							<TextBlock Text="Backups:" Classes="RightMargin" Grid.Column="0" Grid.Row="0" /> <!-- Backups label -->
 
 							<TextBox Watermark="Select backups directory" Grid.Column="1" Grid.Row="0"
-								Text="{Binding UploadBackupsDirectory}" IsReadOnly="True" /> <!-- Backups directory -->
+								Text="{Binding UploadBackupsDirectory}" IsReadOnly="True"
+								IsEnabled="{Binding IsUploadBackupsDirectoryEnabled }" /> <!-- Backups directory -->
 
 							<Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
-								Command="{Binding SelectBackupsDirectoryAsync}" /> <!-- Select backups directory button -->
+								Command="{Binding SelectBackupsDirectoryAsync}"
+								IsEnabled="{Binding IsSelectUploadBackupsDirectoryButtonEnabled}" /> <!-- Select backups directory button -->
 						</Grid>
 					</DockPanel>
 
@@ -137,10 +139,12 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 							<TextBlock Text="FLASH:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
 
 							<TextBox Watermark="Write FLASH HEX into this file" Grid.Column="1" Grid.Row="0"
-								Text="{Binding FlashDownloadFile}" IsReadOnly="True" /> <!-- FLASH file -->
+								Text="{Binding FlashDownloadFile}" IsReadOnly="True"
+								IsEnabled="{Binding IsFlashDownloadFileEnabled}" /> <!-- FLASH file -->
 
 							<Button Grid.Column="2" Grid.Row="0" Content="..." Classes="LeftMargin"
-								Command="{Binding SelectFlashForDownloadAsync}" /> <!-- Select FLASH file button -->
+								Command="{Binding SelectFlashForDownloadAsync}"
+								IsEnabled="{Binding IsSelectFlashDownloadFileButtonEnabled} "/> <!-- Select FLASH file button -->
 						</Grid>
 					</DockPanel>
 
@@ -149,10 +153,12 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 							<TextBlock Text="EEPROM:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
 
 							<TextBox Watermark="Write EEPROM HEX into this file" Grid.Column="1" Grid.Row="0"
-								Text="{Binding EepromDownloadFile}" IsReadOnly="True" /> <!-- EEPROM file -->
+								Text="{Binding EepromDownloadFile}" IsReadOnly="True"
+								IsEnabled="{Binding IsEepromDownloadFileEnabled}" /> <!-- EEPROM file -->
 
 							<Button Grid.Column="2" Grid.Row="0" Content="..." Classes="LeftMargin"
-								Command="{Binding SelectEepromForDownloadAsync}" /> <!-- Select EEPROM file button -->
+								Command="{Binding SelectEepromForDownloadAsync}"
+								IsEnabled="{Binding IsSelectEepromDownloadFileButtonEnabled}" /><!-- Select EEPROM file button -->
 						</Grid>
 					</DockPanel>
 
@@ -163,8 +169,20 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 			</StackPanel>
 		</Border>
 
-		<!-- Console -->
+		<!-- Progress -->
 		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="4" >
+			<StackPanel>
+				<TextBlock Text="Progress:"/>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Operation:" Classes="RightMargin" />
+					<TextBlock Text="{Binding ProgressOperation}" />
+				</StackPanel>
+				<ProgressBar Minimum="0" Value="{Binding ProgressValue}" Maximum="1" Classes="TopMargin"/>
+			</StackPanel>
+		</Border>
+
+		<!-- Console -->
+		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="5" >
 			<DockPanel>
 				<TextBlock Text="Console:" DockPanel.Dock="Top" /> <!-- Log textbox -->
 
@@ -173,12 +191,13 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		</Border>
 
 		<!-- About -->
-		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="5" >
+		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="6" >
 			<StackPanel>
 				<TextBlock Text="About:" />
 				<DockPanel Classes="TopMargin">
 					<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-						<Button Grid.Column="0" Grid.Row="0" Content="About" Classes="TopMargin" Command="{Binding ShowAboutDialogAsync}" />
+						<Button Grid.Column="0" Grid.Row="0" Content="About" Classes="TopMargin" Command="{Binding ShowAboutDialogAsync}"
+							IsEnabled="{Binding IsAboutButtonEnabled}" />
 					</Grid>
 				</DockPanel>
 			</StackPanel>

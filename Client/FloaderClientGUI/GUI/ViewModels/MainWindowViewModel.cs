@@ -17,8 +17,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using Avalonia.Controls;
+using Avalonia.Threading;
+using FloaderClientGUI.GUISpecific;
 using FloaderClientGUI.Models;
 using FloaderClientGUI.Views;
+using LibFloaderClient.Implementations.Device;
+using LibFloaderClient.Implementations.Enums.Device;
 using LibFloaderClient.Implementations.Port;
 using LibFloaderClient.Interfaces.DAO;
 using LibFloaderClient.Interfaces.Device;
@@ -33,17 +37,22 @@ using ReactiveUI;
 using System;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace FloaderClientGUI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
         private ILogger _logger;
-        private IDeviceIdentifier _deviceIdentifier;
         private IVersionValidator _versionValidator;
         private IDao _dao;
         private IDeviceDataGetter _deviceDataGetter;
         private IDeviceIndependentOperationsProvider _deviceIndependentOperationsProvider;
+
+        /// <summary>
+        /// We store interface state here
+        /// </summary>
+        private MainWindowInterfaceState _interfaceState = new MainWindowInterfaceState();
 
         public PortSelectionWindowViewModel PortSelectionVM { get; }
         public AboutWindowViewModel AboutVM { get; }
@@ -70,6 +79,18 @@ namespace FloaderClientGUI.ViewModels
         private bool _isEepromUploadFileEnabled;
         private bool _isSelectFlashForUploadButtonEnabled;
         private bool _isSelectEepromForUploadButtonEnabled;
+        private bool _isSelectPortEnabled;
+        private bool _isFlashUploadCheckboxEnabled;
+        private bool _isEepromUploadCheckboxEnabled;
+        private bool _isUploadBackupsDirectoryEnabled;
+        private bool _isSelectUploadBackupsDirectoryButtonEnabled;
+        private bool _isFlashDownloadFileEnabled;
+        private bool _isSelectFlashDownloadFileButtonEnabled;
+        private bool _isEepromDownloadFileEnabled;
+        private bool _isSelectEepromDownloadFileButtonEnabled;
+        private bool _isAboutButtonEnabled;
+        private double _progressValue;
+        private string _progressOperation;
 
         /// <summary>
         /// Text in console
@@ -278,6 +299,114 @@ namespace FloaderClientGUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _isSelectEepromForUploadButtonEnabled, value);
         }
 
+        /// <summary>
+        /// Is "Select Port" button enabled
+        /// </summary>
+        public bool IsSelectPortEnabled
+        {
+            get => _isSelectPortEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isSelectPortEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Upload FLASH" checkbox enabled
+        /// </summary>
+        public bool IsFlashUploadCheckboxEnabled
+        {
+            get => _isFlashUploadCheckboxEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isFlashUploadCheckboxEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Upload EEPROM" checkbox enabled
+        /// </summary>
+        public bool IsEepromUploadCheckboxEnabled
+        {
+            get => _isEepromUploadCheckboxEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isEepromUploadCheckboxEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Backups Directory" text field enabled
+        /// </summary>
+        public bool IsUploadBackupsDirectoryEnabled
+        {
+            get => _isUploadBackupsDirectoryEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isUploadBackupsDirectoryEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Select Backups Directory" button enabled
+        /// </summary>
+        public bool IsSelectUploadBackupsDirectoryButtonEnabled
+        {
+            get => _isSelectUploadBackupsDirectoryButtonEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isSelectUploadBackupsDirectoryButtonEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Download FLASH File" text field enabled
+        /// </summary>
+        public bool IsFlashDownloadFileEnabled
+        {
+            get => _isFlashDownloadFileEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isFlashDownloadFileEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Select Download FLASH File" button enabled
+        /// </summary>
+        public bool IsSelectFlashDownloadFileButtonEnabled
+        {
+            get => _isSelectFlashDownloadFileButtonEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isSelectFlashDownloadFileButtonEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Download EEPROM File" text field enabled
+        /// </summary>
+        public bool IsEepromDownloadFileEnabled
+        {
+            get => _isEepromDownloadFileEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isEepromDownloadFileEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "Select Download EEPROM File" button enabled
+        /// </summary>
+        public bool IsSelectEepromDownloadFileButtonEnabled
+        {
+            get => _isSelectEepromDownloadFileButtonEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isSelectEepromDownloadFileButtonEnabled, value);
+        }
+
+        /// <summary>
+        /// Is "About" button enabled
+        /// </summary>
+        public bool IsAboutButtonEnabled
+        {
+            get => _isAboutButtonEnabled;
+            set => this.RaiseAndSetIfChanged(ref _isAboutButtonEnabled, value);
+        }
+
+        /// <summary>
+        /// Current progressbar value [0-1]
+        /// </summary>
+        public double ProgressValue
+        {
+            get => _progressValue;
+            set => this.RaiseAndSetIfChanged(ref _progressValue, value);
+        }
+
+        /// <summary>
+        /// Operation description near progressbar
+        /// </summary>
+        public string ProgressOperation
+        {
+            get => _progressOperation;
+            set => this.RaiseAndSetIfChanged(ref _progressOperation, value);
+        }
+
         #endregion Bound properties
 
 
@@ -314,7 +443,6 @@ namespace FloaderClientGUI.ViewModels
 
             // DI
             _logger = Program.Di.GetService<ILogger>();
-            _deviceIdentifier = Program.Di.GetService<IDeviceIdentifier>();
             _versionValidator = Program.Di.GetService<IVersionValidator>();
             _dao = Program.Di.GetService<IDao>();
             _deviceDataGetter = Program.Di.GetService<IDeviceDataGetter>();
@@ -329,6 +457,21 @@ namespace FloaderClientGUI.ViewModels
             SetPollDeviceState();
 
             _isReady = false;
+
+            // Initial interface state
+            IsSelectPortEnabled = true;
+            IsFlashUploadCheckboxEnabled = true;
+            IsEepromUploadCheckboxEnabled = true;
+            IsUploadBackupsDirectoryEnabled = true;
+            IsSelectUploadBackupsDirectoryButtonEnabled = true;
+            IsFlashDownloadFileEnabled = true;
+            IsSelectFlashDownloadFileButtonEnabled = true;
+            IsEepromDownloadFileEnabled = true;
+            IsSelectEepromDownloadFileButtonEnabled = true;
+            IsAboutButtonEnabled = true;
+
+            // No operation
+            ResetProgress();
         }
 
 #region Commands
@@ -368,99 +511,15 @@ namespace FloaderClientGUI.ViewModels
         {
             if (_mainModel.PortSettings == null)
             {
+                // TODO: Show message here
                 throw new InvalidOperationException("Port not specified.");
             }
 
-            try
-            {
-                _mainModel.DeviceIdentData = _deviceIdentifier.Identify(_mainModel.PortSettings);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                LockProceeding();
-                return;
-            }
+            SaveStateAndLockInterface();
 
-            // Is version acceptable?
-            if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
-            {
-                var message = $"Bootloader protocol version { _mainModel.DeviceIdentData.Version } is not supported.";
-                _logger.LogError(message);
-                LockProceeding();
-
-                MessageBoxManager.GetMessageBoxStandardWindow(
-                    new MessageBoxStandardParams()
-                    {
-                        ContentTitle = "Unsupported protocol version",
-                        ContentMessage = message,
-                        Icon = Icon.Error,
-                        ButtonDefinitions = ButtonEnum.Ok
-                    })
-                    .Show();
-
-                return;
-            }
-
-            // Human-readable port info
-            _logger.LogInfo($"Queriying vendor data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }");
-
-            var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
-            if (vendorData == null)
-            {
-                var message = $"Vendor with ID={ _mainModel.DeviceIdentData.VendorId } wasn't found in database.";
-                _logger.LogError(message);
-                LockProceeding();
-
-                MessageBoxManager.GetMessageBoxStandardWindow(
-                    new MessageBoxStandardParams()
-                    {
-                        ContentTitle = "Unknown vendor",
-                        ContentMessage = message,
-                        Icon = Icon.Error,
-                        ButtonDefinitions = ButtonEnum.Ok
-                    })
-                    .Show();
-
-                return;
-            }
-            _logger.LogInfo($"Vendor ID={ vendorData.Id }, Vendor name=\"{ vendorData.Name }\"");
-
-            _logger.LogInfo($"Querying device name data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }, Model ID={ _mainModel.DeviceIdentData.ModelId }");
-
-            var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
-            if (nameData == null)
-            {
-                var message = $"Device model with Vendor ID={ _mainModel.DeviceIdentData.VendorId } and ModelID={ _mainModel.DeviceIdentData.ModelId } wasn't found in database.";
-                _logger.LogError(message);
-                LockProceeding();
-
-                MessageBoxManager.GetMessageBoxStandardWindow(
-                    new MessageBoxStandardParams()
-                    {
-                        ContentTitle = "Unknown model",
-                        ContentMessage = message,
-                        Icon = Icon.Error,
-                        ButtonDefinitions = ButtonEnum.Ok
-                    })
-                    .Show();
-
-                return;
-            }
-            _logger.LogInfo($"Vendor ID={ nameData.VendorId }, Model ID={ nameData.ModelId }, Model name=\"{ nameData.Name }\"");
-
-            _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentData.Serial);
-            VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
-            ModelName = _mainModel.DeviceHumanReadableDescription.Model;
-            SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
-
-            // Versioned data
-            _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
-
-            // Initializing operations provider and we are ready to go
-            _deviceIndependentOperationsProvider.Setup(_mainModel.PortSettings, _mainModel.DeviceIdentData, _mainModel.VersionSpecificDeviceData);
-
-            _isReady = true;
+            var threadedIdentifier = new ThreadedDeviceIdentifier(_mainModel.PortSettings, OnDeviceIdentification);
+            var identificationThread = new Thread(new ThreadStart(threadedIdentifier.Identify));
+            identificationThread.Start();
         }
 
         /// <summary>
@@ -521,9 +580,15 @@ namespace FloaderClientGUI.ViewModels
         {
             CheckReadyness();
 
+            SaveStateAndLockInterface();
+
             try
             {
-                _deviceIndependentOperationsProvider.UploadToDevice(FlashUploadFile, EepromUploadFile, UploadBackupsDirectory);
+                _deviceIndependentOperationsProvider.InitiateUploadToDevice(_isFlashUpload ? FlashUploadFile : string.Empty,
+                    _isEepromUpload ? EepromUploadFile : string.Empty,
+                    UploadBackupsDirectory,
+                    OnUploadCompleted,
+                    SetProgressValue);
             }
             catch(Exception ex)
             {
@@ -607,9 +672,11 @@ namespace FloaderClientGUI.ViewModels
                 return;
             }
 
+            SaveStateAndLockInterface();
+
             try
             {
-                _deviceIndependentOperationsProvider.DownloadFromDevice(FlashDownloadFile, EepromDownloadFile);
+                _deviceIndependentOperationsProvider.InitiateDownloadFromDevice(FlashDownloadFile, EepromDownloadFile, OnDownloadCompleted, SetProgressValue);
             }
             catch(Exception ex)
             {
@@ -623,8 +690,8 @@ namespace FloaderClientGUI.ViewModels
         public void Reboot()
         {
             CheckReadyness();
-            _deviceIndependentOperationsProvider.RebootToFirmware();
-            DeSetup();
+            SaveStateAndLockInterface();
+            _deviceIndependentOperationsProvider.InitiateRebootToFirmware(OnRebootCompleted);
         }
 
         /// <summary>
@@ -641,6 +708,145 @@ namespace FloaderClientGUI.ViewModels
         }
 
         #endregion
+
+        /// <summary>
+        /// Called when device identified.
+        /// </summary>
+        public void OnDeviceIdentification(DeviceIdentifierData data)
+        {
+            // Doing everything in main thread
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                LoadStateAndUnlockInterface();
+
+                _mainModel.DeviceIdentData = data;
+
+                // Is successfull?
+                if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.Timeout)
+                {
+                    var message = $"Attempt to identify device timed out. Check port and device state - it must be in bootloader mode.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Identification timeout",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+                else if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.WrongSignature)
+                {
+                    var message = $@"Device responded to identification request in unusual way, probably it's not Fossa's bootloader device.
+Check port and device state - it must be in bootloader mode.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Wrong device response",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+
+                _logger.LogInfo($@"Device identified:
+Version: { _mainModel.DeviceIdentData.Version },
+Vendor ID: { _mainModel.DeviceIdentData.VendorId },
+Model ID: { _mainModel.DeviceIdentData.ModelId },
+Serial number: { _mainModel.DeviceIdentData.Serial }.");
+
+                // Is version acceptable?
+                if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
+                {
+                    var message = $"Bootloader protocol version { _mainModel.DeviceIdentData.Version } is not supported.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Unsupported protocol version",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+
+                // Human - readable port info
+                _logger.LogInfo($"Queriying vendor data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }");
+
+                var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
+                if (vendorData == null)
+                {
+                    var message = $"Vendor with ID={ _mainModel.DeviceIdentData.VendorId } wasn't found in database.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Unknown vendor",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+                _logger.LogInfo($"Vendor ID={ vendorData.Id }, Vendor name=\"{ vendorData.Name }\"");
+
+                _logger.LogInfo($"Querying device name data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }, Model ID={ _mainModel.DeviceIdentData.ModelId }");
+
+                var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
+                if (nameData == null)
+                {
+                    var message = $"Device model with Vendor ID={ _mainModel.DeviceIdentData.VendorId } and ModelID={ _mainModel.DeviceIdentData.ModelId } wasn't found in database.";
+                    _logger.LogError(message);
+                    LockProceeding();
+
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Unknown model",
+                            ContentMessage = message,
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+
+                    return;
+                }
+                _logger.LogInfo($"Vendor ID={ nameData.VendorId }, Model ID={ nameData.ModelId }, Model name=\"{ nameData.Name }\"");
+
+                _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentData.Serial);
+                VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
+                ModelName = _mainModel.DeviceHumanReadableDescription.Model;
+                SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
+
+                // Versioned data
+                _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
+
+                // Initializing operations provider and we are ready to go
+                _deviceIndependentOperationsProvider.Setup(_mainModel.PortSettings, _mainModel.DeviceIdentData, _mainModel.VersionSpecificDeviceData);
+
+                _isReady = true;
+            });
+        }
 
         /// <summary>
         /// Adds a new text line to console. Feed it to logger
@@ -761,6 +967,160 @@ Please, select another device.");
         {
             IsEepromUploadFileEnabled = IsEepromUpload;
             IsSelectEepromForUploadButtonEnabled = IsEepromUpload;
+        }
+
+        /// <summary>
+        /// Saves interface state and lock interface (makes everything disabled).
+        /// Use this method when starting long-running operations.
+        /// </summary>
+        private void SaveStateAndLockInterface()
+        {
+            if (_interfaceState.IsInterfaceLocked)
+            {
+                throw new InvalidOperationException("Interface already locked.");
+            }
+
+            _interfaceState.IsSelectPortEnabled = IsSelectPortEnabled;
+            _interfaceState.IsPollDeviceEnabled = IsPollDeviceEnabled;
+            _interfaceState.IsRebootEnabled = IsRebootEnabled;
+            _interfaceState.IsFlashUploadCheckboxEnabled = IsFlashUploadCheckboxEnabled;
+            _interfaceState.IsFlashUploadFileEnabled = IsFlashUploadFileEnabled;
+            _interfaceState.IsSelectFlashForUploadButtonEnabled = IsSelectFlashForUploadButtonEnabled;
+            _interfaceState.IsEepromUploadCheckboxEnabled = IsEepromUploadCheckboxEnabled;
+            _interfaceState.IsEepromUploadFileEnabled = IsEepromUploadFileEnabled;
+            _interfaceState.IsSelectEepromForUploadButtonEnabled = IsSelectEepromForUploadButtonEnabled;
+            _interfaceState.IsUploadBackupsDirectoryEnabled = IsUploadBackupsDirectoryEnabled;
+            _interfaceState.IsSelectUploadBackupsDirectoryButtonEnabled = IsSelectUploadBackupsDirectoryButtonEnabled;
+            _interfaceState.IsUploadButtonEnabled = IsUploadEnabled;
+            _interfaceState.IsFlashDownloadFileEnabled = IsFlashDownloadFileEnabled;
+            _interfaceState.IsSelectFlashDownloadFileButtonEnabled = IsSelectFlashDownloadFileButtonEnabled;
+            _interfaceState.IsEepromDownloadFileEnabled = IsEepromDownloadFileEnabled;
+            _interfaceState.IsSelectEepromDownloadFileButtonEnabled = IsSelectEepromDownloadFileButtonEnabled;
+            _interfaceState.IsDownloadButtonEnabled = IsDownloadEnabled;
+            _interfaceState.IsAboutButtonEnabled = IsAboutButtonEnabled;
+
+            IsSelectPortEnabled = false;
+            IsPollDeviceEnabled = false;
+            IsRebootEnabled = false;
+            IsFlashUploadCheckboxEnabled = false;
+            IsFlashUploadFileEnabled = false;
+            IsSelectFlashForUploadButtonEnabled = false;
+            IsEepromUploadCheckboxEnabled = false;
+            IsEepromUploadFileEnabled = false;
+            IsSelectEepromForUploadButtonEnabled = false;
+            IsUploadBackupsDirectoryEnabled = false;
+            IsSelectUploadBackupsDirectoryButtonEnabled = false;
+            IsUploadEnabled = false;
+            IsFlashDownloadFileEnabled = false;
+            IsSelectFlashDownloadFileButtonEnabled = false;
+            IsEepromDownloadFileEnabled = false;
+            IsSelectEepromDownloadFileButtonEnabled = false;
+            IsDownloadEnabled = false;
+            IsAboutButtonEnabled = false;
+
+            _interfaceState.IsInterfaceLocked = true;
+        }
+
+        /// <summary>
+        /// Reverts actions, made by SaveStateAndLockInterface()
+        /// </summary>
+        private void LoadStateAndUnlockInterface()
+        {
+            if (!_interfaceState.IsInterfaceLocked)
+            {
+                throw new InvalidOperationException("Interface already unlocked.");
+            }
+
+            IsSelectPortEnabled = _interfaceState.IsSelectPortEnabled;
+            IsPollDeviceEnabled = _interfaceState.IsPollDeviceEnabled;
+            IsRebootEnabled = _interfaceState.IsRebootEnabled;
+            IsFlashUploadCheckboxEnabled = _interfaceState.IsFlashUploadCheckboxEnabled;
+            IsFlashUploadFileEnabled = _interfaceState.IsFlashUploadFileEnabled;
+            IsSelectFlashForUploadButtonEnabled = _interfaceState.IsSelectFlashForUploadButtonEnabled;
+            IsEepromUploadCheckboxEnabled = _interfaceState.IsEepromUploadCheckboxEnabled;
+            IsEepromUploadFileEnabled = _interfaceState.IsEepromUploadFileEnabled;
+            IsSelectEepromForUploadButtonEnabled = _interfaceState.IsSelectEepromForUploadButtonEnabled;
+            IsUploadBackupsDirectoryEnabled = _interfaceState.IsUploadBackupsDirectoryEnabled;
+            IsSelectUploadBackupsDirectoryButtonEnabled = _interfaceState.IsSelectUploadBackupsDirectoryButtonEnabled;
+            IsUploadEnabled = _interfaceState.IsUploadButtonEnabled;
+            IsFlashDownloadFileEnabled = _interfaceState.IsFlashDownloadFileEnabled;
+            IsSelectFlashDownloadFileButtonEnabled = _interfaceState.IsSelectFlashDownloadFileButtonEnabled;
+            IsEepromDownloadFileEnabled = _interfaceState.IsEepromDownloadFileEnabled;
+            IsSelectEepromDownloadFileButtonEnabled = _interfaceState.IsSelectEepromDownloadFileButtonEnabled;
+            IsDownloadEnabled = _interfaceState.IsDownloadButtonEnabled;
+            IsAboutButtonEnabled = _interfaceState.IsAboutButtonEnabled;
+
+            _interfaceState.IsInterfaceLocked = false;
+        }
+
+        /// <summary>
+        /// Called when download from device is completed
+        /// </summary>
+        private void OnDownloadCompleted()
+        {
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                ResetProgress();
+                LoadStateAndUnlockInterface();
+            });
+        }
+
+        /// <summary>
+        /// Called when upload to device is completed
+        /// </summary>
+        private void OnUploadCompleted()
+        {
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                ResetProgress();
+                LoadStateAndUnlockInterface();
+            });
+        }
+
+        /// <summary>
+        /// Called when device is rebooted into main firmware
+        /// </summary>
+        private void OnRebootCompleted(DeviceRebootResult result)
+        {
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                LoadStateAndUnlockInterface();
+                DeSetup();
+
+                if (!result.IsSuccessfull)
+                {
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Reboot is unsuccessfull",
+                            ContentMessage = "Device didn't report reboot. Check manually did it reboot or not.",
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+                }
+            });
+        }
+
+        /// <summary>
+        /// Set progressbar value
+        /// </summary>
+        private void SetProgressValue(ProgressData data)
+        {
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                ProgressValue = data.Current / data.Max;
+                ProgressOperation = data.Operation;
+            });
+        }
+
+        /// <summary>
+        /// Sets progress to 0% and operation to "None"
+        /// </summary>
+        private void ResetProgress()
+        {
+            ProgressValue = 0;
+            ProgressOperation = "None";
         }
     }
 }

@@ -17,9 +17,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using LibFloaderClient.Implementations.Exceptions;
+using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Logger;
 using LibFloaderClient.Interfaces.SerialPortDriver;
 using LibFloaderClient.Interfaces.Versioned.Driver;
+using LibFloaderClient.Models.Device;
 using LibFloaderClient.Models.Device.Versioned;
 using LibFloaderClient.Models.Port;
 using System;
@@ -31,6 +33,11 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
     public class DeviceDriverV1 : IDeviceDriverV1
     {
         private ILogger _logger;
+
+        /// <summary>
+        /// Operation name to be displayed near progressbar for EEPROM write
+        /// </summary>
+        private const string WriteEepromProgressOperationName = "Writing EEPROM";
 
         /// <summary>
         /// Send this to device to reboot it into the main firmware
@@ -149,7 +156,6 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         {
             CheckIfDisposed();
 
-            _logger.LogInfo("Requesting device reboot...");
             _portDriver.Write(RebootRequest);
 
             try
@@ -159,7 +165,6 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 if (response.SequenceEqual(RebootResponse))
                 {
                     // Rebooted
-                    _logger.LogInfo("Device reported reboot.");
                     return true;
                 }
 
@@ -178,16 +183,11 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         {
             CheckIfDisposed();
 
-            _logger.LogInfo($"Trying to read { _deviceData.EepromSize } EEPROM bytes...");
             _portDriver.Write(ReadEEPROMRequest);
 
             try
             {
-                var response = _portDriver.Read(_deviceData.EepromSize);
-
-                _logger.LogInfo("Done");
-
-                return response;
+                return _portDriver.Read(_deviceData.EepromSize);
             }
             catch (SerialPortTimeoutException)
             {
@@ -196,7 +196,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
             }
         }
 
-        public void WriteEEPROM(List<byte> toWrite)
+        public void WriteEEPROM(List<byte> toWrite, ProgressDelegate progressDelegate = null)
         {
             CheckIfDisposed();
 
@@ -210,14 +210,12 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 throw new ArgumentException($"Data to write size must equal EEPROM size: { _deviceData.EepromSize } bytes", nameof(toWrite));
             }
 
-            _logger.LogInfo($"Trying to write { _deviceData.EepromSize } EEPROM bytes...");
+            progressDelegate?.Invoke(new ProgressData(0, _deviceData.EepromSize, WriteEepromProgressOperationName));
 
             var lastByteAddress = _deviceData.EepromSize - 1;
 
             for (var byteAddress = 0; byteAddress < _deviceData.EepromSize; byteAddress ++)
             {
-                _logger.LogInfo($"Writing { byteAddress + 1 } / { _deviceData.EepromSize } byte");
-
                 var wantsMore = WriteEEPROMByte(byteAddress, toWrite[byteAddress]);
 
                 if (!wantsMore && byteAddress != lastByteAddress)
@@ -235,9 +233,9 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                     _logger.LogError(message);
                     throw new InvalidOperationException(message);
                 }
-            }
 
-            _logger.LogInfo("Done");
+                progressDelegate?.Invoke(new ProgressData(byteAddress + 1, _deviceData.EepromSize, WriteEepromProgressOperationName));
+            }
         }
 
         /// <summary>
@@ -284,8 +282,6 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 throw new ArgumentOutOfRangeException(nameof(pageAddress), pageAddress, $"Allowed page addresses: [0 - { _deviceData.FlashPagesAll - 1 }]");
             }
 
-            _logger.LogInfo($"Trying to read FLASH page with address { pageAddress }...");
-
             try
             {
                 // Initiating
@@ -314,11 +310,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 }
 
                 // Reading
-                var data = _portDriver.Read(_deviceData.FlashPageSize);
-
-                _logger.LogInfo("Done");
-
-                return data;
+                return _portDriver.Read(_deviceData.FlashPageSize);
             }
             catch (SerialPortTimeoutException)
             {
@@ -341,13 +333,9 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 throw new ArgumentOutOfRangeException(nameof(pageAddress), pageAddress, $"Writeable page addresses: [0 - { _deviceData.FlashPagesWriteable - 1 }]");
             }
 
-            _logger.LogInfo($"Trying to write FLASH page with address { pageAddress }...");
-
             try
             {
                 // Initiating
-                _logger.LogInfo("Checking address...");
-
                 var data = new List<byte>(WriteFLASHRequest);
                 data.Add((byte)pageAddress); // Page address can't be bigger than 255
                 _portDriver.Write(data);
@@ -372,8 +360,6 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                     throw new InvalidOperationException(message);
                 }
 
-                _logger.LogInfo("Done, uploading data...");
-
                 _portDriver.Write(toWrite);
 
                 response = _portDriver.Read(WriteFLASHPageResponseSize);
@@ -389,8 +375,6 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                     _logger.LogError(message);
                     throw new InvalidOperationException(message);
                 }
-
-                _logger.LogInfo("Done");
             }
             catch(SerialPortTimeoutException)
             {

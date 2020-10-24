@@ -60,7 +60,7 @@ namespace LibIntelHex.Implementations
             {
                 _sortedData.Add(address, data);
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException)
             {
                 throw new InvalidOperationException($"Byte with address { address } was already added to writer.");
             }

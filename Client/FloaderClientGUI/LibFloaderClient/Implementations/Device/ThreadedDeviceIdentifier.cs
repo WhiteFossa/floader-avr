@@ -1,4 +1,4 @@
-/*
+﻿/*
                     Fossa's AVR bootloader client
 Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 
@@ -19,8 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 using LibFloaderClient.Implementations.Enums.Device;
 using LibFloaderClient.Implementations.Exceptions;
 using LibFloaderClient.Implementations.Helpers;
-using LibFloaderClient.Interfaces.Device;
-using LibFloaderClient.Interfaces.Logger;
 using LibFloaderClient.Interfaces.SerialPortDriver;
 using LibFloaderClient.Models.Device;
 using LibFloaderClient.Models.Port;
@@ -30,7 +28,12 @@ using System.Linq;
 
 namespace LibFloaderClient.Implementations.Device
 {
-    public class DeviceIdentifier : IDeviceIdentifier
+    /// <summary>
+    /// Called by ThreadedDeviceIdentifier when device identified.
+    /// </summary>
+    public delegate void DeviceIdentifiedCallbackDelegate(DeviceIdentifierData data);
+
+    public class ThreadedDeviceIdentifier
     {
         /// <summary>
         /// Send this to device to ask for identification
@@ -73,25 +76,31 @@ namespace LibFloaderClient.Implementations.Device
         private const int SerialOffset = 10;
 
         /// <summary>
-        /// Logger
+        /// Try to identify device on this port
         /// </summary>
-        private ILogger _logger;
+        private PortSettings _portSettings;
 
-        public DeviceIdentifier(ILogger logger)
+        /// <summary>
+        /// Called when device identified
+        /// </summary>
+        private DeviceIdentifiedCallbackDelegate _deviceIdentifiedCallbackDelegate;
+
+        public ThreadedDeviceIdentifier(PortSettings portSettings,
+            DeviceIdentifiedCallbackDelegate deviceIdentifiedCallbackDelegate)
         {
-            _logger = logger;
+            _portSettings = portSettings ?? throw new ArgumentNullException(nameof(portSettings));
+            _deviceIdentifiedCallbackDelegate = deviceIdentifiedCallbackDelegate ?? throw new ArgumentNullException(nameof(deviceIdentifiedCallbackDelegate));
         }
 
-        public DeviceIdentifierData Identify(PortSettings portSettings)
+        /// <summary>
+        /// Attempt to identify device
+        /// </summary>
+        public void Identify()
         {
-            if (portSettings == null)
-            {
-                throw new ArgumentNullException(nameof(portSettings));
-            }
+            DeviceIdentifierData result = null;
 
-            using(ISerialPortDriver port = new SerialPortDriver.SerialPortDriver(portSettings))
+            using (ISerialPortDriver port = new SerialPortDriver.SerialPortDriver(_portSettings))
             {
-                _logger.LogInfo($"Requesting identification via { portSettings.Name }");
                 port.Write(IdentRequest);
 
                 try
@@ -100,8 +109,7 @@ namespace LibFloaderClient.Implementations.Device
 
                     if (!CheckSignature(response))
                     {
-                        _logger.LogError("Wrong signature, this is not Fossa's bootloader device.");
-                        return new DeviceIdentifierData(status: DeviceIdentificationStatus.WrongSignature,
+                        result = new DeviceIdentifierData(status: DeviceIdentificationStatus.WrongSignature,
                             version: -1,
                             vendorId: -1,
                             modelId: -1,
@@ -114,31 +122,24 @@ namespace LibFloaderClient.Implementations.Device
                     var modelId = PortDataHelper.ExtractThreeBytesAsInt(response, ModelIdOffset);
                     var serial = PortDataHelper.ExtractFourBytesAsLong(response, SerialOffset);
 
-                    var result = new DeviceIdentifierData(status: DeviceIdentificationStatus.Identified,
+                    result = new DeviceIdentifierData(status: DeviceIdentificationStatus.Identified,
                         version: version,
                         vendorId: vendorId,
                         modelId: modelId,
                         serial: serial);
-
-                    _logger.LogInfo($@"Valid identification record received:
-Version: { result.Version },
-Vendor ID: { result.VendorId },
-Model ID: { result.ModelId },
-Serial: { result.Serial }.");
-
-                    return result;
                 }
-                catch(SerialPortTimeoutException)
+                catch (SerialPortTimeoutException)
                 {
                     // Timeout, usually it means that this is not our device
-                    _logger.LogError("Device didn't respond in time, usually it mean that this is not Fossa's bootloader device.");
-                    return new DeviceIdentifierData(status: DeviceIdentificationStatus.Timeout,
+                    result = new DeviceIdentifierData(status: DeviceIdentificationStatus.Timeout,
                         version: -1,
                         vendorId: -1,
                         modelId: -1,
                         serial: -1);
                 }
             }
+
+            _deviceIdentifiedCallbackDelegate(result);
         }
 
         /// <summary>

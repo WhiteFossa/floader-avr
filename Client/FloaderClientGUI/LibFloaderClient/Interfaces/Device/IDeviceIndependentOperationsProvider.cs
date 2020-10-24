@@ -24,6 +24,46 @@ using System.Collections.Generic;
 namespace LibFloaderClient.Interfaces.Device
 {
     /// <summary>
+    /// Called when EEPROM read is completed
+    /// </summary>
+    public delegate void EepromReadCompletedCallbackDelegate(EepromReadResult data);
+
+    /// <summary>
+    /// Called when all FLASH read is completed
+    /// </summary>
+    public delegate void FlashReadCompletedCallbackDelegate(FlashReadResult data);
+
+    /// <summary>
+    /// Called when EEPROM write is completed
+    /// </summary>
+    public delegate void EepromWriteCompletedCallbackDelegate();
+
+    /// <summary>
+    /// Called when FLASH write is completed
+    /// </summary>
+    public delegate void FlashWriteCompletedCallbackDelegate();
+
+    /// <summary>
+    /// Called when all data is downloaded from device
+    /// </summary>
+    public delegate void DownloadFromDeviceCompletedCallbackDelegate();
+
+    /// <summary>
+    /// Called when all data is uploaded to device
+    /// </summary>
+    public delegate void UploadToDeviceCompletedCallbackDelegate();
+
+    /// <summary>
+    /// Delegate, used to indicate current progress.
+    /// </summary>
+    public delegate void ProgressDelegate(ProgressData data);
+
+    /// <summary>
+    /// Called when device rebooted into firmware
+    /// </summary>
+    public delegate void RebootToFirmwareCompletedCallbackDelegate(DeviceRebootResult rebootResult);
+
+    /// <summary>
     /// Wrapper over device driver, hiding versioned details and allowing to write/read all pages at once
     /// </summary>
     public interface IDeviceIndependentOperationsProvider
@@ -39,40 +79,44 @@ namespace LibFloaderClient.Interfaces.Device
         void DeSetup();
 
         /// <summary>
-        /// Read all FLASH memory (including bootloader)
+        /// Initiates all FLASH (including bootloader) read. Exits immediately, without waiting for read completion
         /// </summary>
-        List<byte> ReadAllFlash();
+        void InitiateReadAllFlash(FlashReadCompletedCallbackDelegate readCompletedDelegate, ProgressDelegate progressDelegate = null);
 
         /// <summary>
-        /// Write all FLASH memory (NOT including bootloader)
+        /// Initiates all FLASH memory (NOT including bootloader) write. Exits immediately, without waiting for write completion
         /// </summary>
-        void WriteAllFlash(List<byte> toWrite);
+        void InitiateWriteAllFlash(List<byte> toWrite, FlashWriteCompletedCallbackDelegate writeCompletedDelegate, ProgressDelegate progressDelegate = null);
 
         /// <summary>
-        /// Read all EEPROM
+        /// Initiates all EEPROM read. Exits immediately, without waiting for read completion
         /// </summary>
-        List<byte> ReadAllEEPROM();
+        void InitiateReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate, ProgressDelegate progressDelegate = null);
 
         /// <summary>
-        /// Write all EEPROM
+        /// Initiates all EEPROM write. Exits immediately, without waiting for write completion
         /// </summary>
-        void WriteAllEEPROM(List<byte> toWrite);
+        void InitiateWriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate, ProgressDelegate progressDelegate = null);
 
         /// <summary>
         /// Reboot device to firmware
         /// </summary>
-        void RebootToFirmware();
+        void InitiateRebootToFirmware(RebootToFirmwareCompletedCallbackDelegate rebootCompletedDelegate);
 
         /// <summary>
-        /// Download data from device into given HEX files
+        /// Starts download from device into given HEX files. Exits immediately. If downloadCompleteDelegate isn't null, then
+        /// that delegate will be called on completion
         /// </summary>
-        void DownloadFromDevice(string flashPath, string eepromPath);
+        void InitiateDownloadFromDevice(string flashPath, string eepromPath, DownloadFromDeviceCompletedCallbackDelegate downloadCompletedDelegate = null,
+            ProgressDelegate progressDelegate = null);
 
         /// <summary>
-        /// Uploads given files into device. If file path is null or empty - then don't try to upload it.
-        /// Backups directory must be specified anyway
+        /// Initializes given files upload into device. If file path is null or empty - then don't try to upload it.
+        /// Backups directory must be specified anyway. Exist immediately.
+        /// If uploadCompletedDelegate isn't null, then call it on completion
         /// </summary>
-        void UploadToDevice(string flashPath, string eepromPath, string backupsDirectory);
+        void InitiateUploadToDevice(string flashPath, string eepromPath, string backupsDirectory,
+            UploadToDeviceCompletedCallbackDelegate uploadCompletedDelegate = null, ProgressDelegate progressDelegate = null);
 
         /// <summary>
         /// Generate filename for FLASH file download/backup

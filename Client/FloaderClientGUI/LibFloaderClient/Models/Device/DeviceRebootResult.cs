@@ -1,4 +1,4 @@
-/*
+﻿/*
                     Fossa's AVR bootloader client
 Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 
@@ -16,16 +16,21 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using LibFloaderClient.Models.Device;
-using LibFloaderClient.Models.Port;
-
-namespace LibFloaderClient.Interfaces.Device
+namespace LibFloaderClient.Models.Device
 {
-    public interface IDeviceIdentifier
+    /// <summary>
+    /// Result of device reboot attempt
+    /// </summary>
+    public class DeviceRebootResult
     {
         /// <summary>
-        /// Attempt to identify device
+        /// If device reported successfull reboot?
         /// </summary>
-        DeviceIdentifierData Identify(PortSettings portSettings);
+        public bool IsSuccessfull { get; private set; }
+
+        public DeviceRebootResult(bool isSuccessfull)
+        {
+            IsSuccessfull = isSuccessfull;
+        }
     }
 }

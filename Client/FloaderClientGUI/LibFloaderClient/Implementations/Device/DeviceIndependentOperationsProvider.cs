@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace LibFloaderClient.Implementations.Device
 {
@@ -75,6 +76,51 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private DeviceIdentifierData _deviceIdentificationData;
 
+        /// <summary>
+        /// Save FLASH dump here
+        /// </summary>
+        private string _flashSavePath;
+
+        /// <summary>
+        /// Save EEPROM dump here
+        /// </summary>
+        private string _eepromSavePath;
+
+        /// <summary>
+        /// If not null, then will be called when download from device is completed
+        /// </summary>
+        DownloadFromDeviceCompletedCallbackDelegate _downloadCompletedDelegate;
+
+        /// <summary>
+        /// If not null, then will be called when upload to device is completed
+        /// </summary>
+        UploadToDeviceCompletedCallbackDelegate _uploadCompletedDelegate;
+
+        /// <summary>
+        /// Do we need to upload FLASH?
+        /// </summary>
+        private bool _isUploadFlash;
+
+        /// <summary>
+        /// Do we need to upload EEPROM?
+        /// </summary>
+        private bool _isUploadEeprom;
+
+        /// <summary>
+        /// All FLASH data to upload
+        /// </summary>
+        private List<byte> _flashDataToUpload = new List<byte>();
+
+        /// <summary>
+        /// All EEPROM data to upload
+        /// </summary>
+        private List<byte> _eepromDataToUpload = new List<byte>();
+
+        /// <summary>
+        /// Progress delegate for current process
+        /// </summary>
+        private ProgressDelegate _progressDelegate = null;
+
         public DeviceIndependentOperationsProvider(ILogger logger,
             IHexWriter hexWriter,
             IHexReader hexReader,
@@ -86,71 +132,40 @@ namespace LibFloaderClient.Implementations.Device
             _hexReader = hexReader;
         }
 
-        public List<byte> ReadAllEEPROM()
+        public void InitiateReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate, ProgressDelegate progressDelegate = null)
         {
+            _ = readCompletedDelegate ?? throw new ArgumentNullException(nameof(readCompletedDelegate));
+
             IsSetUp();
 
-            switch (_deviceIdentificationData.Version)
-            {
-                case (int)ProtocolVersion.First:
-                    using (var driver = GetDeviceDriverV1())
-                    {
-                        return driver.ReadEEPROM();
-                    }
-
-                default:
-                    throw ReportUnsupportedVersion();
-            }
+            var threadedEepromReader = new ThreadedEepromReader(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
+                readCompletedDelegate, progressDelegate);
+            var eepromReaderThread = new Thread(new ThreadStart(threadedEepromReader.Read));
+            eepromReaderThread.Start();
         }
 
-        public List<byte> ReadAllFlash()
+        public void InitiateReadAllFlash(FlashReadCompletedCallbackDelegate readCompletedDelegate, ProgressDelegate progressDelegate = null)
         {
+            _ = readCompletedDelegate ?? throw new ArgumentNullException(nameof(readCompletedDelegate));
+
             IsSetUp();
 
-            _logger.LogInfo($"Reading whole FLASH (bootloader included)");
-
-            var result = new List<byte>();
-            switch (_deviceIdentificationData.Version)
-            {
-                case (int)ProtocolVersion.First:
-
-                    var deviceData = GetDeviceDataV1();
-                    using (var driver = GetDeviceDriverV1())
-                    {
-
-                        for (var pageAddress = 0; pageAddress < deviceData.FlashPagesAll; pageAddress++)
-                        {
-                            result.AddRange(driver.ReadFLASHPage(pageAddress));
-                        }
-                    }
-
-                    
-                    _logger.LogInfo($"{ result.Count } of expected { deviceData.FlashPagesAll * deviceData.FlashPageSize } bytes read.");
-                    break;
-
-                default:
-                    throw ReportUnsupportedVersion();
-            }
-
-            return result;
+            var threadedFlashReader = new ThreadedFlashReader(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
+                readCompletedDelegate, progressDelegate);
+            var flashReaderThread = new Thread(new ThreadStart(threadedFlashReader.Read));
+            flashReaderThread.Start();
         }
 
-        public void RebootToFirmware()
+        public void InitiateRebootToFirmware(RebootToFirmwareCompletedCallbackDelegate rebootCompletedDelegate)
         {
+            _ = rebootCompletedDelegate ?? throw new ArgumentNullException();
+
             IsSetUp();
 
-            switch (_deviceIdentificationData.Version)
-            {
-                case (int)ProtocolVersion.First:
-                    using (var driver = GetDeviceDriverV1())
-                    {
-                        driver.Reboot();
-                    }
-                    break;
-
-                default:
-                    throw ReportUnsupportedVersion();
-            }
+            var threadedRebooter = new ThreadedRebooter(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
+                rebootCompletedDelegate);
+            var rebooterThread = new Thread(new ThreadStart(threadedRebooter.Reboot));
+            rebooterThread.Start();
         }
 
         public void Setup(PortSettings portSettings, DeviceIdentifierData deviceIdentData, object versionSpecificDeviceData)
@@ -169,68 +184,28 @@ namespace LibFloaderClient.Implementations.Device
             _isSetUp = false;
         }
 
-        public void WriteAllEEPROM(List<byte> toWrite)
+        public void InitiateWriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate, ProgressDelegate progressDelegate = null)
         {
+            _ = writeCompletedDelegate ?? throw new ArgumentNullException(nameof(writeCompletedDelegate));
+
             IsSetUp();
 
-            switch (_deviceIdentificationData.Version)
-            {
-                case (int)ProtocolVersion.First:
-                    using (var driver = GetDeviceDriverV1())
-                    {
-                        driver.WriteEEPROM(toWrite);
-                    }
-                    break;
-
-                default:
-                    throw ReportUnsupportedVersion();
-            }
+            var threadedEepromWriter = new ThreadedEepromWriter(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
+                toWrite, writeCompletedDelegate, progressDelegate);
+            var eepromWriterThread = new Thread(new ThreadStart(threadedEepromWriter.Write));
+            eepromWriterThread.Start();
         }
 
-        public void WriteAllFlash(List<byte> toWrite)
+        public void InitiateWriteAllFlash(List<byte> toWrite, FlashWriteCompletedCallbackDelegate writeCompletedDelegate, ProgressDelegate progressDelegate = null)
         {
+            _ = writeCompletedDelegate ?? throw new ArgumentNullException(nameof(writeCompletedDelegate));
+
             IsSetUp();
 
-            _logger.LogInfo($"Writing whole FLASH (except bootloader)...");
-
-            switch (_deviceIdentificationData.Version)
-            {
-                case (int)ProtocolVersion.First:
-
-                    var deviceData = GetDeviceDataV1();
-                    using (var driver = GetDeviceDriverV1())
-                    {
-                        for (var pageAddress = 0; pageAddress < deviceData.FlashPagesWriteable; pageAddress++)
-                        {
-                            // Preparing page data
-                            var pageData = toWrite.GetRange(pageAddress * deviceData.FlashPageSize, deviceData.FlashPageSize);
-
-                            // Writing
-                            _logger.LogInfo("Writing...");
-                            driver.WriteFLASHPage(pageAddress, pageData);
-
-                            // Verifying
-                            _logger.LogInfo("Verifying...");
-                            var readback = driver.ReadFLASHPage(pageAddress);
-
-                            if (!readback.SequenceEqual(pageData))
-                            {
-                                var message = $"Page { pageAddress + 1 } verification failed.";
-                                _logger.LogError(message);
-                                throw new InvalidOperationException(message);
-                            }
-
-                            _logger.LogInfo("Verification is OK");
-                        }
-                    }
-
-                    _logger.LogInfo("FLASH written successfully.");
-
-                    break;
-
-                default:
-                    throw ReportUnsupportedVersion();
-            }
+            var threadedFlashWriter = new ThreadedFlashWriter(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
+                toWrite, writeCompletedDelegate, progressDelegate);
+            var flashWriterThread = new Thread(new ThreadStart(threadedFlashWriter.Write));
+            flashWriterThread.Start();
         }
 
         private void IsSetUp()
@@ -243,37 +218,8 @@ namespace LibFloaderClient.Implementations.Device
             }
         }
 
-        private InvalidOperationException ReportUnsupportedVersion()
-        {
-            return new InvalidOperationException($"Unsupported version { _deviceIdentificationData.Version }.");
-        }
-
-        private IDeviceDriverV1 GetDeviceDriverV1()
-        {
-            if (_deviceIdentificationData.Version != (int)ProtocolVersion.First)
-            {
-                throw ReportNonV1Version();
-            }
-
-            return (IDeviceDriverV1)new DeviceDriverV1(_portSettings, GetDeviceDataV1(), _logger);
-        }
-
-        private DeviceDataV1 GetDeviceDataV1()
-        {
-            if (_deviceIdentificationData.Version != (int)ProtocolVersion.First)
-            {
-                throw ReportNonV1Version();
-            }
-
-            return (DeviceDataV1)_versionSpecificDeviceData;
-        }
-
-        private InvalidOperationException ReportNonV1Version()
-        {
-            return new InvalidOperationException("Version must be 1.");
-        }
-
-        public void DownloadFromDevice(string flashPath, string eepromPath)
+        public void InitiateDownloadFromDevice(string flashPath, string eepromPath, DownloadFromDeviceCompletedCallbackDelegate downloadCompletedDelegate = null,
+            ProgressDelegate progressDelegate = null)
         {
             if (string.IsNullOrEmpty(flashPath))
             {
@@ -290,23 +236,45 @@ namespace LibFloaderClient.Implementations.Device
                 throw new ArgumentException("FLASH and EEPROM files must differ.");
             }
 
-            _logger.LogInfo($"Downloading FLASH into { flashPath }...");
-            var flashData = ReadAllFlash();
+            _eepromSavePath = eepromPath;
+            _flashSavePath = flashPath;
+            _downloadCompletedDelegate = downloadCompletedDelegate;
+            _progressDelegate = progressDelegate;
 
+            _logger.LogInfo($"Downloading FLASH into { _flashSavePath }...");
+           InitiateReadAllFlash(OnFlashReadCompletedDuringDownloadFromDevice, _progressDelegate);
+        }
+
+        /// <summary>
+        /// Called when FLASH read completed during download from device
+        /// </summary>
+        private void OnFlashReadCompletedDuringDownloadFromDevice(FlashReadResult data)
+        {
             _logger.LogInfo($"Downloaded. Writting to file...");
-            _hexWriter.LoadFromList(FlashBaseAddress, flashData);
-            _hexWriter.WriteToFile(flashPath);
+            _hexWriter.LoadFromList(FlashBaseAddress, data.Data);
+            _hexWriter.WriteToFile(_flashSavePath);
+
+            _flashSavePath = null; // To reduce risk of buggy reuse
             _logger.LogInfo("Done");
 
-            _logger.LogInfo($"Downloading EEPROM into { eepromPath }...");
-            var eepromData = ReadAllEEPROM();
+            _logger.LogInfo($"Downloading EEPROM into { _eepromSavePath }...");
+            InitiateReadAllEEPROM(OnEepromReadCompletedDuringDownloadFromDevice, _progressDelegate);
+        }
 
+        /// <summary>
+        /// Called when EEPROM read completed during download from device
+        /// </summary>
+        private void OnEepromReadCompletedDuringDownloadFromDevice(EepromReadResult data)
+        {
             _logger.LogInfo($"Downloaded. Writting to file...");
-            _hexWriter.LoadFromList(EepromBaseAddress, eepromData);
-            _hexWriter.WriteToFile(eepromPath);
+            _hexWriter.LoadFromList(EepromBaseAddress, data.Data);
+            _hexWriter.WriteToFile(_eepromSavePath);
             _logger.LogInfo("Done");
 
-            _logger.LogInfo("Download completed.");
+            _logger.LogInfo("Download completed");
+
+            _eepromSavePath = null; // To reduce risk of buggy reuse
+            _downloadCompletedDelegate?.Invoke();
         }
 
         public string GenerateFlashFileName(bool isBackup)
@@ -323,31 +291,35 @@ namespace LibFloaderClient.Implementations.Device
             return _filenamesGenerator.GenerateEEPROMFilename(_deviceIdentificationData, isBackup);
         }
 
-        public void UploadToDevice(string flashPath, string eepromPath, string backupsDirectory)
+        public void InitiateUploadToDevice(string flashPath, string eepromPath, string backupsDirectory,
+            UploadToDeviceCompletedCallbackDelegate uploadCompletedDelegate = null, ProgressDelegate progressDelegate = null)
         {
             if (string.IsNullOrEmpty(backupsDirectory))
             {
                 throw new ArgumentException("Backups directory must be specified.", nameof(backupsDirectory));
             }
 
-            bool isUploadFlash = !string.IsNullOrEmpty(flashPath);
-            bool isUploadEeprom = !string.IsNullOrEmpty(eepromPath);
+            _isUploadFlash = !string.IsNullOrEmpty(flashPath);
+            _isUploadEeprom = !string.IsNullOrEmpty(eepromPath);
 
-            if (!isUploadFlash && !isUploadEeprom)
+            if (!_isUploadFlash && !_isUploadEeprom)
             {
                 throw new ArgumentException("At least either FLASH or EEPROM files must be specified");
             }
+
+            _uploadCompletedDelegate = uploadCompletedDelegate;
+            _progressDelegate = progressDelegate;
 
             // Parsing HEX files
             var flashHexData = new SortedDictionary<int, byte>();
             var eepromHexData = new SortedDictionary<int, byte>();
 
-            if (isUploadFlash)
+            if (_isUploadFlash)
             {
                 flashHexData = _hexReader.ReadFromFile(flashPath);
             }
 
-            if (isUploadEeprom)
+            if (_isUploadEeprom)
             {
                 eepromHexData = _hexReader.ReadFromFile(eepromPath);
             }
@@ -359,7 +331,7 @@ namespace LibFloaderClient.Implementations.Device
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
-                    var deviceData = GetDeviceDataV1();
+                    var deviceData = GetDeviceDataV1(_deviceIdentificationData, _versionSpecificDeviceData);
 
                     maxWriteableFlashAddress = deviceData.FlashPagesWriteable * deviceData.FlashPageSize - 1;
                     maxWriteableEepromAddress = deviceData.EepromSize - 1;
@@ -367,8 +339,7 @@ namespace LibFloaderClient.Implementations.Device
                     break;
 
                 default:
-                    ReportUnsupportedVersion();
-                    break;
+                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
             }
 
             if (flashHexData.Any(fhd => fhd.Key > maxWriteableFlashAddress))
@@ -382,32 +353,29 @@ namespace LibFloaderClient.Implementations.Device
             }
 
             // Constructing data arrays for upload
-            var flashDataToUpload = new List<byte>();
-            var eepromDataToUpload = new List<byte>();
-
-            if (isUploadFlash)
+            if (_isUploadFlash)
             {
                 for (int address = 0; address <= maxWriteableFlashAddress; address++)
                 {
-                    flashDataToUpload.Add(EmptyDataFiller);
+                    _flashDataToUpload.Add(EmptyDataFiller);
                 }
 
                 foreach (var address in flashHexData.Keys)
                 {
-                    flashDataToUpload[address] = flashHexData[address];
+                    _flashDataToUpload[address] = flashHexData[address];
                 }
             }
 
-            if (isUploadEeprom)
+            if (_isUploadEeprom)
             {
                 for (int address = 0; address <= maxWriteableEepromAddress; address++)
                 {
-                    eepromDataToUpload.Add(EmptyDataFiller);
+                    _eepromDataToUpload.Add(EmptyDataFiller);
                 }
 
                 foreach (var address in eepromHexData.Keys)
                 {
-                    eepromDataToUpload[address] = eepromHexData[address];
+                    _eepromDataToUpload[address] = eepromHexData[address];
                 }
             }
 
@@ -419,24 +387,92 @@ namespace LibFloaderClient.Implementations.Device
             _logger.LogInfo($"FLASH backup file: { flashBackupFilename }");
             _logger.LogInfo($"EEPROM backup file: { eepromBackupFilename }");
 
-            DownloadFromDevice(flashBackupFilename, eepromBackupFilename);
-
-            _logger.LogInfo("Done");
-
-            // Uploading
-            _logger.LogInfo("Uploading...");
-
-            if (isUploadFlash)
-            {
-                WriteAllFlash(flashDataToUpload);
-            }
-
-            if (isUploadEeprom)
-            {
-                WriteAllEEPROM(eepromDataToUpload);
-            }
-
-            _logger.LogInfo("Done");
+            InitiateDownloadFromDevice(flashBackupFilename, eepromBackupFilename, MakeActualUpload, _progressDelegate);
         }
+
+        /// <summary>
+        /// Make actual upload (called when backups are done)
+        /// </summary>
+        private void MakeActualUpload()
+        {
+            _logger.LogInfo("Done");
+
+            if (_isUploadFlash)
+            {
+                _logger.LogInfo("Uploading FLASH...");
+                InitiateWriteAllFlash(_flashDataToUpload, OnFlashWriteCompletedDuringUploadToDevice, _progressDelegate);
+            }
+            else
+            {
+                UploadEeprom();
+            }
+        }
+
+        private void OnFlashWriteCompletedDuringUploadToDevice()
+        {
+            _logger.LogInfo("Done");
+            UploadEeprom();
+        }
+
+        private void UploadEeprom()
+        {
+            if (_isUploadEeprom)
+            {
+                _logger.LogInfo("Uploading EEPROM...");
+                InitiateWriteAllEEPROM(_eepromDataToUpload, OnEepromWriteCompletedDuringUploadToDevice, _progressDelegate);
+            }
+            else
+            {
+                CompleteUpload();
+            }
+        }
+
+        private void OnEepromWriteCompletedDuringUploadToDevice()
+        {
+            _logger.LogInfo("Done");
+            CompleteUpload();
+        }
+
+        private void CompleteUpload()
+        {
+            _uploadCompletedDelegate();
+        }
+
+        #region Helper stuff
+
+        public static InvalidOperationException ReportUnsupportedVersion(int version)
+        {
+            return new InvalidOperationException($"Unsupported version { version }.");
+        }
+
+        public static InvalidOperationException ReportNonV1Version()
+        {
+            return new InvalidOperationException("Version must be 1.");
+        }
+
+        public static DeviceDataV1 GetDeviceDataV1(DeviceIdentifierData identificationData, object versionSpecificDeviceData)
+        {
+            if (identificationData.Version != (int)ProtocolVersion.First)
+            {
+                throw ReportNonV1Version();
+            }
+
+            return (DeviceDataV1)versionSpecificDeviceData;
+        }
+
+        public static IDeviceDriverV1 GetDeviceDriverV1(DeviceIdentifierData identificationData,
+            object versionSpecificDeviceData,
+            PortSettings portSettings,
+            ILogger logger)
+        {
+            if (identificationData.Version != (int)ProtocolVersion.First)
+            {
+                throw ReportNonV1Version();
+            }
+
+            return (IDeviceDriverV1)new DeviceDriverV1(portSettings, GetDeviceDataV1(identificationData, versionSpecificDeviceData), logger);
+        }
+
+        #endregion
     }
 }
