@@ -31,6 +31,11 @@ namespace LibFloaderClient.Implementations.Device
     public class ThreadedEepromReader : BaseThreadedOperationsProvider
     {
         /// <summary>
+        /// Operation name to be displayed near progressbar
+        /// </summary>
+        private const string ProgressOperationName = "Reading EEPROM";
+
+        /// <summary>
         /// Callback on completed read
         /// </summary>
         private readonly EepromReadCompletedCallbackDelegate _eepromReadCompletedCallbackDelegate;
@@ -59,6 +64,8 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         public void Read()
         {
+            _logger.LogInfo("Reading EEPROM...");
+
             EepromReadResult result = null;
 
             switch (_identificationData.Version)
@@ -66,15 +73,16 @@ namespace LibFloaderClient.Implementations.Device
                 case (int)ProtocolVersion.First:
                     using (var driver = GetDeviceDriverV1())
                     {
-                        _progressDelegate?.Invoke(new ProgressData(0, 1));
+                        _progressDelegate?.Invoke(new ProgressData(0, 1, ProgressOperationName));
                         result = new EepromReadResult(driver.ReadEEPROM());
-                        _progressDelegate?.Invoke(new ProgressData(1, 1));
+                        _progressDelegate?.Invoke(new ProgressData(1, 1, ProgressOperationName));
                     }
                     break;
                 default:
                     throw ReportUnsupportedVersion();
             }
 
+            _logger.LogInfo("Done");
             _eepromReadCompletedCallbackDelegate(result);
         }
     }

@@ -16,6 +16,8 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System;
+
 namespace LibFloaderClient.Models.Device
 {
     /// <summary>
@@ -33,10 +35,17 @@ namespace LibFloaderClient.Models.Device
         /// </summary>
         public double Max { get; private set; }
 
-        public ProgressData(double current, double max)
+        /// <summary>
+        /// Operation description, for example "Writing EEPROM"
+        /// </summary>
+        public string Operation { get; private set; }
+
+        public ProgressData(double current, double max, string operation)
         {
             Current = current;
             Max = max;
+
+            Operation = operation ?? throw new ArgumentNullException(nameof(operation));
         }
     }
 }

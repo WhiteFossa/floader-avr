@@ -278,7 +278,7 @@ namespace LibFloaderClient.Implementations.Device
             _hexWriter.WriteToFile(_eepromSavePath);
             _logger.LogInfo("Done");
 
-            _logger.LogInfo("Download completed.");
+            _logger.LogInfo("Download completed");
 
             _eepromSavePath = null; // To reduce risk of buggy reuse
             _downloadCompletedDelegate?.Invoke();
@@ -404,11 +404,9 @@ namespace LibFloaderClient.Implementations.Device
         {
             _logger.LogInfo("Done");
 
-            // Uploading
-            _logger.LogInfo("Uploading...");
-
             if (_isUploadFlash)
             {
+                _logger.LogInfo("Uploading FLASH...");
                 InitiateWriteAllFlash(_flashDataToUpload, OnFlashWriteCompletedDuringUploadToDevice, _progressDelegate);
             }
             else
@@ -419,12 +417,15 @@ namespace LibFloaderClient.Implementations.Device
 
         private void OnFlashWriteCompletedDuringUploadToDevice()
         {
+            _logger.LogInfo("Done");
             UploadEeprom();
         }
+
         private void UploadEeprom()
         {
             if (_isUploadEeprom)
             {
+                _logger.LogInfo("Uploading EEPROM...");
                 InitiateWriteAllEEPROM(_eepromDataToUpload, OnEepromWriteCompletedDuringUploadToDevice, _progressDelegate);
             }
             else
@@ -435,13 +436,12 @@ namespace LibFloaderClient.Implementations.Device
 
         private void OnEepromWriteCompletedDuringUploadToDevice()
         {
+            _logger.LogInfo("Done");
             CompleteUpload();
         }
 
         private void CompleteUpload()
         {
-            _logger.LogInfo("Done");
-
             _uploadCompletedDelegate();
         }
 
@@ -479,15 +479,6 @@ namespace LibFloaderClient.Implementations.Device
 
             return (IDeviceDriverV1)new DeviceDriverV1(portSettings, GetDeviceDataV1(identificationData, versionSpecificDeviceData), logger);
         }
-
-        private void SetProgress(double current, double max)
-        {
-            if (_progressDelegate != null)
-            {
-                _progressDelegate(new ProgressData(current, max));
-            }
-        }
-
 
         #endregion
     }

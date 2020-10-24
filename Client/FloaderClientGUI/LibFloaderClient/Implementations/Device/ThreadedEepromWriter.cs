@@ -64,6 +64,8 @@ namespace LibFloaderClient.Implementations.Device
 
         public void Write()
         {
+            _logger.LogInfo("Writing EEPROM...");
+
             switch (_identificationData.Version)
             {
                 case (int)ProtocolVersion.First:
@@ -77,6 +79,7 @@ namespace LibFloaderClient.Implementations.Device
                     throw ReportUnsupportedVersion();
             }
 
+            _logger.LogInfo("Done");
             _eepromWriteCompletedCallbackDelegate();
         }
     }

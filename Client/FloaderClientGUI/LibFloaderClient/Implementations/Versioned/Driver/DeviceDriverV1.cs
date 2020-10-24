@@ -35,6 +35,11 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
         private ILogger _logger;
 
         /// <summary>
+        /// Operation name to be displayed near progressbar for EEPROM write
+        /// </summary>
+        private const string WriteEepromProgressOperationName = "Writing EEPROM";
+
+        /// <summary>
         /// Send this to device to reboot it into the main firmware
         /// </summary>
         private readonly List<byte> RebootRequest = new List<byte>() { 0x51 };
@@ -205,6 +210,8 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 throw new ArgumentException($"Data to write size must equal EEPROM size: { _deviceData.EepromSize } bytes", nameof(toWrite));
             }
 
+            progressDelegate?.Invoke(new ProgressData(0, _deviceData.EepromSize, WriteEepromProgressOperationName));
+
             var lastByteAddress = _deviceData.EepromSize - 1;
 
             for (var byteAddress = 0; byteAddress < _deviceData.EepromSize; byteAddress ++)
@@ -227,7 +234,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                     throw new InvalidOperationException(message);
                 }
 
-                progressDelegate?.Invoke(new ProgressData(byteAddress + 1, _deviceData.EepromSize));
+                progressDelegate?.Invoke(new ProgressData(byteAddress + 1, _deviceData.EepromSize, WriteEepromProgressOperationName));
             }
         }
 

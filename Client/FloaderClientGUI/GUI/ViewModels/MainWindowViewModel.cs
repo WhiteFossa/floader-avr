@@ -90,6 +90,7 @@ namespace FloaderClientGUI.ViewModels
         private bool _isSelectEepromDownloadFileButtonEnabled;
         private bool _isAboutButtonEnabled;
         private double _progressValue;
+        private string _progressOperation;
 
         /// <summary>
         /// Text in console
@@ -397,6 +398,15 @@ namespace FloaderClientGUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _progressValue, value);
         }
 
+        /// <summary>
+        /// Operation description near progressbar
+        /// </summary>
+        public string ProgressOperation
+        {
+            get => _progressOperation;
+            set => this.RaiseAndSetIfChanged(ref _progressOperation, value);
+        }
+
         #endregion Bound properties
 
 
@@ -459,6 +469,9 @@ namespace FloaderClientGUI.ViewModels
             IsEepromDownloadFileEnabled = true;
             IsSelectEepromDownloadFileButtonEnabled = true;
             IsAboutButtonEnabled = true;
+
+            // No operation
+            ResetProgress();
         }
 
 #region Commands
@@ -1067,7 +1080,20 @@ Please, select another device.");
         /// </summary>
         private void SetProgressValue(ProgressData data)
         {
-            ProgressValue = data.Current / data.Max;
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                ProgressValue = data.Current / data.Max;
+                ProgressOperation = data.Operation;
+            });
+        }
+
+        /// <summary>
+        /// Sets progress to 0% and operation to "None"
+        /// </summary>
+        private void ResetProgress()
+        {
+            ProgressValue = 0;
+            ProgressOperation = "None";
         }
     }
 }

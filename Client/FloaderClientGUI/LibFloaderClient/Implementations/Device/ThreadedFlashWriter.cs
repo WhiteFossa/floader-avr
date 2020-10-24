@@ -33,6 +33,11 @@ namespace LibFloaderClient.Implementations.Device
     public class ThreadedFlashWriter : BaseThreadedOperationsProvider
     {
         /// <summary>
+        /// Operation name to be displayed near progressbar
+        /// </summary>
+        private const string ProgressOperationName = "Writing FLASH";
+
+        /// <summary>
         /// Data to write
         /// </summary>
         private readonly List<byte> _toWrite;
@@ -65,7 +70,7 @@ namespace LibFloaderClient.Implementations.Device
 
         public void Write()
         {
-            _logger.LogInfo($"Writing whole FLASH (except bootloader)...");
+            _logger.LogInfo($"Writing FLASH (except bootloader)...");
 
             switch (_identificationData.Version)
             {
@@ -74,6 +79,8 @@ namespace LibFloaderClient.Implementations.Device
                     var deviceData = GetDeviceDataV1();
                     using (var driver = GetDeviceDriverV1())
                     {
+                        _progressDelegate?.Invoke(new ProgressData(0, deviceData.FlashPagesWriteable, ProgressOperationName));
+
                         for (var pageAddress = 0; pageAddress < deviceData.FlashPagesWriteable; pageAddress++)
                         {
                             // Preparing page data
@@ -92,7 +99,7 @@ namespace LibFloaderClient.Implementations.Device
                                 throw new InvalidOperationException(message);
                             }
 
-                            _progressDelegate?.Invoke(new ProgressData(pageAddress + 1, deviceData.FlashPagesWriteable));
+                            _progressDelegate?.Invoke(new ProgressData(pageAddress + 1, deviceData.FlashPagesWriteable, ProgressOperationName));
                         }
                     }
 
@@ -102,6 +109,7 @@ namespace LibFloaderClient.Implementations.Device
                     throw ReportUnsupportedVersion();
             }
 
+            _logger.LogInfo($"Done");
             _flashWriteCompletedCallbackDelegate();
         }
     }

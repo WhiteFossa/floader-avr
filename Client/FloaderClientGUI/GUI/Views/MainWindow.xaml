@@ -21,8 +21,8 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		xmlns:vm="clr-namespace:FloaderClientGUI.ViewModels;assembly=FloaderClientGUI"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
-		Width="800" Height="600"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
+		Width="800" Height="700"
 		x:Class="FloaderClientGUI.Views.MainWindow"
 		Icon="/Assets/AppIcon.png"
 		Title="Fossa's loader">
@@ -171,10 +171,14 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 
 		<!-- Progress -->
 		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="4" >
-			<DockPanel>
-				<TextBlock Text="Progress:" DockPanel.Dock="Top" />
+			<StackPanel>
+				<TextBlock Text="Progress:"/>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Operation:" Classes="RightMargin" />
+					<TextBlock Text="{Binding ProgressOperation}" />
+				</StackPanel>
 				<ProgressBar Minimum="0" Value="{Binding ProgressValue}" Maximum="1" />
-			</DockPanel>
+			</StackPanel>
 		</Border>
 
 		<!-- Console -->

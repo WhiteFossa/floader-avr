@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zcjPG6zrnLSEbB7vwePAP7KAhsPnUFGXU7XneHXFMySBTY9X7Um+FXMNajegqk4k66fESpr4Z4qwO7wvmN4cUA==",
+  "dgSpecHash": "ijMooyXGaC4Cjpsb18CW3gw7gSIE81BxxkI/+je41JjT/BJbf53SkNc7MrJz0zpGZ0ruATDYzWq8qoblrEv24A==",
   "success": true,
   "projectFilePath": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibIntelHexTests\\LibIntelHexTests.csproj",
   "expectedPackageFiles": [
