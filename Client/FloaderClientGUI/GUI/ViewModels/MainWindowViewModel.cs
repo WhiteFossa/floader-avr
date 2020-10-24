@@ -690,8 +690,8 @@ namespace FloaderClientGUI.ViewModels
         public void Reboot()
         {
             CheckReadyness();
-            _deviceIndependentOperationsProvider.RebootToFirmware();
-            DeSetup();
+            SaveStateAndLockInterface();
+            _deviceIndependentOperationsProvider.InitiateRebootToFirmware(OnRebootCompleted);
         }
 
         /// <summary>
@@ -1074,6 +1074,18 @@ Please, select another device.");
             {
                 ResetProgress();
                 LoadStateAndUnlockInterface();
+            });
+        }
+
+        /// <summary>
+        /// Called when device is rebooted into main firmware
+        /// </summary>
+        private void OnRebootCompleted()
+        {
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                LoadStateAndUnlockInterface();
+                DeSetup();
             });
         }
 

@@ -59,6 +59,11 @@ namespace LibFloaderClient.Interfaces.Device
     public delegate void ProgressDelegate(ProgressData data);
 
     /// <summary>
+    /// Called when device rebooted into firmware
+    /// </summary>
+    public delegate void RebootToFirmwareCompletedCallbackDelegate();
+
+    /// <summary>
     /// Wrapper over device driver, hiding versioned details and allowing to write/read all pages at once
     /// </summary>
     public interface IDeviceIndependentOperationsProvider
@@ -96,7 +101,7 @@ namespace LibFloaderClient.Interfaces.Device
         /// <summary>
         /// Reboot device to firmware
         /// </summary>
-        void RebootToFirmware();
+        void InitiateRebootToFirmware(RebootToFirmwareCompletedCallbackDelegate rebootCompletedDelegate);
 
         /// <summary>
         /// Starts download from device into given HEX files. Exits immediately. If downloadCompleteDelegate isn't null, then

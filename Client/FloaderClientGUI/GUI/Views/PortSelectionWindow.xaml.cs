@@ -25,7 +25,7 @@ namespace FloaderClientGUI.Views
         /// <summary>
         /// Called when user double clicks a port
         /// </summary>
-        private void OnPortDoubleClick(object? sender, RoutedEventArgs e)
+        private void OnPortDoubleClick(object sender, RoutedEventArgs e)
         {
             var viewModel = (PortSelectionWindowViewModel)((Control)sender).DataContext;
 

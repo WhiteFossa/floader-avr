@@ -156,23 +156,16 @@ namespace LibFloaderClient.Implementations.Device
             flashReaderThread.Start();
         }
 
-        public void RebootToFirmware()
+        public void InitiateRebootToFirmware(RebootToFirmwareCompletedCallbackDelegate rebootCompletedDelegate)
         {
+            _ = rebootCompletedDelegate ?? throw new ArgumentNullException();
+
             IsSetUp();
 
-            switch (_deviceIdentificationData.Version)
-            {
-                case (int)ProtocolVersion.First:
-                    using (var driver = GetDeviceDriverV1(identificationData: _deviceIdentificationData, portSettings: _portSettings,
-                        versionSpecificDeviceData: _versionSpecificDeviceData, logger: _logger))
-                    {
-                        driver.Reboot();
-                    }
-                    break;
-
-                default:
-                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
-            }
+            var threadedRebooter = new ThreadedRebooter(_deviceIdentificationData, _portSettings, _versionSpecificDeviceData, _logger,
+                rebootCompletedDelegate);
+            var rebooterThread = new Thread(new ThreadStart(threadedRebooter.Reboot));
+            rebooterThread.Start();
         }
 
         public void Setup(PortSettings portSettings, DeviceIdentifierData deviceIdentData, object versionSpecificDeviceData)
