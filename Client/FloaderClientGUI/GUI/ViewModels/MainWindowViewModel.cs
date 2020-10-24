@@ -1060,6 +1060,7 @@ Please, select another device.");
         {
             Dispatcher.UIThread.InvokeAsync(() =>
             {
+                ResetProgress();
                 LoadStateAndUnlockInterface();
             });
         }
@@ -1071,6 +1072,7 @@ Please, select another device.");
         {
             Dispatcher.UIThread.InvokeAsync(() =>
             {
+                ResetProgress();
                 LoadStateAndUnlockInterface();
             });
         }
