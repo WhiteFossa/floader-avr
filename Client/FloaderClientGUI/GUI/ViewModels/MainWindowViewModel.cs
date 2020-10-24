@@ -1080,12 +1080,25 @@ Please, select another device.");
         /// <summary>
         /// Called when device is rebooted into main firmware
         /// </summary>
-        private void OnRebootCompleted()
+        private void OnRebootCompleted(DeviceRebootResult result)
         {
             Dispatcher.UIThread.InvokeAsync(() =>
             {
                 LoadStateAndUnlockInterface();
                 DeSetup();
+
+                if (!result.IsSuccessfull)
+                {
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                        new MessageBoxStandardParams()
+                        {
+                            ContentTitle = "Reboot is unsuccessfull",
+                            ContentMessage = "Device didn't report reboot. Check manually did it reboot or not.",
+                            Icon = Icon.Error,
+                            ButtonDefinitions = ButtonEnum.Ok
+                        })
+                        .Show();
+                }
             });
         }
 

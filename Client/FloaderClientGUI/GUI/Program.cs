@@ -51,7 +51,7 @@ namespace FloaderClientGUI
         /// <summary>
         /// Program version
         /// </summary>
-        public const string AppVersion = "0.0.1";
+        public const string AppVersion = "0.0.2 (24 Oct 2020)";
 
         /// <summary>
         /// Dependency injection service provider

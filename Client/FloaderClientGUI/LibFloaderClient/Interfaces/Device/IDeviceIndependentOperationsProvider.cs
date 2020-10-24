@@ -61,7 +61,7 @@ namespace LibFloaderClient.Interfaces.Device
     /// <summary>
     /// Called when device rebooted into firmware
     /// </summary>
-    public delegate void RebootToFirmwareCompletedCallbackDelegate();
+    public delegate void RebootToFirmwareCompletedCallbackDelegate(DeviceRebootResult rebootResult);
 
     /// <summary>
     /// Wrapper over device driver, hiding versioned details and allowing to write/read all pages at once

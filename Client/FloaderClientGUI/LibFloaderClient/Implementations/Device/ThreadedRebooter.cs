@@ -46,12 +46,13 @@ namespace LibFloaderClient.Implementations.Device
         {
             _logger.LogInfo("Requesting reboot...");
 
+            var isSuccessfull = false;
             switch (_identificationData.Version)
             {
                 case (int)ProtocolVersion.First:
                     using (var driver = GetDeviceDriverV1())
                     {
-                        driver.Reboot();
+                        isSuccessfull = driver.Reboot();
                     }
                     break;
 
@@ -60,7 +61,8 @@ namespace LibFloaderClient.Implementations.Device
             }
 
             _logger.LogInfo("Done");
-            _rebootCompletedDelegate();
+
+            _rebootCompletedDelegate(new DeviceRebootResult(isSuccessfull));
         }
 
     }
