@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using LibFloaderClient.Implementations.Enums.Device;
 using LibFloaderClient.Implementations.Mappers.Versioned;
+using LibFloaderClient.Implementations.Resources;
 using LibFloaderClient.Interfaces.DAO;
 using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Logger;
@@ -45,33 +46,33 @@ namespace LibFloaderClient.Implementations.Device
                 throw new ArgumentNullException(nameof(ident));
             }
 
-            _logger.LogInfo("Getting version-specific data...");
+            _logger.LogInfo(Language.GettingVersionSpecificData);
 
             if (ident.Version == (int)ProtocolVersion.First)
             {
                 // Version 1 specific code
-                _logger.LogInfo("Version 1 detected.");
+                _logger.LogInfo(Language.VersionOneDetected);
 
                 var dbo = _dao.GetDeviceDataV1(ident.VendorId, ident.ModelId);
                 if (dbo == null)
                 {
-                    var msg = $"Unable to get device data for VendorId={ ident.VendorId }, ModelId={ ident.ModelId }";
+                    var msg = string.Format(Language.UnableToGetDeviceData, ident.VendorId, ident.ModelId);
                     _logger.LogError(msg);
                     throw new InvalidOperationException(msg);
                 }
 
                 var result = DeviceDataV1Mapper.MapFromDBO(dbo);
 
-                _logger.LogInfo($"Total FLASH pages: { result.FlashPagesAll }");
-                _logger.LogInfo($"Writeable FLASH pages: { result.FlashPagesWriteable }");
-                _logger.LogInfo($"FLASH page size: { result.FlashPageSize } bytes");
-                _logger.LogInfo($"EEPROM size: { result.EepromSize } bytes");
+                _logger.LogInfo(string.Format(Language.TotalFlashPages, result.FlashPagesAll));
+                _logger.LogInfo(string.Format(Language.WriteableFlashPages, result.FlashPagesWriteable));
+                _logger.LogInfo(string.Format(Language.FlashPageSize, result.FlashPageSize));
+                _logger.LogInfo(string.Format(Language.EepromSize, result.EepromSize));
 
                 return result;
             }
             else
             {
-                var msg = $"Unsupported version: {ident.Version}";
+                var msg = string.Format(Language.UnsupportedVersion, ident.Version);
                 _logger.LogError(msg);
                 throw new ArgumentException(msg, nameof(ident));
             }

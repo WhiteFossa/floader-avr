@@ -1,4 +1,5 @@
 ﻿using LibFloaderClient.Implementations.Enums.Device;
+using LibFloaderClient.Implementations.Resources;
 using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Logger;
 using LibFloaderClient.Models.Device;
@@ -13,11 +14,6 @@ namespace LibFloaderClient.Implementations.Device
     /// </summary>
     public class ThreadedFlashReader : BaseThreadedOperationsProvider
     {
-        /// <summary>
-        /// Operation name to be displayed near progressbar
-        /// </summary>
-        private const string ProgressOperationName = "Reading FLASH";
-
         /// <summary>
         /// Call this when all data successfully read
         /// </summary>
@@ -46,7 +42,7 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         public void Read()
         {
-            _logger.LogInfo($"Reading FLASH (bootloader included)...");
+            _logger.LogInfo(Language.ReadingFlash);
 
             var result = new List<byte>();
             switch (_identificationData.Version)
@@ -56,17 +52,17 @@ namespace LibFloaderClient.Implementations.Device
                     var deviceData =GetDeviceDataV1();
                     using (var driver = GetDeviceDriverV1())
                     {
-                        _progressDelegate?.Invoke(new ProgressData(0, deviceData.FlashPagesAll, ProgressOperationName));
+                        _progressDelegate?.Invoke(new ProgressData(0, deviceData.FlashPagesAll, Language.ProgressOperationReadingFlash));
 
                         for (var pageAddress = 0; pageAddress < deviceData.FlashPagesAll; pageAddress++)
                         {
                             result.AddRange(driver.ReadFLASHPage(pageAddress));
 
-                            _progressDelegate?.Invoke(new ProgressData(pageAddress + 1, deviceData.FlashPagesAll, ProgressOperationName));
+                            _progressDelegate?.Invoke(new ProgressData(pageAddress + 1, deviceData.FlashPagesAll, Language.ProgressOperationReadingFlash));
                         }
                     }
 
-                    _logger.LogInfo($"Done");
+                    _logger.LogInfo(Language.Done);
                     break;
 
                 default:

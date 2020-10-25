@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using LibFloaderClient.Implementations.Enums.Device;
+using LibFloaderClient.Implementations.Resources;
 using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Logger;
 using LibFloaderClient.Models.Device;
@@ -64,7 +65,7 @@ namespace LibFloaderClient.Implementations.Device
 
         public void Write()
         {
-            _logger.LogInfo("Writing EEPROM...");
+            _logger.LogInfo(Language.WritingEeprom);
 
             switch (_identificationData.Version)
             {
@@ -79,7 +80,7 @@ namespace LibFloaderClient.Implementations.Device
                     throw ReportUnsupportedVersion();
             }
 
-            _logger.LogInfo("Done");
+            _logger.LogInfo(Language.Done);
             _eepromWriteCompletedCallbackDelegate();
         }
     }

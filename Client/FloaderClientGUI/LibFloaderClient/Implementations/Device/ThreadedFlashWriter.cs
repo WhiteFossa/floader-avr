@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using LibFloaderClient.Implementations.Enums.Device;
+using LibFloaderClient.Implementations.Resources;
 using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Logger;
 using LibFloaderClient.Models.Device;
@@ -32,11 +33,6 @@ namespace LibFloaderClient.Implementations.Device
     /// </summary>
     public class ThreadedFlashWriter : BaseThreadedOperationsProvider
     {
-        /// <summary>
-        /// Operation name to be displayed near progressbar
-        /// </summary>
-        private const string ProgressOperationName = "Writing FLASH";
-
         /// <summary>
         /// Data to write
         /// </summary>
@@ -70,7 +66,7 @@ namespace LibFloaderClient.Implementations.Device
 
         public void Write()
         {
-            _logger.LogInfo($"Writing FLASH (except bootloader)...");
+            _logger.LogInfo(Language.WritingFlash);
 
             switch (_identificationData.Version)
             {
@@ -79,7 +75,7 @@ namespace LibFloaderClient.Implementations.Device
                     var deviceData = GetDeviceDataV1();
                     using (var driver = GetDeviceDriverV1())
                     {
-                        _progressDelegate?.Invoke(new ProgressData(0, deviceData.FlashPagesWriteable, ProgressOperationName));
+                        _progressDelegate?.Invoke(new ProgressData(0, deviceData.FlashPagesWriteable, Language.ProgressOperationWritingFlash));
 
                         for (var pageAddress = 0; pageAddress < deviceData.FlashPagesWriteable; pageAddress++)
                         {
@@ -94,12 +90,12 @@ namespace LibFloaderClient.Implementations.Device
 
                             if (!readback.SequenceEqual(pageData))
                             {
-                                var message = $"Page { pageAddress + 1 } verification failed.";
+                                var message = string.Format(Language.FlashPageVerificationFailed, pageAddress + 1);
                                 _logger.LogError(message);
                                 throw new InvalidOperationException(message);
                             }
 
-                            _progressDelegate?.Invoke(new ProgressData(pageAddress + 1, deviceData.FlashPagesWriteable, ProgressOperationName));
+                            _progressDelegate?.Invoke(new ProgressData(pageAddress + 1, deviceData.FlashPagesWriteable, Language.ProgressOperationWritingFlash));
                         }
                     }
 
@@ -109,7 +105,7 @@ namespace LibFloaderClient.Implementations.Device
                     throw ReportUnsupportedVersion();
             }
 
-            _logger.LogInfo($"Done");
+            _logger.LogInfo(Language.Done);
             _flashWriteCompletedCallbackDelegate();
         }
     }

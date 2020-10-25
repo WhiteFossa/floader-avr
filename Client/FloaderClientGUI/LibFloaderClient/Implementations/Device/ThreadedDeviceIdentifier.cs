@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 using LibFloaderClient.Implementations.Enums.Device;
 using LibFloaderClient.Implementations.Exceptions;
 using LibFloaderClient.Implementations.Helpers;
+using LibFloaderClient.Implementations.Resources;
 using LibFloaderClient.Interfaces.SerialPortDriver;
 using LibFloaderClient.Models.Device;
 using LibFloaderClient.Models.Port;
@@ -154,7 +155,7 @@ namespace LibFloaderClient.Implementations.Device
 
             if (response.Count != ExpectedIdentResponseLenght)
             {
-                throw new InvalidOperationException($"Identification response must be { ExpectedIdentResponseLenght } bytes long.");
+                throw new InvalidOperationException(string.Format(Language.WrongIdentificationResponseLength, ExpectedIdentResponseLenght));
             }
 
             var signatureInResponse = response.GetRange(SignatureOffset, Signature.Count);

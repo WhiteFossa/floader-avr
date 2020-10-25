@@ -147,6 +147,9 @@
   <data name="EepromFileToDownloadMustBeSpecified" xml:space="preserve">
     <value>Не задан файл для скачивания EEPROM.</value>
   </data>
+  <data name="EepromSize" xml:space="preserve">
+    <value>Размер EEPROM: {0} байт</value>
+  </data>
   <data name="FlashAndEepromMustDiffer" xml:space="preserve">
     <value>Файлы FLASH и EEPROM должны отличаться.</value>
   </data>
@@ -159,8 +162,41 @@
   <data name="FlashOrEepromMustBeSpecified" xml:space="preserve">
     <value>Как минимум один из файлов - FLASH или EEPROM - должен быть задан.</value>
   </data>
+  <data name="FlashPageSize" xml:space="preserve">
+    <value>Размер страницы FLASH: {0} байт</value>
+  </data>
+  <data name="FlashPageVerificationFailed" xml:space="preserve">
+    <value>Проверка страницы FLASH  {0} не прошла.</value>
+  </data>
+  <data name="GettingVersionSpecificData" xml:space="preserve">
+    <value>Получение данных, специфических для версии...</value>
+  </data>
   <data name="NotSetUpDIOProvider" xml:space="preserve">
     <value>Попытка использовать ненастроенный независимый от устройства провайдер операций</value>
+  </data>
+  <data name="ProgressOperationReadingEeprom" xml:space="preserve">
+    <value>Чтение EEPROM</value>
+  </data>
+  <data name="ProgressOperationReadingFlash" xml:space="preserve">
+    <value>Чтение FLASH</value>
+  </data>
+  <data name="ProgressOperationWritingFlash" xml:space="preserve">
+    <value>Запись FLASH</value>
+  </data>
+  <data name="ReadingEeprom" xml:space="preserve">
+    <value>Читаю EEPROM...</value>
+  </data>
+  <data name="ReadingFlash" xml:space="preserve">
+    <value>Читаю FLASH (включая загрузчик)...</value>
+  </data>
+  <data name="RequestingReboot" xml:space="preserve">
+    <value>Запрашиваю перезагрузку...</value>
+  </data>
+  <data name="TotalFlashPages" xml:space="preserve">
+    <value>Всего страниц FLASH: {0}</value>
+  </data>
+  <data name="UnableToGetDeviceData" xml:space="preserve">
+    <value>Не удалось получить информацию об устройстве для VendorId={0}, ModelId={1}</value>
   </data>
   <data name="UnsupportedVersion" xml:space="preserve">
     <value>Неподдерживаемая версия {0}.</value>
@@ -176,5 +212,20 @@
   </data>
   <data name="VersionMustBeOne" xml:space="preserve">
     <value>Версия должна быть равна 1.</value>
+  </data>
+  <data name="VersionOneDetected" xml:space="preserve">
+    <value>Обнаружена версия 1</value>
+  </data>
+  <data name="WriteableFlashPages" xml:space="preserve">
+    <value>Страниц FLASH, доступных на запись: {0}</value>
+  </data>
+  <data name="WritingEeprom" xml:space="preserve">
+    <value>Пишу EEPROM...</value>
+  </data>
+  <data name="WritingFlash" xml:space="preserve">
+    <value>Пишу FLASH (исключая загрузчик)...</value>
+  </data>
+  <data name="WrongIdentificationResponseLength" xml:space="preserve">
+    <value>Ответ на запрос идентификации должен быть {0} байт длиной.</value>
   </data>
 </root>

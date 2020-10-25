@@ -151,6 +151,15 @@ namespace LibFloaderClient.Implementations.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EEPROM size: {0} bytes.
+        /// </summary>
+        internal static string EepromSize {
+            get {
+                return ResourceManager.GetString("EepromSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FLASH and EEPROM files must differ..
         /// </summary>
         internal static string FlashAndEepromMustDiffer {
@@ -187,11 +196,110 @@ namespace LibFloaderClient.Implementations.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FLASH page size: {0} bytes.
+        /// </summary>
+        internal static string FlashPageSize {
+            get {
+                return ResourceManager.GetString("FlashPageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FLASH page {0} verification failed..
+        /// </summary>
+        internal static string FlashPageVerificationFailed {
+            get {
+                return ResourceManager.GetString("FlashPageVerificationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Getting version-specific data....
+        /// </summary>
+        internal static string GettingVersionSpecificData {
+            get {
+                return ResourceManager.GetString("GettingVersionSpecificData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attempt to use not set up Device Independent Operations Provider.
         /// </summary>
         internal static string NotSetUpDIOProvider {
             get {
                 return ResourceManager.GetString("NotSetUpDIOProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reading EEPROM.
+        /// </summary>
+        internal static string ProgressOperationReadingEeprom {
+            get {
+                return ResourceManager.GetString("ProgressOperationReadingEeprom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reading FLASH.
+        /// </summary>
+        internal static string ProgressOperationReadingFlash {
+            get {
+                return ResourceManager.GetString("ProgressOperationReadingFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Writing FLASH.
+        /// </summary>
+        internal static string ProgressOperationWritingFlash {
+            get {
+                return ResourceManager.GetString("ProgressOperationWritingFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reading EEPROM....
+        /// </summary>
+        internal static string ReadingEeprom {
+            get {
+                return ResourceManager.GetString("ReadingEeprom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reading FLASH (bootloader included)....
+        /// </summary>
+        internal static string ReadingFlash {
+            get {
+                return ResourceManager.GetString("ReadingFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requesting reboot....
+        /// </summary>
+        internal static string RequestingReboot {
+            get {
+                return ResourceManager.GetString("RequestingReboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total FLASH pages: {0}.
+        /// </summary>
+        internal static string TotalFlashPages {
+            get {
+                return ResourceManager.GetString("TotalFlashPages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to get device data for VendorId={0}, ModelId={1}.
+        /// </summary>
+        internal static string UnableToGetDeviceData {
+            get {
+                return ResourceManager.GetString("UnableToGetDeviceData", resourceCulture);
             }
         }
         
@@ -237,6 +345,51 @@ namespace LibFloaderClient.Implementations.Resources {
         internal static string VersionMustBeOne {
             get {
                 return ResourceManager.GetString("VersionMustBeOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version 1 detected.
+        /// </summary>
+        internal static string VersionOneDetected {
+            get {
+                return ResourceManager.GetString("VersionOneDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Writeable FLASH pages: {0}.
+        /// </summary>
+        internal static string WriteableFlashPages {
+            get {
+                return ResourceManager.GetString("WriteableFlashPages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Writing EEPROM....
+        /// </summary>
+        internal static string WritingEeprom {
+            get {
+                return ResourceManager.GetString("WritingEeprom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Writing FLASH (except bootloader)....
+        /// </summary>
+        internal static string WritingFlash {
+            get {
+                return ResourceManager.GetString("WritingFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identification response must be {0} bytes long..
+        /// </summary>
+        internal static string WrongIdentificationResponseLength {
+            get {
+                return ResourceManager.GetString("WrongIdentificationResponseLength", resourceCulture);
             }
         }
     }

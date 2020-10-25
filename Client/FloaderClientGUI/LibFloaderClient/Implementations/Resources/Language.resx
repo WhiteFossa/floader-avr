@@ -147,6 +147,9 @@
   <data name="EepromFileToDownloadMustBeSpecified" xml:space="preserve">
     <value>EEPROM file to download into must be specified.</value>
   </data>
+  <data name="EepromSize" xml:space="preserve">
+    <value>EEPROM size: {0} bytes</value>
+  </data>
   <data name="FlashAndEepromMustDiffer" xml:space="preserve">
     <value>FLASH and EEPROM files must differ.</value>
   </data>
@@ -159,8 +162,41 @@
   <data name="FlashOrEepromMustBeSpecified" xml:space="preserve">
     <value>At least either FLASH or EEPROM files must be specified.</value>
   </data>
+  <data name="FlashPageSize" xml:space="preserve">
+    <value>FLASH page size: {0} bytes</value>
+  </data>
+  <data name="FlashPageVerificationFailed" xml:space="preserve">
+    <value>FLASH page {0} verification failed.</value>
+  </data>
+  <data name="GettingVersionSpecificData" xml:space="preserve">
+    <value>Getting version-specific data...</value>
+  </data>
   <data name="NotSetUpDIOProvider" xml:space="preserve">
     <value>Attempt to use not set up Device Independent Operations Provider</value>
+  </data>
+  <data name="ProgressOperationReadingEeprom" xml:space="preserve">
+    <value>Reading EEPROM</value>
+  </data>
+  <data name="ProgressOperationReadingFlash" xml:space="preserve">
+    <value>Reading FLASH</value>
+  </data>
+  <data name="ProgressOperationWritingFlash" xml:space="preserve">
+    <value>Writing FLASH</value>
+  </data>
+  <data name="ReadingEeprom" xml:space="preserve">
+    <value>Reading EEPROM...</value>
+  </data>
+  <data name="ReadingFlash" xml:space="preserve">
+    <value>Reading FLASH (bootloader included)...</value>
+  </data>
+  <data name="RequestingReboot" xml:space="preserve">
+    <value>Requesting reboot...</value>
+  </data>
+  <data name="TotalFlashPages" xml:space="preserve">
+    <value>Total FLASH pages: {0}</value>
+  </data>
+  <data name="UnableToGetDeviceData" xml:space="preserve">
+    <value>Unable to get device data for VendorId={0}, ModelId={1}</value>
   </data>
   <data name="UnsupportedVersion" xml:space="preserve">
     <value>Unsupported version {0}.</value>
@@ -176,5 +212,20 @@
   </data>
   <data name="VersionMustBeOne" xml:space="preserve">
     <value>Version must be 1.</value>
+  </data>
+  <data name="VersionOneDetected" xml:space="preserve">
+    <value>Version 1 detected</value>
+  </data>
+  <data name="WriteableFlashPages" xml:space="preserve">
+    <value>Writeable FLASH pages: {0}</value>
+  </data>
+  <data name="WritingEeprom" xml:space="preserve">
+    <value>Writing EEPROM...</value>
+  </data>
+  <data name="WritingFlash" xml:space="preserve">
+    <value>Writing FLASH (except bootloader)...</value>
+  </data>
+  <data name="WrongIdentificationResponseLength" xml:space="preserve">
+    <value>Identification response must be {0} bytes long.</value>
   </data>
 </root>
