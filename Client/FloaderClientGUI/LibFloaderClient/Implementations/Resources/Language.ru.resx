@@ -120,6 +120,12 @@
   <data name="AddressOutsideEeprom" xml:space="preserve">
     <value>Заданный файл EEPROM содержит данные за пределами адресного пространства EEPROM. Проверьте корректность файла.</value>
   </data>
+  <data name="AlreadyDisposed" xml:space="preserve">
+    <value>Уже уничтожено.</value>
+  </data>
+  <data name="AssemblyNotFound" xml:space="preserve">
+    <value>Сборка {0} не найдена.</value>
+  </data>
   <data name="BackingUp" xml:space="preserve">
     <value>Создание резервной копии...</value>
   </data>
@@ -171,8 +177,38 @@
   <data name="GettingVersionSpecificData" xml:space="preserve">
     <value>Получение данных, специфических для версии...</value>
   </data>
+  <data name="IncorrectPosition" xml:space="preserve">
+    <value>Некорректная позиция.</value>
+  </data>
+  <data name="IOError" xml:space="preserve">
+    <value>Ошибка ввода-вывода: {0}.</value>
+  </data>
+  <data name="MultipleReadTimeout" xml:space="preserve">
+    <value>Таймаут множественного чтения.</value>
+  </data>
   <data name="NotSetUpDIOProvider" xml:space="preserve">
     <value>Попытка использовать ненастроенный независимый от устройства провайдер операций</value>
+  </data>
+  <data name="ParityEven" xml:space="preserve">
+    <value>Чётный</value>
+  </data>
+  <data name="ParityMark" xml:space="preserve">
+    <value>Метка</value>
+  </data>
+  <data name="ParityNone" xml:space="preserve">
+    <value>Без контроля</value>
+  </data>
+  <data name="ParityOdd" xml:space="preserve">
+    <value>Нечётный</value>
+  </data>
+  <data name="ParitySpace" xml:space="preserve">
+    <value>Пробел</value>
+  </data>
+  <data name="PortIsntOpen" xml:space="preserve">
+    <value>Порт не открыт</value>
+  </data>
+  <data name="PositionIsOutsideResponse" xml:space="preserve">
+    <value>Позиция за пределами ответа.</value>
   </data>
   <data name="ProgressOperationReadingEeprom" xml:space="preserve">
     <value>Чтение EEPROM</value>
@@ -191,6 +227,21 @@
   </data>
   <data name="RequestingReboot" xml:space="preserve">
     <value>Запрашиваю перезагрузку...</value>
+  </data>
+  <data name="ResourceNotFound" xml:space="preserve">
+    <value>Ресурс {0} не найден.</value>
+  </data>
+  <data name="SingleReadTimeout" xml:space="preserve">
+    <value>Таймаут одиночного чтения.</value>
+  </data>
+  <data name="StopBitsOne" xml:space="preserve">
+    <value>Один</value>
+  </data>
+  <data name="StopBitsOnePointFive" xml:space="preserve">
+    <value>Полтора</value>
+  </data>
+  <data name="StopBitsTwo" xml:space="preserve">
+    <value>Два</value>
   </data>
   <data name="TotalFlashPages" xml:space="preserve">
     <value>Всего страниц FLASH: {0}</value>
@@ -218,6 +269,9 @@
   </data>
   <data name="WriteableFlashPages" xml:space="preserve">
     <value>Страниц FLASH, доступных на запись: {0}</value>
+  </data>
+  <data name="WriteTimeout" xml:space="preserve">
+    <value>Таймаут записи.</value>
   </data>
   <data name="WritingEeprom" xml:space="preserve">
     <value>Пишу EEPROM...</value>

@@ -70,6 +70,24 @@ namespace LibFloaderClient.Implementations.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Already disposed..
+        /// </summary>
+        internal static string AlreadyDisposed {
+            get {
+                return ResourceManager.GetString("AlreadyDisposed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assembly {0} not found..
+        /// </summary>
+        internal static string AssemblyNotFound {
+            get {
+                return ResourceManager.GetString("AssemblyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backing up....
         /// </summary>
         internal static string BackingUp {
@@ -223,11 +241,101 @@ namespace LibFloaderClient.Implementations.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incorrect position..
+        /// </summary>
+        internal static string IncorrectPosition {
+            get {
+                return ResourceManager.GetString("IncorrectPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to During IO {0} error happened..
+        /// </summary>
+        internal static string IOError {
+            get {
+                return ResourceManager.GetString("IOError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiple read timeout..
+        /// </summary>
+        internal static string MultipleReadTimeout {
+            get {
+                return ResourceManager.GetString("MultipleReadTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attempt to use not set up Device Independent Operations Provider.
         /// </summary>
         internal static string NotSetUpDIOProvider {
             get {
                 return ResourceManager.GetString("NotSetUpDIOProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Even.
+        /// </summary>
+        internal static string ParityEven {
+            get {
+                return ResourceManager.GetString("ParityEven", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark.
+        /// </summary>
+        internal static string ParityMark {
+            get {
+                return ResourceManager.GetString("ParityMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No parity control.
+        /// </summary>
+        internal static string ParityNone {
+            get {
+                return ResourceManager.GetString("ParityNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Odd.
+        /// </summary>
+        internal static string ParityOdd {
+            get {
+                return ResourceManager.GetString("ParityOdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Space.
+        /// </summary>
+        internal static string ParitySpace {
+            get {
+                return ResourceManager.GetString("ParitySpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port isn&apos;t open..
+        /// </summary>
+        internal static string PortIsntOpen {
+            get {
+                return ResourceManager.GetString("PortIsntOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position is outside of the response..
+        /// </summary>
+        internal static string PositionIsOutsideResponse {
+            get {
+                return ResourceManager.GetString("PositionIsOutsideResponse", resourceCulture);
             }
         }
         
@@ -282,6 +390,51 @@ namespace LibFloaderClient.Implementations.Resources {
         internal static string RequestingReboot {
             get {
                 return ResourceManager.GetString("RequestingReboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource {0} not found..
+        /// </summary>
+        internal static string ResourceNotFound {
+            get {
+                return ResourceManager.GetString("ResourceNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Single read timeout..
+        /// </summary>
+        internal static string SingleReadTimeout {
+            get {
+                return ResourceManager.GetString("SingleReadTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One.
+        /// </summary>
+        internal static string StopBitsOne {
+            get {
+                return ResourceManager.GetString("StopBitsOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One and half.
+        /// </summary>
+        internal static string StopBitsOnePointFive {
+            get {
+                return ResourceManager.GetString("StopBitsOnePointFive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Two.
+        /// </summary>
+        internal static string StopBitsTwo {
+            get {
+                return ResourceManager.GetString("StopBitsTwo", resourceCulture);
             }
         }
         
@@ -363,6 +516,15 @@ namespace LibFloaderClient.Implementations.Resources {
         internal static string WriteableFlashPages {
             get {
                 return ResourceManager.GetString("WriteableFlashPages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write timeout..
+        /// </summary>
+        internal static string WriteTimeout {
+            get {
+                return ResourceManager.GetString("WriteTimeout", resourceCulture);
             }
         }
         

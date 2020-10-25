@@ -120,6 +120,12 @@
   <data name="AddressOutsideEeprom" xml:space="preserve">
     <value>Given EEPROM file contains data for addressess outside EEPROM. Check file correctness.</value>
   </data>
+  <data name="AlreadyDisposed" xml:space="preserve">
+    <value>Already disposed.</value>
+  </data>
+  <data name="AssemblyNotFound" xml:space="preserve">
+    <value>Assembly {0} not found.</value>
+  </data>
   <data name="BackingUp" xml:space="preserve">
     <value>Backing up...</value>
   </data>
@@ -171,8 +177,38 @@
   <data name="GettingVersionSpecificData" xml:space="preserve">
     <value>Getting version-specific data...</value>
   </data>
+  <data name="IncorrectPosition" xml:space="preserve">
+    <value>Incorrect position.</value>
+  </data>
+  <data name="IOError" xml:space="preserve">
+    <value>During IO {0} error happened.</value>
+  </data>
+  <data name="MultipleReadTimeout" xml:space="preserve">
+    <value>Multiple read timeout.</value>
+  </data>
   <data name="NotSetUpDIOProvider" xml:space="preserve">
     <value>Attempt to use not set up Device Independent Operations Provider</value>
+  </data>
+  <data name="ParityEven" xml:space="preserve">
+    <value>Even</value>
+  </data>
+  <data name="ParityMark" xml:space="preserve">
+    <value>Mark</value>
+  </data>
+  <data name="ParityNone" xml:space="preserve">
+    <value>No parity control</value>
+  </data>
+  <data name="ParityOdd" xml:space="preserve">
+    <value>Odd</value>
+  </data>
+  <data name="ParitySpace" xml:space="preserve">
+    <value>Space</value>
+  </data>
+  <data name="PortIsntOpen" xml:space="preserve">
+    <value>Port isn't open.</value>
+  </data>
+  <data name="PositionIsOutsideResponse" xml:space="preserve">
+    <value>Position is outside of the response.</value>
   </data>
   <data name="ProgressOperationReadingEeprom" xml:space="preserve">
     <value>Reading EEPROM</value>
@@ -191,6 +227,21 @@
   </data>
   <data name="RequestingReboot" xml:space="preserve">
     <value>Requesting reboot...</value>
+  </data>
+  <data name="ResourceNotFound" xml:space="preserve">
+    <value>Resource {0} not found.</value>
+  </data>
+  <data name="SingleReadTimeout" xml:space="preserve">
+    <value>Single read timeout.</value>
+  </data>
+  <data name="StopBitsOne" xml:space="preserve">
+    <value>One</value>
+  </data>
+  <data name="StopBitsOnePointFive" xml:space="preserve">
+    <value>One and half</value>
+  </data>
+  <data name="StopBitsTwo" xml:space="preserve">
+    <value>Two</value>
   </data>
   <data name="TotalFlashPages" xml:space="preserve">
     <value>Total FLASH pages: {0}</value>
@@ -218,6 +269,9 @@
   </data>
   <data name="WriteableFlashPages" xml:space="preserve">
     <value>Writeable FLASH pages: {0}</value>
+  </data>
+  <data name="WriteTimeout" xml:space="preserve">
+    <value>Write timeout.</value>
   </data>
   <data name="WritingEeprom" xml:space="preserve">
     <value>Writing EEPROM...</value>

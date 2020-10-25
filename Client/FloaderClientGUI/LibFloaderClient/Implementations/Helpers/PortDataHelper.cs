@@ -16,6 +16,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using LibFloaderClient.Implementations.Resources;
 using System;
 using System.Collections.Generic;
 
@@ -57,7 +58,7 @@ namespace LibFloaderClient.Implementations.Helpers
 
             if ((position < 0) || (position >= response.Count))
             {
-                throw new ArgumentOutOfRangeException("Position is outside of response.", nameof(position));
+                throw new ArgumentOutOfRangeException(Language.PositionIsOutsideResponse, nameof(position));
             }
 
             return UnsignedByteToInt(response[position]);
@@ -75,7 +76,7 @@ namespace LibFloaderClient.Implementations.Helpers
 
             if ((position < 0) || (position > response.Count - ThreeBytesLength))
             {
-                throw new ArgumentOutOfRangeException("Incorrect position", nameof(position));
+                throw new ArgumentOutOfRangeException(Language.IncorrectPosition, nameof(position));
             }
 
             var bt2 = ExtractUnsignedByteAsInt(response, position);
@@ -97,7 +98,7 @@ namespace LibFloaderClient.Implementations.Helpers
 
             if ((position < 0) || (position > response.Count - FourBytesLength))
             {
-                throw new ArgumentOutOfRangeException("Incorrect position", nameof(position));
+                throw new ArgumentOutOfRangeException(Language.IncorrectPosition, nameof(position));
             }
 
             var bt3 = ExtractUnsignedByteAsInt(response, position);
