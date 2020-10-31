@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using LibIntelHex.Enums;
 using LibIntelHex.Interfaces;
+using LibIntelHex.Resources;
 using System;
 using System.Collections.Generic;
 
@@ -87,7 +88,7 @@ namespace LibIntelHex.Models
 
             if (address < 0 || address > MaxAddress)
             {
-                throw new ArgumentOutOfRangeException(nameof(address), address, $"Address must be within [0, { MaxAddress }] interval.");
+                throw new ArgumentOutOfRangeException(nameof(address), address, string.Format(Language.InvalidAddressBaseRecord, MaxAddress));
             }
 
             if (data == null)
@@ -97,7 +98,7 @@ namespace LibIntelHex.Models
 
             if (data.Count > MaxDataLength)
             {
-                throw new ArgumentOutOfRangeException(nameof(data.Count), data.Count, $"Data must be no longer than { MaxDataLength }.");
+                throw new ArgumentOutOfRangeException(nameof(data.Count), data.Count, string.Format(Language.TooLongData, MaxDataLength));
             }
 
             Address = address;
@@ -131,7 +132,7 @@ namespace LibIntelHex.Models
         {
             if (_recordFormatter == null)
             {
-                throw new InvalidOperationException("This record was created without formatter, thus being non-convertable to string.");
+                throw new InvalidOperationException(Language.UnformattableRecord);
             }
 
             var data = ToDataList();
@@ -158,12 +159,12 @@ namespace LibIntelHex.Models
             if (dataLength != data.Count)
             {
                 // TODO: Add formatter to display bytes content
-                throw new ArgumentException($"Wrong data length for sequence { bytes }. Expected { dataLength }, but got { data.Count }.");
+                throw new ArgumentException(string.Format(Language.WrongDataLength, bytes, dataLength, data.Count));
             }
 
             if (!Enum.IsDefined(typeof(RecordType), recordTypeRaw))
             {
-                throw new ArgumentException($"Undefined record type for sequence { bytes }: { recordTypeRaw }");
+                throw new ArgumentException(string.Format(Language.UndefinedRecordType, bytes, recordTypeRaw));
             }
 
             return new RecordBase(address, (RecordType)recordTypeRaw, data, formatter);

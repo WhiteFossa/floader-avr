@@ -61,6 +61,24 @@ namespace LibIntelHex.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Byte with address {0} was already added to writer..
+        /// </summary>
+        internal static string ByteAlreadyAddedToWriter {
+            get {
+                return ResourceManager.GetString("ByteAlreadyAddedToWriter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Byte with address {0} can&apos;t be appended..
+        /// </summary>
+        internal static string ByteCantBeAppended {
+            get {
+                return ResourceManager.GetString("ByteCantBeAppended", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HEX file string must not be null or empty..
         /// </summary>
         internal static string EmptyHexFileString {
@@ -106,6 +124,15 @@ namespace LibIntelHex.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Address must be within [0, {0}] interval..
+        /// </summary>
+        internal static string InvalidAddressBaseRecord {
+            get {
+                return ResourceManager.GetString("InvalidAddressBaseRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HEX file must contain one and only one End of File record..
         /// </summary>
         internal static string ManyEoFs {
@@ -124,11 +151,56 @@ namespace LibIntelHex.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Given base record is not valid Data record..
+        /// </summary>
+        internal static string NotValidDataRecord {
+            get {
+                return ResourceManager.GetString("NotValidDataRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Given base record is not a End of File record..
+        /// </summary>
+        internal static string NotValidEoFRecord {
+            get {
+                return ResourceManager.GetString("NotValidEoFRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Given base record is not a Extended Segment Address record..
+        /// </summary>
+        internal static string NotValidESARecord {
+            get {
+                return ResourceManager.GetString("NotValidESARecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Path must not be null or empty..
+        /// </summary>
+        internal static string PathIsNullOrEmpty {
+            get {
+                return ResourceManager.GetString("PathIsNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Must never reach this place..
         /// </summary>
         internal static string ReachedUnreacheable {
             get {
                 return ResourceManager.GetString("ReachedUnreacheable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data must be no longer than {0} bytes..
+        /// </summary>
+        internal static string TooLongData {
+            get {
+                return ResourceManager.GetString("TooLongData", resourceCulture);
             }
         }
         
@@ -142,11 +214,38 @@ namespace LibIntelHex.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Undefined record type for sequence {0}: {1}..
+        /// </summary>
+        internal static string UndefinedRecordType {
+            get {
+                return ResourceManager.GetString("UndefinedRecordType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This record was created without formatter, thus being non-convertable to string..
+        /// </summary>
+        internal static string UnformattableRecord {
+            get {
+                return ResourceManager.GetString("UnformattableRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HEX file contains line with a wrong checksum. Byte sequence with it: {0}..
         /// </summary>
         internal static string WrongChecksum {
             get {
                 return ResourceManager.GetString("WrongChecksum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong data length for sequence {0}. Expected {1}, but got {2}..
+        /// </summary>
+        internal static string WrongDataLength {
+            get {
+                return ResourceManager.GetString("WrongDataLength", resourceCulture);
             }
         }
     }

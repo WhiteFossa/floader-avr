@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ByteAlreadyAddedToWriter" xml:space="preserve">
+    <value>Байт с адресом {0} уже был добавлен.</value>
+  </data>
+  <data name="ByteCantBeAppended" xml:space="preserve">
+    <value>Байт с адресом {0} не может быть добавлен.</value>
+  </data>
   <data name="EmptyHexFileString" xml:space="preserve">
     <value>Строка с содержимым HEX файла не может быть null или пустой.</value>
   </data>
@@ -132,19 +138,47 @@
   <data name="InvalidAddress" xml:space="preserve">
     <value>Адрес должен быть в диапазоне [0, {0}].</value>
   </data>
+  <data name="InvalidAddressBaseRecord" xml:space="preserve">
+    <value>Адрес должен быть в диапазоне [0, {0}].</value>
+  </data>
   <data name="ManyEoFs" xml:space="preserve">
     <value>HEX должен содержать одну и только одну EoF запись.</value>
   </data>
   <data name="NotAllowedRecord" xml:space="preserve">
     <value>HEX файл содержит неразрешённую запись типа {0}.</value>
   </data>
+  <data name="NotValidDataRecord" xml:space="preserve">
+    <value>Данная базовая запись не является корректной записью типа Data.</value>
+  </data>
+  <data name="NotValidEoFRecord" xml:space="preserve">
+    <value>Данная базовая запись не является корректной записью типа End of File.</value>
+  </data>
+  <data name="NotValidESARecord" xml:space="preserve">
+    <value>Данная базовая запись не является корректной записью типа Extended Segment Address.</value>
+  </data>
+  <data name="PathIsNullOrEmpty" xml:space="preserve">
+    <value>Путь не может быть null или пустым.</value>
+    <comment>.</comment>
+  </data>
   <data name="ReachedUnreacheable" xml:space="preserve">
     <value>Это сообщение никогда не должно отображаться. Что-то серьёзно сломано.</value>
+  </data>
+  <data name="TooLongData" xml:space="preserve">
+    <value>Данные должны быть не длиннее чем {0} байт.</value>
   </data>
   <data name="TooSmallHexFile" xml:space="preserve">
     <value>HEX файл должен содержать как минимум две строки (записи DATA + EoF).</value>
   </data>
+  <data name="UndefinedRecordType" xml:space="preserve">
+    <value>Неопределённый тип записи для последовательности {0}: {1}.</value>
+  </data>
+  <data name="UnformattableRecord" xml:space="preserve">
+    <value>Данная запись была создана без форматтера, и потому не может быть конвертирована в строку.</value>
+  </data>
   <data name="WrongChecksum" xml:space="preserve">
     <value>HEX файл содержит строку с ошибочной контрольной суммой. Последовательность байт с ней: {0}.</value>
+  </data>
+  <data name="WrongDataLength" xml:space="preserve">
+    <value>Неверная длинна данных для последовательности {0}. Должно быть {1}, но получено {2}.</value>
   </data>
 </root>
