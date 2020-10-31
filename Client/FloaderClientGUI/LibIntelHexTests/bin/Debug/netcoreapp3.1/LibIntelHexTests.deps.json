@@ -869,6 +869,11 @@
       "LibIntelHex/1.0.0": {
         "runtime": {
           "LibIntelHex.dll": {}
+        },
+        "resources": {
+          "ru/LibIntelHex.resources.dll": {
+            "locale": "ru"
+          }
         }
       }
     }

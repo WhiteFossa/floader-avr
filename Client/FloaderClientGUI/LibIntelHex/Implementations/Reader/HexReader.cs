@@ -20,6 +20,7 @@ using LibIntelHex.Enums;
 using LibIntelHex.Implementations.Helpers;
 using LibIntelHex.Interfaces;
 using LibIntelHex.Models;
+using LibIntelHex.Resources;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -68,7 +69,7 @@ namespace LibIntelHex.Implementations.Reader
         {
             if (string.IsNullOrEmpty(hexFilePath))
             {
-                throw new ArgumentException("Path must not be empty.", nameof(hexFilePath));
+                throw new ArgumentException(Language.EmptyPath, nameof(hexFilePath));
             }
 
             var content = File.ReadAllText(hexFilePath);
@@ -80,13 +81,13 @@ namespace LibIntelHex.Implementations.Reader
         {
             if (string.IsNullOrEmpty(hexFileContent))
             {
-                throw new ArgumentException("HEX file string must not be null or empty.", nameof(hexFileContent));
+                throw new ArgumentException(Language.EmptyHexFileString, nameof(hexFileContent));
             }
 
             var lines = StringsHelper.SplitByNewlines(hexFileContent);
             if (lines.Count < MinLinesCount)
             {
-                throw new ArgumentException("HEX file must contain at least two lines (DATA + EoF records)", nameof(hexFileContent));
+                throw new ArgumentException(Language.TooSmallHexFile, nameof(hexFileContent));
             }
 
             // To upper
@@ -103,7 +104,7 @@ namespace LibIntelHex.Implementations.Reader
 
             if (firstIncorrectLine != null)
             {
-                throw new ArgumentException($"HEX file contains incorrect line. Line: { firstIncorrectLine.line }", nameof(hexFileContent));
+                throw new ArgumentException(string.Format(Language.IncorrectLine, firstIncorrectLine.line), nameof(hexFileContent));
             }
 
             // Removing leading ":"
@@ -127,7 +128,7 @@ namespace LibIntelHex.Implementations.Reader
 
             if (firstLineWithWrongChecksum != null)
             {
-                throw new ArgumentException($"HEX file contains line with a wrong checksum. Byte sequence with it: { firstLineWithWrongChecksum }", nameof(firstLineWithWrongChecksum));
+                throw new ArgumentException(string.Format(Language.WrongChecksum, firstLineWithWrongChecksum), nameof(firstLineWithWrongChecksum));
             }
 
             // Stripping checksums
@@ -146,7 +147,7 @@ namespace LibIntelHex.Implementations.Reader
 
             if (notAllowedRecords.Any())
             {
-                throw new ArgumentException($"HEX file contains not allowed record with type { notAllowedRecords.First().Type }.");
+                throw new ArgumentException(string.Format(Language.NotAllowedRecord, notAllowedRecords.First().Type));
             }
 
             // Only one EoF record
@@ -156,13 +157,13 @@ namespace LibIntelHex.Implementations.Reader
 
             if (eofCount != 1)
             {
-                throw new ArgumentException($"HEX file must contain one and only one End of File record.");
+                throw new ArgumentException(Language.ManyEoFs);
             }
 
             // EoF must be the last record
             if (rawRecords.Last().Type != RecordType.EndOfFile)
             {
-                throw new ArgumentException($"HEX file must end with End of File record.");
+                throw new ArgumentException(Language.EndsWithNonEof);
             }
 
             // Processing records one by one and populating data dictionary
@@ -204,7 +205,7 @@ namespace LibIntelHex.Implementations.Reader
                 }
             }
 
-            throw new InvalidOperationException("Must never reach this place.");
+            throw new InvalidOperationException(Language.ReachedUnreacheable);
         }
     }
 }
