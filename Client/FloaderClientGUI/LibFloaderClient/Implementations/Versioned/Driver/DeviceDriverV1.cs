@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using LibFloaderClient.Implementations.Exceptions;
+using LibFloaderClient.Implementations.Resources;
 using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Logger;
 using LibFloaderClient.Interfaces.SerialPortDriver;
@@ -26,6 +27,7 @@ using LibFloaderClient.Models.Device.Versioned;
 using LibFloaderClient.Models.Port;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace LibFloaderClient.Implementations.Versioned.Driver
@@ -33,11 +35,6 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
     public class DeviceDriverV1 : IDeviceDriverV1
     {
         private ILogger _logger;
-
-        /// <summary>
-        /// Operation name to be displayed near progressbar for EEPROM write
-        /// </summary>
-        private const string WriteEepromProgressOperationName = "Writing EEPROM";
 
         /// <summary>
         /// Send this to device to reboot it into the main firmware
@@ -168,13 +165,13 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                     return true;
                 }
 
-                _logger.LogError($"Device returned unknown response: { response }.");
+                _logger.LogError(string.Format(Language.UnknownDeviceResponceOnReboot, response));
 
                 return false;
             }
             catch(SerialPortTimeoutException)
             {
-                _logger.LogError("Device didn't respond in time, check did it reboot manually.");
+                _logger.LogError(Language.TimeoutOnReboot);
                 return false;
             }
         }
@@ -191,7 +188,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
             }
             catch (SerialPortTimeoutException)
             {
-                _logger.LogError("Timeout during EEPROM read.");
+                _logger.LogError(Language.EepromReadTimeout);
                 throw;
             }
         }
@@ -207,10 +204,10 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
 
             if (toWrite.Count() != _deviceData.EepromSize)
             {
-                throw new ArgumentException($"Data to write size must equal EEPROM size: { _deviceData.EepromSize } bytes", nameof(toWrite));
+                throw new ArgumentException(string.Format(Language.WrongEepromDataSize, _deviceData.EepromSize), nameof(toWrite));
             }
 
-            progressDelegate?.Invoke(new ProgressData(0, _deviceData.EepromSize, WriteEepromProgressOperationName));
+            progressDelegate?.Invoke(new ProgressData(0, _deviceData.EepromSize, Language.ProgressOperationWritingEeprom));
 
             var lastByteAddress = _deviceData.EepromSize - 1;
 
@@ -221,7 +218,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 if (!wantsMore && byteAddress != lastByteAddress)
                 {
                     // Premature write termination
-                    var message = $"Device don't accept new data after writing { byteAddress + 1 } / { _deviceData.EepromSize } bytes.";
+                    var message = string.Format(Language.EepromWriteDontAcceptData, byteAddress + 1, _deviceData.EepromSize);
                     _logger.LogError(message);
                     throw new InvalidOperationException(message);
                 }
@@ -229,12 +226,12 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 if (wantsMore && byteAddress == lastByteAddress)
                 {
                     // Greedy device, wants more after completion
-                    var message = $"Device wants more data after writing the last byte of EEPROM.";
+                    var message = Language.EepromWriteGreedyDevice;
                     _logger.LogError(message);
                     throw new InvalidOperationException(message);
                 }
 
-                progressDelegate?.Invoke(new ProgressData(byteAddress + 1, _deviceData.EepromSize, WriteEepromProgressOperationName));
+                progressDelegate?.Invoke(new ProgressData(byteAddress + 1, _deviceData.EepromSize, Language.ProgressOperationWritingEeprom));
             }
         }
 
@@ -258,7 +255,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
 
             if (answer.Count() != EEPROMWriteResponseSize)
             {
-                throw new InvalidOperationException($"Unexpected write EEPROM byte response size: { answer.Count() } bytes.");
+                throw new InvalidOperationException(string.Format(Language.EepromWriteByteUnexpectedResponseSize, answer.Count()));
             }
 
             if (answer.SequenceEqual(EEPROMWriteResponseNext))
@@ -270,7 +267,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
                 return false;
             }
 
-            throw new InvalidOperationException($"Unexpected write EEPROM byte response.");
+            throw new InvalidOperationException(Language.EepromWriteByteUnexpectedResponse);
         }
 
         public List<byte> ReadFLASHPage(int pageAddress)
@@ -279,7 +276,8 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
 
             if (pageAddress < 0 || pageAddress >= _deviceData.FlashPagesAll)
             {
-                throw new ArgumentOutOfRangeException(nameof(pageAddress), pageAddress, $"Allowed page addresses: [0 - { _deviceData.FlashPagesAll - 1 }]");
+                throw new ArgumentOutOfRangeException(nameof(pageAddress), pageAddress,
+                    string.Format(Language.AllowedFlashPageAddresses, _deviceData.FlashPagesAll - 1));
             }
 
             try
@@ -293,18 +291,18 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
 
                 if (response.Count() != ReadFLASHPageResponseSize)
                 {
-                    throw new InvalidOperationException($"Unexpected response size to FLASH page read request: { response.Count() } bytes.");
+                    throw new InvalidOperationException(string.Format(Language.FlashReadUnexpectedResponseSize, response.Count()));
                 }
 
                 if (response.SequenceEqual(ReadFLASHResponseFAIL))
                 {
-                    var message = $"Device reports failure during FLASH page { pageAddress } read.";
+                    var message = string.Format(Language.FlashReadFailure, pageAddress);
                     _logger.LogError(message);
                     throw new InvalidOperationException(message);
                 }
                 else if (!response.SequenceEqual(ReadFLASHResponseOK))
                 {
-                    var message = $"Unexpected response to FLASH page { pageAddress } read initiation.";
+                    var message = string.Format(Language.FlashReadUnexpectedResponse, pageAddress);
                     _logger.LogError(message);
                     throw new InvalidOperationException(message);
                 }
@@ -314,7 +312,7 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
             }
             catch (SerialPortTimeoutException)
             {
-                _logger.LogError("Timeout during FLASH read.");
+                _logger.LogError(Language.FlashReadTimeout);
                 throw;
             }
         }
@@ -325,12 +323,13 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
 
             if (toWrite.Count() != _deviceData.FlashPageSize)
             {
-                throw new ArgumentException($"Page size data is { _deviceData.FlashPageSize }", nameof(toWrite));
+                throw new ArgumentException(string.Format(Language.FlashWriteWrongPageSize, _deviceData.FlashPageSize), nameof(toWrite));
             }
 
             if (pageAddress < 0 || pageAddress >= _deviceData.FlashPagesWriteable)
             {
-                throw new ArgumentOutOfRangeException(nameof(pageAddress), pageAddress, $"Writeable page addresses: [0 - { _deviceData.FlashPagesWriteable - 1 }]");
+                throw new ArgumentOutOfRangeException(nameof(pageAddress), pageAddress,
+                    string.Format(Language.FlashWriteWriteableAddressess, _deviceData.FlashPagesWriteable - 1));
             }
 
             try
@@ -344,18 +343,18 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
 
                 if (response.Count() != WriteFLASHPageCheckAddressResponseSize)
                 {
-                    throw new InvalidOperationException($"Unexpected response size to FLASH page write address check request: { response.Count() } bytes.");
+                    throw new InvalidOperationException(string.Format(Language.FlashWriteUnexpectedAddressCheckResponseSize, response.Count()));
                 }
 
                 if (response.SequenceEqual(WriteFLASHPageCheckAddressResponseFAIL))
                 {
-                    var message = $"Device reports incorrect FLASH page address { pageAddress } while attempt to write page.";
+                    var message = string.Format(Language.FlashWriteIncorrectPageAddress, pageAddress);
                     _logger.LogError(message);
                     throw new InvalidOperationException(message);
                 }
                 else if (!response.SequenceEqual(WriteFLASHPageCheckAddressResponseOK))
                 {
-                    var message = $"Unexpected response to FLASH page { pageAddress } write address check.";
+                    var message = string.Format(Language.FlashWriteAddressCheckUnexpectedResponse, pageAddress);
                     _logger.LogError(message);
                     throw new InvalidOperationException(message);
                 }
@@ -366,19 +365,19 @@ namespace LibFloaderClient.Implementations.Versioned.Driver
 
                 if (response.Count() != WriteFLASHPageResponseSize)
                 {
-                    throw new InvalidOperationException($"Unexpected response size to FLASH page write request: { response.Count() } bytes.");
+                    throw new InvalidOperationException(String.Format(Language.FlashWriteUnexpectedResponseSize, response.Count()));
                 }
 
                 if (!response.SequenceEqual(WriteFLASHPageResponseOK))
                 {
-                    var message = $"Device reports failure during FLASH page write.";
+                    var message = Language.FlashWriteFailure;
                     _logger.LogError(message);
                     throw new InvalidOperationException(message);
                 }
             }
             catch(SerialPortTimeoutException)
             {
-                _logger.LogError("Timeout during FLASH read.");
+                _logger.LogError(Language.FlashWriteTimeout);
                 throw;
             }
         }

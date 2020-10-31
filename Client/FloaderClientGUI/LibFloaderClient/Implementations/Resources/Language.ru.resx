@@ -120,6 +120,9 @@
   <data name="AddressOutsideEeprom" xml:space="preserve">
     <value>Заданный файл EEPROM содержит данные за пределами адресного пространства EEPROM. Проверьте корректность файла.</value>
   </data>
+  <data name="AllowedFlashPageAddresses" xml:space="preserve">
+    <value>Допустимые адреса страниц FLASH: [0 - {0}].</value>
+  </data>
   <data name="AlreadyDisposed" xml:space="preserve">
     <value>Уже уничтожено.</value>
   </data>
@@ -153,8 +156,23 @@
   <data name="EepromFileToDownloadMustBeSpecified" xml:space="preserve">
     <value>Не задан файл для скачивания EEPROM.</value>
   </data>
+  <data name="EepromReadTimeout" xml:space="preserve">
+    <value>Таймаут во время чтения EEPROM.</value>
+  </data>
   <data name="EepromSize" xml:space="preserve">
     <value>Размер EEPROM: {0} байт</value>
+  </data>
+  <data name="EepromWriteByteUnexpectedResponse" xml:space="preserve">
+    <value>Неожиданный ответ при записи байта EEPROM.</value>
+  </data>
+  <data name="EepromWriteByteUnexpectedResponseSize" xml:space="preserve">
+    <value>Неожиданный размер ответа при записи байта EEPROM: {0} байт.</value>
+  </data>
+  <data name="EepromWriteDontAcceptData" xml:space="preserve">
+    <value>Устройство не принимает новые данные после записи {0} / {1} байт.</value>
+  </data>
+  <data name="EepromWriteGreedyDevice" xml:space="preserve">
+    <value>Устройство всё ещё хочет данные после записи последнего байта EEPROM.</value>
   </data>
   <data name="FlashAndEepromMustDiffer" xml:space="preserve">
     <value>Файлы FLASH и EEPROM должны отличаться.</value>
@@ -173,6 +191,42 @@
   </data>
   <data name="FlashPageVerificationFailed" xml:space="preserve">
     <value>Проверка страницы FLASH  {0} не прошла.</value>
+  </data>
+  <data name="FlashReadFailure" xml:space="preserve">
+    <value>Устройство сообщает об отказе во время чтения {0} страницы FLASH.</value>
+  </data>
+  <data name="FlashReadTimeout" xml:space="preserve">
+    <value>Таймаут во время чтения страницы FLASH.</value>
+  </data>
+  <data name="FlashReadUnexpectedResponse" xml:space="preserve">
+    <value>Неожиданный ответ на инициацию чтения {0} страницы FLASH.</value>
+  </data>
+  <data name="FlashReadUnexpectedResponseSize" xml:space="preserve">
+    <value>Неожиданный размер ответа на запрос чтения страницы FLASH: {0} байт.</value>
+  </data>
+  <data name="FlashWriteAddressCheckUnexpectedResponse" xml:space="preserve">
+    <value>Неожиданный ответ при проверке адреса {0} страницы FLASH.</value>
+  </data>
+  <data name="FlashWriteFailure" xml:space="preserve">
+    <value>Устройство сообщает об отказе при записи страницы FLASH.</value>
+  </data>
+  <data name="FlashWriteIncorrectPageAddress" xml:space="preserve">
+    <value>Устройство сообщает о некорректном адресе страницы FLASH {0} во время попытки записи.</value>
+  </data>
+  <data name="FlashWriteTimeout" xml:space="preserve">
+    <value>Таймаут во время записи страницы FLASH.</value>
+  </data>
+  <data name="FlashWriteUnexpectedAddressCheckResponseSize" xml:space="preserve">
+    <value>Неожиданный размер ответа на запрос проверки адреса страницы FLASH: {0} байт.</value>
+  </data>
+  <data name="FlashWriteUnexpectedResponseSize" xml:space="preserve">
+    <value>Неожиданный размер ответа на запрос записи страницы FLASH: {0} байт.</value>
+  </data>
+  <data name="FlashWriteWriteableAddressess" xml:space="preserve">
+    <value>Страницы FLASH, доступные на запись: [0 - {0}].</value>
+  </data>
+  <data name="FlashWriteWrongPageSize" xml:space="preserve">
+    <value>Ожидаемый размер страницы FLASH: {0} байт.</value>
   </data>
   <data name="GettingVersionSpecificData" xml:space="preserve">
     <value>Получение данных, специфических для версии...</value>
@@ -216,6 +270,9 @@
   <data name="ProgressOperationReadingFlash" xml:space="preserve">
     <value>Чтение FLASH</value>
   </data>
+  <data name="ProgressOperationWritingEeprom" xml:space="preserve">
+    <value>Запись EEPROM</value>
+  </data>
   <data name="ProgressOperationWritingFlash" xml:space="preserve">
     <value>Запись FLASH</value>
   </data>
@@ -243,11 +300,17 @@
   <data name="StopBitsTwo" xml:space="preserve">
     <value>Два</value>
   </data>
+  <data name="TimeoutOnReboot" xml:space="preserve">
+    <value>Устройство не ответило вовремя, проверьте, перезагрузилось-ли оно.</value>
+  </data>
   <data name="TotalFlashPages" xml:space="preserve">
     <value>Всего страниц FLASH: {0}</value>
   </data>
   <data name="UnableToGetDeviceData" xml:space="preserve">
     <value>Не удалось получить информацию об устройстве для VendorId={0}, ModelId={1}</value>
+  </data>
+  <data name="UnknownDeviceResponceOnReboot" xml:space="preserve">
+    <value>Устройство вернуло неизвестный ответ: {0}</value>
   </data>
   <data name="UnsupportedVersion" xml:space="preserve">
     <value>Неподдерживаемая версия {0}.</value>
@@ -278,6 +341,9 @@
   </data>
   <data name="WritingFlash" xml:space="preserve">
     <value>Пишу FLASH (исключая загрузчик)...</value>
+  </data>
+  <data name="WrongEepromDataSize" xml:space="preserve">
+    <value>Данные для записи в EEPROM должны иметь размер, равный размеру EEPROM: {0} байт.</value>
   </data>
   <data name="WrongIdentificationResponseLength" xml:space="preserve">
     <value>Ответ на запрос идентификации должен быть {0} байт длиной.</value>

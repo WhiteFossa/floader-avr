@@ -70,6 +70,15 @@ namespace LibFloaderClient.Implementations.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allowed FLASH page addresses: [0 - {0}]..
+        /// </summary>
+        internal static string AllowedFlashPageAddresses {
+            get {
+                return ResourceManager.GetString("AllowedFlashPageAddresses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Already disposed..
         /// </summary>
         internal static string AlreadyDisposed {
@@ -169,11 +178,56 @@ namespace LibFloaderClient.Implementations.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Timeout during EEPROM read..
+        /// </summary>
+        internal static string EepromReadTimeout {
+            get {
+                return ResourceManager.GetString("EepromReadTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EEPROM size: {0} bytes.
         /// </summary>
         internal static string EepromSize {
             get {
                 return ResourceManager.GetString("EepromSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected write EEPROM byte response..
+        /// </summary>
+        internal static string EepromWriteByteUnexpectedResponse {
+            get {
+                return ResourceManager.GetString("EepromWriteByteUnexpectedResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected write EEPROM byte response size: {0} bytes..
+        /// </summary>
+        internal static string EepromWriteByteUnexpectedResponseSize {
+            get {
+                return ResourceManager.GetString("EepromWriteByteUnexpectedResponseSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device don&apos;t accept new data after writing {0} / {1} bytes..
+        /// </summary>
+        internal static string EepromWriteDontAcceptData {
+            get {
+                return ResourceManager.GetString("EepromWriteDontAcceptData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device wants more data after writing the last byte of EEPROM..
+        /// </summary>
+        internal static string EepromWriteGreedyDevice {
+            get {
+                return ResourceManager.GetString("EepromWriteGreedyDevice", resourceCulture);
             }
         }
         
@@ -228,6 +282,114 @@ namespace LibFloaderClient.Implementations.Resources {
         internal static string FlashPageVerificationFailed {
             get {
                 return ResourceManager.GetString("FlashPageVerificationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device reports failure during FLASH page {0} read..
+        /// </summary>
+        internal static string FlashReadFailure {
+            get {
+                return ResourceManager.GetString("FlashReadFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timeout during FLASH read..
+        /// </summary>
+        internal static string FlashReadTimeout {
+            get {
+                return ResourceManager.GetString("FlashReadTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected response to FLASH page {0} read initiation..
+        /// </summary>
+        internal static string FlashReadUnexpectedResponse {
+            get {
+                return ResourceManager.GetString("FlashReadUnexpectedResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected response size to FLASH page read request: {0} bytes..
+        /// </summary>
+        internal static string FlashReadUnexpectedResponseSize {
+            get {
+                return ResourceManager.GetString("FlashReadUnexpectedResponseSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected response to FLASH page {0} write address check..
+        /// </summary>
+        internal static string FlashWriteAddressCheckUnexpectedResponse {
+            get {
+                return ResourceManager.GetString("FlashWriteAddressCheckUnexpectedResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device reports failure during FLASH page write..
+        /// </summary>
+        internal static string FlashWriteFailure {
+            get {
+                return ResourceManager.GetString("FlashWriteFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device reports incorrect FLASH page address {0} while attempt to write..
+        /// </summary>
+        internal static string FlashWriteIncorrectPageAddress {
+            get {
+                return ResourceManager.GetString("FlashWriteIncorrectPageAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timeout during FLASH write..
+        /// </summary>
+        internal static string FlashWriteTimeout {
+            get {
+                return ResourceManager.GetString("FlashWriteTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected response size to FLASH page write address check request: {0} bytes..
+        /// </summary>
+        internal static string FlashWriteUnexpectedAddressCheckResponseSize {
+            get {
+                return ResourceManager.GetString("FlashWriteUnexpectedAddressCheckResponseSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected response size to FLASH page write request: {0} bytes..
+        /// </summary>
+        internal static string FlashWriteUnexpectedResponseSize {
+            get {
+                return ResourceManager.GetString("FlashWriteUnexpectedResponseSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Writeable page addresses: [0 - {0}]..
+        /// </summary>
+        internal static string FlashWriteWriteableAddressess {
+            get {
+                return ResourceManager.GetString("FlashWriteWriteableAddressess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected FLASH page data size is {0} bytes..
+        /// </summary>
+        internal static string FlashWriteWrongPageSize {
+            get {
+                return ResourceManager.GetString("FlashWriteWrongPageSize", resourceCulture);
             }
         }
         
@@ -358,6 +520,15 @@ namespace LibFloaderClient.Implementations.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Writing EEPROM.
+        /// </summary>
+        internal static string ProgressOperationWritingEeprom {
+            get {
+                return ResourceManager.GetString("ProgressOperationWritingEeprom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Writing FLASH.
         /// </summary>
         internal static string ProgressOperationWritingFlash {
@@ -439,6 +610,15 @@ namespace LibFloaderClient.Implementations.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Device didn&apos;t respond in time, check did it reboot manually..
+        /// </summary>
+        internal static string TimeoutOnReboot {
+            get {
+                return ResourceManager.GetString("TimeoutOnReboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total FLASH pages: {0}.
         /// </summary>
         internal static string TotalFlashPages {
@@ -453,6 +633,15 @@ namespace LibFloaderClient.Implementations.Resources {
         internal static string UnableToGetDeviceData {
             get {
                 return ResourceManager.GetString("UnableToGetDeviceData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device returned unknown response: {0}.
+        /// </summary>
+        internal static string UnknownDeviceResponceOnReboot {
+            get {
+                return ResourceManager.GetString("UnknownDeviceResponceOnReboot", resourceCulture);
             }
         }
         
@@ -543,6 +732,15 @@ namespace LibFloaderClient.Implementations.Resources {
         internal static string WritingFlash {
             get {
                 return ResourceManager.GetString("WritingFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data to write size must equal EEPROM size: {0} bytes..
+        /// </summary>
+        internal static string WrongEepromDataSize {
+            get {
+                return ResourceManager.GetString("WrongEepromDataSize", resourceCulture);
             }
         }
         

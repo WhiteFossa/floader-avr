@@ -120,6 +120,9 @@
   <data name="AddressOutsideEeprom" xml:space="preserve">
     <value>Given EEPROM file contains data for addressess outside EEPROM. Check file correctness.</value>
   </data>
+  <data name="AllowedFlashPageAddresses" xml:space="preserve">
+    <value>Allowed FLASH page addresses: [0 - {0}].</value>
+  </data>
   <data name="AlreadyDisposed" xml:space="preserve">
     <value>Already disposed.</value>
   </data>
@@ -153,8 +156,23 @@
   <data name="EepromFileToDownloadMustBeSpecified" xml:space="preserve">
     <value>EEPROM file to download into must be specified.</value>
   </data>
+  <data name="EepromReadTimeout" xml:space="preserve">
+    <value>Timeout during EEPROM read.</value>
+  </data>
   <data name="EepromSize" xml:space="preserve">
     <value>EEPROM size: {0} bytes</value>
+  </data>
+  <data name="EepromWriteByteUnexpectedResponse" xml:space="preserve">
+    <value>Unexpected write EEPROM byte response.</value>
+  </data>
+  <data name="EepromWriteByteUnexpectedResponseSize" xml:space="preserve">
+    <value>Unexpected write EEPROM byte response size: {0} bytes.</value>
+  </data>
+  <data name="EepromWriteDontAcceptData" xml:space="preserve">
+    <value>Device don't accept new data after writing {0} / {1} bytes.</value>
+  </data>
+  <data name="EepromWriteGreedyDevice" xml:space="preserve">
+    <value>Device wants more data after writing the last byte of EEPROM.</value>
   </data>
   <data name="FlashAndEepromMustDiffer" xml:space="preserve">
     <value>FLASH and EEPROM files must differ.</value>
@@ -173,6 +191,42 @@
   </data>
   <data name="FlashPageVerificationFailed" xml:space="preserve">
     <value>FLASH page {0} verification failed.</value>
+  </data>
+  <data name="FlashReadFailure" xml:space="preserve">
+    <value>Device reports failure during FLASH page {0} read.</value>
+  </data>
+  <data name="FlashReadTimeout" xml:space="preserve">
+    <value>Timeout during FLASH read.</value>
+  </data>
+  <data name="FlashReadUnexpectedResponse" xml:space="preserve">
+    <value>Unexpected response to FLASH page {0} read initiation.</value>
+  </data>
+  <data name="FlashReadUnexpectedResponseSize" xml:space="preserve">
+    <value>Unexpected response size to FLASH page read request: {0} bytes.</value>
+  </data>
+  <data name="FlashWriteAddressCheckUnexpectedResponse" xml:space="preserve">
+    <value>Unexpected response to FLASH page {0} write address check.</value>
+  </data>
+  <data name="FlashWriteFailure" xml:space="preserve">
+    <value>Device reports failure during FLASH page write.</value>
+  </data>
+  <data name="FlashWriteIncorrectPageAddress" xml:space="preserve">
+    <value>Device reports incorrect FLASH page address {0} while attempt to write.</value>
+  </data>
+  <data name="FlashWriteTimeout" xml:space="preserve">
+    <value>Timeout during FLASH write.</value>
+  </data>
+  <data name="FlashWriteUnexpectedAddressCheckResponseSize" xml:space="preserve">
+    <value>Unexpected response size to FLASH page write address check request: {0} bytes.</value>
+  </data>
+  <data name="FlashWriteUnexpectedResponseSize" xml:space="preserve">
+    <value>Unexpected response size to FLASH page write request: {0} bytes.</value>
+  </data>
+  <data name="FlashWriteWriteableAddressess" xml:space="preserve">
+    <value>Writeable page addresses: [0 - {0}].</value>
+  </data>
+  <data name="FlashWriteWrongPageSize" xml:space="preserve">
+    <value>Expected FLASH page data size is {0} bytes.</value>
   </data>
   <data name="GettingVersionSpecificData" xml:space="preserve">
     <value>Getting version-specific data...</value>
@@ -216,6 +270,9 @@
   <data name="ProgressOperationReadingFlash" xml:space="preserve">
     <value>Reading FLASH</value>
   </data>
+  <data name="ProgressOperationWritingEeprom" xml:space="preserve">
+    <value>Writing EEPROM</value>
+  </data>
   <data name="ProgressOperationWritingFlash" xml:space="preserve">
     <value>Writing FLASH</value>
   </data>
@@ -243,11 +300,17 @@
   <data name="StopBitsTwo" xml:space="preserve">
     <value>Two</value>
   </data>
+  <data name="TimeoutOnReboot" xml:space="preserve">
+    <value>Device didn't respond in time, check did it reboot manually.</value>
+  </data>
   <data name="TotalFlashPages" xml:space="preserve">
     <value>Total FLASH pages: {0}</value>
   </data>
   <data name="UnableToGetDeviceData" xml:space="preserve">
     <value>Unable to get device data for VendorId={0}, ModelId={1}</value>
+  </data>
+  <data name="UnknownDeviceResponceOnReboot" xml:space="preserve">
+    <value>Device returned unknown response: {0}</value>
   </data>
   <data name="UnsupportedVersion" xml:space="preserve">
     <value>Unsupported version {0}.</value>
@@ -278,6 +341,9 @@
   </data>
   <data name="WritingFlash" xml:space="preserve">
     <value>Writing FLASH (except bootloader)...</value>
+  </data>
+  <data name="WrongEepromDataSize" xml:space="preserve">
+    <value>Data to write size must equal EEPROM size: {0} bytes.</value>
   </data>
   <data name="WrongIdentificationResponseLength" xml:space="preserve">
     <value>Identification response must be {0} bytes long.</value>
