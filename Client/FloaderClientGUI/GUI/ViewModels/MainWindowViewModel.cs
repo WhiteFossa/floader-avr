@@ -20,6 +20,7 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using FloaderClientGUI.GUISpecific;
 using FloaderClientGUI.Models;
+using FloaderClientGUI.Resources;
 using FloaderClientGUI.Views;
 using LibFloaderClient.Implementations.Device;
 using LibFloaderClient.Implementations.Enums.Device;
@@ -724,14 +725,14 @@ namespace FloaderClientGUI.ViewModels
                 // Is successfull?
                 if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.Timeout)
                 {
-                    var message = $"Attempt to identify device timed out. Check port and device state - it must be in bootloader mode.";
+                    var message = Language.IdentificationTimeout;
                     _logger.LogError(message);
                     LockProceeding();
 
                     MessageBoxManager.GetMessageBoxStandardWindow(
                         new MessageBoxStandardParams()
                         {
-                            ContentTitle = "Identification timeout",
+                            ContentTitle = Language.IdentificationTimeoutTitle,
                             ContentMessage = message,
                             Icon = Icon.Error,
                             ButtonDefinitions = ButtonEnum.Ok
@@ -742,15 +743,14 @@ namespace FloaderClientGUI.ViewModels
                 }
                 else if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.WrongSignature)
                 {
-                    var message = $@"Device responded to identification request in unusual way, probably it's not Fossa's bootloader device.
-Check port and device state - it must be in bootloader mode.";
+                    var message = Language.UnexpectedIdentificationResponse;
                     _logger.LogError(message);
                     LockProceeding();
 
                     MessageBoxManager.GetMessageBoxStandardWindow(
                         new MessageBoxStandardParams()
                         {
-                            ContentTitle = "Wrong device response",
+                            ContentTitle = Language.GenericWrongDeviceResponseTitle,
                             ContentMessage = message,
                             Icon = Icon.Error,
                             ButtonDefinitions = ButtonEnum.Ok
@@ -760,11 +760,11 @@ Check port and device state - it must be in bootloader mode.";
                     return;
                 }
 
-                _logger.LogInfo($@"Device identified:
-Version: { _mainModel.DeviceIdentData.Version },
-Vendor ID: { _mainModel.DeviceIdentData.VendorId },
-Model ID: { _mainModel.DeviceIdentData.ModelId },
-Serial number: { _mainModel.DeviceIdentData.Serial }.");
+                _logger.LogInfo(string.Format(Language.DeviceIdentified,
+                     _mainModel.DeviceIdentData.Version,
+                     _mainModel.DeviceIdentData.VendorId,
+                     _mainModel.DeviceIdentData.ModelId,
+                     _mainModel.DeviceIdentData.Serial));
 
                 // Is version acceptable?
                 if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))

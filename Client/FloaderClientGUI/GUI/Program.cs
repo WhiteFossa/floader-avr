@@ -21,6 +21,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
 using FloaderClientGUI.GUISpecific.Logger;
+using FloaderClientGUI.Resources;
 using LibFloaderClient.Implementations.Auxiliary;
 using LibFloaderClient.Implementations.DAO;
 using LibFloaderClient.Implementations.Device;
@@ -46,12 +47,12 @@ namespace FloaderClientGUI
         /// <summary>
         /// Program name
         /// </summary>
-        public const string AppName = "Fossa's AVR loader";
+        public static readonly string AppName = Language.AppName;
 
         /// <summary>
         /// Program version
         /// </summary>
-        public const string AppVersion = "0.0.2 (24 Oct 2020)";
+        public static readonly string AppVersion = Language.AppVersion;
 
         /// <summary>
         /// Dependency injection service provider

@@ -16,6 +16,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using FloaderClientGUI.Resources;
 using LibFloaderClient.Interfaces.Logger;
 using System;
 
@@ -26,28 +27,21 @@ namespace FloaderClientGUI.GUISpecific.Logger
     /// </summary>
     public class Logger : ILogger
     {
-        /// <summary>
-        /// Templates for various levels.static {0} is time, {1} is message
-        /// </summary>
-        private const string InfoTemplate = "[{0}] Info: {1}";
-        private const string WarningTemplate = "[{0}] Warning: {1}";
-        private const string ErrorTemplate = "[{0}] Error: {1}";
-
         private Action<string> _logFunc = str => Console.WriteLine(str);
 
         public void LogInfo(string message)
         {
-            WriteMessage(message, InfoTemplate);
+            WriteMessage(message, Language.LoggerInfo);
         }
 
         public void LogWarning(string message)
         {
-            WriteMessage(message, WarningTemplate);
+            WriteMessage(message, Language.LoggerWarning);
         }
 
         public void LogError(string message)
         {
-            WriteMessage(message, ErrorTemplate);
+            WriteMessage(message, Language.LoggerError);
         }
 
         public void SetLoggingFunction(Action<string> logFunc)
