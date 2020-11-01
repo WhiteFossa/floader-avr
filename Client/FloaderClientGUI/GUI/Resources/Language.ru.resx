@@ -151,6 +151,15 @@
   <data name="InterfaceAlreadyUnlocked" xml:space="preserve">
     <value>Интерфейс уже разблокирован.</value>
   </data>
+  <data name="LocBtnSelectPort" xml:space="preserve">
+    <value>Выбрать порт</value>
+  </data>
+  <data name="LocGroupboxPort" xml:space="preserve">
+    <value>Порт:</value>
+  </data>
+  <data name="LocTextPort" xml:space="preserve">
+    <value>Порт:</value>
+  </data>
   <data name="LoggerError" xml:space="preserve">
     <value>[{0}] Ошибка: {1}</value>
   </data>

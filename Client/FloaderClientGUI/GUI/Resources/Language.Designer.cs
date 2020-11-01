@@ -155,6 +155,33 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select port.
+        /// </summary>
+        internal static string LocBtnSelectPort {
+            get {
+                return ResourceManager.GetString("LocBtnSelectPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port:.
+        /// </summary>
+        internal static string LocGroupboxPort {
+            get {
+                return ResourceManager.GetString("LocGroupboxPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port:.
+        /// </summary>
+        internal static string LocTextPort {
+            get {
+                return ResourceManager.GetString("LocTextPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [{0}] Error: {1}.
         /// </summary>
         internal static string LoggerError {

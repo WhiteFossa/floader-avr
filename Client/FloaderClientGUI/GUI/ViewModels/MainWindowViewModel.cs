@@ -410,6 +410,33 @@ namespace FloaderClientGUI.ViewModels
 
         #endregion Bound properties
 
+        #region Bound properties (localization)
+
+        private string _windowTitle;
+        public string WindowTitle
+        {
+            get => Program.GetFullAppName();
+        }
+
+        private string _groupboxPort;
+        public string GroupboxPort
+        {
+            get => Language.LocGroupboxPort;
+        }
+
+        private string _textPort;
+        public string TextPort
+        {
+            get => Language.LocTextPort;
+        }
+
+        private string _buttonSelectPort;
+        public string ButtonSelectPort
+        {
+            get => Language.LocBtnSelectPort;
+        }
+        #endregion
+
 
         /// <summary>
         /// Main application model

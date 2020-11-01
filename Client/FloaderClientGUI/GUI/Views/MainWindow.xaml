@@ -25,7 +25,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		Width="800" Height="700"
 		x:Class="FloaderClientGUI.Views.MainWindow"
 		Icon="/Assets/AppIcon.png"
-		Title="Fossa's loader">
+		Title="{ Binding WindowTitle }">
 
 	<Window.Styles>
 		<StyleInclude Source="/Styles/Common.xaml" />
@@ -37,12 +37,12 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		<!-- Port selection -->
 		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="0" >
 			<StackPanel>
-				<TextBlock Text="Port:" />
+				<TextBlock Text="{ Binding GroupboxPort }" />
 				
 				<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto" >
-					<TextBlock Text="Port:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- Port label -->
+					<TextBlock Text="{ Binding TextPort }" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- Port label -->
 					<TextBlock Text="{Binding PortName}" Grid.Column="1" Grid.Row="0" /> <!-- Port name -->
-					<Button Grid.Column="2" Grid.Row="0" Content="Select port"
+					<Button Grid.Column="2" Grid.Row="0" Content="{ Binding ButtonSelectPort }"
 						Command="{ Binding SelectPortAsync }" IsEnabled="{ Binding IsSelectPortEnabled }"/> <!-- Select port button -->
 				</Grid>
 

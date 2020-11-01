@@ -151,6 +151,15 @@ Serial number: {3}.</value>
   <data name="InterfaceAlreadyUnlocked" xml:space="preserve">
     <value>Interface already unlocked.</value>
   </data>
+  <data name="LocBtnSelectPort" xml:space="preserve">
+    <value>Select port</value>
+  </data>
+  <data name="LocGroupboxPort" xml:space="preserve">
+    <value>Port:</value>
+  </data>
+  <data name="LocTextPort" xml:space="preserve">
+    <value>Port:</value>
+  </data>
   <data name="LoggerError" xml:space="preserve">
     <value>[{0}] Error: {1}</value>
   </data>
