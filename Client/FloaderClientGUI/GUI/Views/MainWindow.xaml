@@ -52,23 +52,23 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		<!-- Device data -->
 		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="1" >
 			<StackPanel>
-				<TextBlock Text="Device:" />
+				<TextBlock Text="{Binding GroupboxDevice }" />
 
 				<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto, Auto">
-					<TextBlock Text="Vendor:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- Vendor label -->
+					<TextBlock Text="{ Binding TextVendor }" Grid.Column="0" Grid.Row="0" Classes="RightMargin" /> <!-- Vendor label -->
 					<TextBlock Text="{Binding VendorName}" Grid.Column="1" Grid.Row="0" /> <!-- Vendor name -->
 
-					<TextBlock Text="Model:" Grid.Column="0" Grid.Row="1" Classes="RightMargin" /> <!-- Model label -->
+					<TextBlock Text="{ Binding TextModel }" Grid.Column="0" Grid.Row="1" Classes="RightMargin" /> <!-- Model label -->
 					<TextBlock Text="{Binding ModelName}" Grid.Column="1" Grid.Row="1" /> <!-- Model name -->
 
-					<TextBlock Text="Serial number:" Grid.Column="0" Grid.Row="2" Classes="RightMargin" /> <!-- Serial number label -->
+					<TextBlock Text="{ Binding TextSerial }" Grid.Column="0" Grid.Row="2" Classes="RightMargin" /> <!-- Serial number label -->
 					<TextBlock Text="{Binding SerialNumber}" Grid.Column="1" Grid.Row="2" /> <!-- Serial number -->
 
 					<StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="3">
-						<Button Content="Poll" Command="{Binding PollDevice}"
+						<Button Content="{ Binding BtnPoll }" Command="{Binding PollDevice}"
 							IsEnabled="{Binding IsPollDeviceEnabled}" /> <!-- Poll device button-->
 
-						<Button Content="Reboot" Classes="TopMargin" Command="{Binding Reboot}"
+						<Button Content="{ Binding BtnReboot }" Classes="TopMargin" Command="{Binding Reboot}"
 							IsEnabled="{Binding IsRebootEnabled }"/> <!-- Reboot into firmware button -->
 					</StackPanel>
 				</Grid>
@@ -78,17 +78,17 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		<!-- Flash -->
 		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="2" >
 			<StackPanel>
-				<TextBlock Text="Upload:" />
+				<TextBlock Text="{ Binding GroupboxUpload }" />
 					<DockPanel Classes="TopMargin">
 						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-							<CheckBox Content="FLASH:" Classes="RightMargin" Grid.Column="0" Grid.Row="0"
+							<CheckBox Content="{ Binding TextFlash }" Classes="RightMargin" Grid.Column="0" Grid.Row="0"
 								IsChecked="{Binding IsFlashUpload}" IsEnabled="{ Binding IsFlashUploadCheckboxEnabled }" /> <!-- FLASH checkbox -->
 
-							<TextBox Watermark="Select FLASH HEX file" Grid.Column="1" Grid.Row="0"
+							<TextBox Watermark="{ Binding TextSelectFlashHexFile }" Grid.Column="1" Grid.Row="0"
 								Text="{Binding FlashUploadFile}" IsReadOnly="True"
 								IsEnabled="{Binding IsFlashUploadFileEnabled}" /> <!-- FLASH file -->
 
-							<Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
+							<Button Content="{ Binding CommonEllipsis }" Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
 								Command="{Binding SelectFlashForUploadAsync}"
 								IsEnabled="{Binding IsSelectFlashForUploadButtonEnabled}" /> <!-- Select FLASH file button -->
 						</Grid>
@@ -96,14 +96,14 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 
 					<DockPanel Classes="TopMargin">
 						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-							<CheckBox Content="EEPROM:" Classes="RightMargin" Grid.Column="0" Grid.Row="0"
+							<CheckBox Content="{ Binding TextEeprom }" Classes="RightMargin" Grid.Column="0" Grid.Row="0"
 								IsChecked="{Binding IsEepromUpload}" IsEnabled="{ Binding IsEepromUploadCheckboxEnabled }" /> <!-- EEPROM checkbox -->
 
-							<TextBox Watermark="Select EEPROM HEX file" Grid.Column="1" Grid.Row="0"
+							<TextBox Watermark="{ Binding TextSelectEepromHexFile }" Grid.Column="1" Grid.Row="0"
 								Text="{Binding EepromUploadFile}" IsReadOnly="True"
 								IsEnabled="{Binding IsEepromUploadFileEnabled}" /> <!-- EEPROM file -->
 
-							<Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
+							<Button Content="{ Binding CommonEllipsis }" Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
 								Command="{Binding SelectEepromForUploadAsync}"
 								IsEnabled="{Binding IsSelectEepromForUploadButtonEnabled}" /> <!-- Select EEPROM file button -->
 						</Grid>
@@ -111,20 +111,20 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 
 					<DockPanel Classes="TopMargin">
 						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-							<TextBlock Text="Backups:" Classes="RightMargin" Grid.Column="0" Grid.Row="0" /> <!-- Backups label -->
+							<TextBlock Text="{ Binding TextBackups }" Classes="RightMargin" Grid.Column="0" Grid.Row="0" /> <!-- Backups label -->
 
-							<TextBox Watermark="Select backups directory" Grid.Column="1" Grid.Row="0"
+							<TextBox Watermark="{ Binding TextSelectBackupsDirectory }" Grid.Column="1" Grid.Row="0"
 								Text="{Binding UploadBackupsDirectory}" IsReadOnly="True"
 								IsEnabled="{Binding IsUploadBackupsDirectoryEnabled }" /> <!-- Backups directory -->
 
-							<Button Content="..." Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
+							<Button Content="{ Binding CommonEllipsis }" Grid.Column="2" Grid.Row="0" Classes="LeftMargin"
 								Command="{Binding SelectBackupsDirectoryAsync}"
 								IsEnabled="{Binding IsSelectUploadBackupsDirectoryButtonEnabled}" /> <!-- Select backups directory button -->
 						</Grid>
 					</DockPanel>
 
 				<StackPanel Orientation="Horizontal">
-					<Button Classes="TopMargin" Content="Upload" Command="{Binding Upload}"
+					<Button Classes="TopMargin" Content="{ Binding BtnUpload }" Command="{Binding Upload}"
 						IsEnabled="{Binding IsUploadEnabled}" /> <!-- Upload button -->
 				</StackPanel>
 			</StackPanel>
@@ -136,13 +136,13 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 				<TextBlock Text="Download:" />
 					<DockPanel Classes="TopMargin">
 						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-							<TextBlock Text="FLASH:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
+							<TextBlock Text="{ Binding TextFlash }" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
 
 							<TextBox Watermark="Write FLASH HEX into this file" Grid.Column="1" Grid.Row="0"
 								Text="{Binding FlashDownloadFile}" IsReadOnly="True"
 								IsEnabled="{Binding IsFlashDownloadFileEnabled}" /> <!-- FLASH file -->
 
-							<Button Grid.Column="2" Grid.Row="0" Content="..." Classes="LeftMargin"
+							<Button Grid.Column="2" Grid.Row="0" Content="{ Binding CommonEllipsis }" Classes="LeftMargin"
 								Command="{Binding SelectFlashForDownloadAsync}"
 								IsEnabled="{Binding IsSelectFlashDownloadFileButtonEnabled} "/> <!-- Select FLASH file button -->
 						</Grid>
@@ -156,7 +156,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 								Text="{Binding EepromDownloadFile}" IsReadOnly="True"
 								IsEnabled="{Binding IsEepromDownloadFileEnabled}" /> <!-- EEPROM file -->
 
-							<Button Grid.Column="2" Grid.Row="0" Content="..." Classes="LeftMargin"
+							<Button Grid.Column="2" Grid.Row="0" Content="{ Binding CommonEllipsis }" Classes="LeftMargin"
 								Command="{Binding SelectEepromForDownloadAsync}"
 								IsEnabled="{Binding IsSelectEepromDownloadFileButtonEnabled}" /><!-- Select EEPROM file button -->
 						</Grid>

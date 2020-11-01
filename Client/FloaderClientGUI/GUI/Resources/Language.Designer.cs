@@ -155,11 +155,56 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Poll.
+        /// </summary>
+        internal static string LocBtnPoll {
+            get {
+                return ResourceManager.GetString("LocBtnPoll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reboot.
+        /// </summary>
+        internal static string LocBtnReboot {
+            get {
+                return ResourceManager.GetString("LocBtnReboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select port.
         /// </summary>
         internal static string LocBtnSelectPort {
             get {
                 return ResourceManager.GetString("LocBtnSelectPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload.
+        /// </summary>
+        internal static string LocBtnUpload {
+            get {
+                return ResourceManager.GetString("LocBtnUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ....
+        /// </summary>
+        internal static string LocCommonEllipsis {
+            get {
+                return ResourceManager.GetString("LocCommonEllipsis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device:.
+        /// </summary>
+        internal static string LocGroupboxDevice {
+            get {
+                return ResourceManager.GetString("LocGroupboxDevice", resourceCulture);
             }
         }
         
@@ -173,11 +218,101 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Upload:.
+        /// </summary>
+        internal static string LocGroupboxUpload {
+            get {
+                return ResourceManager.GetString("LocGroupboxUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backups:.
+        /// </summary>
+        internal static string LocTextBackups {
+            get {
+                return ResourceManager.GetString("LocTextBackups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EEPROM:.
+        /// </summary>
+        internal static string LocTextEeprom {
+            get {
+                return ResourceManager.GetString("LocTextEeprom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FLASH:.
+        /// </summary>
+        internal static string LocTextFlash {
+            get {
+                return ResourceManager.GetString("LocTextFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Model:.
+        /// </summary>
+        internal static string LocTextModel {
+            get {
+                return ResourceManager.GetString("LocTextModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Port:.
         /// </summary>
         internal static string LocTextPort {
             get {
                 return ResourceManager.GetString("LocTextPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select backups directory.
+        /// </summary>
+        internal static string LocTextSelectBackupsDirectory {
+            get {
+                return ResourceManager.GetString("LocTextSelectBackupsDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select EEPROM HEX file.
+        /// </summary>
+        internal static string LocTextSelectEepromHexFile {
+            get {
+                return ResourceManager.GetString("LocTextSelectEepromHexFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select FLASH HEX file.
+        /// </summary>
+        internal static string LocTextSelectFlashHexFile {
+            get {
+                return ResourceManager.GetString("LocTextSelectFlashHexFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Serial number:.
+        /// </summary>
+        internal static string LocTextSerial {
+            get {
+                return ResourceManager.GetString("LocTextSerial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vendor:.
+        /// </summary>
+        internal static string LocTextVendor {
+            get {
+                return ResourceManager.GetString("LocTextVendor", resourceCulture);
             }
         }
         

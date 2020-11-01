@@ -412,28 +412,99 @@ namespace FloaderClientGUI.ViewModels
 
         #region Bound properties (localization)
 
-        private string _windowTitle;
         public string WindowTitle
         {
             get => Program.GetFullAppName();
         }
 
-        private string _groupboxPort;
         public string GroupboxPort
         {
             get => Language.LocGroupboxPort;
         }
 
-        private string _textPort;
         public string TextPort
         {
             get => Language.LocTextPort;
         }
 
-        private string _buttonSelectPort;
         public string ButtonSelectPort
         {
             get => Language.LocBtnSelectPort;
+        }
+
+        public string GroupboxDevice
+        {
+            get => Language.LocGroupboxDevice;
+        }
+
+        public string TextVendor
+        {
+            get => Language.LocTextVendor;
+        }
+
+        public string TextModel
+        {
+            get => Language.LocTextModel;
+        }
+
+        public string TextSerial
+        {
+            get => Language.LocTextSerial;
+        }
+
+        public string BtnPoll
+        {
+            get => Language.LocBtnPoll;
+        }
+
+        public string BtnReboot
+        {
+            get => Language.LocBtnReboot;
+        }
+
+        public string GroupboxUpload
+        {
+            get => Language.LocGroupboxUpload;
+        }
+
+        public string TextFlash
+        {
+            get => Language.LocTextFlash;
+        }
+
+        public string TextSelectFlashHexFile
+        {
+            get => Language.LocTextSelectFlashHexFile;
+        }
+
+        public string CommonEllipsis
+        {
+            get => Language.LocCommonEllipsis;
+        }
+
+        public string TextEeprom
+        {
+            get => Language.LocTextEeprom;
+        }
+
+        public string TextSelectEepromHexFile
+        {
+            get => Language.LocTextSelectEepromHexFile;
+        }
+
+        public string TextBackups
+        {
+            get => Language.LocTextBackups;
+        }
+
+        public string TextSelectBackupsDirectory
+        {
+            get => Language.LocTextSelectBackupsDirectory;
+        }
+
+        public string BtnUpload
+        {
+            get => Language.LocBtnUpload;
         }
         #endregion
 

@@ -151,14 +151,59 @@ Serial number: {3}.</value>
   <data name="InterfaceAlreadyUnlocked" xml:space="preserve">
     <value>Interface already unlocked.</value>
   </data>
+  <data name="LocBtnPoll" xml:space="preserve">
+    <value>Poll</value>
+  </data>
+  <data name="LocBtnReboot" xml:space="preserve">
+    <value>Reboot</value>
+  </data>
   <data name="LocBtnSelectPort" xml:space="preserve">
     <value>Select port</value>
+  </data>
+  <data name="LocBtnUpload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="LocCommonEllipsis" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="LocGroupboxDevice" xml:space="preserve">
+    <value>Device:</value>
   </data>
   <data name="LocGroupboxPort" xml:space="preserve">
     <value>Port:</value>
   </data>
+  <data name="LocGroupboxUpload" xml:space="preserve">
+    <value>Upload:</value>
+  </data>
+  <data name="LocTextBackups" xml:space="preserve">
+    <value>Backups:</value>
+  </data>
+  <data name="LocTextEeprom" xml:space="preserve">
+    <value>EEPROM:</value>
+  </data>
+  <data name="LocTextFlash" xml:space="preserve">
+    <value>FLASH:</value>
+  </data>
+  <data name="LocTextModel" xml:space="preserve">
+    <value>Model:</value>
+  </data>
   <data name="LocTextPort" xml:space="preserve">
     <value>Port:</value>
+  </data>
+  <data name="LocTextSelectBackupsDirectory" xml:space="preserve">
+    <value>Select backups directory</value>
+  </data>
+  <data name="LocTextSelectEepromHexFile" xml:space="preserve">
+    <value>Select EEPROM HEX file</value>
+  </data>
+  <data name="LocTextSelectFlashHexFile" xml:space="preserve">
+    <value>Select FLASH HEX file</value>
+  </data>
+  <data name="LocTextSerial" xml:space="preserve">
+    <value>Serial number:</value>
+  </data>
+  <data name="LocTextVendor" xml:space="preserve">
+    <value>Vendor:</value>
   </data>
   <data name="LoggerError" xml:space="preserve">
     <value>[{0}] Error: {1}</value>
