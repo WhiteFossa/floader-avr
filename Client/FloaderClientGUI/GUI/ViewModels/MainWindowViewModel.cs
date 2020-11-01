@@ -907,8 +907,7 @@ namespace FloaderClientGUI.ViewModels
         private void LockProceeding()
         {
             SetActionsButtonsState(false);
-            _logger.LogError(@"Unable to proceed!
-Please, select another device.");
+            _logger.LogError(Language.UnableToProceed);
         }
 
         /// <summary>
@@ -918,7 +917,7 @@ Please, select another device.");
         {
             if (!_isReady)
             {
-                var message = "Not ready to proceed!";
+                var message = Language.NotReady;
                 _logger.LogError(message);
                 throw new InvalidOperationException(message);
             }
@@ -977,7 +976,7 @@ Please, select another device.");
         {
             if (_interfaceState.IsInterfaceLocked)
             {
-                throw new InvalidOperationException("Interface already locked.");
+                throw new InvalidOperationException(Language.InterfaceAlreadyLocked);
             }
 
             _interfaceState.IsSelectPortEnabled = IsSelectPortEnabled;
@@ -1028,7 +1027,7 @@ Please, select another device.");
         {
             if (!_interfaceState.IsInterfaceLocked)
             {
-                throw new InvalidOperationException("Interface already unlocked.");
+                throw new InvalidOperationException(Language.InterfaceAlreadyUnlocked);
             }
 
             IsSelectPortEnabled = _interfaceState.IsSelectPortEnabled;
@@ -1092,8 +1091,8 @@ Please, select another device.");
                     MessageBoxManager.GetMessageBoxStandardWindow(
                         new MessageBoxStandardParams()
                         {
-                            ContentTitle = "Reboot is unsuccessfull",
-                            ContentMessage = "Device didn't report reboot. Check manually did it reboot or not.",
+                            ContentTitle = Language.UnsuccessfullRebootTitle,
+                            ContentMessage = Language.UnsuccessfullReboot,
                             Icon = Icon.Error,
                             ButtonDefinitions = ButtonEnum.Ok
                         })
@@ -1120,7 +1119,7 @@ Please, select another device.");
         private void ResetProgress()
         {
             ProgressValue = 0;
-            ProgressOperation = "None";
+            ProgressOperation = Language.NoOperationInProgress;
         }
     }
 }

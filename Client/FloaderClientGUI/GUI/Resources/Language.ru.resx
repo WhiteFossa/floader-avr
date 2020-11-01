@@ -145,6 +145,12 @@
   <data name="IdentificationTimeoutTitle" xml:space="preserve">
     <value>Таймаут идентификации</value>
   </data>
+  <data name="InterfaceAlreadyLocked" xml:space="preserve">
+    <value>Интерфейс уже заблокирован.</value>
+  </data>
+  <data name="InterfaceAlreadyUnlocked" xml:space="preserve">
+    <value>Интерфейс уже разблокирован.</value>
+  </data>
   <data name="LoggerError" xml:space="preserve">
     <value>[{0}] Ошибка: {1}</value>
   </data>
@@ -155,13 +161,19 @@
     <value>[{0}] Внимание: {1}</value>
   </data>
   <data name="ModelNameInfo" xml:space="preserve">
-    <value>Vendor ID={0}, Model ID={1}, Модель="{2}"</value>
+    <value>Vendor ID={0}, Model ID={1}, Модель="{2}".</value>
   </data>
   <data name="ModelNotFound" xml:space="preserve">
     <value>Устройство с Vendor ID={0} и ModelID={1} не найдено в базе данных.</value>
   </data>
   <data name="ModelNotFoundTitle" xml:space="preserve">
     <value>Неизвестная модель устройства</value>
+  </data>
+  <data name="NoOperationInProgress" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="NotReady" xml:space="preserve">
+    <value>Нет готовности!</value>
   </data>
   <data name="Parity" xml:space="preserve">
     <value>Чётность: {0}</value>
@@ -184,8 +196,18 @@
   <data name="StopBits" xml:space="preserve">
     <value>Стоповые биты: {0}</value>
   </data>
+  <data name="UnableToProceed" xml:space="preserve">
+    <value>Невозможно продолжать!
+Пожалуйста, выберите другое устройство.</value>
+  </data>
   <data name="UnexpectedIdentificationResponse" xml:space="preserve">
     <value>Устройство ответило на запрос идентификации необычным образом, вероятно это НЕ устройство с загрузчиком Фоссы. Проверьте порт и состояние устройства - оно должно быть в режиме загрузчика.</value>
+  </data>
+  <data name="UnsuccessfullReboot" xml:space="preserve">
+    <value>Устройство не сообщило о перезагрузке. Проверьте, перезагрузилось оно или нет.</value>
+  </data>
+  <data name="UnsuccessfullRebootTitle" xml:space="preserve">
+    <value>Перезагрузка неуспешна</value>
   </data>
   <data name="UnsupportedBootloaderProtocolVersion" xml:space="preserve">
     <value>{0}ая версия протокола загрузчика не поддерживается.</value>

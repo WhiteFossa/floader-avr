@@ -137,6 +137,24 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interface already locked..
+        /// </summary>
+        internal static string InterfaceAlreadyLocked {
+            get {
+                return ResourceManager.GetString("InterfaceAlreadyLocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interface already unlocked..
+        /// </summary>
+        internal static string InterfaceAlreadyUnlocked {
+            get {
+                return ResourceManager.GetString("InterfaceAlreadyUnlocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [{0}] Error: {1}.
         /// </summary>
         internal static string LoggerError {
@@ -164,7 +182,7 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vendor ID={0}, Model ID={1}, Model name=&quot;{2}&quot;.
+        ///   Looks up a localized string similar to Vendor ID={0}, Model ID={1}, Model name=&quot;{2}&quot;..
         /// </summary>
         internal static string ModelNameInfo {
             get {
@@ -187,6 +205,24 @@ namespace FloaderClientGUI.Resources {
         internal static string ModelNotFoundTitle {
             get {
                 return ResourceManager.GetString("ModelNotFoundTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        internal static string NoOperationInProgress {
+            get {
+                return ResourceManager.GetString("NoOperationInProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not ready to proceed!.
+        /// </summary>
+        internal static string NotReady {
+            get {
+                return ResourceManager.GetString("NotReady", resourceCulture);
             }
         }
         
@@ -254,12 +290,40 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to proceed!
+        ///Please, select another device..
+        /// </summary>
+        internal static string UnableToProceed {
+            get {
+                return ResourceManager.GetString("UnableToProceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device responded to identification request in unusual way, probably it&apos;s not Fossa&apos;s bootloader device.
         ///Check port and device state - it must be in bootloader mode..
         /// </summary>
         internal static string UnexpectedIdentificationResponse {
             get {
                 return ResourceManager.GetString("UnexpectedIdentificationResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device didn&apos;t report reboot. Check manually did it reboot or not..
+        /// </summary>
+        internal static string UnsuccessfullReboot {
+            get {
+                return ResourceManager.GetString("UnsuccessfullReboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reboot is unsuccessfull.
+        /// </summary>
+        internal static string UnsuccessfullRebootTitle {
+            get {
+                return ResourceManager.GetString("UnsuccessfullRebootTitle", resourceCulture);
             }
         }
         

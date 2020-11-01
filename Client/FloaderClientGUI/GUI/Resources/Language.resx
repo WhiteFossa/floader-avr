@@ -145,6 +145,12 @@ Serial number: {3}.</value>
   <data name="IdentificationTimeoutTitle" xml:space="preserve">
     <value>Identification timeout</value>
   </data>
+  <data name="InterfaceAlreadyLocked" xml:space="preserve">
+    <value>Interface already locked.</value>
+  </data>
+  <data name="InterfaceAlreadyUnlocked" xml:space="preserve">
+    <value>Interface already unlocked.</value>
+  </data>
   <data name="LoggerError" xml:space="preserve">
     <value>[{0}] Error: {1}</value>
   </data>
@@ -155,13 +161,19 @@ Serial number: {3}.</value>
     <value>[{0}] Warning: {1}</value>
   </data>
   <data name="ModelNameInfo" xml:space="preserve">
-    <value>Vendor ID={0}, Model ID={1}, Model name="{2}"</value>
+    <value>Vendor ID={0}, Model ID={1}, Model name="{2}".</value>
   </data>
   <data name="ModelNotFound" xml:space="preserve">
     <value>Device model with Vendor ID={0} and ModelID={1} wasn't found in database.</value>
   </data>
   <data name="ModelNotFoundTitle" xml:space="preserve">
     <value>Unknown model</value>
+  </data>
+  <data name="NoOperationInProgress" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="NotReady" xml:space="preserve">
+    <value>Not ready to proceed!</value>
   </data>
   <data name="Parity" xml:space="preserve">
     <value>Parity: {0}</value>
@@ -184,9 +196,19 @@ Serial number: {3}.</value>
   <data name="StopBits" xml:space="preserve">
     <value>Stop bits: {0}</value>
   </data>
+  <data name="UnableToProceed" xml:space="preserve">
+    <value>Unable to proceed!
+Please, select another device.</value>
+  </data>
   <data name="UnexpectedIdentificationResponse" xml:space="preserve">
     <value>Device responded to identification request in unusual way, probably it's not Fossa's bootloader device.
 Check port and device state - it must be in bootloader mode.</value>
+  </data>
+  <data name="UnsuccessfullReboot" xml:space="preserve">
+    <value>Device didn't report reboot. Check manually did it reboot or not.</value>
+  </data>
+  <data name="UnsuccessfullRebootTitle" xml:space="preserve">
+    <value>Reboot is unsuccessfull</value>
   </data>
   <data name="UnsupportedBootloaderProtocolVersion" xml:space="preserve">
     <value>Bootloader protocol version {0} is not supported.</value>
