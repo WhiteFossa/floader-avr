@@ -769,14 +769,14 @@ namespace FloaderClientGUI.ViewModels
                 // Is version acceptable?
                 if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
                 {
-                    var message = $"Bootloader protocol version { _mainModel.DeviceIdentData.Version } is not supported.";
+                    var message = string.Format(Language.UnsupportedBootloaderProtocolVersion, _mainModel.DeviceIdentData.Version);
                     _logger.LogError(message);
                     LockProceeding();
 
                     MessageBoxManager.GetMessageBoxStandardWindow(
                         new MessageBoxStandardParams()
                         {
-                            ContentTitle = "Unsupported protocol version",
+                            ContentTitle = Language.UnsupportedBootloaderProtocolVersionTitle,
                             ContentMessage = message,
                             Icon = Icon.Error,
                             ButtonDefinitions = ButtonEnum.Ok
@@ -787,19 +787,19 @@ namespace FloaderClientGUI.ViewModels
                 }
 
                 // Human - readable port info
-                _logger.LogInfo($"Queriying vendor data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }");
+                _logger.LogInfo(string.Format(Language.QueryingVendorData, _mainModel.DeviceIdentData.VendorId));
 
                 var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
                 if (vendorData == null)
                 {
-                    var message = $"Vendor with ID={ _mainModel.DeviceIdentData.VendorId } wasn't found in database.";
+                    var message = string.Format(Language.VendorNotFound, _mainModel.DeviceIdentData.VendorId);
                     _logger.LogError(message);
                     LockProceeding();
 
                     MessageBoxManager.GetMessageBoxStandardWindow(
                         new MessageBoxStandardParams()
                         {
-                            ContentTitle = "Unknown vendor",
+                            ContentTitle = Language.VendorNotFoundTitle,
                             ContentMessage = message,
                             Icon = Icon.Error,
                             ButtonDefinitions = ButtonEnum.Ok
@@ -808,21 +808,21 @@ namespace FloaderClientGUI.ViewModels
 
                     return;
                 }
-                _logger.LogInfo($"Vendor ID={ vendorData.Id }, Vendor name=\"{ vendorData.Name }\"");
+                _logger.LogInfo(string.Format(Language.VendorNameInfo, vendorData.Id, vendorData.Name));
 
-                _logger.LogInfo($"Querying device name data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }, Model ID={ _mainModel.DeviceIdentData.ModelId }");
+                _logger.LogInfo(string.Format(Language.QueryingDeviceName, _mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId));
 
                 var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
                 if (nameData == null)
                 {
-                    var message = $"Device model with Vendor ID={ _mainModel.DeviceIdentData.VendorId } and ModelID={ _mainModel.DeviceIdentData.ModelId } wasn't found in database.";
+                    var message = string.Format(Language.ModelNotFound, _mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
                     _logger.LogError(message);
                     LockProceeding();
 
                     MessageBoxManager.GetMessageBoxStandardWindow(
                         new MessageBoxStandardParams()
                         {
-                            ContentTitle = "Unknown model",
+                            ContentTitle = Language.ModelNotFoundTitle,
                             ContentMessage = message,
                             Icon = Icon.Error,
                             ButtonDefinitions = ButtonEnum.Ok
@@ -831,7 +831,7 @@ namespace FloaderClientGUI.ViewModels
 
                     return;
                 }
-                _logger.LogInfo($"Vendor ID={ nameData.VendorId }, Model ID={ nameData.ModelId }, Model name=\"{ nameData.Name }\"");
+                _logger.LogInfo(string.Format(Language.ModelNameInfo, nameData.VendorId, nameData.ModelId, nameData.Name));
 
                 _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentData.Serial);
                 VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
@@ -864,19 +864,19 @@ namespace FloaderClientGUI.ViewModels
         private void LogPortSettings()
         {
             var sb = new StringBuilder();
-            sb.AppendLine("Port settings:");
+            sb.AppendLine(Language.PortSettings);
 
             if (_mainModel.PortSettings == null)
             {
-                sb.AppendLine("Port not selected!");
+                sb.AppendLine(Language.PortNotSelected);
             }
             else
             {
-                sb.AppendLine($"Port: { _mainModel.PortSettings.Name }");
-                sb.AppendLine($"Baudrate: { _mainModel.PortSettings.Baudrate }");
-                sb.AppendLine($"Parity: { PortSelectionHelper.MapParityToString(_mainModel.PortSettings.Parity) }");
-                sb.AppendLine($"Data bits: { _mainModel.PortSettings.DataBits }");
-                sb.AppendLine($"Stop bits: { PortSelectionHelper.MapStopBitsToString(_mainModel.PortSettings.StopBits) }");
+                sb.AppendLine(string.Format(Language.Port, _mainModel.PortSettings.Name));
+                sb.AppendLine(string.Format(Language.Baudrate, _mainModel.PortSettings.Baudrate));
+                sb.AppendLine(string.Format(Language.Parity, PortSelectionHelper.MapParityToString(_mainModel.PortSettings.Parity)));
+                sb.AppendLine(string.Format(Language.DataBits, _mainModel.PortSettings.DataBits));
+                sb.AppendLine(string.Format(Language.StopBits, PortSelectionHelper.MapStopBitsToString(_mainModel.PortSettings.StopBits)));
             }
 
             _logger.LogInfo(sb.ToString());

@@ -123,6 +123,12 @@
   <data name="AppVersion" xml:space="preserve">
     <value>0.0.2 (24 Окт 2020)</value>
   </data>
+  <data name="Baudrate" xml:space="preserve">
+    <value>Скорость: {0}</value>
+  </data>
+  <data name="DataBits" xml:space="preserve">
+    <value>Биты данных: {0}</value>
+  </data>
   <data name="DeviceIdentified" xml:space="preserve">
     <value>Устройство опознано:
 Версия: {0},
@@ -148,10 +154,55 @@
   <data name="LoggerWarning" xml:space="preserve">
     <value>[{0}] Внимание: {1}</value>
   </data>
+  <data name="ModelNameInfo" xml:space="preserve">
+    <value>Vendor ID={0}, Model ID={1}, Модель="{2}"</value>
+  </data>
+  <data name="ModelNotFound" xml:space="preserve">
+    <value>Устройство с Vendor ID={0} и ModelID={1} не найдено в базе данных.</value>
+  </data>
+  <data name="ModelNotFoundTitle" xml:space="preserve">
+    <value>Неизвестная модель устройства</value>
+  </data>
+  <data name="Parity" xml:space="preserve">
+    <value>Чётность: {0}</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Порт: {0}</value>
+  </data>
+  <data name="PortNotSelected" xml:space="preserve">
+    <value>Порт не выбран!</value>
+  </data>
+  <data name="PortSettings" xml:space="preserve">
+    <value>Настройки порта:</value>
+  </data>
+  <data name="QueryingDeviceName" xml:space="preserve">
+    <value>Запрашиваю название устройства для Vendor ID={0}, Model ID={1}.</value>
+  </data>
+  <data name="QueryingVendorData" xml:space="preserve">
+    <value>Запрашиваю данные производителя для Vendor ID={0}.</value>
+  </data>
+  <data name="StopBits" xml:space="preserve">
+    <value>Стоповые биты: {0}</value>
+  </data>
   <data name="UnexpectedIdentificationResponse" xml:space="preserve">
     <value>Устройство ответило на запрос идентификации необычным образом, вероятно это НЕ устройство с загрузчиком Фоссы. Проверьте порт и состояние устройства - оно должно быть в режиме загрузчика.</value>
   </data>
+  <data name="UnsupportedBootloaderProtocolVersion" xml:space="preserve">
+    <value>{0}ая версия протокола загрузчика не поддерживается.</value>
+  </data>
+  <data name="UnsupportedBootloaderProtocolVersionTitle" xml:space="preserve">
+    <value>Неподдерживаемая версия протокола</value>
+  </data>
   <data name="UnsupportedOS" xml:space="preserve">
     <value>Операционная система не поддерживается.</value>
+  </data>
+  <data name="VendorNameInfo" xml:space="preserve">
+    <value>Vendor ID={0}, Производитель="{1}".</value>
+  </data>
+  <data name="VendorNotFound" xml:space="preserve">
+    <value>Производитель с ID={0} не найден в базе данных.</value>
+  </data>
+  <data name="VendorNotFoundTitle" xml:space="preserve">
+    <value>Неизвестный производитель</value>
   </data>
 </root>

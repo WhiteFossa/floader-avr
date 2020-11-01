@@ -123,6 +123,12 @@
   <data name="AppVersion" xml:space="preserve">
     <value>0.0.2 (24 Oct 2020)</value>
   </data>
+  <data name="Baudrate" xml:space="preserve">
+    <value>Baudrate: {0}</value>
+  </data>
+  <data name="DataBits" xml:space="preserve">
+    <value>Data bits: {0}</value>
+  </data>
   <data name="DeviceIdentified" xml:space="preserve">
     <value>Device identified:
 Version: {0},
@@ -148,11 +154,56 @@ Serial number: {3}.</value>
   <data name="LoggerWarning" xml:space="preserve">
     <value>[{0}] Warning: {1}</value>
   </data>
+  <data name="ModelNameInfo" xml:space="preserve">
+    <value>Vendor ID={0}, Model ID={1}, Model name="{2}"</value>
+  </data>
+  <data name="ModelNotFound" xml:space="preserve">
+    <value>Device model with Vendor ID={0} and ModelID={1} wasn't found in database.</value>
+  </data>
+  <data name="ModelNotFoundTitle" xml:space="preserve">
+    <value>Unknown model</value>
+  </data>
+  <data name="Parity" xml:space="preserve">
+    <value>Parity: {0}</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port: {0}</value>
+  </data>
+  <data name="PortNotSelected" xml:space="preserve">
+    <value>Port not selected!</value>
+  </data>
+  <data name="PortSettings" xml:space="preserve">
+    <value>Port settings:</value>
+  </data>
+  <data name="QueryingDeviceName" xml:space="preserve">
+    <value>Querying device name data for Vendor ID={0}, Model ID={1}.</value>
+  </data>
+  <data name="QueryingVendorData" xml:space="preserve">
+    <value>Queriying vendor data for Vendor ID={0}.</value>
+  </data>
+  <data name="StopBits" xml:space="preserve">
+    <value>Stop bits: {0}</value>
+  </data>
   <data name="UnexpectedIdentificationResponse" xml:space="preserve">
     <value>Device responded to identification request in unusual way, probably it's not Fossa's bootloader device.
 Check port and device state - it must be in bootloader mode.</value>
   </data>
+  <data name="UnsupportedBootloaderProtocolVersion" xml:space="preserve">
+    <value>Bootloader protocol version {0} is not supported.</value>
+  </data>
+  <data name="UnsupportedBootloaderProtocolVersionTitle" xml:space="preserve">
+    <value>Unsupported protocol version</value>
+  </data>
   <data name="UnsupportedOS" xml:space="preserve">
     <value>Unsupported OS.</value>
+  </data>
+  <data name="VendorNameInfo" xml:space="preserve">
+    <value>Vendor ID={0}, Vendor name="{1}".</value>
+  </data>
+  <data name="VendorNotFound" xml:space="preserve">
+    <value>Vendor with ID={0} wasn't found in database.</value>
+  </data>
+  <data name="VendorNotFoundTitle" xml:space="preserve">
+    <value>Unknown vendor</value>
   </data>
 </root>

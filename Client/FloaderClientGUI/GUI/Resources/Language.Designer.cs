@@ -79,6 +79,24 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Baudrate: {0}.
+        /// </summary>
+        internal static string Baudrate {
+            get {
+                return ResourceManager.GetString("Baudrate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data bits: {0}.
+        /// </summary>
+        internal static string DataBits {
+            get {
+                return ResourceManager.GetString("DataBits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device identified:
         ///Version: {0},
         ///Vendor ID: {1},
@@ -146,6 +164,96 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vendor ID={0}, Model ID={1}, Model name=&quot;{2}&quot;.
+        /// </summary>
+        internal static string ModelNameInfo {
+            get {
+                return ResourceManager.GetString("ModelNameInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device model with Vendor ID={0} and ModelID={1} wasn&apos;t found in database..
+        /// </summary>
+        internal static string ModelNotFound {
+            get {
+                return ResourceManager.GetString("ModelNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown model.
+        /// </summary>
+        internal static string ModelNotFoundTitle {
+            get {
+                return ResourceManager.GetString("ModelNotFoundTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parity: {0}.
+        /// </summary>
+        internal static string Parity {
+            get {
+                return ResourceManager.GetString("Parity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port: {0}.
+        /// </summary>
+        internal static string Port {
+            get {
+                return ResourceManager.GetString("Port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port not selected!.
+        /// </summary>
+        internal static string PortNotSelected {
+            get {
+                return ResourceManager.GetString("PortNotSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port settings:.
+        /// </summary>
+        internal static string PortSettings {
+            get {
+                return ResourceManager.GetString("PortSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Querying device name data for Vendor ID={0}, Model ID={1}..
+        /// </summary>
+        internal static string QueryingDeviceName {
+            get {
+                return ResourceManager.GetString("QueryingDeviceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Queriying vendor data for Vendor ID={0}..
+        /// </summary>
+        internal static string QueryingVendorData {
+            get {
+                return ResourceManager.GetString("QueryingVendorData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop bits: {0}.
+        /// </summary>
+        internal static string StopBits {
+            get {
+                return ResourceManager.GetString("StopBits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device responded to identification request in unusual way, probably it&apos;s not Fossa&apos;s bootloader device.
         ///Check port and device state - it must be in bootloader mode..
         /// </summary>
@@ -156,11 +264,56 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bootloader protocol version {0} is not supported..
+        /// </summary>
+        internal static string UnsupportedBootloaderProtocolVersion {
+            get {
+                return ResourceManager.GetString("UnsupportedBootloaderProtocolVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsupported protocol version.
+        /// </summary>
+        internal static string UnsupportedBootloaderProtocolVersionTitle {
+            get {
+                return ResourceManager.GetString("UnsupportedBootloaderProtocolVersionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unsupported OS..
         /// </summary>
         internal static string UnsupportedOS {
             get {
                 return ResourceManager.GetString("UnsupportedOS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vendor ID={0}, Vendor name=&quot;{1}&quot;..
+        /// </summary>
+        internal static string VendorNameInfo {
+            get {
+                return ResourceManager.GetString("VendorNameInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vendor with ID={0} wasn&apos;t found in database..
+        /// </summary>
+        internal static string VendorNotFound {
+            get {
+                return ResourceManager.GetString("VendorNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown vendor.
+        /// </summary>
+        internal static string VendorNotFoundTitle {
+            get {
+                return ResourceManager.GetString("VendorNotFoundTitle", resourceCulture);
             }
         }
     }
