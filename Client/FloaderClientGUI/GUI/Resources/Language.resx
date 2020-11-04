@@ -151,6 +151,9 @@ Serial number: {3}.</value>
   <data name="InterfaceAlreadyUnlocked" xml:space="preserve">
     <value>Interface already unlocked.</value>
   </data>
+  <data name="LocBtnDownload" xml:space="preserve">
+    <value>Download</value>
+  </data>
   <data name="LocBtnPoll" xml:space="preserve">
     <value>Poll</value>
   </data>
@@ -166,14 +169,29 @@ Serial number: {3}.</value>
   <data name="LocCommonEllipsis" xml:space="preserve">
     <value>...</value>
   </data>
+  <data name="LocGroupboxAbout" xml:space="preserve">
+    <value>About:</value>
+  </data>
+  <data name="LocGroupboxConsole" xml:space="preserve">
+    <value>Console:</value>
+  </data>
   <data name="LocGroupboxDevice" xml:space="preserve">
     <value>Device:</value>
+  </data>
+  <data name="LocGroupboxDownload" xml:space="preserve">
+    <value>Download:</value>
   </data>
   <data name="LocGroupboxPort" xml:space="preserve">
     <value>Port:</value>
   </data>
+  <data name="LocGroupboxProgress" xml:space="preserve">
+    <value>Progress:</value>
+  </data>
   <data name="LocGroupboxUpload" xml:space="preserve">
     <value>Upload:</value>
+  </data>
+  <data name="LocTextAbout" xml:space="preserve">
+    <value>About</value>
   </data>
   <data name="LocTextBackups" xml:space="preserve">
     <value>Backups:</value>
@@ -186,6 +204,9 @@ Serial number: {3}.</value>
   </data>
   <data name="LocTextModel" xml:space="preserve">
     <value>Model:</value>
+  </data>
+  <data name="LocTextOperation" xml:space="preserve">
+    <value>Operation:</value>
   </data>
   <data name="LocTextPort" xml:space="preserve">
     <value>Port:</value>
@@ -204,6 +225,12 @@ Serial number: {3}.</value>
   </data>
   <data name="LocTextVendor" xml:space="preserve">
     <value>Vendor:</value>
+  </data>
+  <data name="LocTextWriteEepromIntoThisFile" xml:space="preserve">
+    <value>Write EEPROM HEX into this file</value>
+  </data>
+  <data name="LocTextWriteFlashIntoThisFile" xml:space="preserve">
+    <value>Write FLASH HEX into this file</value>
   </data>
   <data name="LoggerError" xml:space="preserve">
     <value>[{0}] Error: {1}</value>

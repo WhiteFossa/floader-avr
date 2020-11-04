@@ -155,6 +155,15 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        internal static string LocBtnDownload {
+            get {
+                return ResourceManager.GetString("LocBtnDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Poll.
         /// </summary>
         internal static string LocBtnPoll {
@@ -200,11 +209,38 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About:.
+        /// </summary>
+        internal static string LocGroupboxAbout {
+            get {
+                return ResourceManager.GetString("LocGroupboxAbout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Console:.
+        /// </summary>
+        internal static string LocGroupboxConsole {
+            get {
+                return ResourceManager.GetString("LocGroupboxConsole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device:.
         /// </summary>
         internal static string LocGroupboxDevice {
             get {
                 return ResourceManager.GetString("LocGroupboxDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download:.
+        /// </summary>
+        internal static string LocGroupboxDownload {
+            get {
+                return ResourceManager.GetString("LocGroupboxDownload", resourceCulture);
             }
         }
         
@@ -218,11 +254,29 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Progress:.
+        /// </summary>
+        internal static string LocGroupboxProgress {
+            get {
+                return ResourceManager.GetString("LocGroupboxProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upload:.
         /// </summary>
         internal static string LocGroupboxUpload {
             get {
                 return ResourceManager.GetString("LocGroupboxUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string LocTextAbout {
+            get {
+                return ResourceManager.GetString("LocTextAbout", resourceCulture);
             }
         }
         
@@ -259,6 +313,15 @@ namespace FloaderClientGUI.Resources {
         internal static string LocTextModel {
             get {
                 return ResourceManager.GetString("LocTextModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operation:.
+        /// </summary>
+        internal static string LocTextOperation {
+            get {
+                return ResourceManager.GetString("LocTextOperation", resourceCulture);
             }
         }
         
@@ -313,6 +376,24 @@ namespace FloaderClientGUI.Resources {
         internal static string LocTextVendor {
             get {
                 return ResourceManager.GetString("LocTextVendor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write EEPROM HEX into this file.
+        /// </summary>
+        internal static string LocTextWriteEepromIntoThisFile {
+            get {
+                return ResourceManager.GetString("LocTextWriteEepromIntoThisFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write FLASH HEX into this file.
+        /// </summary>
+        internal static string LocTextWriteFlashIntoThisFile {
+            get {
+                return ResourceManager.GetString("LocTextWriteFlashIntoThisFile", resourceCulture);
             }
         }
         

@@ -506,6 +506,52 @@ namespace FloaderClientGUI.ViewModels
         {
             get => Language.LocBtnUpload;
         }
+
+        public string GroupboxDownload
+        {
+            get => Language.LocGroupboxDownload;
+        }
+
+        public string WriteFlashIntoThisFile
+        {
+            get => Language.LocTextWriteFlashIntoThisFile;
+        }
+
+        public string WriteEepromIntoThisFile
+        {
+            get => Language.LocTextWriteEepromIntoThisFile;
+        }
+
+        public string BtnDownload
+        {
+            get => Language.LocBtnDownload;
+        }
+
+        public string GroupboxProgress
+        {
+            get => Language.LocGroupboxProgress;
+        }
+
+        public string TextOperation
+        {
+            get => Language.LocTextOperation;
+        }
+
+        public string GroupboxConsole
+        {
+            get => Language.LocGroupboxConsole;
+        }
+
+        public string GroupboxAbout
+        {
+            get => Language.LocGroupboxAbout;
+        }
+
+        public string TextAbout
+        {
+            get => Language.LocTextAbout;
+        }
+
         #endregion
 
 

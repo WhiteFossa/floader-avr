@@ -133,12 +133,12 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		<!-- Read -->
 		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="3" >
 			<StackPanel>
-				<TextBlock Text="Download:" />
+				<TextBlock Text="{ Binding GroupboxDownload }" />
 					<DockPanel Classes="TopMargin">
 						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
 							<TextBlock Text="{ Binding TextFlash }" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
 
-							<TextBox Watermark="Write FLASH HEX into this file" Grid.Column="1" Grid.Row="0"
+							<TextBox Watermark="{ Binding WriteFlashIntoThisFile }" Grid.Column="1" Grid.Row="0"
 								Text="{Binding FlashDownloadFile}" IsReadOnly="True"
 								IsEnabled="{Binding IsFlashDownloadFileEnabled}" /> <!-- FLASH file -->
 
@@ -152,7 +152,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
 							<TextBlock Text="EEPROM:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
 
-							<TextBox Watermark="Write EEPROM HEX into this file" Grid.Column="1" Grid.Row="0"
+							<TextBox Watermark="{ Binding WriteEepromIntoThisFile }" Grid.Column="1" Grid.Row="0"
 								Text="{Binding EepromDownloadFile}" IsReadOnly="True"
 								IsEnabled="{Binding IsEepromDownloadFileEnabled}" /> <!-- EEPROM file -->
 
@@ -163,7 +163,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 					</DockPanel>
 
 				<StackPanel Orientation="Horizontal">
-					<Button Content="Download" Classes="TopMargin" Command="{Binding Download}"
+					<Button Content="{ Binding BtnDownload }" Classes="TopMargin" Command="{Binding Download}"
 						IsEnabled="{Binding IsDownloadEnabled}" /> <!-- Download button -->
 				</StackPanel>
 			</StackPanel>
@@ -172,9 +172,9 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		<!-- Progress -->
 		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="4" >
 			<StackPanel>
-				<TextBlock Text="Progress:"/>
+				<TextBlock Text="{ Binding GroupboxProgress }"/>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Operation:" Classes="RightMargin" />
+					<TextBlock Text="{ Binding TextOperation }" Classes="RightMargin" />
 					<TextBlock Text="{Binding ProgressOperation}" />
 				</StackPanel>
 				<ProgressBar Minimum="0" Value="{Binding ProgressValue}" Maximum="1" Classes="TopMargin"/>
@@ -184,7 +184,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		<!-- Console -->
 		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="5" >
 			<DockPanel>
-				<TextBlock Text="Console:" DockPanel.Dock="Top" /> <!-- Log textbox -->
+				<TextBlock Text="{ Binding GroupboxConsole }" DockPanel.Dock="Top" /> <!-- Log textbox -->
 
 				<TextBox AcceptsReturn="True" IsReadOnly="True" Text="{Binding ConsoleText}" CaretIndex="{Binding ConsoleCaretIndex}" />
 			</DockPanel>
@@ -193,10 +193,10 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		<!-- About -->
 		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="6" >
 			<StackPanel>
-				<TextBlock Text="About:" />
+				<TextBlock Text="{ Binding GroupboxAbout }" />
 				<DockPanel Classes="TopMargin">
 					<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-						<Button Grid.Column="0" Grid.Row="0" Content="About" Classes="TopMargin" Command="{Binding ShowAboutDialogAsync}"
+						<Button Grid.Column="0" Grid.Row="0" Content="{ Binding TextAbout }" Classes="TopMargin" Command="{Binding ShowAboutDialogAsync}"
 							IsEnabled="{Binding IsAboutButtonEnabled}" />
 					</Grid>
 				</DockPanel>

@@ -151,6 +151,9 @@
   <data name="InterfaceAlreadyUnlocked" xml:space="preserve">
     <value>Интерфейс уже разблокирован.</value>
   </data>
+  <data name="LocBtnDownload" xml:space="preserve">
+    <value>Скачать</value>
+  </data>
   <data name="LocBtnPoll" xml:space="preserve">
     <value>Опросить</value>
   </data>
@@ -166,14 +169,29 @@
   <data name="LocCommonEllipsis" xml:space="preserve">
     <value>...</value>
   </data>
+  <data name="LocGroupboxAbout" xml:space="preserve">
+    <value>О программе:</value>
+  </data>
+  <data name="LocGroupboxConsole" xml:space="preserve">
+    <value>Консоль:</value>
+  </data>
   <data name="LocGroupboxDevice" xml:space="preserve">
     <value>Устройство:</value>
+  </data>
+  <data name="LocGroupboxDownload" xml:space="preserve">
+    <value>Скачать:</value>
   </data>
   <data name="LocGroupboxPort" xml:space="preserve">
     <value>Порт:</value>
   </data>
+  <data name="LocGroupboxProgress" xml:space="preserve">
+    <value>Прогресс:</value>
+  </data>
   <data name="LocGroupboxUpload" xml:space="preserve">
     <value>Загрузить:</value>
+  </data>
+  <data name="LocTextAbout" xml:space="preserve">
+    <value>О программе</value>
   </data>
   <data name="LocTextBackups" xml:space="preserve">
     <value>Бэкапы:</value>
@@ -186,6 +204,9 @@
   </data>
   <data name="LocTextModel" xml:space="preserve">
     <value>Модель:</value>
+  </data>
+  <data name="LocTextOperation" xml:space="preserve">
+    <value>Операция:</value>
   </data>
   <data name="LocTextPort" xml:space="preserve">
     <value>Порт:</value>
@@ -204,6 +225,12 @@
   </data>
   <data name="LocTextVendor" xml:space="preserve">
     <value>Производитель:</value>
+  </data>
+  <data name="LocTextWriteEepromIntoThisFile" xml:space="preserve">
+    <value>Записать EEPROM в этот HEX файл</value>
+  </data>
+  <data name="LocTextWriteFlashIntoThisFile" xml:space="preserve">
+    <value>Записать FLASH в этот HEX файл</value>
   </data>
   <data name="LoggerError" xml:space="preserve">
     <value>[{0}] Ошибка: {1}</value>
