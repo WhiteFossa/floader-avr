@@ -193,20 +193,41 @@ Serial number: {3}.</value>
   <data name="LocTextAbout" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="LocTextAgpl" xml:space="preserve">
+    <value>AGPLv3</value>
+  </data>
+  <data name="LocTextAuthors1" xml:space="preserve">
+    <value>By White Fossa aka Artyom Vetrov</value>
+  </data>
+  <data name="LocTextAuthors2" xml:space="preserve">
+    <value>and contributors.</value>
+  </data>
   <data name="LocTextBackups" xml:space="preserve">
     <value>Backups:</value>
   </data>
   <data name="LocTextEeprom" xml:space="preserve">
     <value>EEPROM:</value>
   </data>
+  <data name="LocTextEmail" xml:space="preserve">
+    <value>Email:</value>
+  </data>
   <data name="LocTextFlash" xml:space="preserve">
     <value>FLASH:</value>
+  </data>
+  <data name="LocTextLicense" xml:space="preserve">
+    <value>License:</value>
+  </data>
+  <data name="LocTextLicenseText" xml:space="preserve">
+    <value>License text:</value>
   </data>
   <data name="LocTextModel" xml:space="preserve">
     <value>Model:</value>
   </data>
   <data name="LocTextOperation" xml:space="preserve">
     <value>Operation:</value>
+  </data>
+  <data name="LocTextOrLaterVersion" xml:space="preserve">
+    <value>or later version by your choice.</value>
   </data>
   <data name="LocTextPort" xml:space="preserve">
     <value>Port:</value>
@@ -222,6 +243,12 @@ Serial number: {3}.</value>
   </data>
   <data name="LocTextSerial" xml:space="preserve">
     <value>Serial number:</value>
+  </data>
+  <data name="LocTextSoftwareDescription" xml:space="preserve">
+    <value>Crossplatform bootloader for AVR MCUs.</value>
+  </data>
+  <data name="LocTextSources" xml:space="preserve">
+    <value>Sources:</value>
   </data>
   <data name="LocTextVendor" xml:space="preserve">
     <value>Vendor:</value>

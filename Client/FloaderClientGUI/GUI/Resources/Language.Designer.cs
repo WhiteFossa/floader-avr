@@ -281,6 +281,33 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AGPLv3.
+        /// </summary>
+        internal static string LocTextAgpl {
+            get {
+                return ResourceManager.GetString("LocTextAgpl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By White Fossa aka Artyom Vetrov.
+        /// </summary>
+        internal static string LocTextAuthors1 {
+            get {
+                return ResourceManager.GetString("LocTextAuthors1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to and contributors..
+        /// </summary>
+        internal static string LocTextAuthors2 {
+            get {
+                return ResourceManager.GetString("LocTextAuthors2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backups:.
         /// </summary>
         internal static string LocTextBackups {
@@ -299,11 +326,38 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email:.
+        /// </summary>
+        internal static string LocTextEmail {
+            get {
+                return ResourceManager.GetString("LocTextEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FLASH:.
         /// </summary>
         internal static string LocTextFlash {
             get {
                 return ResourceManager.GetString("LocTextFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License:.
+        /// </summary>
+        internal static string LocTextLicense {
+            get {
+                return ResourceManager.GetString("LocTextLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License text:.
+        /// </summary>
+        internal static string LocTextLicenseText {
+            get {
+                return ResourceManager.GetString("LocTextLicenseText", resourceCulture);
             }
         }
         
@@ -322,6 +376,15 @@ namespace FloaderClientGUI.Resources {
         internal static string LocTextOperation {
             get {
                 return ResourceManager.GetString("LocTextOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to or later version by your choice..
+        /// </summary>
+        internal static string LocTextOrLaterVersion {
+            get {
+                return ResourceManager.GetString("LocTextOrLaterVersion", resourceCulture);
             }
         }
         
@@ -367,6 +430,24 @@ namespace FloaderClientGUI.Resources {
         internal static string LocTextSerial {
             get {
                 return ResourceManager.GetString("LocTextSerial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Crossplatform bootloader for AVR MCUs..
+        /// </summary>
+        internal static string LocTextSoftwareDescription {
+            get {
+                return ResourceManager.GetString("LocTextSoftwareDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sources:.
+        /// </summary>
+        internal static string LocTextSources {
+            get {
+                return ResourceManager.GetString("LocTextSources", resourceCulture);
             }
         }
         

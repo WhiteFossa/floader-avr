@@ -193,20 +193,41 @@
   <data name="LocTextAbout" xml:space="preserve">
     <value>О программе</value>
   </data>
+  <data name="LocTextAgpl" xml:space="preserve">
+    <value>AGPLv3</value>
+  </data>
+  <data name="LocTextAuthors1" xml:space="preserve">
+    <value>Написан Белой Фоссой ака Артёмом Ветровым</value>
+  </data>
+  <data name="LocTextAuthors2" xml:space="preserve">
+    <value>и другими участниками.</value>
+  </data>
   <data name="LocTextBackups" xml:space="preserve">
     <value>Бэкапы:</value>
   </data>
   <data name="LocTextEeprom" xml:space="preserve">
     <value>EEPROM:</value>
   </data>
+  <data name="LocTextEmail" xml:space="preserve">
+    <value>Email:</value>
+  </data>
   <data name="LocTextFlash" xml:space="preserve">
     <value>FLASH:</value>
+  </data>
+  <data name="LocTextLicense" xml:space="preserve">
+    <value>Лицензия:</value>
+  </data>
+  <data name="LocTextLicenseText" xml:space="preserve">
+    <value>Текст лицензии:</value>
   </data>
   <data name="LocTextModel" xml:space="preserve">
     <value>Модель:</value>
   </data>
   <data name="LocTextOperation" xml:space="preserve">
     <value>Операция:</value>
+  </data>
+  <data name="LocTextOrLaterVersion" xml:space="preserve">
+    <value>или более поздняя версия, на ваш выбор.</value>
   </data>
   <data name="LocTextPort" xml:space="preserve">
     <value>Порт:</value>
@@ -222,6 +243,12 @@
   </data>
   <data name="LocTextSerial" xml:space="preserve">
     <value>Серийный номер:</value>
+  </data>
+  <data name="LocTextSoftwareDescription" xml:space="preserve">
+    <value>Кроссплатформенный загрузчик для МК AVR.</value>
+  </data>
+  <data name="LocTextSources" xml:space="preserve">
+    <value>Исходники:</value>
   </data>
   <data name="LocTextVendor" xml:space="preserve">
     <value>Производитель:</value>
