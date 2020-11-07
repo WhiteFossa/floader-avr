@@ -166,11 +166,26 @@
   <data name="LocBtnUpload" xml:space="preserve">
     <value>Загрузить</value>
   </data>
+  <data name="LocButtonCancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="LocButtonOK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="LocButtonRefresh" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="LocButtonReset" xml:space="preserve">
+    <value>Сброс</value>
+  </data>
   <data name="LocCommonEllipsis" xml:space="preserve">
     <value>...</value>
   </data>
   <data name="LocGroupboxAbout" xml:space="preserve">
     <value>О программе:</value>
+  </data>
+  <data name="LocGroupboxAdvancedOptions" xml:space="preserve">
+    <value>Продвинутые настройки:</value>
   </data>
   <data name="LocGroupboxConsole" xml:space="preserve">
     <value>Консоль:</value>
@@ -183,6 +198,9 @@
   </data>
   <data name="LocGroupboxPort" xml:space="preserve">
     <value>Порт:</value>
+  </data>
+  <data name="LocGroupboxPortsList" xml:space="preserve">
+    <value>Список портов:</value>
   </data>
   <data name="LocGroupboxProgress" xml:space="preserve">
     <value>Прогресс:</value>
@@ -204,6 +222,12 @@
   </data>
   <data name="LocTextBackups" xml:space="preserve">
     <value>Бэкапы:</value>
+  </data>
+  <data name="LocTextBaudrate" xml:space="preserve">
+    <value>Скорость:</value>
+  </data>
+  <data name="LocTextDataBits" xml:space="preserve">
+    <value>Биты данных:</value>
   </data>
   <data name="LocTextEeprom" xml:space="preserve">
     <value>EEPROM:</value>
@@ -229,6 +253,12 @@
   <data name="LocTextOrLaterVersion" xml:space="preserve">
     <value>или более поздняя версия, на ваш выбор.</value>
   </data>
+  <data name="LocTextOverrideDefaults" xml:space="preserve">
+    <value>Переопределить умолчания?</value>
+  </data>
+  <data name="LocTextParity" xml:space="preserve">
+    <value>Чётность:</value>
+  </data>
   <data name="LocTextPort" xml:space="preserve">
     <value>Порт:</value>
   </data>
@@ -249,6 +279,9 @@
   </data>
   <data name="LocTextSources" xml:space="preserve">
     <value>Исходники:</value>
+  </data>
+  <data name="LocTextStopBits" xml:space="preserve">
+    <value>Стоповые биты:</value>
   </data>
   <data name="LocTextVendor" xml:space="preserve">
     <value>Производитель:</value>

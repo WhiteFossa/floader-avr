@@ -200,6 +200,42 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string LocButtonCancel {
+            get {
+                return ResourceManager.GetString("LocButtonCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string LocButtonOK {
+            get {
+                return ResourceManager.GetString("LocButtonOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        internal static string LocButtonRefresh {
+            get {
+                return ResourceManager.GetString("LocButtonRefresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset.
+        /// </summary>
+        internal static string LocButtonReset {
+            get {
+                return ResourceManager.GetString("LocButtonReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ....
         /// </summary>
         internal static string LocCommonEllipsis {
@@ -214,6 +250,15 @@ namespace FloaderClientGUI.Resources {
         internal static string LocGroupboxAbout {
             get {
                 return ResourceManager.GetString("LocGroupboxAbout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advanced options:.
+        /// </summary>
+        internal static string LocGroupboxAdvancedOptions {
+            get {
+                return ResourceManager.GetString("LocGroupboxAdvancedOptions", resourceCulture);
             }
         }
         
@@ -250,6 +295,15 @@ namespace FloaderClientGUI.Resources {
         internal static string LocGroupboxPort {
             get {
                 return ResourceManager.GetString("LocGroupboxPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ports list:.
+        /// </summary>
+        internal static string LocGroupboxPortsList {
+            get {
+                return ResourceManager.GetString("LocGroupboxPortsList", resourceCulture);
             }
         }
         
@@ -313,6 +367,24 @@ namespace FloaderClientGUI.Resources {
         internal static string LocTextBackups {
             get {
                 return ResourceManager.GetString("LocTextBackups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Baudrate:.
+        /// </summary>
+        internal static string LocTextBaudrate {
+            get {
+                return ResourceManager.GetString("LocTextBaudrate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data bits:.
+        /// </summary>
+        internal static string LocTextDataBits {
+            get {
+                return ResourceManager.GetString("LocTextDataBits", resourceCulture);
             }
         }
         
@@ -389,6 +461,24 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Override defaults?.
+        /// </summary>
+        internal static string LocTextOverrideDefaults {
+            get {
+                return ResourceManager.GetString("LocTextOverrideDefaults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parity:.
+        /// </summary>
+        internal static string LocTextParity {
+            get {
+                return ResourceManager.GetString("LocTextParity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Port:.
         /// </summary>
         internal static string LocTextPort {
@@ -448,6 +538,15 @@ namespace FloaderClientGUI.Resources {
         internal static string LocTextSources {
             get {
                 return ResourceManager.GetString("LocTextSources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop bits:.
+        /// </summary>
+        internal static string LocTextStopBits {
+            get {
+                return ResourceManager.GetString("LocTextStopBits", resourceCulture);
             }
         }
         

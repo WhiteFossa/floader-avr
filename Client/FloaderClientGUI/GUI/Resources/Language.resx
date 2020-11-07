@@ -166,11 +166,26 @@ Serial number: {3}.</value>
   <data name="LocBtnUpload" xml:space="preserve">
     <value>Upload</value>
   </data>
+  <data name="LocButtonCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="LocButtonOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="LocButtonRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="LocButtonReset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
   <data name="LocCommonEllipsis" xml:space="preserve">
     <value>...</value>
   </data>
   <data name="LocGroupboxAbout" xml:space="preserve">
     <value>About:</value>
+  </data>
+  <data name="LocGroupboxAdvancedOptions" xml:space="preserve">
+    <value>Advanced options:</value>
   </data>
   <data name="LocGroupboxConsole" xml:space="preserve">
     <value>Console:</value>
@@ -183,6 +198,9 @@ Serial number: {3}.</value>
   </data>
   <data name="LocGroupboxPort" xml:space="preserve">
     <value>Port:</value>
+  </data>
+  <data name="LocGroupboxPortsList" xml:space="preserve">
+    <value>Ports list:</value>
   </data>
   <data name="LocGroupboxProgress" xml:space="preserve">
     <value>Progress:</value>
@@ -204,6 +222,12 @@ Serial number: {3}.</value>
   </data>
   <data name="LocTextBackups" xml:space="preserve">
     <value>Backups:</value>
+  </data>
+  <data name="LocTextBaudrate" xml:space="preserve">
+    <value>Baudrate:</value>
+  </data>
+  <data name="LocTextDataBits" xml:space="preserve">
+    <value>Data bits:</value>
   </data>
   <data name="LocTextEeprom" xml:space="preserve">
     <value>EEPROM:</value>
@@ -229,6 +253,12 @@ Serial number: {3}.</value>
   <data name="LocTextOrLaterVersion" xml:space="preserve">
     <value>or later version by your choice.</value>
   </data>
+  <data name="LocTextOverrideDefaults" xml:space="preserve">
+    <value>Override defaults?</value>
+  </data>
+  <data name="LocTextParity" xml:space="preserve">
+    <value>Parity:</value>
+  </data>
   <data name="LocTextPort" xml:space="preserve">
     <value>Port:</value>
   </data>
@@ -249,6 +279,9 @@ Serial number: {3}.</value>
   </data>
   <data name="LocTextSources" xml:space="preserve">
     <value>Sources:</value>
+  </data>
+  <data name="LocTextStopBits" xml:space="preserve">
+    <value>Stop bits:</value>
   </data>
   <data name="LocTextVendor" xml:space="preserve">
     <value>Vendor:</value>
