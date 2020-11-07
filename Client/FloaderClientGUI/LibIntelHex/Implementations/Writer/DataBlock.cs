@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using LibIntelHex.Implementations.Helpers;
+using LibIntelHex.Resources;
 using System;
 using System.Collections.Generic;
 
@@ -65,7 +66,7 @@ namespace LibIntelHex.Implementations.Writer
         {
             if (!IsByteAppendable(address))
             {
-                throw new ArgumentException($"Byte with address { address } can't be appended.", nameof(address));
+                throw new ArgumentException(string.Format(Language.ByteCantBeAppended, address), nameof(address));
             }
 
             Data.Add(data);

@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using Avalonia.Controls;
+using FloaderClientGUI.Resources;
 using LibFloaderClient.Implementations.Port;
 using LibFloaderClient.Interfaces.SerialPortsLister;
 using LibFloaderClient.Models.Port;
@@ -232,7 +233,66 @@ namespace FloaderClientGUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _isResetToDefaultsEnabled, value);
         }
 
-#endregion
+        #endregion
+
+        #region Localization
+
+        public string LocGroupboxPortsList
+        {
+            get => Language.LocGroupboxPortsList;
+        }
+
+        public string LocButtonRefresh
+        {
+            get => Language.LocButtonRefresh;
+        }
+
+        public string LocGroupboxAdvancedOptions
+        {
+            get => Language.LocGroupboxAdvancedOptions;
+        }
+
+        public string LocTextOverrideDefaults
+        {
+            get => Language.LocTextOverrideDefaults;
+        }
+
+        public string LocButtonReset
+        {
+            get => Language.LocButtonReset;
+        }
+
+        public string LocTextBaudrate
+        {
+            get => Language.LocTextBaudrate;
+        }
+
+        public string LocTextParity
+        {
+            get => Language.LocTextParity;
+        }
+
+        public string LocTextDataBits
+        {
+            get => Language.LocTextDataBits;
+        }
+
+        public string LocTextStopBits
+        {
+            get => Language.LocTextStopBits;
+        }
+
+        public string LocButtonOK
+        {
+            get => Language.LocButtonOK;
+        }
+
+        public string LocButtonCancel
+        {
+            get => Language.LocButtonCancel;
+        }
+
+        #endregion
 
         /// <summary>
         /// Constructor

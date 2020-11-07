@@ -16,6 +16,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using LibIntelHex.Resources;
 using System;
 
 namespace LibIntelHex.Implementations.Helpers
@@ -37,7 +38,7 @@ namespace LibIntelHex.Implementations.Helpers
         {
             if (address < 0 || address > MaxAddress)
             {
-                throw new ArgumentOutOfRangeException(nameof(address), address, $"Address must be in [0, { MaxAddress }] range.");
+                throw new ArgumentOutOfRangeException(nameof(address), address, string.Format(Language.InvalidAddress, MaxAddress));
             }
         }
     }

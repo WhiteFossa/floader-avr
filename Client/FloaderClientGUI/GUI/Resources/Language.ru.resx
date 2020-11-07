@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppName" xml:space="preserve">
+    <value>AVR загрузчик Фоссы</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>0.0.3 (7 ноября 2020)</value>
+  </data>
+  <data name="Baudrate" xml:space="preserve">
+    <value>Скорость: {0}</value>
+  </data>
+  <data name="DataBits" xml:space="preserve">
+    <value>Биты данных: {0}</value>
+  </data>
+  <data name="DeviceIdentified" xml:space="preserve">
+    <value>Устройство опознано:
+Версия: {0},
+Идентификатор производителя: {1},
+Идентификатор модели: {2},
+Серийный номер: {3}.</value>
+  </data>
+  <data name="GenericWrongDeviceResponseTitle" xml:space="preserve">
+    <value>Некорректный ответ от устройства</value>
+  </data>
+  <data name="IdentificationTimeout" xml:space="preserve">
+    <value>Время на идентификацию устройства вышло. Проверьте порт и состояние устройства - оно должно быть в режиме загрузчика.</value>
+  </data>
+  <data name="IdentificationTimeoutTitle" xml:space="preserve">
+    <value>Таймаут идентификации</value>
+  </data>
+  <data name="InterfaceAlreadyLocked" xml:space="preserve">
+    <value>Интерфейс уже заблокирован.</value>
+  </data>
+  <data name="InterfaceAlreadyUnlocked" xml:space="preserve">
+    <value>Интерфейс уже разблокирован.</value>
+  </data>
+  <data name="LocBtnDownload" xml:space="preserve">
+    <value>Скачать</value>
+  </data>
+  <data name="LocBtnPoll" xml:space="preserve">
+    <value>Опросить</value>
+  </data>
+  <data name="LocBtnReboot" xml:space="preserve">
+    <value>Перезагрузить</value>
+  </data>
+  <data name="LocBtnSelectPort" xml:space="preserve">
+    <value>Выбрать порт</value>
+  </data>
+  <data name="LocBtnUpload" xml:space="preserve">
+    <value>Загрузить</value>
+  </data>
+  <data name="LocButtonCancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="LocButtonOK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="LocButtonRefresh" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="LocButtonReset" xml:space="preserve">
+    <value>Сброс</value>
+  </data>
+  <data name="LocCommonEllipsis" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="LocGroupboxAbout" xml:space="preserve">
+    <value>О программе:</value>
+  </data>
+  <data name="LocGroupboxAdvancedOptions" xml:space="preserve">
+    <value>Продвинутые настройки:</value>
+  </data>
+  <data name="LocGroupboxConsole" xml:space="preserve">
+    <value>Консоль:</value>
+  </data>
+  <data name="LocGroupboxDevice" xml:space="preserve">
+    <value>Устройство:</value>
+  </data>
+  <data name="LocGroupboxDownload" xml:space="preserve">
+    <value>Скачать:</value>
+  </data>
+  <data name="LocGroupboxPort" xml:space="preserve">
+    <value>Порт:</value>
+  </data>
+  <data name="LocGroupboxPortsList" xml:space="preserve">
+    <value>Список портов:</value>
+  </data>
+  <data name="LocGroupboxProgress" xml:space="preserve">
+    <value>Прогресс:</value>
+  </data>
+  <data name="LocGroupboxUpload" xml:space="preserve">
+    <value>Загрузить:</value>
+  </data>
+  <data name="LocTextAbout" xml:space="preserve">
+    <value>О программе</value>
+  </data>
+  <data name="LocTextAgpl" xml:space="preserve">
+    <value>AGPLv3</value>
+  </data>
+  <data name="LocTextAuthors1" xml:space="preserve">
+    <value>Написан Белой Фоссой ака Артёмом Ветровым</value>
+  </data>
+  <data name="LocTextAuthors2" xml:space="preserve">
+    <value>и другими участниками.</value>
+  </data>
+  <data name="LocTextBackups" xml:space="preserve">
+    <value>Бэкапы:</value>
+  </data>
+  <data name="LocTextBaudrate" xml:space="preserve">
+    <value>Скорость:</value>
+  </data>
+  <data name="LocTextDataBits" xml:space="preserve">
+    <value>Биты данных:</value>
+  </data>
+  <data name="LocTextEeprom" xml:space="preserve">
+    <value>EEPROM:</value>
+  </data>
+  <data name="LocTextEmail" xml:space="preserve">
+    <value>Email:</value>
+  </data>
+  <data name="LocTextFlash" xml:space="preserve">
+    <value>FLASH:</value>
+  </data>
+  <data name="LocTextLicense" xml:space="preserve">
+    <value>Лицензия:</value>
+  </data>
+  <data name="LocTextLicenseText" xml:space="preserve">
+    <value>Текст лицензии:</value>
+  </data>
+  <data name="LocTextModel" xml:space="preserve">
+    <value>Модель:</value>
+  </data>
+  <data name="LocTextOperation" xml:space="preserve">
+    <value>Операция:</value>
+  </data>
+  <data name="LocTextOrLaterVersion" xml:space="preserve">
+    <value>или более поздняя версия, на ваш выбор.</value>
+  </data>
+  <data name="LocTextOverrideDefaults" xml:space="preserve">
+    <value>Переопределить умолчания?</value>
+  </data>
+  <data name="LocTextParity" xml:space="preserve">
+    <value>Чётность:</value>
+  </data>
+  <data name="LocTextPort" xml:space="preserve">
+    <value>Порт:</value>
+  </data>
+  <data name="LocTextSelectBackupsDirectory" xml:space="preserve">
+    <value>Выберите директорию для бэкапов</value>
+  </data>
+  <data name="LocTextSelectEepromHexFile" xml:space="preserve">
+    <value>Выберите HEX файл с EEPROM</value>
+  </data>
+  <data name="LocTextSelectFlashHexFile" xml:space="preserve">
+    <value>Выберите HEX файл с FLASH</value>
+  </data>
+  <data name="LocTextSerial" xml:space="preserve">
+    <value>Серийный номер:</value>
+  </data>
+  <data name="LocTextSoftwareDescription" xml:space="preserve">
+    <value>Кроссплатформенный загрузчик для МК AVR.</value>
+  </data>
+  <data name="LocTextSources" xml:space="preserve">
+    <value>Исходники:</value>
+  </data>
+  <data name="LocTextStopBits" xml:space="preserve">
+    <value>Стоповые биты:</value>
+  </data>
+  <data name="LocTextVendor" xml:space="preserve">
+    <value>Производитель:</value>
+  </data>
+  <data name="LocTextWriteEepromIntoThisFile" xml:space="preserve">
+    <value>Записать EEPROM в этот HEX файл</value>
+  </data>
+  <data name="LocTextWriteFlashIntoThisFile" xml:space="preserve">
+    <value>Записать FLASH в этот HEX файл</value>
+  </data>
+  <data name="LoggerError" xml:space="preserve">
+    <value>[{0}] Ошибка: {1}</value>
+  </data>
+  <data name="LoggerInfo" xml:space="preserve">
+    <value>[{0}] Инфо: {1}</value>
+  </data>
+  <data name="LoggerWarning" xml:space="preserve">
+    <value>[{0}] Внимание: {1}</value>
+  </data>
+  <data name="ModelNameInfo" xml:space="preserve">
+    <value>Vendor ID={0}, Model ID={1}, Модель="{2}".</value>
+  </data>
+  <data name="ModelNotFound" xml:space="preserve">
+    <value>Устройство с Vendor ID={0} и ModelID={1} не найдено в базе данных.</value>
+  </data>
+  <data name="ModelNotFoundTitle" xml:space="preserve">
+    <value>Неизвестная модель устройства</value>
+  </data>
+  <data name="NoOperationInProgress" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="NotReady" xml:space="preserve">
+    <value>Нет готовности!</value>
+  </data>
+  <data name="Parity" xml:space="preserve">
+    <value>Чётность: {0}</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Порт: {0}</value>
+  </data>
+  <data name="PortNotSelected" xml:space="preserve">
+    <value>Порт не выбран!</value>
+  </data>
+  <data name="PortSettings" xml:space="preserve">
+    <value>Настройки порта:</value>
+  </data>
+  <data name="QueryingDeviceName" xml:space="preserve">
+    <value>Запрашиваю название устройства для Vendor ID={0}, Model ID={1}.</value>
+  </data>
+  <data name="QueryingVendorData" xml:space="preserve">
+    <value>Запрашиваю данные производителя для Vendor ID={0}.</value>
+  </data>
+  <data name="StopBits" xml:space="preserve">
+    <value>Стоповые биты: {0}</value>
+  </data>
+  <data name="UnableToProceed" xml:space="preserve">
+    <value>Невозможно продолжать!
+Пожалуйста, выберите другое устройство.</value>
+  </data>
+  <data name="UnexpectedIdentificationResponse" xml:space="preserve">
+    <value>Устройство ответило на запрос идентификации необычным образом, вероятно это НЕ устройство с загрузчиком Фоссы. Проверьте порт и состояние устройства - оно должно быть в режиме загрузчика.</value>
+  </data>
+  <data name="UnsuccessfullReboot" xml:space="preserve">
+    <value>Устройство не сообщило о перезагрузке. Проверьте, перезагрузилось оно или нет.</value>
+  </data>
+  <data name="UnsuccessfullRebootTitle" xml:space="preserve">
+    <value>Перезагрузка неуспешна</value>
+  </data>
+  <data name="UnsupportedBootloaderProtocolVersion" xml:space="preserve">
+    <value>{0}ая версия протокола загрузчика не поддерживается.</value>
+  </data>
+  <data name="UnsupportedBootloaderProtocolVersionTitle" xml:space="preserve">
+    <value>Неподдерживаемая версия протокола</value>
+  </data>
+  <data name="UnsupportedOS" xml:space="preserve">
+    <value>Операционная система не поддерживается.</value>
+  </data>
+  <data name="VendorNameInfo" xml:space="preserve">
+    <value>Vendor ID={0}, Производитель="{1}".</value>
+  </data>
+  <data name="VendorNotFound" xml:space="preserve">
+    <value>Производитель с ID={0} не найден в базе данных.</value>
+  </data>
+  <data name="VendorNotFoundTitle" xml:space="preserve">
+    <value>Неизвестный производитель</value>
+  </data>
+</root>

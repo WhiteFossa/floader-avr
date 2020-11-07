@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using LibIntelHex.Enums;
 using LibIntelHex.Interfaces;
+using LibIntelHex.Resources;
 using System;
 using System.Collections.Generic;
 
@@ -35,7 +36,7 @@ namespace LibIntelHex.Models
         {
             if (!Validate(baseRecord))
             {
-                throw new ArgumentException("Given base record is not valid Data record.", nameof(baseRecord));
+                throw new ArgumentException(Language.NotValidDataRecord, nameof(baseRecord));
             }
         }
 

@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using LibFloaderClient.Implementations.Enums.Device;
+using LibFloaderClient.Implementations.Resources;
 using LibFloaderClient.Interfaces.Device;
 using LibFloaderClient.Interfaces.Logger;
 using LibFloaderClient.Models.Device;
@@ -30,11 +31,6 @@ namespace LibFloaderClient.Implementations.Device
     /// </summary>
     public class ThreadedEepromReader : BaseThreadedOperationsProvider
     {
-        /// <summary>
-        /// Operation name to be displayed near progressbar
-        /// </summary>
-        private const string ProgressOperationName = "Reading EEPROM";
-
         /// <summary>
         /// Callback on completed read
         /// </summary>
@@ -64,7 +60,7 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         public void Read()
         {
-            _logger.LogInfo("Reading EEPROM...");
+            _logger.LogInfo(Language.ReadingEeprom);
 
             EepromReadResult result = null;
 
@@ -73,16 +69,16 @@ namespace LibFloaderClient.Implementations.Device
                 case (int)ProtocolVersion.First:
                     using (var driver = GetDeviceDriverV1())
                     {
-                        _progressDelegate?.Invoke(new ProgressData(0, 1, ProgressOperationName));
+                        _progressDelegate?.Invoke(new ProgressData(0, 1, Language.ProgressOperationReadingEeprom));
                         result = new EepromReadResult(driver.ReadEEPROM());
-                        _progressDelegate?.Invoke(new ProgressData(1, 1, ProgressOperationName));
+                        _progressDelegate?.Invoke(new ProgressData(1, 1, Language.ProgressOperationReadingEeprom));
                     }
                     break;
                 default:
                     throw ReportUnsupportedVersion();
             }
 
-            _logger.LogInfo("Done");
+            _logger.LogInfo(Language.Done);
             _eepromReadCompletedCallbackDelegate(result);
         }
     }

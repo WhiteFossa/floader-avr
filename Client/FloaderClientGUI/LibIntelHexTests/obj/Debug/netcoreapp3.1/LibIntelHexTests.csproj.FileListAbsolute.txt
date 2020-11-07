@@ -96,3 +96,4 @@ C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHexTests\obj\Debug\netco
 C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHexTests\obj\Debug\netcoreapp3.1\LibIntelHexTests.dll
 C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHexTests\obj\Debug\netcoreapp3.1\LibIntelHexTests.pdb
 C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHexTests\obj\Debug\netcoreapp3.1\LibIntelHexTests.genruntimeconfig.cache
+C:\Projects\floader-avr\Client\FloaderClientGUI\LibIntelHexTests\bin\Debug\netcoreapp3.1\ru\LibIntelHex.resources.dll

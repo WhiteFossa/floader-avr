@@ -1,0 +1,372 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppName" xml:space="preserve">
+    <value>Fossa's AVR loader</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>0.0.3 (7 November 2020)</value>
+  </data>
+  <data name="Baudrate" xml:space="preserve">
+    <value>Baudrate: {0}</value>
+  </data>
+  <data name="DataBits" xml:space="preserve">
+    <value>Data bits: {0}</value>
+  </data>
+  <data name="DeviceIdentified" xml:space="preserve">
+    <value>Device identified:
+Version: {0},
+Vendor ID: {1},
+Model ID: {2},
+Serial number: {3}.</value>
+  </data>
+  <data name="GenericWrongDeviceResponseTitle" xml:space="preserve">
+    <value>Wrong device response</value>
+  </data>
+  <data name="IdentificationTimeout" xml:space="preserve">
+    <value>Attempt to identify device timed out. Check port and device state - it must be in bootloader mode.</value>
+  </data>
+  <data name="IdentificationTimeoutTitle" xml:space="preserve">
+    <value>Identification timeout</value>
+  </data>
+  <data name="InterfaceAlreadyLocked" xml:space="preserve">
+    <value>Interface already locked.</value>
+  </data>
+  <data name="InterfaceAlreadyUnlocked" xml:space="preserve">
+    <value>Interface already unlocked.</value>
+  </data>
+  <data name="LocBtnDownload" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="LocBtnPoll" xml:space="preserve">
+    <value>Poll</value>
+  </data>
+  <data name="LocBtnReboot" xml:space="preserve">
+    <value>Reboot</value>
+  </data>
+  <data name="LocBtnSelectPort" xml:space="preserve">
+    <value>Select port</value>
+  </data>
+  <data name="LocBtnUpload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="LocButtonCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="LocButtonOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="LocButtonRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="LocButtonReset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="LocCommonEllipsis" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="LocGroupboxAbout" xml:space="preserve">
+    <value>About:</value>
+  </data>
+  <data name="LocGroupboxAdvancedOptions" xml:space="preserve">
+    <value>Advanced options:</value>
+  </data>
+  <data name="LocGroupboxConsole" xml:space="preserve">
+    <value>Console:</value>
+  </data>
+  <data name="LocGroupboxDevice" xml:space="preserve">
+    <value>Device:</value>
+  </data>
+  <data name="LocGroupboxDownload" xml:space="preserve">
+    <value>Download:</value>
+  </data>
+  <data name="LocGroupboxPort" xml:space="preserve">
+    <value>Port:</value>
+  </data>
+  <data name="LocGroupboxPortsList" xml:space="preserve">
+    <value>Ports list:</value>
+  </data>
+  <data name="LocGroupboxProgress" xml:space="preserve">
+    <value>Progress:</value>
+  </data>
+  <data name="LocGroupboxUpload" xml:space="preserve">
+    <value>Upload:</value>
+  </data>
+  <data name="LocTextAbout" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="LocTextAgpl" xml:space="preserve">
+    <value>AGPLv3</value>
+  </data>
+  <data name="LocTextAuthors1" xml:space="preserve">
+    <value>By White Fossa aka Artyom Vetrov</value>
+  </data>
+  <data name="LocTextAuthors2" xml:space="preserve">
+    <value>and contributors.</value>
+  </data>
+  <data name="LocTextBackups" xml:space="preserve">
+    <value>Backups:</value>
+  </data>
+  <data name="LocTextBaudrate" xml:space="preserve">
+    <value>Baudrate:</value>
+  </data>
+  <data name="LocTextDataBits" xml:space="preserve">
+    <value>Data bits:</value>
+  </data>
+  <data name="LocTextEeprom" xml:space="preserve">
+    <value>EEPROM:</value>
+  </data>
+  <data name="LocTextEmail" xml:space="preserve">
+    <value>Email:</value>
+  </data>
+  <data name="LocTextFlash" xml:space="preserve">
+    <value>FLASH:</value>
+  </data>
+  <data name="LocTextLicense" xml:space="preserve">
+    <value>License:</value>
+  </data>
+  <data name="LocTextLicenseText" xml:space="preserve">
+    <value>License text:</value>
+  </data>
+  <data name="LocTextModel" xml:space="preserve">
+    <value>Model:</value>
+  </data>
+  <data name="LocTextOperation" xml:space="preserve">
+    <value>Operation:</value>
+  </data>
+  <data name="LocTextOrLaterVersion" xml:space="preserve">
+    <value>or later version by your choice.</value>
+  </data>
+  <data name="LocTextOverrideDefaults" xml:space="preserve">
+    <value>Override defaults?</value>
+  </data>
+  <data name="LocTextParity" xml:space="preserve">
+    <value>Parity:</value>
+  </data>
+  <data name="LocTextPort" xml:space="preserve">
+    <value>Port:</value>
+  </data>
+  <data name="LocTextSelectBackupsDirectory" xml:space="preserve">
+    <value>Select backups directory</value>
+  </data>
+  <data name="LocTextSelectEepromHexFile" xml:space="preserve">
+    <value>Select EEPROM HEX file</value>
+  </data>
+  <data name="LocTextSelectFlashHexFile" xml:space="preserve">
+    <value>Select FLASH HEX file</value>
+  </data>
+  <data name="LocTextSerial" xml:space="preserve">
+    <value>Serial number:</value>
+  </data>
+  <data name="LocTextSoftwareDescription" xml:space="preserve">
+    <value>Crossplatform bootloader for AVR MCUs.</value>
+  </data>
+  <data name="LocTextSources" xml:space="preserve">
+    <value>Sources:</value>
+  </data>
+  <data name="LocTextStopBits" xml:space="preserve">
+    <value>Stop bits:</value>
+  </data>
+  <data name="LocTextVendor" xml:space="preserve">
+    <value>Vendor:</value>
+  </data>
+  <data name="LocTextWriteEepromIntoThisFile" xml:space="preserve">
+    <value>Write EEPROM HEX into this file</value>
+  </data>
+  <data name="LocTextWriteFlashIntoThisFile" xml:space="preserve">
+    <value>Write FLASH HEX into this file</value>
+  </data>
+  <data name="LoggerError" xml:space="preserve">
+    <value>[{0}] Error: {1}</value>
+  </data>
+  <data name="LoggerInfo" xml:space="preserve">
+    <value>[{0}] Info: {1}</value>
+  </data>
+  <data name="LoggerWarning" xml:space="preserve">
+    <value>[{0}] Warning: {1}</value>
+  </data>
+  <data name="ModelNameInfo" xml:space="preserve">
+    <value>Vendor ID={0}, Model ID={1}, Model name="{2}".</value>
+  </data>
+  <data name="ModelNotFound" xml:space="preserve">
+    <value>Device model with Vendor ID={0} and ModelID={1} wasn't found in database.</value>
+  </data>
+  <data name="ModelNotFoundTitle" xml:space="preserve">
+    <value>Unknown model</value>
+  </data>
+  <data name="NoOperationInProgress" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="NotReady" xml:space="preserve">
+    <value>Not ready to proceed!</value>
+  </data>
+  <data name="Parity" xml:space="preserve">
+    <value>Parity: {0}</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port: {0}</value>
+  </data>
+  <data name="PortNotSelected" xml:space="preserve">
+    <value>Port not selected!</value>
+  </data>
+  <data name="PortSettings" xml:space="preserve">
+    <value>Port settings:</value>
+  </data>
+  <data name="QueryingDeviceName" xml:space="preserve">
+    <value>Querying device name data for Vendor ID={0}, Model ID={1}.</value>
+  </data>
+  <data name="QueryingVendorData" xml:space="preserve">
+    <value>Queriying vendor data for Vendor ID={0}.</value>
+  </data>
+  <data name="StopBits" xml:space="preserve">
+    <value>Stop bits: {0}</value>
+  </data>
+  <data name="UnableToProceed" xml:space="preserve">
+    <value>Unable to proceed!
+Please, select another device.</value>
+  </data>
+  <data name="UnexpectedIdentificationResponse" xml:space="preserve">
+    <value>Device responded to identification request in unusual way, probably it's not Fossa's bootloader device.
+Check port and device state - it must be in bootloader mode.</value>
+  </data>
+  <data name="UnsuccessfullReboot" xml:space="preserve">
+    <value>Device didn't report reboot. Check manually did it reboot or not.</value>
+  </data>
+  <data name="UnsuccessfullRebootTitle" xml:space="preserve">
+    <value>Reboot is unsuccessfull</value>
+  </data>
+  <data name="UnsupportedBootloaderProtocolVersion" xml:space="preserve">
+    <value>Bootloader protocol version {0} is not supported.</value>
+  </data>
+  <data name="UnsupportedBootloaderProtocolVersionTitle" xml:space="preserve">
+    <value>Unsupported protocol version</value>
+  </data>
+  <data name="UnsupportedOS" xml:space="preserve">
+    <value>Unsupported OS.</value>
+  </data>
+  <data name="VendorNameInfo" xml:space="preserve">
+    <value>Vendor ID={0}, Vendor name="{1}".</value>
+  </data>
+  <data name="VendorNotFound" xml:space="preserve">
+    <value>Vendor with ID={0} wasn't found in database.</value>
+  </data>
+  <data name="VendorNotFoundTitle" xml:space="preserve">
+    <value>Unknown vendor</value>
+  </data>
+</root>

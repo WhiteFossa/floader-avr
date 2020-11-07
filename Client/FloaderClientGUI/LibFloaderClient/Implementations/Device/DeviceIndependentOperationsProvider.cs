@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using LibFloaderClient.Implementations.Enums.Device;
+using LibFloaderClient.Implementations.Resources;
 using LibFloaderClient.Implementations.Versioned.Driver;
 using LibFloaderClient.Interfaces.Auxiliary;
 using LibFloaderClient.Interfaces.Device;
@@ -28,6 +29,7 @@ using LibFloaderClient.Models.Port;
 using LibIntelHex.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -212,7 +214,7 @@ namespace LibFloaderClient.Implementations.Device
         {
             if (!_isSetUp)
             {
-                var msg = "Attempt to use not set up mass read/write provider.";
+                var msg = Language.NotSetUpDIOProvider;
                 _logger.LogError(msg);
                 throw new InvalidOperationException(msg);
             }
@@ -223,17 +225,17 @@ namespace LibFloaderClient.Implementations.Device
         {
             if (string.IsNullOrEmpty(flashPath))
             {
-                throw new ArgumentException("FLASH file to download into must be specified.", nameof(flashPath));
+                throw new ArgumentException(Language.FlashFileToDownloadMustBeSpecified, nameof(flashPath));
             }
 
             if (string.IsNullOrEmpty(eepromPath))
             {
-                throw new ArgumentException("EEPROM file to download into must be specified.", nameof(eepromPath));
+                throw new ArgumentException(Language.EepromFileToDownloadMustBeSpecified, nameof(eepromPath));
             }
 
             if (flashPath.Equals(eepromPath))
             {
-                throw new ArgumentException("FLASH and EEPROM files must differ.");
+                throw new ArgumentException(Language.FlashAndEepromMustDiffer);
             }
 
             _eepromSavePath = eepromPath;
@@ -241,7 +243,7 @@ namespace LibFloaderClient.Implementations.Device
             _downloadCompletedDelegate = downloadCompletedDelegate;
             _progressDelegate = progressDelegate;
 
-            _logger.LogInfo($"Downloading FLASH into { _flashSavePath }...");
+            _logger.LogInfo(string.Format(Language.DownloadingFlashInto, _flashSavePath));
            InitiateReadAllFlash(OnFlashReadCompletedDuringDownloadFromDevice, _progressDelegate);
         }
 
@@ -250,14 +252,14 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private void OnFlashReadCompletedDuringDownloadFromDevice(FlashReadResult data)
         {
-            _logger.LogInfo($"Downloaded. Writting to file...");
+            _logger.LogInfo(Language.DownloadedWritingInto);
             _hexWriter.LoadFromList(FlashBaseAddress, data.Data);
             _hexWriter.WriteToFile(_flashSavePath);
 
             _flashSavePath = null; // To reduce risk of buggy reuse
-            _logger.LogInfo("Done");
+            _logger.LogInfo(Language.Done);
 
-            _logger.LogInfo($"Downloading EEPROM into { _eepromSavePath }...");
+            _logger.LogInfo(string.Format(Language.DownloadingEepromInto, _eepromSavePath));
             InitiateReadAllEEPROM(OnEepromReadCompletedDuringDownloadFromDevice, _progressDelegate);
         }
 
@@ -266,12 +268,12 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private void OnEepromReadCompletedDuringDownloadFromDevice(EepromReadResult data)
         {
-            _logger.LogInfo($"Downloaded. Writting to file...");
+            _logger.LogInfo(Language.DownloadedWritingInto);
             _hexWriter.LoadFromList(EepromBaseAddress, data.Data);
             _hexWriter.WriteToFile(_eepromSavePath);
-            _logger.LogInfo("Done");
+            _logger.LogInfo(Language.Done);
 
-            _logger.LogInfo("Download completed");
+            _logger.LogInfo(Language.DownloadCompleted);
 
             _eepromSavePath = null; // To reduce risk of buggy reuse
             _downloadCompletedDelegate?.Invoke();
@@ -296,7 +298,7 @@ namespace LibFloaderClient.Implementations.Device
         {
             if (string.IsNullOrEmpty(backupsDirectory))
             {
-                throw new ArgumentException("Backups directory must be specified.", nameof(backupsDirectory));
+                throw new ArgumentException(Language.BackupsDirectoryMustBeSpecified, nameof(backupsDirectory));
             }
 
             _isUploadFlash = !string.IsNullOrEmpty(flashPath);
@@ -304,7 +306,7 @@ namespace LibFloaderClient.Implementations.Device
 
             if (!_isUploadFlash && !_isUploadEeprom)
             {
-                throw new ArgumentException("At least either FLASH or EEPROM files must be specified");
+                throw new ArgumentException(Language.FlashOrEepromMustBeSpecified);
             }
 
             _uploadCompletedDelegate = uploadCompletedDelegate;
@@ -344,12 +346,12 @@ namespace LibFloaderClient.Implementations.Device
 
             if (flashHexData.Any(fhd => fhd.Key > maxWriteableFlashAddress))
             {
-                throw new ArgumentException("Given FLASH file contains data for addresses in non-writeable FLASH area. Check file correctness.");
+                throw new ArgumentException(Language.UnwriteableFlashArea);
             }
 
             if (eepromHexData.Any(ehd => ehd.Key > maxWriteableEepromAddress))
             {
-                throw new ArgumentException("Given EEPROM file contains data for addressess outside EEPROM. Check file correctness.");
+                throw new ArgumentException(Language.AddressOutsideEeprom);
             }
 
             // Constructing data arrays for upload
@@ -383,9 +385,9 @@ namespace LibFloaderClient.Implementations.Device
             var flashBackupFilename = Path.Combine(backupsDirectory, GenerateFlashFileName(true));
             var eepromBackupFilename = Path.Combine(backupsDirectory, GenerateEepromFileName(true));
 
-            _logger.LogInfo("Backing up...");
-            _logger.LogInfo($"FLASH backup file: { flashBackupFilename }");
-            _logger.LogInfo($"EEPROM backup file: { eepromBackupFilename }");
+            _logger.LogInfo(Language.BackingUp);
+            _logger.LogInfo(string.Format(Language.FlashBackupFile, flashBackupFilename));
+            _logger.LogInfo(string.Format(Language.EepromBackupFile, eepromBackupFilename));
 
             InitiateDownloadFromDevice(flashBackupFilename, eepromBackupFilename, MakeActualUpload, _progressDelegate);
         }
@@ -395,11 +397,11 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private void MakeActualUpload()
         {
-            _logger.LogInfo("Done");
+            _logger.LogInfo(Language.Done);
 
             if (_isUploadFlash)
             {
-                _logger.LogInfo("Uploading FLASH...");
+                _logger.LogInfo(Language.UploadingFlash);
                 InitiateWriteAllFlash(_flashDataToUpload, OnFlashWriteCompletedDuringUploadToDevice, _progressDelegate);
             }
             else
@@ -410,7 +412,7 @@ namespace LibFloaderClient.Implementations.Device
 
         private void OnFlashWriteCompletedDuringUploadToDevice()
         {
-            _logger.LogInfo("Done");
+            _logger.LogInfo(Language.Done);
             UploadEeprom();
         }
 
@@ -418,7 +420,7 @@ namespace LibFloaderClient.Implementations.Device
         {
             if (_isUploadEeprom)
             {
-                _logger.LogInfo("Uploading EEPROM...");
+                _logger.LogInfo(Language.UploadingEeprom);
                 InitiateWriteAllEEPROM(_eepromDataToUpload, OnEepromWriteCompletedDuringUploadToDevice, _progressDelegate);
             }
             else
@@ -429,7 +431,7 @@ namespace LibFloaderClient.Implementations.Device
 
         private void OnEepromWriteCompletedDuringUploadToDevice()
         {
-            _logger.LogInfo("Done");
+            _logger.LogInfo(Language.Done);
             CompleteUpload();
         }
 
@@ -442,12 +444,12 @@ namespace LibFloaderClient.Implementations.Device
 
         public static InvalidOperationException ReportUnsupportedVersion(int version)
         {
-            return new InvalidOperationException($"Unsupported version { version }.");
+            return new InvalidOperationException(string.Format(Language.UnsupportedVersion, version));
         }
 
         public static InvalidOperationException ReportNonV1Version()
         {
-            return new InvalidOperationException("Version must be 1.");
+            return new InvalidOperationException(Language.VersionMustBeOne);
         }
 
         public static DeviceDataV1 GetDeviceDataV1(DeviceIdentifierData identificationData, object versionSpecificDeviceData)

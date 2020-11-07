@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using FloaderClientGUI.Helpers;
+using FloaderClientGUI.Resources;
 using LibFloaderClient.Implementations.Helpers;
 using ReactiveUI;
 
@@ -63,6 +64,55 @@ namespace FloaderClientGUI.ViewModels
         {
             get => _license;
             set => this.RaiseAndSetIfChanged(ref _license, value);
+        }
+
+        #endregion
+
+        #region Localization
+
+        public string LocTextSoftwareDescription
+        {
+            get => Language.LocTextSoftwareDescription;
+        }
+
+        public string LocTextAuthors1
+        {
+            get => Language.LocTextAuthors1;
+        }
+
+        public string LocTextAuthors2
+        {
+            get => Language.LocTextAuthors2;
+        }
+
+        public string LocTextLicense
+        {
+            get => Language.LocTextLicense;
+        }
+
+        public string LocTextAgpl
+        {
+            get => Language.LocTextAgpl;
+        }
+
+        public string LocTextOrLaterVersion
+        {
+            get => Language.LocTextOrLaterVersion;
+        }
+
+        public string LocTextSources
+        {
+            get => Language.LocTextSources;
+        }
+
+        public string LocTextEmail
+        {
+            get => Language.LocTextEmail;
+        }
+
+        public string LocTextLicenseText
+        {
+            get => Language.LocTextLicenseText;
         }
 
         #endregion

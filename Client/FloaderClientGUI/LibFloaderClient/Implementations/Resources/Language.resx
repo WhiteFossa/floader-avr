@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddressOutsideEeprom" xml:space="preserve">
+    <value>Given EEPROM file contains data for addressess outside EEPROM. Check file correctness.</value>
+  </data>
+  <data name="AllowedFlashPageAddresses" xml:space="preserve">
+    <value>Allowed FLASH page addresses: [0 - {0}].</value>
+  </data>
+  <data name="AlreadyDisposed" xml:space="preserve">
+    <value>Already disposed.</value>
+  </data>
+  <data name="AssemblyNotFound" xml:space="preserve">
+    <value>Assembly {0} not found.</value>
+  </data>
+  <data name="BackingUp" xml:space="preserve">
+    <value>Backing up...</value>
+  </data>
+  <data name="BackupsDirectoryMustBeSpecified" xml:space="preserve">
+    <value>Backups directory must be specified.</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="DownloadCompleted" xml:space="preserve">
+    <value>Download completed</value>
+  </data>
+  <data name="DownloadedWritingInto" xml:space="preserve">
+    <value>Downloaded. Writting to file...</value>
+  </data>
+  <data name="DownloadingEepromInto" xml:space="preserve">
+    <value>Downloading EEPROM into {0}...</value>
+  </data>
+  <data name="DownloadingFlashInto" xml:space="preserve">
+    <value>Downloading FLASH into {0}...</value>
+  </data>
+  <data name="EepromBackupFile" xml:space="preserve">
+    <value>EEPROM backup file: {0}</value>
+  </data>
+  <data name="EepromFileToDownloadMustBeSpecified" xml:space="preserve">
+    <value>EEPROM file to download into must be specified.</value>
+  </data>
+  <data name="EepromReadTimeout" xml:space="preserve">
+    <value>Timeout during EEPROM read.</value>
+  </data>
+  <data name="EepromSize" xml:space="preserve">
+    <value>EEPROM size: {0} bytes</value>
+  </data>
+  <data name="EepromWriteByteUnexpectedResponse" xml:space="preserve">
+    <value>Unexpected write EEPROM byte response.</value>
+  </data>
+  <data name="EepromWriteByteUnexpectedResponseSize" xml:space="preserve">
+    <value>Unexpected write EEPROM byte response size: {0} bytes.</value>
+  </data>
+  <data name="EepromWriteDontAcceptData" xml:space="preserve">
+    <value>Device don't accept new data after writing {0} / {1} bytes.</value>
+  </data>
+  <data name="EepromWriteGreedyDevice" xml:space="preserve">
+    <value>Device wants more data after writing the last byte of EEPROM.</value>
+  </data>
+  <data name="FlashAndEepromMustDiffer" xml:space="preserve">
+    <value>FLASH and EEPROM files must differ.</value>
+  </data>
+  <data name="FlashBackupFile" xml:space="preserve">
+    <value>FLASH backup file: {0}</value>
+  </data>
+  <data name="FlashFileToDownloadMustBeSpecified" xml:space="preserve">
+    <value>FLASH file to download into must be specified.</value>
+  </data>
+  <data name="FlashOrEepromMustBeSpecified" xml:space="preserve">
+    <value>At least either FLASH or EEPROM files must be specified.</value>
+  </data>
+  <data name="FlashPageSize" xml:space="preserve">
+    <value>FLASH page size: {0} bytes</value>
+  </data>
+  <data name="FlashPageVerificationFailed" xml:space="preserve">
+    <value>FLASH page {0} verification failed.</value>
+  </data>
+  <data name="FlashReadFailure" xml:space="preserve">
+    <value>Device reports failure during FLASH page {0} read.</value>
+  </data>
+  <data name="FlashReadTimeout" xml:space="preserve">
+    <value>Timeout during FLASH read.</value>
+  </data>
+  <data name="FlashReadUnexpectedResponse" xml:space="preserve">
+    <value>Unexpected response to FLASH page {0} read initiation.</value>
+  </data>
+  <data name="FlashReadUnexpectedResponseSize" xml:space="preserve">
+    <value>Unexpected response size to FLASH page read request: {0} bytes.</value>
+  </data>
+  <data name="FlashWriteAddressCheckUnexpectedResponse" xml:space="preserve">
+    <value>Unexpected response to FLASH page {0} write address check.</value>
+  </data>
+  <data name="FlashWriteFailure" xml:space="preserve">
+    <value>Device reports failure during FLASH page write.</value>
+  </data>
+  <data name="FlashWriteIncorrectPageAddress" xml:space="preserve">
+    <value>Device reports incorrect FLASH page address {0} while attempt to write.</value>
+  </data>
+  <data name="FlashWriteTimeout" xml:space="preserve">
+    <value>Timeout during FLASH write.</value>
+  </data>
+  <data name="FlashWriteUnexpectedAddressCheckResponseSize" xml:space="preserve">
+    <value>Unexpected response size to FLASH page write address check request: {0} bytes.</value>
+  </data>
+  <data name="FlashWriteUnexpectedResponseSize" xml:space="preserve">
+    <value>Unexpected response size to FLASH page write request: {0} bytes.</value>
+  </data>
+  <data name="FlashWriteWriteableAddressess" xml:space="preserve">
+    <value>Writeable page addresses: [0 - {0}].</value>
+  </data>
+  <data name="FlashWriteWrongPageSize" xml:space="preserve">
+    <value>Expected FLASH page data size is {0} bytes.</value>
+  </data>
+  <data name="GettingVersionSpecificData" xml:space="preserve">
+    <value>Getting version-specific data...</value>
+  </data>
+  <data name="IncorrectPosition" xml:space="preserve">
+    <value>Incorrect position.</value>
+  </data>
+  <data name="IOError" xml:space="preserve">
+    <value>During IO {0} error happened.</value>
+  </data>
+  <data name="MultipleReadTimeout" xml:space="preserve">
+    <value>Multiple read timeout.</value>
+  </data>
+  <data name="NotSetUpDIOProvider" xml:space="preserve">
+    <value>Attempt to use not set up Device Independent Operations Provider</value>
+  </data>
+  <data name="ParityEven" xml:space="preserve">
+    <value>Even</value>
+  </data>
+  <data name="ParityMark" xml:space="preserve">
+    <value>Mark</value>
+  </data>
+  <data name="ParityNone" xml:space="preserve">
+    <value>No parity control</value>
+  </data>
+  <data name="ParityOdd" xml:space="preserve">
+    <value>Odd</value>
+  </data>
+  <data name="ParitySpace" xml:space="preserve">
+    <value>Space</value>
+  </data>
+  <data name="PortIsntOpen" xml:space="preserve">
+    <value>Port isn't open.</value>
+  </data>
+  <data name="PositionIsOutsideResponse" xml:space="preserve">
+    <value>Position is outside of the response.</value>
+  </data>
+  <data name="ProgressOperationReadingEeprom" xml:space="preserve">
+    <value>Reading EEPROM</value>
+  </data>
+  <data name="ProgressOperationReadingFlash" xml:space="preserve">
+    <value>Reading FLASH</value>
+  </data>
+  <data name="ProgressOperationWritingEeprom" xml:space="preserve">
+    <value>Writing EEPROM</value>
+  </data>
+  <data name="ProgressOperationWritingFlash" xml:space="preserve">
+    <value>Writing FLASH</value>
+  </data>
+  <data name="ReadingEeprom" xml:space="preserve">
+    <value>Reading EEPROM...</value>
+  </data>
+  <data name="ReadingFlash" xml:space="preserve">
+    <value>Reading FLASH (bootloader included)...</value>
+  </data>
+  <data name="RequestingReboot" xml:space="preserve">
+    <value>Requesting reboot...</value>
+  </data>
+  <data name="ResourceNotFound" xml:space="preserve">
+    <value>Resource {0} not found.</value>
+  </data>
+  <data name="SingleReadTimeout" xml:space="preserve">
+    <value>Single read timeout.</value>
+  </data>
+  <data name="StopBitsOne" xml:space="preserve">
+    <value>One</value>
+  </data>
+  <data name="StopBitsOnePointFive" xml:space="preserve">
+    <value>One and half</value>
+  </data>
+  <data name="StopBitsTwo" xml:space="preserve">
+    <value>Two</value>
+  </data>
+  <data name="TimeoutOnReboot" xml:space="preserve">
+    <value>Device didn't respond in time, check did it reboot manually.</value>
+  </data>
+  <data name="TotalFlashPages" xml:space="preserve">
+    <value>Total FLASH pages: {0}</value>
+  </data>
+  <data name="UnableToGetDeviceData" xml:space="preserve">
+    <value>Unable to get device data for VendorId={0}, ModelId={1}</value>
+  </data>
+  <data name="UnknownDeviceResponceOnReboot" xml:space="preserve">
+    <value>Device returned unknown response: {0}</value>
+  </data>
+  <data name="UnsupportedVersion" xml:space="preserve">
+    <value>Unsupported version {0}.</value>
+  </data>
+  <data name="UnwriteableFlashArea" xml:space="preserve">
+    <value>Given FLASH file contains data for addresses in non-writeable FLASH area. Check file correctness.</value>
+  </data>
+  <data name="UploadingEeprom" xml:space="preserve">
+    <value>Uploading EEPROM...</value>
+  </data>
+  <data name="UploadingFlash" xml:space="preserve">
+    <value>Uploading FLASH...</value>
+  </data>
+  <data name="VersionMustBeOne" xml:space="preserve">
+    <value>Version must be 1.</value>
+  </data>
+  <data name="VersionOneDetected" xml:space="preserve">
+    <value>Version 1 detected</value>
+  </data>
+  <data name="WriteableFlashPages" xml:space="preserve">
+    <value>Writeable FLASH pages: {0}</value>
+  </data>
+  <data name="WriteTimeout" xml:space="preserve">
+    <value>Write timeout.</value>
+  </data>
+  <data name="WritingEeprom" xml:space="preserve">
+    <value>Writing EEPROM...</value>
+  </data>
+  <data name="WritingFlash" xml:space="preserve">
+    <value>Writing FLASH (except bootloader)...</value>
+  </data>
+  <data name="WrongEepromDataSize" xml:space="preserve">
+    <value>Data to write size must equal EEPROM size: {0} bytes.</value>
+  </data>
+  <data name="WrongIdentificationResponseLength" xml:space="preserve">
+    <value>Identification response must be {0} bytes long.</value>
+  </data>
+</root>

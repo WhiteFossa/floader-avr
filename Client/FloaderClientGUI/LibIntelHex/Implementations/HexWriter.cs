@@ -20,6 +20,7 @@ using LibIntelHex.Implementations.Helpers;
 using LibIntelHex.Implementations.Writer;
 using LibIntelHex.Interfaces;
 using LibIntelHex.Models;
+using LibIntelHex.Resources;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -62,7 +63,7 @@ namespace LibIntelHex.Implementations
             }
             catch (ArgumentException)
             {
-                throw new InvalidOperationException($"Byte with address { address } was already added to writer.");
+                throw new InvalidOperationException(string.Format(Language.ByteAlreadyAddedToWriter, address));
             }
         }
 
@@ -149,7 +150,7 @@ namespace LibIntelHex.Implementations
         {
             if (string.IsNullOrEmpty(path))
             {
-                throw new ArgumentException("Path must not be null or empty", nameof(path));
+                throw new ArgumentException(Language.PathIsNullOrEmpty, nameof(path));
             }
 
             File.WriteAllText(path, ToString());

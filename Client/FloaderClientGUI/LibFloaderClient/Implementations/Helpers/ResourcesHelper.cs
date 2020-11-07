@@ -16,6 +16,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using LibFloaderClient.Implementations.Resources;
 using System;
 using System.IO;
 using System.Reflection;
@@ -47,14 +48,14 @@ namespace LibFloaderClient.Implementations.Helpers
 
             if (assembly == null)
             {
-                throw new ArgumentException($"Assembly { asmType } not found.", nameof(asmType));
+                throw new ArgumentException(string.Format(Language.AssemblyNotFound, asmType), nameof(asmType));
             }
 
             var resourceStream = assembly.GetManifestResourceStream(name);
 
             if (resourceStream == null)
             {
-                throw new ArgumentException($"Resource { name } not found.", nameof(name));
+                throw new ArgumentException(string.Format(Language.ResourceNotFound, name), nameof(name));
             }
 
             return resourceStream;

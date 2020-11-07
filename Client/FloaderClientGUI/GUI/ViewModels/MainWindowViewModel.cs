@@ -20,6 +20,7 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using FloaderClientGUI.GUISpecific;
 using FloaderClientGUI.Models;
+using FloaderClientGUI.Resources;
 using FloaderClientGUI.Views;
 using LibFloaderClient.Implementations.Device;
 using LibFloaderClient.Implementations.Enums.Device;
@@ -409,6 +410,150 @@ namespace FloaderClientGUI.ViewModels
 
         #endregion Bound properties
 
+        #region Bound properties (localization)
+
+        public string WindowTitle
+        {
+            get => Program.GetFullAppName();
+        }
+
+        public string GroupboxPort
+        {
+            get => Language.LocGroupboxPort;
+        }
+
+        public string TextPort
+        {
+            get => Language.LocTextPort;
+        }
+
+        public string ButtonSelectPort
+        {
+            get => Language.LocBtnSelectPort;
+        }
+
+        public string GroupboxDevice
+        {
+            get => Language.LocGroupboxDevice;
+        }
+
+        public string TextVendor
+        {
+            get => Language.LocTextVendor;
+        }
+
+        public string TextModel
+        {
+            get => Language.LocTextModel;
+        }
+
+        public string TextSerial
+        {
+            get => Language.LocTextSerial;
+        }
+
+        public string BtnPoll
+        {
+            get => Language.LocBtnPoll;
+        }
+
+        public string BtnReboot
+        {
+            get => Language.LocBtnReboot;
+        }
+
+        public string GroupboxUpload
+        {
+            get => Language.LocGroupboxUpload;
+        }
+
+        public string TextFlash
+        {
+            get => Language.LocTextFlash;
+        }
+
+        public string TextSelectFlashHexFile
+        {
+            get => Language.LocTextSelectFlashHexFile;
+        }
+
+        public string CommonEllipsis
+        {
+            get => Language.LocCommonEllipsis;
+        }
+
+        public string TextEeprom
+        {
+            get => Language.LocTextEeprom;
+        }
+
+        public string TextSelectEepromHexFile
+        {
+            get => Language.LocTextSelectEepromHexFile;
+        }
+
+        public string TextBackups
+        {
+            get => Language.LocTextBackups;
+        }
+
+        public string TextSelectBackupsDirectory
+        {
+            get => Language.LocTextSelectBackupsDirectory;
+        }
+
+        public string BtnUpload
+        {
+            get => Language.LocBtnUpload;
+        }
+
+        public string GroupboxDownload
+        {
+            get => Language.LocGroupboxDownload;
+        }
+
+        public string WriteFlashIntoThisFile
+        {
+            get => Language.LocTextWriteFlashIntoThisFile;
+        }
+
+        public string WriteEepromIntoThisFile
+        {
+            get => Language.LocTextWriteEepromIntoThisFile;
+        }
+
+        public string BtnDownload
+        {
+            get => Language.LocBtnDownload;
+        }
+
+        public string GroupboxProgress
+        {
+            get => Language.LocGroupboxProgress;
+        }
+
+        public string TextOperation
+        {
+            get => Language.LocTextOperation;
+        }
+
+        public string GroupboxConsole
+        {
+            get => Language.LocGroupboxConsole;
+        }
+
+        public string GroupboxAbout
+        {
+            get => Language.LocGroupboxAbout;
+        }
+
+        public string TextAbout
+        {
+            get => Language.LocTextAbout;
+        }
+
+        #endregion
+
 
         /// <summary>
         /// Main application model
@@ -724,14 +869,14 @@ namespace FloaderClientGUI.ViewModels
                 // Is successfull?
                 if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.Timeout)
                 {
-                    var message = $"Attempt to identify device timed out. Check port and device state - it must be in bootloader mode.";
+                    var message = Language.IdentificationTimeout;
                     _logger.LogError(message);
                     LockProceeding();
 
                     MessageBoxManager.GetMessageBoxStandardWindow(
                         new MessageBoxStandardParams()
                         {
-                            ContentTitle = "Identification timeout",
+                            ContentTitle = Language.IdentificationTimeoutTitle,
                             ContentMessage = message,
                             Icon = Icon.Error,
                             ButtonDefinitions = ButtonEnum.Ok
@@ -742,15 +887,14 @@ namespace FloaderClientGUI.ViewModels
                 }
                 else if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.WrongSignature)
                 {
-                    var message = $@"Device responded to identification request in unusual way, probably it's not Fossa's bootloader device.
-Check port and device state - it must be in bootloader mode.";
+                    var message = Language.UnexpectedIdentificationResponse;
                     _logger.LogError(message);
                     LockProceeding();
 
                     MessageBoxManager.GetMessageBoxStandardWindow(
                         new MessageBoxStandardParams()
                         {
-                            ContentTitle = "Wrong device response",
+                            ContentTitle = Language.GenericWrongDeviceResponseTitle,
                             ContentMessage = message,
                             Icon = Icon.Error,
                             ButtonDefinitions = ButtonEnum.Ok
@@ -760,23 +904,23 @@ Check port and device state - it must be in bootloader mode.";
                     return;
                 }
 
-                _logger.LogInfo($@"Device identified:
-Version: { _mainModel.DeviceIdentData.Version },
-Vendor ID: { _mainModel.DeviceIdentData.VendorId },
-Model ID: { _mainModel.DeviceIdentData.ModelId },
-Serial number: { _mainModel.DeviceIdentData.Serial }.");
+                _logger.LogInfo(string.Format(Language.DeviceIdentified,
+                     _mainModel.DeviceIdentData.Version,
+                     _mainModel.DeviceIdentData.VendorId,
+                     _mainModel.DeviceIdentData.ModelId,
+                     _mainModel.DeviceIdentData.Serial));
 
                 // Is version acceptable?
                 if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
                 {
-                    var message = $"Bootloader protocol version { _mainModel.DeviceIdentData.Version } is not supported.";
+                    var message = string.Format(Language.UnsupportedBootloaderProtocolVersion, _mainModel.DeviceIdentData.Version);
                     _logger.LogError(message);
                     LockProceeding();
 
                     MessageBoxManager.GetMessageBoxStandardWindow(
                         new MessageBoxStandardParams()
                         {
-                            ContentTitle = "Unsupported protocol version",
+                            ContentTitle = Language.UnsupportedBootloaderProtocolVersionTitle,
                             ContentMessage = message,
                             Icon = Icon.Error,
                             ButtonDefinitions = ButtonEnum.Ok
@@ -787,19 +931,19 @@ Serial number: { _mainModel.DeviceIdentData.Serial }.");
                 }
 
                 // Human - readable port info
-                _logger.LogInfo($"Queriying vendor data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }");
+                _logger.LogInfo(string.Format(Language.QueryingVendorData, _mainModel.DeviceIdentData.VendorId));
 
                 var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
                 if (vendorData == null)
                 {
-                    var message = $"Vendor with ID={ _mainModel.DeviceIdentData.VendorId } wasn't found in database.";
+                    var message = string.Format(Language.VendorNotFound, _mainModel.DeviceIdentData.VendorId);
                     _logger.LogError(message);
                     LockProceeding();
 
                     MessageBoxManager.GetMessageBoxStandardWindow(
                         new MessageBoxStandardParams()
                         {
-                            ContentTitle = "Unknown vendor",
+                            ContentTitle = Language.VendorNotFoundTitle,
                             ContentMessage = message,
                             Icon = Icon.Error,
                             ButtonDefinitions = ButtonEnum.Ok
@@ -808,21 +952,21 @@ Serial number: { _mainModel.DeviceIdentData.Serial }.");
 
                     return;
                 }
-                _logger.LogInfo($"Vendor ID={ vendorData.Id }, Vendor name=\"{ vendorData.Name }\"");
+                _logger.LogInfo(string.Format(Language.VendorNameInfo, vendorData.Id, vendorData.Name));
 
-                _logger.LogInfo($"Querying device name data for Vendor ID={ _mainModel.DeviceIdentData.VendorId }, Model ID={ _mainModel.DeviceIdentData.ModelId }");
+                _logger.LogInfo(string.Format(Language.QueryingDeviceName, _mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId));
 
                 var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
                 if (nameData == null)
                 {
-                    var message = $"Device model with Vendor ID={ _mainModel.DeviceIdentData.VendorId } and ModelID={ _mainModel.DeviceIdentData.ModelId } wasn't found in database.";
+                    var message = string.Format(Language.ModelNotFound, _mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
                     _logger.LogError(message);
                     LockProceeding();
 
                     MessageBoxManager.GetMessageBoxStandardWindow(
                         new MessageBoxStandardParams()
                         {
-                            ContentTitle = "Unknown model",
+                            ContentTitle = Language.ModelNotFoundTitle,
                             ContentMessage = message,
                             Icon = Icon.Error,
                             ButtonDefinitions = ButtonEnum.Ok
@@ -831,7 +975,7 @@ Serial number: { _mainModel.DeviceIdentData.Serial }.");
 
                     return;
                 }
-                _logger.LogInfo($"Vendor ID={ nameData.VendorId }, Model ID={ nameData.ModelId }, Model name=\"{ nameData.Name }\"");
+                _logger.LogInfo(string.Format(Language.ModelNameInfo, nameData.VendorId, nameData.ModelId, nameData.Name));
 
                 _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentData.Serial);
                 VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
@@ -864,19 +1008,19 @@ Serial number: { _mainModel.DeviceIdentData.Serial }.");
         private void LogPortSettings()
         {
             var sb = new StringBuilder();
-            sb.AppendLine("Port settings:");
+            sb.AppendLine(Language.PortSettings);
 
             if (_mainModel.PortSettings == null)
             {
-                sb.AppendLine("Port not selected!");
+                sb.AppendLine(Language.PortNotSelected);
             }
             else
             {
-                sb.AppendLine($"Port: { _mainModel.PortSettings.Name }");
-                sb.AppendLine($"Baudrate: { _mainModel.PortSettings.Baudrate }");
-                sb.AppendLine($"Parity: { PortSelectionHelper.MapParityToString(_mainModel.PortSettings.Parity) }");
-                sb.AppendLine($"Data bits: { _mainModel.PortSettings.DataBits }");
-                sb.AppendLine($"Stop bits: { PortSelectionHelper.MapStopBitsToString(_mainModel.PortSettings.StopBits) }");
+                sb.AppendLine(string.Format(Language.Port, _mainModel.PortSettings.Name));
+                sb.AppendLine(string.Format(Language.Baudrate, _mainModel.PortSettings.Baudrate));
+                sb.AppendLine(string.Format(Language.Parity, PortSelectionHelper.MapParityToString(_mainModel.PortSettings.Parity)));
+                sb.AppendLine(string.Format(Language.DataBits, _mainModel.PortSettings.DataBits));
+                sb.AppendLine(string.Format(Language.StopBits, PortSelectionHelper.MapStopBitsToString(_mainModel.PortSettings.StopBits)));
             }
 
             _logger.LogInfo(sb.ToString());
@@ -907,8 +1051,7 @@ Serial number: { _mainModel.DeviceIdentData.Serial }.");
         private void LockProceeding()
         {
             SetActionsButtonsState(false);
-            _logger.LogError(@"Unable to proceed!
-Please, select another device.");
+            _logger.LogError(Language.UnableToProceed);
         }
 
         /// <summary>
@@ -918,7 +1061,7 @@ Please, select another device.");
         {
             if (!_isReady)
             {
-                var message = "Not ready to proceed!";
+                var message = Language.NotReady;
                 _logger.LogError(message);
                 throw new InvalidOperationException(message);
             }
@@ -977,7 +1120,7 @@ Please, select another device.");
         {
             if (_interfaceState.IsInterfaceLocked)
             {
-                throw new InvalidOperationException("Interface already locked.");
+                throw new InvalidOperationException(Language.InterfaceAlreadyLocked);
             }
 
             _interfaceState.IsSelectPortEnabled = IsSelectPortEnabled;
@@ -1028,7 +1171,7 @@ Please, select another device.");
         {
             if (!_interfaceState.IsInterfaceLocked)
             {
-                throw new InvalidOperationException("Interface already unlocked.");
+                throw new InvalidOperationException(Language.InterfaceAlreadyUnlocked);
             }
 
             IsSelectPortEnabled = _interfaceState.IsSelectPortEnabled;
@@ -1092,8 +1235,8 @@ Please, select another device.");
                     MessageBoxManager.GetMessageBoxStandardWindow(
                         new MessageBoxStandardParams()
                         {
-                            ContentTitle = "Reboot is unsuccessfull",
-                            ContentMessage = "Device didn't report reboot. Check manually did it reboot or not.",
+                            ContentTitle = Language.UnsuccessfullRebootTitle,
+                            ContentMessage = Language.UnsuccessfullReboot,
                             Icon = Icon.Error,
                             ButtonDefinitions = ButtonEnum.Ok
                         })
@@ -1120,7 +1263,7 @@ Please, select another device.");
         private void ResetProgress()
         {
             ProgressValue = 0;
-            ProgressOperation = "None";
+            ProgressOperation = Language.NoOperationInProgress;
         }
     }
 }

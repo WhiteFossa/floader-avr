@@ -20,8 +20,8 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="800"
-		Width="500" Height="800"
+		mc:Ignorable="d" d:DesignWidth="550" d:DesignHeight="800"
+		Width="550" Height="800"
 		x:Class="FloaderClientGUI.Views.AboutWindow"
 		Title="About Fossa's loader"
 		Icon="/Assets/AppIcon.png">
@@ -34,30 +34,30 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 
 		<StackPanel Margin="5" Grid.Column="0" Grid.Row="0">
 			<TextBlock Classes="Center H1" Text="{ Binding VersionText }" />
-			<TextBlock Classes="Center H2">Crossplatform bootloader for AVR MCUs.</TextBlock>
+			<TextBlock Classes="Center H2" Text="{ Binding LocTextSoftwareDescription }" />
 
-			<TextBlock Classes="Center H3">By White Fossa aka Artyom Vetrov</TextBlock>
-			<TextBlock Classes="Center H3">and contributors.</TextBlock>
+			<TextBlock Classes="Center H3" Text="{ Binding LocTextAuthors1 }" />
+			<TextBlock Classes="Center H3" Text="{ Binding LocTextAuthors2 }" />
 
-			<TextBlock Classes="Center H2">License:</TextBlock>
-			<TextBlock Classes="Center H1">AGPLv3</TextBlock>
-			<TextBlock Classes="Center H2">or later version.</TextBlock>
+			<TextBlock Classes="Center H2" Text="{ Binding LocTextLicense }" />
+			<TextBlock Classes="Center H1" Text="{ Binding LocTextAgpl }" />
+			<TextBlock Classes="Center H2" Text="{ Binding LocTextOrLaterVersion}" />
 
 			<Grid ColumnDefinitions="Auto, Auto, *" RowDefinitions="Auto">
-				<TextBlock Grid.Column="0" Grid.Row="0">Sources:</TextBlock>
+				<TextBlock Grid.Column="0" Grid.Row="0" Text="{ Binding LocTextSources }" />
 				<Button Grid.Column="1" Grid.Row="0" Classes="Link" Content="{ Binding SourcesAddressText }"
 						Command="{ Binding OpenSourcesURL }" />
 			</Grid>
 
 			<Grid ColumnDefinitions="Auto, Auto, *" RowDefinitions="Auto">
-				<TextBlock Grid.Column="0" Grid.Row="0">Email:</TextBlock>
+				<TextBlock Grid.Column="0" Grid.Row="0" Text="{ Binding LocTextEmail }" />
 				<Button Grid.Column="1" Grid.Row="0" Classes="Link" Content="{ Binding ContactEmailText }"
 						Command="{ Binding ComposeEmail }" />
 			</Grid>
 		</StackPanel>
 
 		<DockPanel Margin="5" Grid.Column="0" Grid.Row="1">
-			<TextBlock DockPanel.Dock="Top">License text:</TextBlock>
+			<TextBlock DockPanel.Dock="Top" Text="{ Binding LocTextLicenseText }" />
 			<TextBox AcceptsReturn="True" IsReadOnly="True" Text="{ Binding License }" />
 		</DockPanel>
 	</Grid>

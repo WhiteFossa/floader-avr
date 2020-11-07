@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using LibFloaderClient.Implementations.Exceptions;
+using LibFloaderClient.Implementations.Resources;
 using LibFloaderClient.Interfaces.SerialPortDriver;
 using LibFloaderClient.Models.Port;
 using System;
@@ -102,7 +103,7 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
 
             if (!_port.IsOpen)
             {
-                throw new InvalidOperationException("Port isn't open.");
+                throw new InvalidOperationException(Language.PortIsntOpen);
             }
 
             var buffer = contentToWrite.ToArray();
@@ -113,7 +114,7 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
             }
             catch(TimeoutException ex)
             {
-                throw new SerialPortTimeoutException("Write timeout.", ex);
+                throw new SerialPortTimeoutException(Language.WriteTimeout, ex);
             }
 
 
@@ -147,7 +148,7 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
                 {
                     if (_isReadTimeoutHappened)
                     {
-                        throw new SerialPortTimeoutException("Multiple read timeout.");
+                        throw new SerialPortTimeoutException(Language.MultipleReadTimeout);
                     }
 
                     if (alreadyRead >= requiredSize)
@@ -181,7 +182,7 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
             catch (TimeoutException ex)
             {
                 // Signle operation timeout
-                throw new SerialPortTimeoutException("Single read timeout.", ex);
+                throw new SerialPortTimeoutException(Language.SingleReadTimeout, ex);
             }
 
             _readTimeoutTimer.Enabled = false;
@@ -220,7 +221,7 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         {
             if (_isDisposed)
             {
-                throw new InvalidOperationException("Already disposed.");
+                throw new InvalidOperationException(Language.AlreadyDisposed);
             }
         }
 
@@ -231,7 +232,7 @@ namespace LibFloaderClient.Implementations.SerialPortDriver
         {
             if (_IOError != null)
             {
-                throw new SerialPortIOErrorException($"During IO { _IOError } error happened.");
+                throw new SerialPortIOErrorException(string.Format(Language.IOError, _IOError));
             }
         }
 
