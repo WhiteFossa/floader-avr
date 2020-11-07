@@ -121,7 +121,7 @@
     <value>Fossa's AVR loader</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>0.0.2 (24 Oct 2020)</value>
+    <value>0.0.3 (7 November 2020)</value>
   </data>
   <data name="Baudrate" xml:space="preserve">
     <value>Baudrate: {0}</value>

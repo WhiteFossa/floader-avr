@@ -70,7 +70,7 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0.0.2 (24 Oct 2020).
+        ///   Looks up a localized string similar to 0.0.3 (7 November 2020).
         /// </summary>
         internal static string AppVersion {
             get {

@@ -121,7 +121,7 @@
     <value>AVR загрузчик Фоссы</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>0.0.2 (24 Окт 2020)</value>
+    <value>0.0.3 (7 ноября 2020)</value>
   </data>
   <data name="Baudrate" xml:space="preserve">
     <value>Скорость: {0}</value>
