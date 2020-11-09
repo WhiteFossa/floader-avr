@@ -1,0 +1,33 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.7</VERSION>
+ <DEVICE>"ATmega16"</DEVICE>
+ <WORKING_DIR>C:\Projects\floader-avr\MCU\Bootloader\Bootloader\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16def.inc</FILE>
+  <FILE>C:\Projects\floader-avr\MCU\Bootloader\Bootloader\HAL/ATmega16Defines.inc</FILE>
+  <FILE>C:\Projects\floader-avr\MCU\Bootloader\Bootloader\HAL/ATmega16Code.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Projects\floader-avr\MCU\Bootloader\Bootloader\Debug\Bootloader.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>Bootloader.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>Bootloader.map</FILE>
+  <FILE>Bootloader.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <MainEntryPoint><FILE>C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm</FILE><LINE>7</LINE></MainEntryPoint>
+  <DisableOrSlowDownWDT><FILE>C:\Projects\floader-avr\MCU\Bootloader\Bootloader\HAL/ATmega16Code.inc</FILE><LINE>2</LINE></DisableOrSlowDownWDT>
+  <LightUpTheLed><FILE>C:\Projects\floader-avr\MCU\Bootloader\Bootloader\HAL/ATmega16Code.inc</FILE><LINE>21</LINE></LightUpTheLed>
+  <BootloaderEntryPoint><FILE>C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm</FILE><LINE>15</LINE></BootloaderEntryPoint>
+  <HangForever><FILE>C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm</FILE><LINE>32</LINE></HangForever>
+ </LABELS>
+</ASSEMBLER_INFO>
