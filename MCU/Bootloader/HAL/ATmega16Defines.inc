@@ -1,4 +1,4 @@
-.include "m16def.inc"
+.include "HAL/m16def.inc"
 
 .set	BootloaderStartAddress		=	0x1E00			; Bootloader starts here
 
