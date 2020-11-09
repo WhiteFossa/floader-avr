@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm Mon Nov 09 20:28:06 2020
+AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm Mon Nov 09 20:37:03 2020
 
 
 EQU  SIGNATURE_000 0000001e
