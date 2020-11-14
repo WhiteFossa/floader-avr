@@ -5,7 +5,8 @@
 ; Endless loop at main entry point
 .org						0x0000
 MainEntryPoint:
-							rjmp		MainEntryPoint
+;							rjmp		MainEntryPoint
+							jmp			BootloaderEntryPoint
 
 ; Bootloader entry point
 .org						BootloaderStartAddress
@@ -22,7 +23,7 @@ BootloaderEntryPoint:
 							out			SPL,			R16
 
 							; Disabling or slowing down WDT
-							call		DisableOrSlowDownWDT
+;							call		DisableOrSlowDownWDT
 
 							; Lighting on LED (test)
 							call SignalizeBootloaderMode
