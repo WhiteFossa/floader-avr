@@ -26,9 +26,9 @@
  </OUTPUT_FILES>
  <LABELS>
   <MainEntryPoint><FILE>C:\Projects\floader-avr\MCU\Bootloader\main.asm</FILE><LINE>7</LINE></MainEntryPoint>
+  <BootloaderEntryPoint><FILE>C:\Projects\floader-avr\MCU\Bootloader\main.asm</FILE><LINE>13</LINE></BootloaderEntryPoint>
   <DisableOrSlowDownWDT><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>2</LINE></DisableOrSlowDownWDT>
   <SignalizeBootloaderMode><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>22</LINE></SignalizeBootloaderMode>
-  <BootloaderEntryPoint><FILE>C:\Projects\floader-avr\MCU\Bootloader\main.asm</FILE><LINE>15</LINE></BootloaderEntryPoint>
-  <HangForever><FILE>C:\Projects\floader-avr\MCU\Bootloader\main.asm</FILE><LINE>32</LINE></HangForever>
+  <HangForever><FILE>C:\Projects\floader-avr\MCU\Bootloader\main.asm</FILE><LINE>30</LINE></HangForever>
  </LABELS>
 </ASSEMBLER_INFO>

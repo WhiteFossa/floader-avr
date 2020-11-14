@@ -10,8 +10,6 @@ MainEntryPoint:
 ; Bootloader entry point
 .org						BootloaderStartAddress
 
-.include "HAL/ATmega16/Code.inc"
-
 BootloaderEntryPoint:
 							cli
 
@@ -22,7 +20,7 @@ BootloaderEntryPoint:
 							out			SPL,			R16
 
 							; Disabling or slowing down WDT
-;							call		DisableOrSlowDownWDT
+							call		DisableOrSlowDownWDT
 
 							; Lighting on LED (test)
 							call SignalizeBootloaderMode
@@ -31,3 +29,5 @@ BootloaderEntryPoint:
 							; Must never reach this code
 HangForever:
 							rjmp		HangForever
+
+.include "HAL/ATmega16/Code.inc"

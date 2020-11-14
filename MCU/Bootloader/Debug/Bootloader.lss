@@ -1,14 +1,14 @@
 
-AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\main.asm Sat Nov 14 16:45:48 2020
+AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\main.asm Sat Nov 14 16:57:42 2020
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16def.inc'
 C:\Projects\floader-avr\MCU\Bootloader\main.asm(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc'
 C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/m16def.inc'
-C:\Projects\floader-avr\MCU\Bootloader\main.asm(13): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc'
+C:\Projects\floader-avr\MCU\Bootloader\main.asm(33): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16def.inc'
 C:\Projects\floader-avr\MCU\Bootloader\main.asm(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc'
 C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/m16def.inc'
-C:\Projects\floader-avr\MCU\Bootloader\main.asm(13): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc'
+C:\Projects\floader-avr\MCU\Bootloader\main.asm(33): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc'
                                  
                                  .include "HAL/ATmega16/Defines.inc"
                                  
@@ -940,50 +940,51 @@ C:\Projects\floader-avr\MCU\Bootloader\main.asm(13): Including file 'C:\Projects
                                  ; Bootloader entry point
                                  .org						BootloaderStartAddress
                                  
+                                 BootloaderEntryPoint:
+001e00 94f8                      							cli
+                                 
+                                 							; Setting up stack
+001e01 e004                      							ldi			R16,			high(ramend)
+001e02 bf0e                      							out			SPH,			R16
+001e03 e50f                      							ldi			R16,			low(ramend)
+001e04 bf0d                      							out			SPL,			R16
+                                 
+                                 							; Disabling or slowing down WDT
+001e05 940e 1e0a                 							call		DisableOrSlowDownWDT
+                                 
+                                 							; Lighting on LED (test)
+001e07 940e 1e16                 							call SignalizeBootloaderMode
+                                 
+                                 
+                                 							; Must never reach this code
+                                 HangForever:
+001e09 cfff                      							rjmp		HangForever
+                                 
                                  .include "HAL/ATmega16/Code.inc"
                                  
                                  DisableOrSlowDownWDT:
-001e00 930f                      							push			R16
-001e01 b70f                      							in				R16,		SREG
-001e02 930f                      							push			R16
+001e0a 930f                      							push		R16
+001e0b b70f                      							in			R16,		SREG
+001e0c 930f                      							push		R16
                                  
-001e03 b501                      							in				R16,		WDTCR
-001e04 6108                      							ori				R16,		(1 << WDTOE) | (1 << WDE)
-001e05 bd01                      							out				WDTCR,		R16 ; 4 clocks starts here
+001e0d b501                      							in			R16,		WDTCR
+001e0e 6108                      							ori			R16,		(1 << WDTOE) | (1 << WDE)
+001e0f bd01                      							out			WDTCR,		R16 ; 4 clocks starts here
                                  
-001e06 7f07                      							andi			R16,		~(1 << WDE)
-001e07 bd01                      							out				WDTCR,		R16 ; WDE disabled
+001e10 7f07                      							andi		R16,		~(1 << WDE)
+001e11 bd01                      							out			WDTCR,		R16 ; WDE disabled
                                  
-001e08 910f                      							pop				R16
-001e09 bf0f                      							out				SREG,	R16
-001e0a 910f                      							pop				R16
-001e0b 9508                      							ret
+001e12 910f                      							pop			R16
+001e13 bf0f                      							out			SREG,	R16
+001e14 910f                      							pop			R16
+001e15 9508                      							ret
                                  
                                  
                                  ; Call this procedure to signalize that device is in bootloader mode, for example
                                  ; to light up the LED
                                  SignalizeBootloaderMode:
-001e0c 9abc                      							sbi				LedDDR,		LedBit
-001e0d 9ac4                      							sbi				LedPort,	LedBit
-001e0e 9508                      
-                                 BootloaderEntryPoint:
-001e0f 94f8                      							cli
-                                 
-                                 							; Setting up stack
-001e10 e004                      							ldi			R16,			high(ramend)
-001e11 bf0e                      							out			SPH,			R16
-001e12 e50f                      							ldi			R16,			low(ramend)
-001e13 bf0d                      							out			SPL,			R16
-                                 
-                                 							; Disabling or slowing down WDT
-                                 ;							call		DisableOrSlowDownWDT
-                                 
-                                 							; Lighting on LED (test)
-001e14 940e 1e0c                 							call SignalizeBootloaderMode
-                                 
-                                 
-                                 							; Must never reach this code
-                                 HangForever:
+001e16 9abc                      							sbi			LedDDR,		LedBit
+001e17 9ac4                      							sbi			LedPort,	LedBit
 
 
 RESOURCE USE INFORMATION
@@ -1014,7 +1015,7 @@ andi  :   1 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0
 brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
 brne  :   0 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :   1 cbi   :   0 cbr   :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :   2 cbi   :   0 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   1 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
 cpi   :   0 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
@@ -1033,7 +1034,7 @@ Instructions used: 12 out of 113 (10.6%)
 "ATmega16" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x003c2e     48      0     48   16384   0.3%
+[.cseg] 0x000000 0x003c32     52      0     52   16384   0.3%
 [.dseg] 0x000060 0x000060      0      0      0    1024   0.0%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 

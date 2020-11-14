@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\main.asm Sat Nov 14 16:45:48 2020
+AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\main.asm Sat Nov 14 16:57:42 2020
 
 
 EQU  SIGNATURE_000 0000001e
@@ -609,7 +609,7 @@ SET  LedPort      00000018
 SET  LedDDR       00000017
 SET  LedBit       00000004
 CSEG MainEntryPoint 00000000
-CSEG DisableOrSlowDownWDT 00001e00
-CSEG SignalizeBootloaderMode 00001e0c
-CSEG BootloaderEntryPoint 00001e0f
-CSEG HangForever  00001e16
+CSEG BootloaderEntryPoint 00001e00
+CSEG DisableOrSlowDownWDT 00001e0a
+CSEG SignalizeBootloaderMode 00001e16
+CSEG HangForever  00001e09
