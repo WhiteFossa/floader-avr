@@ -1,14 +1,16 @@
 
-AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\main.asm Sat Nov 14 16:57:42 2020
+AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\main.asm Sat Nov 14 17:15:40 2020
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16def.inc'
 C:\Projects\floader-avr\MCU\Bootloader\main.asm(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc'
 C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/m16def.inc'
-C:\Projects\floader-avr\MCU\Bootloader\main.asm(33): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc'
+C:\Projects\floader-avr\MCU\Bootloader\main.asm(2): Including file 'C:\Projects\floader-avr\MCU\Bootloader\macros.inc'
+C:\Projects\floader-avr\MCU\Bootloader\main.asm(35): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16def.inc'
 C:\Projects\floader-avr\MCU\Bootloader\main.asm(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc'
 C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/m16def.inc'
-C:\Projects\floader-avr\MCU\Bootloader\main.asm(33): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc'
+C:\Projects\floader-avr\MCU\Bootloader\main.asm(2): Including file 'C:\Projects\floader-avr\MCU\Bootloader\macros.inc'
+C:\Projects\floader-avr\MCU\Bootloader\main.asm(35): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc'
                                  
                                  .include "HAL/ATmega16/Defines.inc"
                                  
@@ -929,6 +931,29 @@ C:\Projects\floader-avr\MCU\Bootloader\main.asm(33): Including file 'C:\Projects
                                  .set	LedBit						= 4
                                  
                                  
+                                 .include "macros.inc"
+                                 
+                                 
+                                 ; First memory-mapped register address
+                                 .set	FirstMemoryMappedRegister		= 0x40
+                                 
+                                 ; Universal out - uses short/long out depending on IO register address
+                                 .macro uout
+                                 	.if @0 < FirstMemoryMappedRegister
+                                 							out		@0,		@1
+                                 	.else
+                                 							sts		@0,		@1
+                                 	.endif
+                                 .endm
+                                 
+                                 ; As Universal out, but for in
+                                 .macro uin
+                                 	.if @1 < 0x40 ; First memory-mapped address
+                                 							in		@0,		@1
+                                 	.else
+                                 							lds		@0,		@1
+                                 	.endif
+                                 
                                  
                                  .cseg
                                  
@@ -945,9 +970,9 @@ C:\Projects\floader-avr\MCU\Bootloader\main.asm(33): Including file 'C:\Projects
                                  
                                  							; Setting up stack
 001e01 e004                      							ldi			R16,			high(ramend)
-001e02 bf0e                      							out			SPH,			R16
+001e02 bf0e                      							uout		SPH,			R16
 001e03 e50f                      							ldi			R16,			low(ramend)
-001e04 bf0d                      							out			SPL,			R16
+001e04 bf0d                      							uout		SPL,			R16
                                  
                                  							; Disabling or slowing down WDT
 001e05 940e 1e0a                 							call		DisableOrSlowDownWDT
@@ -964,18 +989,18 @@ C:\Projects\floader-avr\MCU\Bootloader\main.asm(33): Including file 'C:\Projects
                                  
                                  DisableOrSlowDownWDT:
 001e0a 930f                      							push		R16
-001e0b b70f                      							in			R16,		SREG
+001e0b b70f                      							uin			R16,		SREG
 001e0c 930f                      							push		R16
                                  
-001e0d b501                      							in			R16,		WDTCR
+001e0d b501                      							uin			R16,		WDTCR
 001e0e 6108                      							ori			R16,		(1 << WDTOE) | (1 << WDE)
-001e0f bd01                      							out			WDTCR,		R16 ; 4 clocks starts here
+001e0f bd01                      							uout		WDTCR,		R16 ; 4 clocks starts here
                                  
 001e10 7f07                      							andi		R16,		~(1 << WDE)
-001e11 bd01                      							out			WDTCR,		R16 ; WDE disabled
+001e11 bd01                      							uout		WDTCR,		R16 ; WDE disabled
                                  
 001e12 910f                      							pop			R16
-001e13 bf0f                      							out			SREG,	R16
+001e13 bf0f                      							uout		SREG,		R16
 001e14 910f                      							pop			R16
 001e15 9508                      							ret
                                  

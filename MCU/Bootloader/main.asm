@@ -1,4 +1,6 @@
 .include "HAL/ATmega16/Defines.inc"
+.include "macros.inc"
+
 
 .cseg
 
@@ -15,9 +17,9 @@ BootloaderEntryPoint:
 
 							; Setting up stack
 							ldi			R16,			high(ramend)
-							out			SPH,			R16
+							uout		SPH,			R16
 							ldi			R16,			low(ramend)
-							out			SPL,			R16
+							uout		SPL,			R16
 
 							; Disabling or slowing down WDT
 							call		DisableOrSlowDownWDT
