@@ -5,8 +5,7 @@
 ; Endless loop at main entry point
 .org						0x0000
 MainEntryPoint:
-;							rjmp		MainEntryPoint
-							jmp			BootloaderEntryPoint
+							rjmp		MainEntryPoint
 
 ; Bootloader entry point
 .org						BootloaderStartAddress
