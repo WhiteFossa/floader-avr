@@ -1,4 +1,4 @@
-.include "HAL/ATmega16Defines.inc"
+.include "HAL/ATmega16/Defines.inc"
 
 .cseg
 
@@ -10,7 +10,7 @@ MainEntryPoint:
 ; Bootloader entry point
 .org						BootloaderStartAddress
 
-.include "HAL/ATmega16Code.inc"
+.include "HAL/ATmega16/Code.inc"
 
 BootloaderEntryPoint:
 							cli
@@ -25,7 +25,7 @@ BootloaderEntryPoint:
 							call		DisableOrSlowDownWDT
 
 							; Lighting on LED (test)
-							call LightUpTheLed
+							call SignalizeBootloaderMode
 
 
 							; Must never reach this code

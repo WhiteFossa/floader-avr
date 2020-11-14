@@ -17,8 +17,9 @@ DisableOrSlowDownWDT:
 							ret
 
 
-; Light-up the LED
-LightUpTheLed:
+; Call this procedure to signalize that device is in bootloader mode, for example
+; to light up the LED
+SignalizeBootloaderMode:
 							sbi				LedDDR,		LedBit
 							sbi				LedPort,	LedBit
 							ret

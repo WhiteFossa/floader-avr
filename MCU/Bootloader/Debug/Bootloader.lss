@@ -1,16 +1,16 @@
 
-AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm Mon Nov 09 20:37:03 2020
+AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\main.asm Sat Nov 14 16:18:07 2020
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16def.inc'
-C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\Bootloader\HAL/ATmega16Defines.inc'
-C:\Projects\floader-avr\MCU\Bootloader\Bootloader\HAL/ATmega16Defines.inc(1): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16def.inc'
-C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm(13): Including file 'C:\Projects\floader-avr\MCU\Bootloader\Bootloader\HAL/ATmega16Code.inc'
+C:\Projects\floader-avr\MCU\Bootloader\main.asm(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc'
+C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/m16def.inc'
+C:\Projects\floader-avr\MCU\Bootloader\main.asm(13): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16def.inc'
-C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\Bootloader\HAL/ATmega16Defines.inc'
-C:\Projects\floader-avr\MCU\Bootloader\Bootloader\HAL/ATmega16Defines.inc(1): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16def.inc'
-C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm(13): Including file 'C:\Projects\floader-avr\MCU\Bootloader\Bootloader\HAL/ATmega16Code.inc'
+C:\Projects\floader-avr\MCU\Bootloader\main.asm(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc'
+C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/m16def.inc'
+C:\Projects\floader-avr\MCU\Bootloader\main.asm(13): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc'
                                  
-                                 .include "HAL/ATmega16Defines.inc"
+                                 .include "HAL/ATmega16/Defines.inc"
                                  
                                  ;***** Created: 2011-02-09 12:03 ******* Source: ATmega16.xml ************
                                  ;*************************************************************************
@@ -940,7 +940,7 @@ C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm(13): Including file '
                                  ; Bootloader entry point
                                  .org						BootloaderStartAddress
                                  
-                                 .include "HAL/ATmega16Code.inc"
+                                 .include "HAL/ATmega16/Code.inc"
                                  
                                  DisableOrSlowDownWDT:
 001e00 930f                      							push			R16
@@ -960,8 +960,9 @@ C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm(13): Including file '
 001e0b 9508                      							ret
                                  
                                  
-                                 ; Light-up the LED
-                                 LightUpTheLed:
+                                 ; Call this procedure to signalize that device is in bootloader mode, for example
+                                 ; to light up the LED
+                                 SignalizeBootloaderMode:
 001e0c 9abc                      							sbi				LedDDR,		LedBit
 001e0d 9ac4                      							sbi				LedPort,	LedBit
 001e0e 9508                      
@@ -978,7 +979,7 @@ C:\Projects\floader-avr\MCU\Bootloader\Bootloader\main.asm(13): Including file '
 001e14 940e 1e00                 							call		DisableOrSlowDownWDT
                                  
                                  							; Lighting on LED (test)
-001e16 940e 1e0c                 							call LightUpTheLed
+001e16 940e 1e0c                 							call SignalizeBootloaderMode
                                  
                                  
                                  							; Must never reach this code
