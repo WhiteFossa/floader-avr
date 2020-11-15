@@ -19,4 +19,9 @@
 .set	Baudrate					= 57600
 .set	BaudrateDivider				= OscFreq / (16 * Baudrate) - 1 ; UART divider
 
+; FLASH
+.set	FlashPagesTotal				= 128
+.set	FlashPageAddressMultiplier	= 7 ; Multiply page address to this value to get page first byte address
+.set	FlashPageSize				= 128
+
 
