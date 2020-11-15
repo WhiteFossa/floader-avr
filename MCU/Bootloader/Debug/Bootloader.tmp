@@ -7,12 +7,13 @@
   <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
   <DIR></DIR>
  </INCLUDE_PATH>
- <SOURCE_FILE>C:\Projects\floader-avr\MCU\Bootloader\main.asm</SOURCE_FILE>
+ <SOURCE_FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</SOURCE_FILE>
  <INCLUDED_FILES>
   <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16def.inc</FILE>
   <FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc</FILE>
   <FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/m16def.inc</FILE>
-  <FILE>C:\Projects\floader-avr\MCU\Bootloader\macros.inc</FILE>
+  <FILE>C:\Projects\floader-avr\MCU\Bootloader\Macros.inc</FILE>
+  <FILE>C:\Projects\floader-avr\MCU\Bootloader\DeviceIdentificationData.inc</FILE>
   <FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE>
  </INCLUDED_FILES>
  <OBJECT_FILES>
@@ -26,18 +27,20 @@
   <FILE>Bootloader.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <MainEntryPoint><FILE>C:\Projects\floader-avr\MCU\Bootloader\main.asm</FILE><LINE>9</LINE></MainEntryPoint>
-  <BootloaderEntryPoint><FILE>C:\Projects\floader-avr\MCU\Bootloader\main.asm</FILE><LINE>15</LINE></BootloaderEntryPoint>
+  <MainEntryPoint><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>10</LINE></MainEntryPoint>
+  <BootloaderEntryPoint><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>16</LINE></BootloaderEntryPoint>
   <DisableOrSlowDownWDT><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>2</LINE></DisableOrSlowDownWDT>
   <InitializeHardwarePreEnter><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>21</LINE></InitializeHardwarePreEnter>
   <IsEnterBootloader><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>80</LINE></IsEnterBootloader>
-  <EnterBootloader><FILE>C:\Projects\floader-avr\MCU\Bootloader\main.asm</FILE><LINE>37</LINE></EnterBootloader>
+  <EnterBootloader><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>38</LINE></EnterBootloader>
   <InitializeHardwarePostEnter><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>43</LINE></InitializeHardwarePostEnter>
   <SignalizeBootloaderMode><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>74</LINE></SignalizeBootloaderMode>
-  <MainLoop><FILE>C:\Projects\floader-avr\MCU\Bootloader\main.asm</FILE><LINE>45</LINE></MainLoop>
+  <MainLoop><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>46</LINE></MainLoop>
   <UartReadByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>103</LINE></UartReadByte>
+  <LblIdentify><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>55</LINE></LblIdentify>
+  <Identify><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>64</LINE></Identify>
+  <HangForever><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>60</LINE></HangForever>
   <UartSendByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>124</LINE></UartSendByte>
-  <HangForever><FILE>C:\Projects\floader-avr\MCU\Bootloader\main.asm</FILE><LINE>54</LINE></HangForever>
   <IsEnterBootloaderGoingIn><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>97</LINE></IsEnterBootloaderGoingIn>
   <IsEnterBootloaderExit><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>91</LINE></IsEnterBootloaderExit>
   <UartReadByteWait><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>108</LINE></UartReadByteWait>

@@ -15,7 +15,7 @@
     <Name>Bootloader</Name>
     <RootNamespace>Bootloader</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
-    <EntryFile>$(MSBuildProjectDirectory)\main.asm</EntryFile>
+    <EntryFile>$(MSBuildProjectDirectory)\Main.asm</EntryFile>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
@@ -68,6 +68,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DeviceIdentificationData.inc">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="HAL\ATmega16\Code.inc">
       <SubType>Code</SubType>
     </Compile>
@@ -77,10 +80,10 @@
     <Compile Include="HAL\ATmega16\m16def.inc">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="macros.inc">
+    <Compile Include="Macros.inc">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="main.asm">
+    <Compile Include="Main.asm">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
