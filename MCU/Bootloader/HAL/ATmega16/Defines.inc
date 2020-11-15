@@ -8,3 +8,10 @@
 .set	LedBit						= 4
 
 
+; Listen this port for bootloader button press (zero level)
+.set	ListenPort					= PORTB
+.set	ListenDDR					= DDRB
+.set	ListenPin					= PINB
+.set	ListenBit					= 0
+
+

@@ -14,6 +14,7 @@ MainEntryPoint:
 
 BootloaderEntryPoint:
 							cli
+							wdr
 
 							; Setting up stack
 							ldi			R16,			high(ramend)
@@ -24,7 +25,17 @@ BootloaderEntryPoint:
 							; Disabling or slowing down WDT
 							call		DisableOrSlowDownWDT
 
-							; Lighting on LED (test)
+							; Initializing hardware
+							call		InitializeHardware
+
+							; Do we need to enter bootloader
+							call		IsEnterBootloader
+							tst			R16
+							breq		EnterBootloader
+							jmp			MainEntryPoint
+
+EnterBootloader:
+							; Signalizing that we are in bootloader
 							call SignalizeBootloaderMode
 
 
