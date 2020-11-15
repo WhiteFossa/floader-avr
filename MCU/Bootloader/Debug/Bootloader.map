@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\main.asm Sun Nov 15 11:19:32 2020
+AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\main.asm Sun Nov 15 16:37:55 2020
 
 
 EQU  SIGNATURE_000 0000001e
@@ -626,9 +626,9 @@ CSEG InitializeHardwarePostEnter 00001e33
 CSEG SignalizeBootloaderMode 00001e46
 CSEG MainLoop     00001e14
 CSEG UartReadByte 00001e55
-CSEG UartSendByte 00001e60
+CSEG UartSendByte 00001e61
 CSEG HangForever  00001e19
 CSEG IsEnterBootloaderGoingIn 00001e53
 CSEG IsEnterBootloaderExit 00001e4f
 CSEG UartReadByteWait 00001e58
-CSEG UartSendByteWait 00001e63
+CSEG UartSendByteWait 00001e64

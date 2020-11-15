@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\main.asm Sun Nov 15 11:19:32 2020
+AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\main.asm Sun Nov 15 16:37:55 2020
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16def.inc'
 C:\Projects\floader-avr\MCU\Bootloader\main.asm(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc'
@@ -1011,7 +1011,7 @@ C:\Projects\floader-avr\MCU\Bootloader\main.asm(57): Including file 'C:\Projects
                                  		
                                  							; Just echo (for test)
 001e14 940e 1e55                 							call		UartReadByte
-001e16 940e 1e60                 							call		UartSendByte
+001e16 940e 1e61                 							call		UartSendByte
                                  
 001e18 cffb                      							rjmp		MainLoop
                                  
@@ -1128,36 +1128,38 @@ C:\Projects\floader-avr\MCU\Bootloader\main.asm(57): Including file 'C:\Projects
 001e57 931f                      							push		R17
                                  
                                  UartReadByteWait:
-001e58 b10b                      							uin			R16,		UCSRA
-001e59 ff07                      							sbrs		R16,		RXC ; Skipping loop jump in RXC is set
-001e5a cffd                      							rjmp		UartReadByteWait
+001e58 95a8                      							wdr
+001e59 b10b                      							uin			R16,		UCSRA
+001e5a ff07                      							sbrs		R16,		RXC ; Skipping loop jump in RXC is set
+001e5b cffc                      							rjmp		UartReadByteWait
                                  
                                  							; Byte came
-001e5b b10c                      							uin			R16,		UDR
+001e5c b10c                      							uin			R16,		UDR
                                  
-001e5c 911f                      							pop			R17
-001e5d bf1f                      							uout		SREG,		R17
-001e5e 911f                      							pop			R17
-001e5f 9508                      							ret
+001e5d 911f                      							pop			R17
+001e5e bf1f                      							uout		SREG,		R17
+001e5f 911f                      							pop			R17
+001e60 9508                      							ret
                                  
                                  
                                  ; Call this to send byte over UART. Blocks until UART is ready for transmission. Byte must be in R16.
                                  UartSendByte:
-001e60 931f                      							push		R17
-001e61 b71f                      							uin			R17,		SREG
-001e62 931f                      							push		R17
+001e61 931f                      							push		R17
+001e62 b71f                      							uin			R17,		SREG
+001e63 931f                      							push		R17
                                  
                                  							; Waiting for readyness
                                  UartSendByteWait:
-001e63 b11b                      							uin			R17,		UCSRA
-001e64 ff15                      							sbrs		R17,		UDRE
-001e65 cffd                      							rjmp		UartSendByteWait
+001e64 95a8                      							wdr
+001e65 b11b                      							uin			R17,		UCSRA
+001e66 ff15                      							sbrs		R17,		UDRE
+001e67 cffc                      							rjmp		UartSendByteWait
                                  
-001e66 b90c                      							uout		UDR,		R16
+001e68 b90c                      							uout		UDR,		R16
                                  
-001e67 911f                      							pop			R17
-001e68 bf1f                      							uout		SREG,		R17
 001e69 911f                      							pop			R17
+001e6a bf1f                      							uout		SREG,		R17
+001e6b 911f                      							pop			R17
 
 
 RESOURCE USE INFORMATION
@@ -1201,13 +1203,13 @@ ror   :   0 sbc   :   0 sbci  :   0 sbi   :   3 sbic  :   0 sbis  :   0
 sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   2 sec   :   0 seh   :   0 
 sei   :   0 sen   :   0 ser   :   1 ses   :   0 set   :   0 sev   :   0 
 sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   0 
-sub   :   0 subi  :   0 swap  :   0 tst   :   1 wdr   :   1 
+sub   :   0 subi  :   0 swap  :   0 tst   :   1 wdr   :   3 
 Instructions used: 20 out of 113 (17.7%)
 
 "ATmega16" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x003cd6    216      0    216   16384   1.3%
+[.cseg] 0x000000 0x003cda    220      0    220   16384   1.3%
 [.dseg] 0x000060 0x000060      0      0      0    1024   0.0%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 

@@ -106,6 +106,7 @@ UartReadByte:
 							push		R17
 
 UartReadByteWait:
+							wdr
 							uin			R16,		UCSRA
 							sbrs		R16,		RXC ; Skipping loop jump in RXC is set
 							rjmp		UartReadByteWait
@@ -127,6 +128,7 @@ UartSendByte:
 
 							; Waiting for readyness
 UartSendByteWait:
+							wdr
 							uin			R17,		UCSRA
 							sbrs		R17,		UDRE
 							rjmp		UartSendByteWait
