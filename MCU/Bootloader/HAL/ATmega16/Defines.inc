@@ -14,4 +14,9 @@
 .set	ListenPin					= PINB
 .set	ListenBit					= 0
 
+; Clocks
+.set	OscFreq						= 16000000
+.set	Baudrate					= 57600
+.set	BaudrateDivider				= OscFreq / (16 * Baudrate) - 1 ; UART divider
+
 

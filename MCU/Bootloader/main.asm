@@ -25,8 +25,8 @@ BootloaderEntryPoint:
 							; Disabling or slowing down WDT
 							call		DisableOrSlowDownWDT
 
-							; Initializing hardware
-							call		InitializeHardware
+							; Initializing hardware (pre-enter)
+							call		InitializeHardwarePreEnter
 
 							; Do we need to enter bootloader
 							call		IsEnterBootloader
@@ -35,9 +35,20 @@ BootloaderEntryPoint:
 							jmp			MainEntryPoint
 
 EnterBootloader:
+							; Initializing hardware (post-enter, like UART)
+							call InitializeHardwarePostEnter
+
 							; Signalizing that we are in bootloader
 							call SignalizeBootloaderMode
 
+							; Command processing loop
+MainLoop:
+		
+							; Just echo (for test)
+							call		UartReadByte
+							call		UartSendByte
+
+							rjmp		MainLoop
 
 							; Must never reach this code
 HangForever:
