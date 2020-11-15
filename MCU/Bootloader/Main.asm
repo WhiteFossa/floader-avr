@@ -51,12 +51,19 @@ MainLoop:
 							cpi			R16,			'I' ; Identify
 							breq		LblIdentify
 
+							cpi			R16,			'Q' ; Quit (reboot into main firmware)
+							breq		LblQuit
+
 							rjmp		MainLoop
 
 ; Identification entry point
 LblIdentify:
 							call		Identify
 							rjmp		MainLoop
+
+; Boot mode quit entry point
+LblQuit:
+							jmp			Quit ; Quit is not a procedure, there is no return
 
 							; Must never reach this code
 HangForever:
@@ -93,6 +100,14 @@ IdentifyExit:
 							pop			R17
 							pop			R16
 							ret
+
+
+; Jump here to quit into main firmware
+Quit:
+							ldi			R16,			'B' ; Send "BYE" to client software
+							call		UartSendByte
+							call		UartSendByte	; Second call acts as "wait till previous transmission completed"
+							jmp			MainEntryPoint
 
 
 ; Send this to UART to identify yourself
