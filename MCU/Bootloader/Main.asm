@@ -2,6 +2,8 @@
 .include "Macros.inc"
 .include "DeviceIdentificationData.inc"
 
+; Private use definitions
+.set	IdentificationSequenceLength	= 14
 
 .cseg
 
@@ -63,50 +65,37 @@ HangForever:
 ; Call this to identify device
 Identify:
 							push		R16
+							push		R17
+							push		ZL
+							push		ZH
 							uin			R16,			SREG
 							push		R16
 
-							; Bootloader signature
-							ldi			R16,			'F'
-							call		UartSendByte
-							ldi			R16,			'B'
-							call		UartSendByte
-							ldi			R16,			'L'
-							call		UartSendByte
+							; Setting start address and counter
+							ldi			ZL,				low(IdentificationSequence * 2)
+							ldi			ZH,				high(IdentificationSequence * 2)
+							clr			R17
 
-							; Version (simple bootloader = 0x01)
-							ldi			R16,			0x01
+IdentifySendNextByte:
+							lpm			R16,			Z+
 							call		UartSendByte
+							inc			R17
+							cpi			R17,			IdentificationSequenceLength
+							breq		IdentifyExit
+							rjmp		IdentifySendNextByte
+							
 
-							; Vendor identifier
-							ldi			R16,			VendorId2
-							call		UartSendByte
-							ldi			R16,			VendorId1
-							call		UartSendByte
-							ldi			R16,			VendorId0
-							call		UartSendByte
-
-							; Model identifier
-							ldi			R16,			ModelId2
-							call		UartSendByte
-							ldi			R16,			ModelId1
-							call		UartSendByte
-							ldi			R16,			ModelId0
-							call		UartSendByte
-
-							; Serial number
-							ldi			R16,			SerialNumber3
-							call		UartSendByte
-							ldi			R16,			SerialNumber2
-							call		UartSendByte
-							ldi			R16,			SerialNumber1
-							call		UartSendByte
-							ldi			R16,			SerialNumber0
-							call		UartSendByte
-
+IdentifyExit:
 							pop			R16
 							uout		SREG,			R16
+							pop			ZH
+							pop			ZL
+							pop			R17
 							pop			R16
 							ret
+
+
+; Send this to UART to identify yourself
+IdentificationSequence:		.db 'F', 'B', 'L', 0x01, VendorId2, VendorId1, VendorId0, ModelId2, ModelId1, ModelId0, SerialNumber3, SerialNumber2, SerialNumber1, SerialNumber0
 
 .include "HAL/ATmega16/Code.inc"

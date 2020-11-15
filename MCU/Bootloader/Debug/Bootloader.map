@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\Main.asm Sun Nov 15 17:02:14 2020
+AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\Main.asm Sun Nov 15 17:29:17 2020
 
 
 EQU  SIGNATURE_000 0000001e
@@ -626,21 +626,25 @@ SET  SerialNumber3 00000000
 SET  SerialNumber2 00000000
 SET  SerialNumber1 00000000
 SET  SerialNumber0 00000001
+SET  IdentificationSequenceLength 0000000e
 CSEG MainEntryPoint 00000000
 CSEG BootloaderEntryPoint 00001e00
-CSEG DisableOrSlowDownWDT 00001e4e
-CSEG InitializeHardwarePreEnter 00001e5a
-CSEG IsEnterBootloader 00001e7c
+CSEG DisableOrSlowDownWDT 00001e3b
+CSEG InitializeHardwarePreEnter 00001e47
+CSEG IsEnterBootloader 00001e69
 CSEG EnterBootloader 00001e10
-CSEG InitializeHardwarePostEnter 00001e67
-CSEG SignalizeBootloaderMode 00001e7a
+CSEG InitializeHardwarePostEnter 00001e54
+CSEG SignalizeBootloaderMode 00001e67
 CSEG MainLoop     00001e14
-CSEG UartReadByte 00001e89
+CSEG UartReadByte 00001e76
 CSEG LblIdentify  00001e19
 CSEG Identify     00001e1d
 CSEG HangForever  00001e1c
-CSEG UartSendByte 00001e95
-CSEG IsEnterBootloaderGoingIn 00001e87
-CSEG IsEnterBootloaderExit 00001e83
-CSEG UartReadByteWait 00001e8c
-CSEG UartSendByteWait 00001e98
+CSEG IdentificationSequence 00001e34
+CSEG IdentifySendNextByte 00001e26
+CSEG UartSendByte 00001e82
+CSEG IdentifyExit 00001e2d
+CSEG IsEnterBootloaderGoingIn 00001e74
+CSEG IsEnterBootloaderExit 00001e70
+CSEG UartReadByteWait 00001e79
+CSEG UartSendByteWait 00001e85
