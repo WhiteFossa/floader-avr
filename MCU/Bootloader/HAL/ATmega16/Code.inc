@@ -139,3 +139,30 @@ UartSendByteWait:
 							uout		SREG,		R17
 							pop			R17
 							ret
+
+
+; Call this to read EEPROM data. Put address into XH:XL and data will be returned in R16.
+; Doesn't check address correctness.
+ReadEeprom:
+							push		R19
+							uin			R19,		SREG
+							push		R19
+
+							; Waiting wor write complete (if it was initiated before)
+ReadEEPROMWaitForWriteCompletion:
+							wdr
+							sbic		EECR,		EEWE
+							rjmp		ReadEEPROMWaitForWriteCompletion
+
+							; Set up address
+							uout		EEARH,		XH
+							uout		EEARL,		XL
+
+							; Reading
+							sbi			EECR,		EERE
+							uin			R16,		EEDR
+
+							pop			R19
+							uout		SREG,		R19
+							pop			R19
+							ret

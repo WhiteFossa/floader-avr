@@ -49,7 +49,7 @@ EnterBootloader:
 
 							; Command processing loop
 MainLoop:
-							call		UartReadByte
+							call		UartReadByte ; Watchdog is reset here
 
 							cpi			R16,			'I' ; Identify
 							breq		LblIdentify
@@ -59,6 +59,9 @@ MainLoop:
 
 							cpi			R16,			'R' ; Read FLASH page
 							breq		LblReadFlashPage
+
+							cpi			R16,			'r' ; Read EEPROM
+							breq		LblReadEeprom
 
 							rjmp		MainLoop
 
@@ -71,10 +74,16 @@ LblIdentify:
 LblQuit:
 							jmp			Quit ; Quit is not a procedure, there is no return
 
-; Read flash page entry point
+; Read EEPROM page entry point
 LblReadFlashPage:
 							call		ReadFlashPage
 							rjmp		MainLoop
+
+; Read EEPROM entry point
+LblReadEeprom:
+							call		ReadAllEeprom
+							rjmp		MainLoop
+
 
 							; Must never reach this code
 HangForever:
@@ -167,13 +176,54 @@ ReadFlashPageMultiplyAddressByTwo:
 
 ReadFlashPageReadNextByte:
 							lpm			R16,			Z+
-							call		UartSendByte
+							call		UartSendByte ; Watchdog is reset here
 							inc			R17
 							cpi			R17,			FlashPageSize
 							brlo		ReadFlashPageReadNextByte
 ReadFlashPageExit:
 							pop			R16
 							uout		SREG,			R16
+							pop			R17
+							pop			R16
+							ret
+
+
+; Read all EEPROM
+ReadAllEeprom:
+							push		R16
+							push		R17
+							push		R18
+							push		XL
+							push		XH
+							uin			R16,			SREG
+							push		R16
+
+							; Loading start address
+							clr			XL ; Low
+							clr			XH ; High
+
+							; And end one
+							ldi			R17,			low(EEPROMEND + 1)
+							ldi			R18,			high(EEPROMEND + 1)
+
+ReadAllEepromNextByte:
+							call		ReadEeprom ; Watchdog is reset here
+							call		UartSendByte
+
+							adiw		XH:XL,			1
+
+							; Comparing addresses
+							cp			XL,				R17
+							cpc			XH,				R18
+
+							brne		ReadAllEepromNextByte
+
+
+							pop			R16
+							uout		SREG,			R16
+							pop			XH
+							pop			XL
+							pop			R18
 							pop			R17
 							pop			R16
 							ret
