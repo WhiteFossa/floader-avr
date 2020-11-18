@@ -89,7 +89,7 @@ LblReadEeprom:
 
 ; Write EEPROM entry point
 LblWriteEeprom:
-							call		WriteEeprom
+							call		WriteAllEeprom
 							rjmp		MainLoop
 
 
@@ -257,7 +257,7 @@ WriteAllEeprom:
 
 WriteAllEepromNextByte:
 							call		UartReadByte
-							;call		WriteEeprom
+							call		WriteEeprom
 
 							adiw		XH:XL,			1
 

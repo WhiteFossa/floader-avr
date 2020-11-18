@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\Main.asm Wed Nov 18 12:31:52 2020
+AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\Main.asm Wed Nov 18 12:34:31 2020
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16def.inc'
 C:\Projects\floader-avr\MCU\Bootloader\Main.asm(1): Including file 'C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Defines.inc'
@@ -1018,27 +1018,27 @@ C:\Projects\floader-avr\MCU\Bootloader\Main.asm(292): Including file 'C:\Project
 001e05 bf0d                      							uout		SPL,			R16
                                  
                                  							; Disabling or slowing down WDT
-001e06 940e 1eb7                 							call		DisableOrSlowDownWDT
+001e06 940e 1eb9                 							call		DisableOrSlowDownWDT
                                  
                                  							; Initializing hardware (pre-enter)
-001e08 940e 1ec3                 							call		InitializeHardwarePreEnter
+001e08 940e 1ec5                 							call		InitializeHardwarePreEnter
                                  
                                  							; Do we need to enter bootloader
-001e0a 940e 1ee5                 							call		IsEnterBootloader
+001e0a 940e 1ee7                 							call		IsEnterBootloader
 001e0c 2300                      							tst			R16
 001e0d f011                      							breq		EnterBootloader
 001e0e 940c 0000                 							jmp			MainEntryPoint
                                  
                                  EnterBootloader:
                                  							; Initializing hardware (post-enter, like UART)
-001e10 940e 1ed0                 							call InitializeHardwarePostEnter
+001e10 940e 1ed2                 							call InitializeHardwarePostEnter
                                  
                                  							; Signalizing that we are in bootloader
-001e12 940e 1ee3                 							call SignalizeBootloaderMode
+001e12 940e 1ee5                 							call SignalizeBootloaderMode
                                  
                                  							; Command processing loop
                                  MainLoop:
-001e14 940e 1ef2                 							call		UartReadByte ; Watchdog is reset here
+001e14 940e 1ef4                 							call		UartReadByte ; Watchdog is reset here
                                  
 001e16 3409                      							cpi			R16,			'I' ; Identify
 001e17 f049                      							breq		LblIdentify
@@ -1078,7 +1078,7 @@ C:\Projects\floader-avr\MCU\Bootloader\Main.asm(292): Including file 'C:\Project
                                  
                                  ; Write EEPROM entry point
                                  LblWriteEeprom:
-001e2c 940e 1f18                 							call		WriteEeprom
+001e2c 940e 1e90                 							call		WriteAllEeprom
 001e2e cfe5                      							rjmp		MainLoop
                                  
                                  
@@ -1096,13 +1096,13 @@ C:\Projects\floader-avr\MCU\Bootloader\Main.asm(292): Including file 'C:\Project
 001e35 930f                      							push		R16
                                  
                                  							; Setting start address and counter
-001e36 e6e0                      							ldi			ZL,				low(IdentificationSequence * 2)
+001e36 e6e4                      							ldi			ZL,				low(IdentificationSequence * 2)
 001e37 e3fd                      							ldi			ZH,				high(IdentificationSequence * 2)
 001e38 2711                      							clr			R17
                                  
                                  IdentifySendNextByte:
 001e39 9105                      							lpm			R16,			Z+
-001e3a 940e 1efe                 							call		UartSendByte
+001e3a 940e 1f00                 							call		UartSendByte
 001e3c 9513                      							inc			R17
 001e3d 301e                      							cpi			R17,			IdentificationSequenceLength
 001e3e f009                      							breq		IdentifyExit
@@ -1122,8 +1122,8 @@ C:\Projects\floader-avr\MCU\Bootloader\Main.asm(292): Including file 'C:\Project
                                  ; Jump here to quit into main firmware
                                  Quit:
 001e47 e402                      							ldi			R16,			'B' ; Send "BYE" to client software
-001e48 940e 1efe                 							call		UartSendByte
-001e4a 940e 1efe                 							call		UartSendByte	; Second call acts as "wait till previous transmission completed"
+001e48 940e 1f00                 							call		UartSendByte
+001e4a 940e 1f00                 							call		UartSendByte	; Second call acts as "wait till previous transmission completed"
 001e4c 940c 0000                 							jmp			MainEntryPoint
                                  
                                  
@@ -1135,7 +1135,7 @@ C:\Projects\floader-avr\MCU\Bootloader\Main.asm(292): Including file 'C:\Project
 001e51 930f                      							push		R16
                                  
                                  							; Reading FLASH page address
-001e52 940e 1ef2                 							call		UartReadByte
+001e52 940e 1ef4                 							call		UartReadByte
 001e54 2f10                      							mov			R17,			R16 ; Copy of address in R17
                                  
                                  							; Is this address correct?
@@ -1144,12 +1144,12 @@ C:\Projects\floader-avr\MCU\Bootloader\Main.asm(292): Including file 'C:\Project
                                  
                                  							; Address incorrect
 001e57 e001                      							ldi			R16,			ResultError
-001e58 940e 1efe                 							call		UartSendByte
+001e58 940e 1f00                 							call		UartSendByte
 001e5a c015                      							rjmp		ReadFlashPageExit
                                  
                                  ReadFlashPageAddressOK:
 001e5b e000                      							ldi			R16,			ResultOK
-001e5c 940e 1efe                 							call		UartSendByte
+001e5c 940e 1f00                 							call		UartSendByte
                                  
                                  							; Loading page address (R17) into ZH:ZL and multiplying it by page size
 001e5e 27ff                      							clr			ZH
@@ -1173,7 +1173,7 @@ C:\Projects\floader-avr\MCU\Bootloader\Main.asm(292): Including file 'C:\Project
                                  
                                  ReadFlashPageReadNextByte:
 001e6a 9105                      							lpm			R16,			Z+
-001e6b 940e 1efe                 							call		UartSendByte ; Watchdog is reset here
+001e6b 940e 1f00                 							call		UartSendByte ; Watchdog is reset here
 001e6d 9513                      							inc			R17
 001e6e 3810                      							cpi			R17,			FlashPageSize
 001e6f f3d0                      							brlo		ReadFlashPageReadNextByte
@@ -1204,8 +1204,8 @@ C:\Projects\floader-avr\MCU\Bootloader\Main.asm(292): Including file 'C:\Project
 001e7f e022                      							ldi			R18,			high(EEPROMEND + 1)
                                  
                                  ReadAllEepromNextByte:
-001e80 940e 1f0a                 							call		ReadEeprom ; Watchdog is reset here
-001e82 940e 1efe                 							call		UartSendByte
+001e80 940e 1f0c                 							call		ReadEeprom ; Watchdog is reset here
+001e82 940e 1f00                 							call		UartSendByte
                                  
 001e84 9611                      							adiw		XH:XL,			1
                                  
@@ -1245,240 +1245,240 @@ C:\Projects\floader-avr\MCU\Bootloader\Main.asm(292): Including file 'C:\Project
 001e9a e022                      							ldi			R18,			high(EEPROMEND + 1)
                                  
                                  WriteAllEepromNextByte:
-001e9b 940e 1ef2                 							call		UartReadByte
-                                 							;call		WriteEeprom
+001e9b 940e 1ef4                 							call		UartReadByte
+001e9d 940e 1f1a                 							call		WriteEeprom
                                  
-001e9d 9611                      							adiw		XH:XL,			1
+001e9f 9611                      							adiw		XH:XL,			1
                                  
                                  							; Is finish?
-001e9e 17a1                      							cp			XL,				R17
-001e9f 07b2                      							cpc			XH,				R18
+001ea0 17a1                      							cp			XL,				R17
+001ea1 07b2                      							cpc			XH,				R18
                                  
-001ea0 f021                      							breq		WriteAllEepromFinish
+001ea2 f021                      							breq		WriteAllEepromFinish
                                  
                                  							; Asking for next byte
-001ea1 e60e                      							ldi			R16,			'n'
-001ea2 940e 1efe                 							call		UartSendByte
-001ea4 cff6                      							rjmp		WriteAllEepromNextByte
+001ea3 e60e                      							ldi			R16,			'n'
+001ea4 940e 1f00                 							call		UartSendByte
+001ea6 cff4                      							rjmp		WriteAllEepromNextByte
                                  
                                  WriteAllEepromFinish:
-001ea5 e606                      							ldi			R16,			'f'
-001ea6 940e 1efe                 							call		UartSendByte
+001ea7 e606                      							ldi			R16,			'f'
+001ea8 940e 1f00                 							call		UartSendByte
                                  
-001ea8 910f                      							pop			R16
-001ea9 bf0f                      							uout		SREG,			R16
-001eaa 91bf                      							pop			XH
-001eab 91af                      							pop			XL
-001eac 912f                      							pop			R18
-001ead 911f                      							pop			R17
-001eae 910f                      							pop			R16
+001eaa 910f                      							pop			R16
+001eab bf0f                      							uout		SREG,			R16
+001eac 91bf                      							pop			XH
+001ead 91af                      							pop			XL
+001eae 912f                      							pop			R18
+001eaf 911f                      							pop			R17
+001eb0 910f                      							pop			R16
                                  
-001eaf 9508                      							ret
+001eb1 9508                      							ret
                                  
                                  ; Send this to UART to identify yourself
-001eb0 4246
-001eb1 014c
-001eb2 0000
-001eb3 0000
-001eb4 0100
+001eb2 4246
+001eb3 014c
+001eb4 0000
 001eb5 0000
-001eb6 0100                      IdentificationSequence:		.db 'F', 'B', 'L', 0x01, VendorId2, VendorId1, VendorId0, ModelId2, ModelId1, ModelId0, SerialNumber3, SerialNumber2, SerialNumber1, SerialNumber0
+001eb6 0100
+001eb7 0000
+001eb8 0100                      IdentificationSequence:		.db 'F', 'B', 'L', 0x01, VendorId2, VendorId1, VendorId0, ModelId2, ModelId1, ModelId0, SerialNumber3, SerialNumber2, SerialNumber1, SerialNumber0
                                  
                                  .include "HAL/ATmega16/Code.inc"
                                  
                                  DisableOrSlowDownWDT:
-001eb7 930f                      							push		R16
-001eb8 b70f                      							uin			R16,		SREG
 001eb9 930f                      							push		R16
+001eba b70f                      							uin			R16,		SREG
+001ebb 930f                      							push		R16
                                  
-001eba b501                      							uin			R16,		WDTCR
-001ebb 6108                      							ori			R16,		(1 << WDTOE) | (1 << WDE)
-001ebc bd01                      							uout		WDTCR,		R16 ; 4 clocks starts here
+001ebc b501                      							uin			R16,		WDTCR
+001ebd 6108                      							ori			R16,		(1 << WDTOE) | (1 << WDE)
+001ebe bd01                      							uout		WDTCR,		R16 ; 4 clocks starts here
                                  
-001ebd 7f07                      							andi		R16,		~(1 << WDE)
-001ebe bd01                      							uout		WDTCR,		R16 ; WDE disabled
+001ebf 7f07                      							andi		R16,		~(1 << WDE)
+001ec0 bd01                      							uout		WDTCR,		R16 ; WDE disabled
                                  
-001ebf 910f                      							pop			R16
-001ec0 bf0f                      							uout		SREG,		R16
 001ec1 910f                      							pop			R16
-001ec2 9508                      							ret
+001ec2 bf0f                      							uout		SREG,		R16
+001ec3 910f                      							pop			R16
+001ec4 9508                      							ret
                                  
                                  
                                  ; Call this to initialize hardware (before bootloader mode enter)
                                  InitializeHardwarePreEnter:
-001ec3 930f                      							push		R16
-001ec4 b70f                      							uin			R16,		SREG
 001ec5 930f                      							push		R16
+001ec6 b70f                      							uin			R16,		SREG
+001ec7 930f                      							push		R16
                                  
                                  							; All ports to input to avoid hardware damage
-001ec6 2700                      							clr			R16
-001ec7 bb0a                      							uout		DDRA,		R16
-001ec8 bb07                      							uout		DDRB,		R16
-001ec9 bb04                      							uout		DDRC,		R16
-001eca bb01                      							uout		DDRD,		R16
+001ec8 2700                      							clr			R16
+001ec9 bb0a                      							uout		DDRA,		R16
+001eca bb07                      							uout		DDRB,		R16
+001ecb bb04                      							uout		DDRC,		R16
+001ecc bb01                      							uout		DDRD,		R16
                                  
                                  							; Listening pin pull-up enable
-001ecb 9ac0                      							sbi			ListenPort,	ListenBit
+001ecd 9ac0                      							sbi			ListenPort,	ListenBit
                                  
-001ecc 910f                      							pop			R16
-001ecd bf0f                      							uout		SREG,		R16
 001ece 910f                      							pop			R16
-001ecf 9508                      							ret
+001ecf bf0f                      							uout		SREG,		R16
+001ed0 910f                      							pop			R16
+001ed1 9508                      							ret
                                  
                                  
                                  ; Call this to initialize hardware (after bootloader mode enter)
                                  InitializeHardwarePostEnter:
-001ed0 930f                      							push		R16
-001ed1 b70f                      							uin			R16,		SREG
 001ed2 930f                      							push		R16
+001ed3 b70f                      							uin			R16,		SREG
+001ed4 930f                      							push		R16
                                  
                                  							; Signalizing LED pin to output, LED not lit yet
-001ed3 9abc                      							sbi			LedDDR,		LedBit
-001ed4 98c4                      							cbi			LedPort,	LedBit
+001ed5 9abc                      							sbi			LedDDR,		LedBit
+001ed6 98c4                      							cbi			LedPort,	LedBit
                                  
                                  							; UART
-001ed5 e100                      							ldi			R16,		low(BaudrateDivider)
-001ed6 b909                      							uout		UBRRL,		R16
-001ed7 e000                      							ldi			R16,		high(BaudrateDivider)
-001ed8 bd00                      							uout		UBRRH,		R16
+001ed7 e100                      							ldi			R16,		low(BaudrateDivider)
+001ed8 b909                      							uout		UBRRL,		R16
+001ed9 e000                      							ldi			R16,		high(BaudrateDivider)
+001eda bd00                      							uout		UBRRH,		R16
                                  
-001ed9 2700                      							clr			R16
-001eda b90b                      							uout		UCSRA,		R16 ; Clearing various UART flags
+001edb 2700                      							clr			R16
+001edc b90b                      							uout		UCSRA,		R16 ; Clearing various UART flags
                                  
-001edb e108                      							ldi			R16,		(1 << RXEN) | (1 << TXEN) ; Enabling TX and RX, no interrupts
-001edc b90a                      							uout		UCSRB,		R16
+001edd e108                      							ldi			R16,		(1 << RXEN) | (1 << TXEN) ; Enabling TX and RX, no interrupts
+001ede b90a                      							uout		UCSRB,		R16
                                  
-001edd e806                      							ldi 		R16, 		(1 << URSEL) | (1 << UCSZ0) | (1 << UCSZ1) ; 8 bit data, 1 stop bit, no parity
-001ede bd00                      							uout		UCSRC,		R16
+001edf e806                      							ldi 		R16, 		(1 << URSEL) | (1 << UCSZ0) | (1 << UCSZ1) ; 8 bit data, 1 stop bit, no parity
+001ee0 bd00                      							uout		UCSRC,		R16
                                  
-001edf 910f                      							pop			R16
-001ee0 bf0f                      							uout		SREG,		R16
 001ee1 910f                      							pop			R16
-001ee2 9508                      							ret
+001ee2 bf0f                      							uout		SREG,		R16
+001ee3 910f                      							pop			R16
+001ee4 9508                      							ret
                                  
                                  ; Call this procedure to signalize that device is in bootloader mode, for example
                                  ; to light up the LED
                                  SignalizeBootloaderMode:
-001ee3 9ac4                      							sbi			LedPort,	LedBit
-001ee4 9508                      							ret
+001ee5 9ac4                      							sbi			LedPort,	LedBit
+001ee6 9508                      							ret
                                  
                                  
                                  ; Checks do we need to enter bootloader. If yes, then R16 is 0, otherwise not 0
                                  IsEnterBootloader:
-001ee5 931f                      							push		R17
-001ee6 b71f                      							uin			R17,		SREG
 001ee7 931f                      							push		R17
+001ee8 b71f                      							uin			R17,		SREG
+001ee9 931f                      							push		R17
                                  
-001ee8 b306                      							uin			R16,		ListenPin
-001ee9 7001                      							andi		R16,		1 << ListenBit
+001eea b306                      							uin			R16,		ListenPin
+001eeb 7001                      							andi		R16,		1 << ListenBit
                                  
-001eea f029                      							breq		IsEnterBootloaderGoingIn
-001eeb ef0f                      							ser			R16
+001eec f029                      							breq		IsEnterBootloaderGoingIn
+001eed ef0f                      							ser			R16
                                  
                                  IsEnterBootloaderExit:
-001eec 911f                      							pop			R17
-001eed bf1f                      							uout		SREG,		R17
 001eee 911f                      							pop			R17
-001eef 9508                      							ret
+001eef bf1f                      							uout		SREG,		R17
+001ef0 911f                      							pop			R17
+001ef1 9508                      							ret
                                  
                                  IsEnterBootloaderGoingIn:
-001ef0 2700                      							clr			R16
-001ef1 cffa                      							rjmp		IsEnterBootloaderExit
+001ef2 2700                      							clr			R16
+001ef3 cffa                      							rjmp		IsEnterBootloaderExit
                                  
                                  
                                  ; Call this to wait for byte from UART. Blocks until byte is received, received byte is stored in R16
                                  UartReadByte:
-001ef2 931f                      							push		R17
-001ef3 b71f                      							uin			R17,		SREG
 001ef4 931f                      							push		R17
+001ef5 b71f                      							uin			R17,		SREG
+001ef6 931f                      							push		R17
                                  
                                  UartReadByteWait:
-001ef5 95a8                      							wdr
-001ef6 b10b                      							uin			R16,		UCSRA
-001ef7 ff07                      							sbrs		R16,		RXC ; Waiting for byte
-001ef8 cffc                      							rjmp		UartReadByteWait
+001ef7 95a8                      							wdr
+001ef8 b10b                      							uin			R16,		UCSRA
+001ef9 ff07                      							sbrs		R16,		RXC ; Waiting for byte
+001efa cffc                      							rjmp		UartReadByteWait
                                  
                                  							; Byte came
-001ef9 b10c                      							uin			R16,		UDR
+001efb b10c                      							uin			R16,		UDR
                                  
-001efa 911f                      							pop			R17
-001efb bf1f                      							uout		SREG,		R17
 001efc 911f                      							pop			R17
-001efd 9508                      							ret
+001efd bf1f                      							uout		SREG,		R17
+001efe 911f                      							pop			R17
+001eff 9508                      							ret
                                  
                                  
                                  ; Call this to send byte over UART. Blocks until UART is ready for transmission. Byte must be in R16.
                                  UartSendByte:
-001efe 931f                      							push		R17
-001eff b71f                      							uin			R17,		SREG
 001f00 931f                      							push		R17
+001f01 b71f                      							uin			R17,		SREG
+001f02 931f                      							push		R17
                                  
                                  							; Waiting for readyness
                                  UartSendByteWait:
-001f01 95a8                      							wdr
-001f02 b11b                      							uin			R17,		UCSRA
-001f03 ff15                      							sbrs		R17,		UDRE
-001f04 cffc                      							rjmp		UartSendByteWait
+001f03 95a8                      							wdr
+001f04 b11b                      							uin			R17,		UCSRA
+001f05 ff15                      							sbrs		R17,		UDRE
+001f06 cffc                      							rjmp		UartSendByteWait
                                  
-001f05 b90c                      							uout		UDR,		R16
+001f07 b90c                      							uout		UDR,		R16
                                  
-001f06 911f                      							pop			R17
-001f07 bf1f                      							uout		SREG,		R17
 001f08 911f                      							pop			R17
-001f09 9508                      							ret
+001f09 bf1f                      							uout		SREG,		R17
+001f0a 911f                      							pop			R17
+001f0b 9508                      							ret
                                  
                                  
                                  ; Call this to read EEPROM data. Put address into XH:XL and data will be returned in R16.
                                  ; Doesn't check address correctness.
                                  ReadEeprom:
-001f0a 931f                      							push		R17
-001f0b b71f                      							uin			R17,		SREG
 001f0c 931f                      							push		R17
+001f0d b71f                      							uin			R17,		SREG
+001f0e 931f                      							push		R17
                                  
                                  							; Waiting wor write complete (if it was initiated before)
                                  ReadEepromWaitForWriteCompletion:
-001f0d 95a8                      							wdr
-001f0e 99e1                      							sbic		EECR,		EEWE
-001f0f cffd                      							rjmp		ReadEepromWaitForWriteCompletion
+001f0f 95a8                      							wdr
+001f10 99e1                      							sbic		EECR,		EEWE
+001f11 cffd                      							rjmp		ReadEepromWaitForWriteCompletion
                                  
                                  							; Set up address
-001f10 bbbf                      							uout		EEARH,		XH
-001f11 bbae                      							uout		EEARL,		XL
+001f12 bbbf                      							uout		EEARH,		XH
+001f13 bbae                      							uout		EEARL,		XL
                                  
                                  							; Reading
-001f12 9ae0                      							sbi			EECR,		EERE
-001f13 b30d                      							uin			R16,		EEDR
+001f14 9ae0                      							sbi			EECR,		EERE
+001f15 b30d                      							uin			R16,		EEDR
                                  
-001f14 911f                      							pop			R17
-001f15 bf1f                      							uout		SREG,		R17
 001f16 911f                      							pop			R17
-001f17 9508                      							ret
+001f17 bf1f                      							uout		SREG,		R17
+001f18 911f                      							pop			R17
+001f19 9508                      							ret
                                  
                                  
                                  ; Call this to write EEPROM data. Put address into XH:XL and data into R16.
                                  ; Doesn't check address correctness
                                  WriteEeprom:
-001f18 931f                      							push		R17
-001f19 b71f                      							uin			R17,		SREG
 001f1a 931f                      							push		R17
+001f1b b71f                      							uin			R17,		SREG
+001f1c 931f                      							push		R17
                                  
                                  WriteEepromWaitForWriteCompletion:
-001f1b 95a8                      							wdr
-001f1c 99e1                      							sbic		EECR,		EEWE
-001f1d cffd                      							rjmp		WriteEepromWaitForWriteCompletion
+001f1d 95a8                      							wdr
+001f1e 99e1                      							sbic		EECR,		EEWE
+001f1f cffd                      							rjmp		WriteEepromWaitForWriteCompletion
                                  
                                  							; Set up address
-001f1e bbbf                      							uout		EEARH,		XH
-001f1f bbae                      							uout		EEARL,		XL
+001f20 bbbf                      							uout		EEARH,		XH
+001f21 bbae                      							uout		EEARL,		XL
                                  
                                  							; Writing
-001f20 bb0d                      							uout		EEDR,		R16
-001f21 9ae2                      							sbi			EECR,		EEMWE
-001f22 9ae1                      							sbi			EECR,		EEWE
+001f22 bb0d                      							uout		EEDR,		R16
+001f23 9ae2                      							sbi			EECR,		EEMWE
+001f24 9ae1                      							sbi			EECR,		EEWE
                                  
-001f23 911f                      							pop			R17
-001f24 bf1f                      							uout		SREG,		R17
 001f25 911f                      							pop			R17
+001f26 bf1f                      							uout		SREG,		R17
+001f27 911f                      							pop			R17
 
 
 RESOURCE USE INFORMATION
@@ -1509,7 +1509,7 @@ andi  :   2 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0
 brcc  :   0 brcs  :   0 break :   0 breq  :   9 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   3 brlt  :   0 brmi  :   0 
 brne  :   1 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :  22 cbi   :   1 cbr   :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :  23 cbi   :   1 cbr   :   0 
 clc   :   1 clh   :   0 cli   :   1 cln   :   0 clr   :  12 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   2 cpc   :   2 
 cpi   :   9 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
@@ -1528,7 +1528,7 @@ Instructions used: 33 out of 113 (29.2%)
 "ATmega16" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x003e4e    578     14    592   16384   3.6%
+[.cseg] 0x000000 0x003e52    582     14    596   16384   3.6%
 [.dseg] 0x000060 0x000060      0      0      0    1024   0.0%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 

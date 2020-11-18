@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\Main.asm Wed Nov 18 12:31:52 2020
+AVRASM ver. 2.2.7  C:\Projects\floader-avr\MCU\Bootloader\Main.asm Wed Nov 18 12:34:31 2020
 
 
 EQU  SIGNATURE_000 0000001e
@@ -634,14 +634,14 @@ SET  ResultOK     00000000
 SET  ResultError  00000001
 CSEG MainEntryPoint 00000000
 CSEG BootloaderEntryPoint 00001e00
-CSEG DisableOrSlowDownWDT 00001eb7
-CSEG InitializeHardwarePreEnter 00001ec3
-CSEG IsEnterBootloader 00001ee5
+CSEG DisableOrSlowDownWDT 00001eb9
+CSEG InitializeHardwarePreEnter 00001ec5
+CSEG IsEnterBootloader 00001ee7
 CSEG EnterBootloader 00001e10
-CSEG InitializeHardwarePostEnter 00001ed0
-CSEG SignalizeBootloaderMode 00001ee3
+CSEG InitializeHardwarePostEnter 00001ed2
+CSEG SignalizeBootloaderMode 00001ee5
 CSEG MainLoop     00001e14
-CSEG UartReadByte 00001ef2
+CSEG UartReadByte 00001ef4
 CSEG LblIdentify  00001e21
 CSEG LblQuit      00001e24
 CSEG LblReadFlashPage 00001e26
@@ -651,24 +651,24 @@ CSEG Identify     00001e30
 CSEG Quit         00001e47
 CSEG ReadFlashPage 00001e4e
 CSEG ReadAllEeprom 00001e75
-CSEG WriteEeprom  00001f18
+CSEG WriteAllEeprom 00001e90
 CSEG HangForever  00001e2f
-CSEG IdentificationSequence 00001eb0
+CSEG IdentificationSequence 00001eb2
 CSEG IdentifySendNextByte 00001e39
-CSEG UartSendByte 00001efe
+CSEG UartSendByte 00001f00
 CSEG IdentifyExit 00001e40
 CSEG ReadFlashPageAddressOK 00001e5b
 CSEG ReadFlashPageExit 00001e70
 CSEG ReadFlashPageMultiplyAddressByTwo 00001e62
 CSEG ReadFlashPageReadNextByte 00001e6a
 CSEG ReadAllEepromNextByte 00001e80
-CSEG ReadEeprom   00001f0a
-CSEG WriteAllEeprom 00001e90
+CSEG ReadEeprom   00001f0c
 CSEG WriteAllEepromNextByte 00001e9b
-CSEG WriteAllEepromFinish 00001ea5
-CSEG IsEnterBootloaderGoingIn 00001ef0
-CSEG IsEnterBootloaderExit 00001eec
-CSEG UartReadByteWait 00001ef5
-CSEG UartSendByteWait 00001f01
-CSEG ReadEepromWaitForWriteCompletion 00001f0d
-CSEG WriteEepromWaitForWriteCompletion 00001f1b
+CSEG WriteEeprom  00001f1a
+CSEG WriteAllEepromFinish 00001ea7
+CSEG IsEnterBootloaderGoingIn 00001ef2
+CSEG IsEnterBootloaderExit 00001eee
+CSEG UartReadByteWait 00001ef7
+CSEG UartSendByteWait 00001f03
+CSEG ReadEepromWaitForWriteCompletion 00001f0f
+CSEG WriteEepromWaitForWriteCompletion 00001f1d

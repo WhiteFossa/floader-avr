@@ -46,7 +46,7 @@
   <Quit><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>134</LINE></Quit>
   <ReadFlashPage><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>142</LINE></ReadFlashPage>
   <ReadAllEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>200</LINE></ReadAllEeprom>
-  <WriteEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>173</LINE></WriteEeprom>
+  <WriteAllEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>241</LINE></WriteAllEeprom>
   <HangForever><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>97</LINE></HangForever>
   <IdentificationSequence><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>290</LINE></IdentificationSequence>
   <IdentifySendNextByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>114</LINE></IdentifySendNextByte>
@@ -58,8 +58,8 @@
   <ReadFlashPageReadNextByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>185</LINE></ReadFlashPageReadNextByte>
   <ReadAllEepromNextByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>217</LINE></ReadAllEepromNextByte>
   <ReadEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>146</LINE></ReadEeprom>
-  <WriteAllEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>241</LINE></WriteAllEeprom>
   <WriteAllEepromNextByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>258</LINE></WriteAllEepromNextByte>
+  <WriteEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>173</LINE></WriteEeprom>
   <WriteAllEepromFinish><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>275</LINE></WriteAllEepromFinish>
   <IsEnterBootloaderGoingIn><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>97</LINE></IsEnterBootloaderGoingIn>
   <IsEnterBootloaderExit><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>91</LINE></IsEnterBootloaderExit>
