@@ -37,29 +37,35 @@
   <SignalizeBootloaderMode><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>74</LINE></SignalizeBootloaderMode>
   <MainLoop><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>51</LINE></MainLoop>
   <UartReadByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>103</LINE></UartReadByte>
-  <LblIdentify><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>69</LINE></LblIdentify>
-  <LblQuit><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>74</LINE></LblQuit>
-  <LblReadFlashPage><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>78</LINE></LblReadFlashPage>
-  <LblReadEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>83</LINE></LblReadEeprom>
-  <Identify><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>93</LINE></Identify>
-  <Quit><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>126</LINE></Quit>
-  <ReadFlashPage><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>134</LINE></ReadFlashPage>
-  <ReadAllEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>192</LINE></ReadAllEeprom>
-  <HangForever><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>89</LINE></HangForever>
-  <IdentificationSequence><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>232</LINE></IdentificationSequence>
-  <IdentifySendNextByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>106</LINE></IdentifySendNextByte>
+  <LblIdentify><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>72</LINE></LblIdentify>
+  <LblQuit><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>77</LINE></LblQuit>
+  <LblReadFlashPage><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>81</LINE></LblReadFlashPage>
+  <LblReadEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>86</LINE></LblReadEeprom>
+  <LblWriteEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>91</LINE></LblWriteEeprom>
+  <Identify><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>101</LINE></Identify>
+  <Quit><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>134</LINE></Quit>
+  <ReadFlashPage><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>142</LINE></ReadFlashPage>
+  <ReadAllEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>200</LINE></ReadAllEeprom>
+  <WriteEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>173</LINE></WriteEeprom>
+  <HangForever><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>97</LINE></HangForever>
+  <IdentificationSequence><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>290</LINE></IdentificationSequence>
+  <IdentifySendNextByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>114</LINE></IdentifySendNextByte>
   <UartSendByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>124</LINE></UartSendByte>
-  <IdentifyExit><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>115</LINE></IdentifyExit>
-  <ReadFlashPageAddressOK><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>153</LINE></ReadFlashPageAddressOK>
-  <ReadFlashPageExit><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>183</LINE></ReadFlashPageExit>
-  <ReadFlashPageMultiplyAddressByTwo><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>164</LINE></ReadFlashPageMultiplyAddressByTwo>
-  <ReadFlashPageReadNextByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>177</LINE></ReadFlashPageReadNextByte>
-  <ReadAllEepromNextByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>209</LINE></ReadAllEepromNextByte>
+  <IdentifyExit><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>123</LINE></IdentifyExit>
+  <ReadFlashPageAddressOK><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>161</LINE></ReadFlashPageAddressOK>
+  <ReadFlashPageExit><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>191</LINE></ReadFlashPageExit>
+  <ReadFlashPageMultiplyAddressByTwo><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>172</LINE></ReadFlashPageMultiplyAddressByTwo>
+  <ReadFlashPageReadNextByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>185</LINE></ReadFlashPageReadNextByte>
+  <ReadAllEepromNextByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>217</LINE></ReadAllEepromNextByte>
   <ReadEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>146</LINE></ReadEeprom>
+  <WriteAllEeprom><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>241</LINE></WriteAllEeprom>
+  <WriteAllEepromNextByte><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>258</LINE></WriteAllEepromNextByte>
+  <WriteAllEepromFinish><FILE>C:\Projects\floader-avr\MCU\Bootloader\Main.asm</FILE><LINE>275</LINE></WriteAllEepromFinish>
   <IsEnterBootloaderGoingIn><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>97</LINE></IsEnterBootloaderGoingIn>
   <IsEnterBootloaderExit><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>91</LINE></IsEnterBootloaderExit>
   <UartReadByteWait><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>108</LINE></UartReadByteWait>
   <UartSendByteWait><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>130</LINE></UartSendByteWait>
-  <ReadEEPROMWaitForWriteCompletion><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>152</LINE></ReadEEPROMWaitForWriteCompletion>
+  <ReadEepromWaitForWriteCompletion><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>152</LINE></ReadEepromWaitForWriteCompletion>
+  <WriteEepromWaitForWriteCompletion><FILE>C:\Projects\floader-avr\MCU\Bootloader\HAL/ATmega16/Code.inc</FILE><LINE>178</LINE></WriteEepromWaitForWriteCompletion>
  </LABELS>
 </ASSEMBLER_INFO>

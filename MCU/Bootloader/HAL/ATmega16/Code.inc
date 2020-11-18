@@ -108,7 +108,7 @@ UartReadByte:
 UartReadByteWait:
 							wdr
 							uin			R16,		UCSRA
-							sbrs		R16,		RXC ; Skipping loop jump in RXC is set
+							sbrs		R16,		RXC ; Waiting for byte
 							rjmp		UartReadByteWait
 
 							; Byte came
@@ -144,15 +144,15 @@ UartSendByteWait:
 ; Call this to read EEPROM data. Put address into XH:XL and data will be returned in R16.
 ; Doesn't check address correctness.
 ReadEeprom:
-							push		R19
-							uin			R19,		SREG
-							push		R19
+							push		R17
+							uin			R17,		SREG
+							push		R17
 
 							; Waiting wor write complete (if it was initiated before)
-ReadEEPROMWaitForWriteCompletion:
+ReadEepromWaitForWriteCompletion:
 							wdr
 							sbic		EECR,		EEWE
-							rjmp		ReadEEPROMWaitForWriteCompletion
+							rjmp		ReadEepromWaitForWriteCompletion
 
 							; Set up address
 							uout		EEARH,		XH
@@ -162,7 +162,34 @@ ReadEEPROMWaitForWriteCompletion:
 							sbi			EECR,		EERE
 							uin			R16,		EEDR
 
-							pop			R19
-							uout		SREG,		R19
-							pop			R19
+							pop			R17
+							uout		SREG,		R17
+							pop			R17
+							ret
+
+
+; Call this to write EEPROM data. Put address into XH:XL and data into R16.
+; Doesn't check address correctness
+WriteEeprom:
+							push		R17
+							uin			R17,		SREG
+							push		R17
+
+WriteEepromWaitForWriteCompletion:
+							wdr
+							sbic		EECR,		EEWE
+							rjmp		WriteEepromWaitForWriteCompletion
+
+							; Set up address
+							uout		EEARH,		XH
+							uout		EEARL,		XL
+
+							; Writing
+							uout		EEDR,		R16
+							sbi			EECR,		EEMWE
+							sbi			EECR,		EEWE
+
+							pop			R17
+							uout		SREG,		R17
+							pop			R17
 							ret

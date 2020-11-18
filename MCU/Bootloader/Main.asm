@@ -63,6 +63,9 @@ MainLoop:
 							cpi			R16,			'r' ; Read EEPROM
 							breq		LblReadEeprom
 
+							cpi			R16,			'w' ; Write EEPROM
+							breq		LblWriteEeprom
+
 							rjmp		MainLoop
 
 ; Identification entry point
@@ -82,6 +85,11 @@ LblReadFlashPage:
 ; Read EEPROM entry point
 LblReadEeprom:
 							call		ReadAllEeprom
+							rjmp		MainLoop
+
+; Write EEPROM entry point
+LblWriteEeprom:
+							call		WriteEeprom
 							rjmp		MainLoop
 
 
@@ -226,6 +234,56 @@ ReadAllEepromNextByte:
 							pop			R18
 							pop			R17
 							pop			R16
+							ret
+
+
+; Write all EEPROM
+WriteAllEeprom:
+							push		R16
+							push		R17
+							push		R18
+							push		XL
+							push		XH
+							uin			R16,			SREG
+							push		R16
+
+							; Loading start address
+							clr			XL ; Low
+							clr			XH ; High
+
+							; End address
+							ldi			R17,			low(EEPROMEND + 1)
+							ldi			R18,			high(EEPROMEND + 1)
+
+WriteAllEepromNextByte:
+							call		UartReadByte
+							call		WriteEeprom
+
+							adiw		XH:XL,			1
+
+							; Is finish?
+							cp			XL,				R17
+							cpc			XH,				R18
+
+							breq		WriteAllEepromFinish
+
+							; Asking for next byte
+							ldi			R16,			'n'
+							call		UartSendByte
+							rjmp		WriteAllEepromNextByte
+
+WriteAllEepromFinish:
+							ldi			R16,			'f'
+							call		UartSendByte
+
+							pop			R16
+							uout		SREG,			R16
+							pop			XH
+							pop			XL
+							pop			R18
+							pop			R17
+							pop			R16
+
 							ret
 
 ; Send this to UART to identify yourself
