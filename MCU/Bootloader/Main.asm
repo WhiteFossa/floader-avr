@@ -257,7 +257,7 @@ WriteAllEeprom:
 
 WriteAllEepromNextByte:
 							call		UartReadByte
-							call		WriteEeprom
+							;call		WriteEeprom
 
 							adiw		XH:XL,			1
 
