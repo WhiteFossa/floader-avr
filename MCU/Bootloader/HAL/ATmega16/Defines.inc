@@ -21,7 +21,9 @@
 
 ; FLASH
 .set	FlashPagesTotal				= 128
+.set	FlashPagesWriteable			= 120
 .set	FlashPageAddressMultiplier	= 7 ; Multiply page address to this value to get page first byte address
 .set	FlashPageSize				= 128
+.set	FlashPageSizeInWords		= 64
 
 

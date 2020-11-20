@@ -193,3 +193,50 @@ WriteEepromWaitForWriteCompletion:
 							uout		SREG,		R17
 							pop			R17
 							ret
+
+
+; Converts FLASH page number (like 0-127) into word address in ZH:ZL
+; Put page number into R17
+FlashPageNumberIntoAddress:
+							push		R16
+							uin			R16,		SREG
+							push		R16
+
+							; Converting page number into physical address in ZH:ZL
+							mov			ZL,				R17
+							andi		ZL,				0b00000001 ; Selecting least-significant bit and moving it into most significant position of ZL
+							bst			ZL,				0
+							clr			ZL
+							bld			ZL,				7 ; Now we have correct content of ZL
+
+							mov			ZH,				R17
+							andi		ZH,				0b01111110 ; Selecting most significant bits
+							lsr			ZH
+
+							pop			R16
+							uout		SREG,			R16
+							pop			R16
+							ret
+
+
+; Makes SPM call. Value to be written into SPMCR must be in R16
+; Blocks until previous SPM completed
+MakeSPM:
+							push		R17
+							uin			R17,			SREG
+							push		R17
+
+							; Waiting for previous write completion
+MakeSPMWait:
+							wdr
+							uin			R17,			SPMCR
+							sbrc		R17,			SPMEN
+							rjmp		MakeSPMWait
+
+							uout		SPMCR,			R16
+							spm
+
+							pop			R17
+							uout		SREG,			R17
+							pop			R17
+						ret

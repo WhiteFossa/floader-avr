@@ -66,6 +66,9 @@ MainLoop:
 							cpi			R16,			'w' ; Write EEPROM
 							breq		LblWriteEeprom
 
+							cpi			R16,			'W' ; Write FLASH page
+							breq		LblWriteFlashPage
+
 							rjmp		MainLoop
 
 ; Identification entry point
@@ -77,7 +80,7 @@ LblIdentify:
 LblQuit:
 							jmp			Quit ; Quit is not a procedure, there is no return
 
-; Read EEPROM page entry point
+; Read FLASH page entry point
 LblReadFlashPage:
 							call		ReadFlashPage
 							rjmp		MainLoop
@@ -92,6 +95,10 @@ LblWriteEeprom:
 							call		WriteAllEeprom
 							rjmp		MainLoop
 
+; Write FLASH page entry point
+LblWriteFlashPage:
+							call		WriteFlashPage
+							rjmp		MainLoop
 
 							; Must never reach this code
 HangForever:
@@ -284,6 +291,90 @@ WriteAllEepromFinish:
 							pop			R17
 							pop			R16
 
+							ret
+
+
+; Write FLASH page
+WriteFlashPage:
+							push		R0
+							push		R1
+							push		R16
+							push		R17
+							push		R18
+							push		ZL
+							push		ZH
+							uin			R16,			SREG
+							push		R16
+
+							; Getting page number
+							call		UartReadByte
+							mov			R17,			R16 ; Copy of page number in R17
+
+							cpi			R16,			FlashPagesWriteable
+							brlo		WriteFlashPageNumberOK
+
+							; Number is incorrect
+							ldi			R16,			ResultError
+							call		UartSendByte
+							rjmp		WriteFlashPageExit
+
+WriteFlashPageNumberOK:
+							ldi			R16,			ResultOK
+							call		UartSendByte
+
+							; Loading physical address into ZH:ZL from R17
+							call		FlashPageNumberIntoAddress
+
+							clr			R18 ; Words counter
+
+							; Reading word by word and filling page buffer
+WriteFlashPageNextWord:
+							call		UartReadByte ; WDT is reset here
+							mov			R0,				R16 ; Least byte
+							call		UartReadByte
+							mov			R1,				R16 ; Most byte
+
+							ldi			R16,			(1 << SPMEN)
+							call		MakeSPM
+
+							; Next word, not byte
+							adiw		ZH:ZL,			2
+							inc			R18
+							cpi			R18,			FlashPageSizeInWords
+							brlo		WriteFlashPageNextWord
+
+							; Page buffer is filled now, reloading physical address into ZH:ZL from R17
+							call		FlashPageNumberIntoAddress
+
+							; Erase page
+							wdr
+							ldi			R16,			(1 << PGERS) | (1 << SPMEN)
+							call		MakeSPM
+
+							; Write page
+							wdr
+							ldi			R16,			(1 << PGWRT) | (1 << SPMEN)
+							call		MakeSPM
+
+							; Restoring access to RWW FLASH
+							wdr
+							ldi			R16,			(1 << RWWSRE) | (1 << SPMEN)
+							call		MakeSPM
+
+							; Done
+							ldi			R16,			ResultOK
+							call		UartSendByte
+
+WriteFlashPageExit:
+							pop			R16
+							uout		SREG,			R16
+							pop			ZH
+							pop			ZL
+							pop			R18
+							pop			R17
+							pop			R16
+							pop			R1
+							pop			R0
 							ret
 
 ; Send this to UART to identify yourself
