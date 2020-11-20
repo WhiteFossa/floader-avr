@@ -1,0 +1,35 @@
+How to compile and use this bootloader:
+
+1) Include correct (for your MCU) HAL (hardware abstraction layer) in Main.asm For example, for ATmega16 it looks such way:
+.include "HAL/ATmega16/Defines.inc" (first line of Main.asm)
+and
+.include "HAL/ATmega16/Code.inc" (last line of Main.asm)
+
+2) Specify your identification data (VendorID, ModelID and SerialNumber) in DeviceIdentificationData.inc See README for bootloader client on how to generate and add it to client.
+
+3) Look at HAL Defines.inc file to find bootloader start address:
+.set	BootloaderStartAddress		=	0x1E00			; Bootloader starts here
+
+Basing on this address calculate correct fuses for your MCU (BOOTSZ), program BOOTRST fuse.
+
+4) Select bootloader enter condition and indicatior (see Defines.inc in HAL):
+; Set this bit on this port to 1 when lighting-up the LED
+.set	LedPort						= PORTB
+.set	LedDDR						= DDRB
+.set	LedBit						= 4
+
+; Listen this port for bootloader button press (zero level)
+.set	ListenPort					= PORTB
+.set	ListenDDR					= DDRB
+.set	ListenPin					= PINB
+.set	ListenBit					= 0
+
+5) Compile bootloader either with ATmel Studio or with AVRA. With AVRA it's much easier, just type
+avra Main.asm
+and you will get ready to flash HEX file.
+
+6) Flash it.
+
+7) Create enter condition (for example by pressing a button) and reset MCU - it will be in bootloader now (indicator LED will be lit).
+
+8) Connect to bootloader via client and try to flash something.
