@@ -723,6 +723,26 @@ namespace FloaderClientGUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unexpected exception:
+        ///Type: {0}
+        ///Message: &quot;{1}&quot;.
+        /// </summary>
+        internal static string UnexpectedExceptionMessage {
+            get {
+                return ResourceManager.GetString("UnexpectedExceptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected exception.
+        /// </summary>
+        internal static string UnexpectedExceptionTitle {
+            get {
+                return ResourceManager.GetString("UnexpectedExceptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device responded to identification request in unusual way, probably it&apos;s not Fossa&apos;s bootloader device.
         ///Check port and device state - it must be in bootloader mode..
         /// </summary>

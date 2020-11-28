@@ -341,6 +341,14 @@
     <value>Невозможно продолжать!
 Пожалуйста, выберите другое устройство.</value>
   </data>
+  <data name="UnexpectedExceptionMessage" xml:space="preserve">
+    <value>Неожиданное исключение:
+Тип: {0}
+Сообщение: "{1}"</value>
+  </data>
+  <data name="UnexpectedExceptionTitle" xml:space="preserve">
+    <value>Неожиданное исключение</value>
+  </data>
   <data name="UnexpectedIdentificationResponse" xml:space="preserve">
     <value>Устройство ответило на запрос идентификации необычным образом, вероятно это НЕ устройство с загрузчиком Фоссы. Проверьте порт и состояние устройства - оно должно быть в режиме загрузчика.</value>
   </data>

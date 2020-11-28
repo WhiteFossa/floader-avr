@@ -341,6 +341,14 @@ Serial number: {3}.</value>
     <value>Unable to proceed!
 Please, select another device.</value>
   </data>
+  <data name="UnexpectedExceptionMessage" xml:space="preserve">
+    <value>Unexpected exception:
+Type: {0}
+Message: "{1}"</value>
+  </data>
+  <data name="UnexpectedExceptionTitle" xml:space="preserve">
+    <value>Unexpected exception</value>
+  </data>
   <data name="UnexpectedIdentificationResponse" xml:space="preserve">
     <value>Device responded to identification request in unusual way, probably it's not Fossa's bootloader device.
 Check port and device state - it must be in bootloader mode.</value>

@@ -994,9 +994,29 @@ namespace FloaderClientGUI.ViewModels
                 }
                 catch(Exception ex)
                 {
-                    _logger.LogError(ex.Message);
+                    ProcessUnexpectedException(ex);
                 };
             });
+        }
+
+        /// <summary>
+        /// Logs exception and shows message to user.
+        /// </summary>
+        private void ProcessUnexpectedException(Exception ex)
+        {
+            var message = string.Format(Language.UnexpectedExceptionMessage, ex.GetType(), ex.Message);
+
+            _logger.LogError(message);
+
+            MessageBoxManager.GetMessageBoxStandardWindow(
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.UnexpectedExceptionTitle,
+                                ContentMessage = message,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.Ok
+                            })
+                            .Show();
         }
 
         /// <summary>
