@@ -862,133 +862,140 @@ namespace FloaderClientGUI.ViewModels
             // Doing everything in main thread
             Dispatcher.UIThread.InvokeAsync(() =>
             {
-                LoadStateAndUnlockInterface();
-
-                _mainModel.DeviceIdentData = data;
-
-                // Is successfull?
-                if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.Timeout)
+                try
                 {
-                    var message = Language.IdentificationTimeout;
-                    _logger.LogError(message);
-                    LockProceeding();
+                    LoadStateAndUnlockInterface();
 
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = Language.IdentificationTimeoutTitle,
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
+                    _mainModel.DeviceIdentData = data;
 
-                    return;
+                    // Is successfull?
+                    if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.Timeout)
+                    {
+                        var message = Language.IdentificationTimeout;
+                        _logger.LogError(message);
+                        LockProceeding();
+
+                        MessageBoxManager.GetMessageBoxStandardWindow(
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.IdentificationTimeoutTitle,
+                                ContentMessage = message,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.Ok
+                            })
+                            .Show();
+
+                        return;
+                    }
+                    else if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.WrongSignature)
+                    {
+                        var message = Language.UnexpectedIdentificationResponse;
+                        _logger.LogError(message);
+                        LockProceeding();
+
+                        MessageBoxManager.GetMessageBoxStandardWindow(
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.GenericWrongDeviceResponseTitle,
+                                ContentMessage = message,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.Ok
+                            })
+                            .Show();
+
+                        return;
+                    }
+
+                    _logger.LogInfo(string.Format(Language.DeviceIdentified,
+                         _mainModel.DeviceIdentData.Version,
+                         _mainModel.DeviceIdentData.VendorId,
+                         _mainModel.DeviceIdentData.ModelId,
+                         _mainModel.DeviceIdentData.Serial));
+
+                    // Is version acceptable?
+                    if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
+                    {
+                        var message = string.Format(Language.UnsupportedBootloaderProtocolVersion, _mainModel.DeviceIdentData.Version);
+                        _logger.LogError(message);
+                        LockProceeding();
+
+                        MessageBoxManager.GetMessageBoxStandardWindow(
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.UnsupportedBootloaderProtocolVersionTitle,
+                                ContentMessage = message,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.Ok
+                            })
+                            .Show();
+
+                        return;
+                    }
+
+                    // Human - readable device info
+                    _logger.LogInfo(string.Format(Language.QueryingVendorData, _mainModel.DeviceIdentData.VendorId));
+
+                    var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
+                    if (vendorData == null)
+                    {
+                        var message = string.Format(Language.VendorNotFound, _mainModel.DeviceIdentData.VendorId);
+                        _logger.LogError(message);
+                        LockProceeding();
+
+                        MessageBoxManager.GetMessageBoxStandardWindow(
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.VendorNotFoundTitle,
+                                ContentMessage = message,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.Ok
+                            })
+                            .Show();
+
+                        return;
+                    }
+                    _logger.LogInfo(string.Format(Language.VendorNameInfo, vendorData.Id, vendorData.Name));
+
+                    _logger.LogInfo(string.Format(Language.QueryingDeviceName, _mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId));
+
+                    var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
+                    if (nameData == null)
+                    {
+                        var message = string.Format(Language.ModelNotFound, _mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
+                        _logger.LogError(message);
+                        LockProceeding();
+
+                        MessageBoxManager.GetMessageBoxStandardWindow(
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.ModelNotFoundTitle,
+                                ContentMessage = message,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.Ok
+                            })
+                            .Show();
+
+                        return;
+                    }
+                    _logger.LogInfo(string.Format(Language.ModelNameInfo, nameData.VendorId, nameData.ModelId, nameData.Name));
+
+                    _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentData.Serial);
+                    VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
+                    ModelName = _mainModel.DeviceHumanReadableDescription.Model;
+                    SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
+
+                    // Versioned data
+                    _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
+
+                    // Initializing operations provider and we are ready to go
+                    _deviceIndependentOperationsProvider.Setup(_mainModel.PortSettings, _mainModel.DeviceIdentData, _mainModel.VersionSpecificDeviceData);
+
+                    _isReady = true;
                 }
-                else if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.WrongSignature)
+                catch(Exception ex)
                 {
-                    var message = Language.UnexpectedIdentificationResponse;
-                    _logger.LogError(message);
-                    LockProceeding();
-
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = Language.GenericWrongDeviceResponseTitle,
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
-
-                    return;
-                }
-
-                _logger.LogInfo(string.Format(Language.DeviceIdentified,
-                     _mainModel.DeviceIdentData.Version,
-                     _mainModel.DeviceIdentData.VendorId,
-                     _mainModel.DeviceIdentData.ModelId,
-                     _mainModel.DeviceIdentData.Serial));
-
-                // Is version acceptable?
-                if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
-                {
-                    var message = string.Format(Language.UnsupportedBootloaderProtocolVersion, _mainModel.DeviceIdentData.Version);
-                    _logger.LogError(message);
-                    LockProceeding();
-
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = Language.UnsupportedBootloaderProtocolVersionTitle,
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
-
-                    return;
-                }
-
-                // Human - readable port info
-                _logger.LogInfo(string.Format(Language.QueryingVendorData, _mainModel.DeviceIdentData.VendorId));
-
-                var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
-                if (vendorData == null)
-                {
-                    var message = string.Format(Language.VendorNotFound, _mainModel.DeviceIdentData.VendorId);
-                    _logger.LogError(message);
-                    LockProceeding();
-
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = Language.VendorNotFoundTitle,
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
-
-                    return;
-                }
-                _logger.LogInfo(string.Format(Language.VendorNameInfo, vendorData.Id, vendorData.Name));
-
-                _logger.LogInfo(string.Format(Language.QueryingDeviceName, _mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId));
-
-                var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
-                if (nameData == null)
-                {
-                    var message = string.Format(Language.ModelNotFound, _mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
-                    _logger.LogError(message);
-                    LockProceeding();
-
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = Language.ModelNotFoundTitle,
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
-
-                    return;
-                }
-                _logger.LogInfo(string.Format(Language.ModelNameInfo, nameData.VendorId, nameData.ModelId, nameData.Name));
-
-                _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentData.Serial);
-                VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
-                ModelName = _mainModel.DeviceHumanReadableDescription.Model;
-                SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
-
-                // Versioned data
-                _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
-
-                // Initializing operations provider and we are ready to go
-                _deviceIndependentOperationsProvider.Setup(_mainModel.PortSettings, _mainModel.DeviceIdentData, _mainModel.VersionSpecificDeviceData);
-
-                _isReady = true;
+                    _logger.LogError(ex.Message);
+                };
             });
         }
 
