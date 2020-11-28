@@ -690,7 +690,14 @@ namespace FloaderClientGUI.ViewModels
         public async void SelectFlashForUploadAsync()
         {
             var dialog = PrepareOpenHexDialog();
-            FlashUploadFile = (await dialog.ShowAsync(Program.GetMainWindow())).FirstOrDefault();
+            var dialogResult = await dialog.ShowAsync(Program.GetMainWindow());
+
+            if (dialogResult == null)
+            {
+                return;
+            }
+            
+            FlashUploadFile = dialogResult.FirstOrDefault();
 
             SetUploadButtonState();
         }
@@ -701,7 +708,14 @@ namespace FloaderClientGUI.ViewModels
         public async void SelectEepromForUploadAsync()
         {
             var dialog = PrepareOpenHexDialog();
-            EepromUploadFile = (await dialog.ShowAsync(Program.GetMainWindow())).FirstOrDefault();
+            var dialogResult = await dialog.ShowAsync(Program.GetMainWindow());
+
+            if (dialogResult == null)
+            {
+                return;
+            }
+            
+            EepromUploadFile = dialogResult.FirstOrDefault();
 
             SetUploadButtonState();
         }
@@ -713,7 +727,14 @@ namespace FloaderClientGUI.ViewModels
         {
             var dialog = new OpenFolderDialog();
             dialog.Title = "Select backups directory";
-            UploadBackupsDirectory = await dialog.ShowAsync(Program.GetMainWindow());
+            var dialogResult = await dialog.ShowAsync(Program.GetMainWindow());
+
+            if (dialogResult == null)
+            {
+                return;
+            }
+            
+            UploadBackupsDirectory = dialogResult;
 
             SetUploadButtonState();
         }
@@ -749,7 +770,13 @@ namespace FloaderClientGUI.ViewModels
             var dialog = PrepareSaveHexDialog();
             // If not ready, we can't generate default filename, because it contains IDs read from device
             dialog.InitialFileName = _isReady ? _deviceIndependentOperationsProvider.GenerateFlashFileName(isBackup: false) : string.Empty;
-            FlashDownloadFile = await dialog.ShowAsync(Program.GetMainWindow());
+            var dialogResult = await dialog.ShowAsync(Program.GetMainWindow());
+            if (dialogResult == null)
+            {
+                return;
+            }
+            
+            FlashDownloadFile = dialogResult;
         }
 
         /// <summary>
@@ -787,7 +814,14 @@ namespace FloaderClientGUI.ViewModels
         {
             var dialog = PrepareSaveHexDialog();
             dialog.InitialFileName = _isReady ? _deviceIndependentOperationsProvider.GenerateEepromFileName(isBackup: false) : string.Empty;
-            EepromDownloadFile = await dialog.ShowAsync(Program.GetMainWindow());
+            var dialogResult = await dialog.ShowAsync(Program.GetMainWindow());
+
+            if (dialogResult == null)
+            {
+                return;
+            }
+            
+            EepromDownloadFile = dialogResult;
         }
 
         /// <summary>
