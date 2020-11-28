@@ -39,24 +39,25 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using FloaderClientGUI.Helpers;
 
 namespace FloaderClientGUI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private ILogger _logger;
-        private IVersionValidator _versionValidator;
-        private IDao _dao;
-        private IDeviceDataGetter _deviceDataGetter;
-        private IDeviceIndependentOperationsProvider _deviceIndependentOperationsProvider;
+        private readonly ILogger _logger;
+        private readonly IVersionValidator _versionValidator;
+        private readonly IDao _dao;
+        private readonly IDeviceDataGetter _deviceDataGetter;
+        private readonly IDeviceIndependentOperationsProvider _deviceIndependentOperationsProvider;
 
         /// <summary>
         /// We store interface state here
         /// </summary>
-        private MainWindowInterfaceState _interfaceState = new MainWindowInterfaceState();
+        private readonly MainWindowInterfaceState _interfaceState = new MainWindowInterfaceState();
 
-        public PortSelectionWindowViewModel PortSelectionVM { get; }
-        public AboutWindowViewModel AboutVM { get; }
+        private PortSelectionWindowViewModel _portSelectionVM { get; }
+        private AboutWindowViewModel _aboutVM { get; }
 
 #region Bound properties
         private string _consoleText;
@@ -596,8 +597,8 @@ namespace FloaderClientGUI.ViewModels
             // Setting up logger
             _logger.SetLoggingFunction(AddLineToConsole);
 
-            PortSelectionVM = new PortSelectionWindowViewModel();
-            AboutVM = new AboutWindowViewModel();
+            _portSelectionVM = new PortSelectionWindowViewModel();
+            _aboutVM = new AboutWindowViewModel();
 
             SetPollDeviceState();
 
@@ -628,12 +629,12 @@ namespace FloaderClientGUI.ViewModels
             var portSelectionDialog = new PortSelectionWindow()
             {
 
-                DataContext= PortSelectionVM
+                DataContext= _portSelectionVM
             };
 
             await portSelectionDialog.ShowDialog(Program.GetMainWindow());
 
-            _mainModel.PortSettings = PortSelectionVM.PortSettings != null ? PortSelectionVM.PortSettings : _mainModel.PortSettings;
+            _mainModel.PortSettings = _portSelectionVM.PortSettings != null ? _portSelectionVM.PortSettings : _mainModel.PortSettings;
 
             PortName = _mainModel.PortSettings?.Name != null ? _mainModel.PortSettings?.Name : "";
 
@@ -662,8 +663,8 @@ namespace FloaderClientGUI.ViewModels
 
             SaveStateAndLockInterface();
 
-            var threadedIdentifier = new ThreadedDeviceIdentifier(_mainModel.PortSettings, OnDeviceIdentification);
-            var identificationThread = new Thread(new ThreadStart(threadedIdentifier.Identify));
+            var threadedIdentifier = new ThreadedDeviceIdentifier(_mainModel.PortSettings, OnDeviceIdentification, OnUnhandledException);
+            var identificationThread = new Thread(threadedIdentifier.Identify);
             identificationThread.Start();
         }
 
@@ -753,6 +754,7 @@ namespace FloaderClientGUI.ViewModels
                 _deviceIndependentOperationsProvider.InitiateUploadToDevice(_isFlashUpload ? FlashUploadFile : string.Empty,
                     _isEepromUpload ? EepromUploadFile : string.Empty,
                     UploadBackupsDirectory,
+                    OnUnhandledException,
                     OnUploadCompleted,
                     SetProgressValue);
             }
@@ -855,7 +857,8 @@ namespace FloaderClientGUI.ViewModels
 
             try
             {
-                _deviceIndependentOperationsProvider.InitiateDownloadFromDevice(FlashDownloadFile, EepromDownloadFile, OnDownloadCompleted, SetProgressValue);
+                _deviceIndependentOperationsProvider.InitiateDownloadFromDevice(FlashDownloadFile, EepromDownloadFile, OnUnhandledException,
+                    OnDownloadCompleted, SetProgressValue);
             }
             catch(Exception ex)
             {
@@ -870,7 +873,7 @@ namespace FloaderClientGUI.ViewModels
         {
             CheckReadyness();
             SaveStateAndLockInterface();
-            _deviceIndependentOperationsProvider.InitiateRebootToFirmware(OnRebootCompleted);
+            _deviceIndependentOperationsProvider.InitiateRebootToFirmware(OnRebootCompleted, OnUnhandledException);
         }
 
         /// <summary>
@@ -880,7 +883,7 @@ namespace FloaderClientGUI.ViewModels
         {
             var aboutDialog = new AboutWindow()
             {
-                DataContext = AboutVM
+                DataContext = _aboutVM
             };
 
             await aboutDialog.ShowDialog(Program.GetMainWindow());
@@ -893,6 +896,7 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void OnDeviceIdentification(DeviceIdentifierData data)
         {
+
             // Doing everything in main thread
             Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -910,13 +914,13 @@ namespace FloaderClientGUI.ViewModels
                         LockProceeding();
 
                         MessageBoxManager.GetMessageBoxStandardWindow(
-                            new MessageBoxStandardParams()
-                            {
-                                ContentTitle = Language.IdentificationTimeoutTitle,
-                                ContentMessage = message,
-                                Icon = Icon.Error,
-                                ButtonDefinitions = ButtonEnum.Ok
-                            })
+                                new MessageBoxStandardParams()
+                                {
+                                    ContentTitle = Language.IdentificationTimeoutTitle,
+                                    ContentMessage = message,
+                                    Icon = Icon.Error,
+                                    ButtonDefinitions = ButtonEnum.Ok
+                                })
                             .Show();
 
                         return;
@@ -928,39 +932,40 @@ namespace FloaderClientGUI.ViewModels
                         LockProceeding();
 
                         MessageBoxManager.GetMessageBoxStandardWindow(
-                            new MessageBoxStandardParams()
-                            {
-                                ContentTitle = Language.GenericWrongDeviceResponseTitle,
-                                ContentMessage = message,
-                                Icon = Icon.Error,
-                                ButtonDefinitions = ButtonEnum.Ok
-                            })
+                                new MessageBoxStandardParams()
+                                {
+                                    ContentTitle = Language.GenericWrongDeviceResponseTitle,
+                                    ContentMessage = message,
+                                    Icon = Icon.Error,
+                                    ButtonDefinitions = ButtonEnum.Ok
+                                })
                             .Show();
 
                         return;
                     }
 
                     _logger.LogInfo(string.Format(Language.DeviceIdentified,
-                         _mainModel.DeviceIdentData.Version,
-                         _mainModel.DeviceIdentData.VendorId,
-                         _mainModel.DeviceIdentData.ModelId,
-                         _mainModel.DeviceIdentData.Serial));
+                        _mainModel.DeviceIdentData.Version,
+                        _mainModel.DeviceIdentData.VendorId,
+                        _mainModel.DeviceIdentData.ModelId,
+                        _mainModel.DeviceIdentData.Serial));
 
                     // Is version acceptable?
                     if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
                     {
-                        var message = string.Format(Language.UnsupportedBootloaderProtocolVersion, _mainModel.DeviceIdentData.Version);
+                        var message = string.Format(Language.UnsupportedBootloaderProtocolVersion,
+                            _mainModel.DeviceIdentData.Version);
                         _logger.LogError(message);
                         LockProceeding();
 
                         MessageBoxManager.GetMessageBoxStandardWindow(
-                            new MessageBoxStandardParams()
-                            {
-                                ContentTitle = Language.UnsupportedBootloaderProtocolVersionTitle,
-                                ContentMessage = message,
-                                Icon = Icon.Error,
-                                ButtonDefinitions = ButtonEnum.Ok
-                            })
+                                new MessageBoxStandardParams()
+                                {
+                                    ContentTitle = Language.UnsupportedBootloaderProtocolVersionTitle,
+                                    ContentMessage = message,
+                                    Icon = Icon.Error,
+                                    ButtonDefinitions = ButtonEnum.Ok
+                                })
                             .Show();
 
                         return;
@@ -977,43 +982,50 @@ namespace FloaderClientGUI.ViewModels
                         LockProceeding();
 
                         MessageBoxManager.GetMessageBoxStandardWindow(
-                            new MessageBoxStandardParams()
-                            {
-                                ContentTitle = Language.VendorNotFoundTitle,
-                                ContentMessage = message,
-                                Icon = Icon.Error,
-                                ButtonDefinitions = ButtonEnum.Ok
-                            })
+                                new MessageBoxStandardParams()
+                                {
+                                    ContentTitle = Language.VendorNotFoundTitle,
+                                    ContentMessage = message,
+                                    Icon = Icon.Error,
+                                    ButtonDefinitions = ButtonEnum.Ok
+                                })
                             .Show();
 
                         return;
                     }
+
                     _logger.LogInfo(string.Format(Language.VendorNameInfo, vendorData.Id, vendorData.Name));
 
-                    _logger.LogInfo(string.Format(Language.QueryingDeviceName, _mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId));
+                    _logger.LogInfo(string.Format(Language.QueryingDeviceName, _mainModel.DeviceIdentData.VendorId,
+                        _mainModel.DeviceIdentData.ModelId));
 
-                    var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
+                    var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId,
+                        _mainModel.DeviceIdentData.ModelId);
                     if (nameData == null)
                     {
-                        var message = string.Format(Language.ModelNotFound, _mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
+                        var message = string.Format(Language.ModelNotFound, _mainModel.DeviceIdentData.VendorId,
+                            _mainModel.DeviceIdentData.ModelId);
                         _logger.LogError(message);
                         LockProceeding();
 
                         MessageBoxManager.GetMessageBoxStandardWindow(
-                            new MessageBoxStandardParams()
-                            {
-                                ContentTitle = Language.ModelNotFoundTitle,
-                                ContentMessage = message,
-                                Icon = Icon.Error,
-                                ButtonDefinitions = ButtonEnum.Ok
-                            })
+                                new MessageBoxStandardParams()
+                                {
+                                    ContentTitle = Language.ModelNotFoundTitle,
+                                    ContentMessage = message,
+                                    Icon = Icon.Error,
+                                    ButtonDefinitions = ButtonEnum.Ok
+                                })
                             .Show();
 
                         return;
                     }
-                    _logger.LogInfo(string.Format(Language.ModelNameInfo, nameData.VendorId, nameData.ModelId, nameData.Name));
 
-                    _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentData.Serial);
+                    _logger.LogInfo(string.Format(Language.ModelNameInfo, nameData.VendorId, nameData.ModelId,
+                        nameData.Name));
+
+                    _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name,
+                        nameData.Name, _mainModel.DeviceIdentData.Serial);
                     VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
                     ModelName = _mainModel.DeviceHumanReadableDescription.Model;
                     SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
@@ -1022,37 +1034,18 @@ namespace FloaderClientGUI.ViewModels
                     _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
 
                     // Initializing operations provider and we are ready to go
-                    _deviceIndependentOperationsProvider.Setup(_mainModel.PortSettings, _mainModel.DeviceIdentData, _mainModel.VersionSpecificDeviceData);
+                    _deviceIndependentOperationsProvider.Setup(_mainModel.PortSettings, _mainModel.DeviceIdentData,
+                        _mainModel.VersionSpecificDeviceData);
 
                     _isReady = true;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    ProcessUnexpectedException(ex);
-                };
+                    ExceptionsHelper.ProcessUnexpectedException(ex, _logger);
+                }
             });
         }
-
-        /// <summary>
-        /// Logs exception and shows message to user.
-        /// </summary>
-        private void ProcessUnexpectedException(Exception ex)
-        {
-            var message = string.Format(Language.UnexpectedExceptionMessage, ex.GetType(), ex.Message);
-
-            _logger.LogError(message);
-
-            MessageBoxManager.GetMessageBoxStandardWindow(
-                            new MessageBoxStandardParams()
-                            {
-                                ContentTitle = Language.UnexpectedExceptionTitle,
-                                ContentMessage = message,
-                                Icon = Icon.Error,
-                                ButtonDefinitions = ButtonEnum.Ok
-                            })
-                            .Show();
-        }
-
+        
         /// <summary>
         /// Adds a new text line to console. Feed it to logger
         /// </summary>
@@ -1294,13 +1287,13 @@ namespace FloaderClientGUI.ViewModels
                 if (!result.IsSuccessfull)
                 {
                     MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = Language.UnsuccessfullRebootTitle,
-                            ContentMessage = Language.UnsuccessfullReboot,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.UnsuccessfullRebootTitle,
+                                ContentMessage = Language.UnsuccessfullReboot,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.Ok
+                            })
                         .Show();
                 }
             });
@@ -1325,6 +1318,22 @@ namespace FloaderClientGUI.ViewModels
         {
             ProgressValue = 0;
             ProgressOperation = Language.NoOperationInProgress;
+        }
+
+        /// <summary>
+        /// Called by threads when unhandled exception happens
+        /// </summary>
+        private void OnUnhandledException(Exception exception)
+        {
+            if (exception == null)
+            {
+                throw new ArgumentNullException(nameof(exception));
+            }
+
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                ExceptionsHelper.ProcessUnexpectedException(exception, _logger);                
+            });
         }
     }
 }

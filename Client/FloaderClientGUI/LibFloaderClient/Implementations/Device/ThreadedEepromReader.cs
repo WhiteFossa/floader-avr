@@ -41,16 +41,25 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private readonly ProgressDelegate _progressDelegate;
 
+        /// <summary>
+        /// Callback to process exceptions
+        /// </summary>
+        private readonly UnhandledExceptionCallbackDelegate _unhandledExceptionCallbackDelegate;
+
         public ThreadedEepromReader(DeviceIdentifierData identificationData,
             PortSettings portSettings,
             object versionSpecificDeviceData,
             ILogger logger,
             EepromReadCompletedCallbackDelegate eepromReadCompletedCallbackDelegate,
+            UnhandledExceptionCallbackDelegate unhandledExceptionCallbackDelegate,
             ProgressDelegate progressDelegate = null)
             : base(identificationData, portSettings, versionSpecificDeviceData, logger)
         {
             _eepromReadCompletedCallbackDelegate = eepromReadCompletedCallbackDelegate
                 ?? throw new ArgumentNullException(nameof(eepromReadCompletedCallbackDelegate));
+
+            _unhandledExceptionCallbackDelegate = unhandledExceptionCallbackDelegate
+                ?? throw new ArgumentNullException(nameof(unhandledExceptionCallbackDelegate));
 
             _progressDelegate = progressDelegate;
         }
@@ -60,26 +69,34 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         public void Read()
         {
-            _logger.LogInfo(Language.ReadingEeprom);
-
-            EepromReadResult result = null;
-
-            switch (_identificationData.Version)
+            try
             {
-                case (int)ProtocolVersion.First:
-                    using (var driver = GetDeviceDriverV1())
-                    {
-                        _progressDelegate?.Invoke(new ProgressData(0, 1, Language.ProgressOperationReadingEeprom));
-                        result = new EepromReadResult(driver.ReadEEPROM());
-                        _progressDelegate?.Invoke(new ProgressData(1, 1, Language.ProgressOperationReadingEeprom));
-                    }
-                    break;
-                default:
-                    throw ReportUnsupportedVersion();
-            }
+                _logger.LogInfo(Language.ReadingEeprom);
 
-            _logger.LogInfo(Language.Done);
-            _eepromReadCompletedCallbackDelegate(result);
+                EepromReadResult result = null;
+
+                switch (_identificationData.Version)
+                {
+                    case (int) ProtocolVersion.First:
+                        using (var driver = GetDeviceDriverV1())
+                        {
+                            _progressDelegate?.Invoke(new ProgressData(0, 1, Language.ProgressOperationReadingEeprom));
+                            result = new EepromReadResult(driver.ReadEEPROM());
+                            _progressDelegate?.Invoke(new ProgressData(1, 1, Language.ProgressOperationReadingEeprom));
+                        }
+
+                        break;
+                    default:
+                        throw ReportUnsupportedVersion();
+                }
+                
+                _logger.LogInfo(Language.Done);
+                _eepromReadCompletedCallbackDelegate(result);
+            }
+            catch (Exception ex)
+            {
+                _unhandledExceptionCallbackDelegate(ex);
+            }
         }
     }
 }

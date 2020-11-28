@@ -29,15 +29,19 @@ namespace LibFloaderClient.Implementations.Device
     public class ThreadedRebooter : BaseThreadedOperationsProvider
     {
         private readonly RebootToFirmwareCompletedCallbackDelegate _rebootCompletedDelegate;
+        private readonly UnhandledExceptionCallbackDelegate _unhandledExceptionCallbackDelegate;
 
         public ThreadedRebooter(DeviceIdentifierData identificationData,
             PortSettings portSettings,
             object versionSpecificDeviceData,
             ILogger logger,
-            RebootToFirmwareCompletedCallbackDelegate rebootCompletedDelegate)
+            RebootToFirmwareCompletedCallbackDelegate rebootCompletedDelegate,
+            UnhandledExceptionCallbackDelegate unhandledExceptionDelegate)
             : base(identificationData, portSettings, versionSpecificDeviceData, logger)
         {
             _rebootCompletedDelegate = rebootCompletedDelegate ?? throw new ArgumentNullException(nameof(rebootCompletedDelegate));
+            _unhandledExceptionCallbackDelegate = unhandledExceptionDelegate ??
+                                                  throw new ArgumentNullException(nameof(unhandledExceptionDelegate));
         }
 
         /// <summary>
@@ -45,25 +49,33 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         public void Reboot()
         {
-            _logger.LogInfo(Language.RequestingReboot);
-
-            var isSuccessfull = false;
-            switch (_identificationData.Version)
+            try
             {
-                case (int)ProtocolVersion.First:
-                    using (var driver = GetDeviceDriverV1())
-                    {
-                        isSuccessfull = driver.Reboot();
-                    }
-                    break;
+                _logger.LogInfo(Language.RequestingReboot);
 
-                default:
-                    throw ReportUnsupportedVersion();
+                var isSuccessfull = false;
+                switch (_identificationData.Version)
+                {
+                    case (int) ProtocolVersion.First:
+                        using (var driver = GetDeviceDriverV1())
+                        {
+                            isSuccessfull = driver.Reboot();
+                        }
+                        
+                        break;
+
+                    default:
+                        throw ReportUnsupportedVersion();
+                }
+
+                _logger.LogInfo(Language.Done);
+
+                _rebootCompletedDelegate(new DeviceRebootResult(isSuccessfull));
             }
-
-            _logger.LogInfo(Language.Done);
-
-            _rebootCompletedDelegate(new DeviceRebootResult(isSuccessfull));
+            catch (Exception ex)
+            {
+                _unhandledExceptionCallbackDelegate(ex);
+            }
         }
 
     }

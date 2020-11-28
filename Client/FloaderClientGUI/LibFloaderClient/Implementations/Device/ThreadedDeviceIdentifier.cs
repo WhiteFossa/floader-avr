@@ -34,6 +34,11 @@ namespace LibFloaderClient.Implementations.Device
     /// </summary>
     public delegate void DeviceIdentifiedCallbackDelegate(DeviceIdentifierData data);
 
+    /// <summary>
+    /// Called by ThreadedDeviceIdentifier if unhandled exception occured
+    /// </summary>
+    public delegate void DeviceIdentificationExceptionCallbackDelegate(Exception exception);
+
     public class ThreadedDeviceIdentifier
     {
         /// <summary>
@@ -86,11 +91,19 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         private DeviceIdentifiedCallbackDelegate _deviceIdentifiedCallbackDelegate;
 
+        /// <summary>
+        /// Called if exception happened
+        /// </summary>
+        private DeviceIdentificationExceptionCallbackDelegate _deviceIdentificationExceptionCallbackDelegate;
+        
         public ThreadedDeviceIdentifier(PortSettings portSettings,
-            DeviceIdentifiedCallbackDelegate deviceIdentifiedCallbackDelegate)
+            DeviceIdentifiedCallbackDelegate deviceIdentifiedCallbackDelegate,
+            DeviceIdentificationExceptionCallbackDelegate deviceIdentificationExceptionCallbackDelegate)
         {
             _portSettings = portSettings ?? throw new ArgumentNullException(nameof(portSettings));
             _deviceIdentifiedCallbackDelegate = deviceIdentifiedCallbackDelegate ?? throw new ArgumentNullException(nameof(deviceIdentifiedCallbackDelegate));
+            _deviceIdentificationExceptionCallbackDelegate =
+                deviceIdentificationExceptionCallbackDelegate ?? throw new ArgumentNullException(nameof(deviceIdentificationExceptionCallbackDelegate));
         }
 
         /// <summary>
@@ -98,49 +111,57 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         public void Identify()
         {
-            DeviceIdentifierData result = null;
-
-            using (ISerialPortDriver port = new SerialPortDriver.SerialPortDriver(_portSettings))
+            try
             {
-                port.Write(IdentRequest);
+                DeviceIdentifierData result = null;
 
-                try
+                using (ISerialPortDriver port = new SerialPortDriver.SerialPortDriver(_portSettings))
                 {
-                    var response = port.Read(ExpectedIdentResponseLenght);
+                    port.Write(IdentRequest);
 
-                    if (!CheckSignature(response))
+                    try
                     {
-                        result = new DeviceIdentifierData(status: DeviceIdentificationStatus.WrongSignature,
+                        var response = port.Read(ExpectedIdentResponseLenght);
+
+                        if (!CheckSignature(response))
+                        {
+                            result = new DeviceIdentifierData(status: DeviceIdentificationStatus.WrongSignature,
+                                version: -1,
+                                vendorId: -1,
+                                modelId: -1,
+                                serial: -1);
+                        }
+
+                        // Our device, collecting data
+                        var version = PortDataHelper.ExtractUnsignedByteAsInt(response, VersionOffset);
+                        var vendorId = PortDataHelper.ExtractThreeBytesAsInt(response, VendorIdOffset);
+                        var modelId = PortDataHelper.ExtractThreeBytesAsInt(response, ModelIdOffset);
+                        var serial = PortDataHelper.ExtractFourBytesAsLong(response, SerialOffset);
+
+                        result = new DeviceIdentifierData(status: DeviceIdentificationStatus.Identified,
+                            version: version,
+                            vendorId: vendorId,
+                            modelId: modelId,
+                            serial: serial);
+                    }
+                    catch (SerialPortTimeoutException)
+                    {
+                        // Timeout, usually it means that this is not our device
+                        result = new DeviceIdentifierData(status: DeviceIdentificationStatus.Timeout,
                             version: -1,
                             vendorId: -1,
                             modelId: -1,
                             serial: -1);
                     }
-
-                    // Our device, collecting data
-                    var version = PortDataHelper.ExtractUnsignedByteAsInt(response, VersionOffset);
-                    var vendorId = PortDataHelper.ExtractThreeBytesAsInt(response, VendorIdOffset);
-                    var modelId = PortDataHelper.ExtractThreeBytesAsInt(response, ModelIdOffset);
-                    var serial = PortDataHelper.ExtractFourBytesAsLong(response, SerialOffset);
-
-                    result = new DeviceIdentifierData(status: DeviceIdentificationStatus.Identified,
-                        version: version,
-                        vendorId: vendorId,
-                        modelId: modelId,
-                        serial: serial);
                 }
-                catch (SerialPortTimeoutException)
-                {
-                    // Timeout, usually it means that this is not our device
-                    result = new DeviceIdentifierData(status: DeviceIdentificationStatus.Timeout,
-                        version: -1,
-                        vendorId: -1,
-                        modelId: -1,
-                        serial: -1);
-                }
+
+                _deviceIdentifiedCallbackDelegate(result);
             }
-
-            _deviceIdentifiedCallbackDelegate(result);
+            catch (Exception ex)
+            {
+                _deviceIdentificationExceptionCallbackDelegate(ex);
+            }
+            
         }
 
         /// <summary>
