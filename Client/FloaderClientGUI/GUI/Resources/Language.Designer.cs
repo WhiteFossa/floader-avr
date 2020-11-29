@@ -560,5 +560,29 @@ namespace FloaderClientGUI.Resources {
                 return ResourceManager.GetString("IncorrectEepromFile", resourceCulture);
             }
         }
+        
+        internal static string IncorrectFlashFileTitle {
+            get {
+                return ResourceManager.GetString("IncorrectFlashFileTitle", resourceCulture);
+            }
+        }
+        
+        internal static string IncorrectFlashFile {
+            get {
+                return ResourceManager.GetString("IncorrectFlashFile", resourceCulture);
+            }
+        }
+        
+        internal static string FlashDataInBootloaderAreaTitle {
+            get {
+                return ResourceManager.GetString("FlashDataInBootloaderAreaTitle", resourceCulture);
+            }
+        }
+        
+        internal static string FlashDataInBootloaderArea {
+            get {
+                return ResourceManager.GetString("FlashDataInBootloaderArea", resourceCulture);
+            }
+        }
     }
 }

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddressOutsideEeprom" xml:space="preserve">
-    <value>Given EEPROM file contains data for addressess outside EEPROM. Check file correctness.</value>
+    <value>Given EEPROM file contains data with addressess outside EEPROM. Check file correctness.</value>
   </data>
   <data name="AllowedFlashPageAddresses" xml:space="preserve">
     <value>Allowed FLASH page addresses: [0 - {0}].</value>
@@ -315,9 +315,6 @@
   <data name="UnsupportedVersion" xml:space="preserve">
     <value>Unsupported version {0}.</value>
   </data>
-  <data name="UnwriteableFlashArea" xml:space="preserve">
-    <value>Given FLASH file contains data for addresses in non-writeable FLASH area. Check file correctness.</value>
-  </data>
   <data name="UploadingEeprom" xml:space="preserve">
     <value>Uploading EEPROM...</value>
   </data>
@@ -347,5 +344,8 @@
   </data>
   <data name="WrongIdentificationResponseLength" xml:space="preserve">
     <value>Identification response must be {0} bytes long.</value>
+  </data>
+  <data name="AddressOutsideFlash" xml:space="preserve">
+    <value>Given FLASH file contains data with addresses outside of FLASH.</value>
   </data>
 </root>

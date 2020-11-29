@@ -383,4 +383,19 @@
     <value>HEX файл с EEPROM содержит данные по адресам, некорректным для текущего устройства.
 Выберите другой HEX файл.</value>
   </data>
+  <data name="IncorrectFlashFileTitle" xml:space="preserve">
+    <value>Некорректный HEX файл FLASH</value>
+  </data>
+  <data name="IncorrectFlashFile" xml:space="preserve">
+    <value>HEX файл с FLASH содержит данные по адресам, некорректным для текущего устройства. Выберите другой файл.</value>
+  </data>
+  <data name="FlashDataInBootloaderAreaTitle" xml:space="preserve">
+    <value>Данные FLASH в области загрузчика</value>
+  </data>
+  <data name="FlashDataInBootloaderArea" xml:space="preserve">
+    <value>Выбранный HEX файл FLASH содержит данные в области загрузчика.
+Если это прошивка без загрузчика, запись её в устройство приведёт к его неработоспособности.
+С другой стороны, если это прошивка с фоссьим загрузчиком (например бэкап), запись не приведёт ни к чему плохому.
+Вы хотите записать эту прошивку в устройство?</value>
+  </data>
 </root>

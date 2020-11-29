@@ -747,7 +747,7 @@ namespace FloaderClientGUI.ViewModels
         /// <summary>
         /// Upload to MCU
         /// </summary>
-        public void Upload()
+        public async void UploadAsync()
         {
             CheckReadyness();
 
@@ -760,6 +760,47 @@ namespace FloaderClientGUI.ViewModels
             if (_isFlashUpload)
             {
                 flashHexData = _hexReader.ReadFromFile(FlashUploadFile);
+                
+                // Checking for FLASH addresses correctness.
+                if (!_deviceIndependentOperationsProvider.CheckFlashAddressesForCorrectness(flashHexData))
+                {
+                    var message = Language.IncorrectFlashFile;
+                    
+                    _logger.LogError(message);
+                    
+                    await MessageBoxManager.GetMessageBoxStandardWindow(
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.IncorrectFlashFileTitle,
+                                ContentMessage = message,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.Ok
+                            })
+                        .Show();
+                    
+                    LoadStateAndUnlockInterface();
+                    return;
+                }
+                
+                // Special case - data in bootloader area
+                if (!_deviceIndependentOperationsProvider.CheckIfFlashAddressesOutsideBootloader(flashHexData))
+                {
+                    var result = await MessageBoxManager.GetMessageBoxStandardWindow(
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.FlashDataInBootloaderAreaTitle,
+                                ContentMessage = Language.FlashDataInBootloaderArea,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.YesNo
+                            })
+                        .Show();
+
+                    if (result != ButtonResult.Yes)
+                    {
+                        LoadStateAndUnlockInterface();
+                        return;
+                    }
+                }
             }
 
             if (_isEepromUpload)
@@ -767,13 +808,13 @@ namespace FloaderClientGUI.ViewModels
                 eepromHexData = _hexReader.ReadFromFile(EepromUploadFile);
                 
                 // Checking for EEPROM addresses correctness
-                if (!_deviceIndependentOperationsProvider.CheckEEPROMAddressesForCorrectness(eepromHexData))
+                if (!_deviceIndependentOperationsProvider.CheckEepromAddressesForCorrectness(eepromHexData))
                 {
                     var message = Language.IncorrectEepromFile;
                     
                     _logger.LogError(message);
                     
-                    MessageBoxManager.GetMessageBoxStandardWindow(
+                    await MessageBoxManager.GetMessageBoxStandardWindow(
                             new MessageBoxStandardParams()
                             {
                                 ContentTitle = Language.IncorrectEepromFileTitle,

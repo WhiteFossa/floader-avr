@@ -309,24 +309,61 @@ namespace LibFloaderClient.Implementations.Device
             return _filenamesGenerator.GenerateEEPROMFilename(_deviceIdentificationData, isBackup);
         }
 
-        public bool CheckEEPROMAddressesForCorrectness(SortedDictionary<int, byte> data)
+        public bool CheckEepromAddressesForCorrectness(SortedDictionary<int, byte> data)
         {
-            int maxWriteableAddress = 0;
+            return !data.Any(d => d.Key > GetMaxEepromAddress());
+        }
 
+        private int GetMaxEepromAddress()
+        {
             switch (_deviceIdentificationData.Version)
             {
                 case (int)ProtocolVersion.First:
                     var deviceData = GetDeviceDataV1(_deviceIdentificationData, _versionSpecificDeviceData);
                     
-                    maxWriteableAddress = deviceData.EepromSize - 1;
+                    return deviceData.EepromSize - 1;
+                
+                default:
+                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
+            }
+        }
 
-                    break;
+        private int GetMaxFlashAddress()
+        {
+            switch (_deviceIdentificationData.Version)
+            {
+                case (int)ProtocolVersion.First:
+                    var deviceData = GetDeviceDataV1(_deviceIdentificationData, _versionSpecificDeviceData);
+                    
+                    return deviceData.FlashPagesAll * deviceData.FlashPageSize - 1;
 
                 default:
                     throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
             }
+        }
+        
+        private int GetMaxWriteableFlashAddress()
+        {
+            switch (_deviceIdentificationData.Version)
+            {
+                case (int)ProtocolVersion.First:
+                    var deviceData = GetDeviceDataV1(_deviceIdentificationData, _versionSpecificDeviceData);
+                    
+                    return deviceData.FlashPagesWriteable * deviceData.FlashPageSize - 1;
 
-            return !data.Any(d => d.Key > maxWriteableAddress);
+                default:
+                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
+            }
+        }
+        
+        public bool CheckFlashAddressesForCorrectness(SortedDictionary<int, byte> data)
+        {
+            return !data.Any(d => d.Key > GetMaxFlashAddress());
+        }
+
+        public bool CheckIfFlashAddressesOutsideBootloader(SortedDictionary<int, byte> data)
+        {
+            return !data.Any(d => d.Key > GetMaxWriteableFlashAddress());
         }
         
         public void InitiateUploadToDevice(string flashPath, string eepromPath, string backupsDirectory,
@@ -367,34 +404,20 @@ namespace LibFloaderClient.Implementations.Device
             }
 
             // Are addresses valid?
-            int maxWriteableFlashAddress = 0;
-            int maxWriteableEepromAddress = 0;
-
-            switch (_deviceIdentificationData.Version)
+            if (!CheckFlashAddressesForCorrectness(flashHexData))
             {
-                case (int)ProtocolVersion.First:
-                    var deviceData = GetDeviceDataV1(_deviceIdentificationData, _versionSpecificDeviceData);
-
-                    maxWriteableFlashAddress = deviceData.FlashPagesWriteable * deviceData.FlashPageSize - 1;
-                    maxWriteableEepromAddress = deviceData.EepromSize - 1;
-
-                    break;
-
-                default:
-                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
+                throw new ArgumentException(Language.AddressOutsideFlash);
             }
-
-            if (flashHexData.Any(fhd => fhd.Key > maxWriteableFlashAddress))
-            {
-                throw new ArgumentException(Language.UnwriteableFlashArea);
-            }
-
-            if (eepromHexData.Any(ehd => ehd.Key > maxWriteableEepromAddress))
+            
+            if (!CheckEepromAddressesForCorrectness(eepromHexData))
             {
                 throw new ArgumentException(Language.AddressOutsideEeprom);
             }
 
             // Constructing data arrays for upload
+            var maxWriteableFlashAddress = GetMaxWriteableFlashAddress();
+            var maxWriteableEepromAddress = GetMaxEepromAddress();
+            
             if (_isUploadFlash)
             {
                 for (int address = 0; address <= maxWriteableFlashAddress; address++)
@@ -404,6 +427,12 @@ namespace LibFloaderClient.Implementations.Device
 
                 foreach (var address in flashHexData.Keys)
                 {
+                    // Skipping bootloader area
+                    if (address > maxWriteableFlashAddress)
+                    {
+                        continue;
+                    }
+                    
                     _flashDataToUpload[address] = flashHexData[address];
                 }
             }

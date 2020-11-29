@@ -315,9 +315,6 @@
   <data name="UnsupportedVersion" xml:space="preserve">
     <value>Неподдерживаемая версия {0}.</value>
   </data>
-  <data name="UnwriteableFlashArea" xml:space="preserve">
-    <value>Заданный файл FLASH содержит данные в области, запись в которую невозможна. Проверьте корректность файла.</value>
-  </data>
   <data name="UploadingEeprom" xml:space="preserve">
     <value>Загружаю EEPROM...</value>
   </data>
@@ -347,5 +344,8 @@
   </data>
   <data name="WrongIdentificationResponseLength" xml:space="preserve">
     <value>Ответ на запрос идентификации должен быть {0} байт длиной.</value>
+  </data>
+  <data name="AddressOutsideFlash" xml:space="preserve">
+    <value>Заданный файл FLASH содержит данные за пределами адресного пространства FLASH.</value>
   </data>
 </root>

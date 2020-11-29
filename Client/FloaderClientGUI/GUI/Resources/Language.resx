@@ -384,4 +384,22 @@ Check port and device state - it must be in bootloader mode.</value>
     <value>EEPROM HEX file contains data at addresses, incorrect for current device.
 Select another HEX file.</value>
   </data>
+  <data name="IncorrectFlashFileTitle" xml:space="preserve">
+    <value>Incorrect FLASH HEX file</value>
+  </data>
+  <data name="IncorrectFlashFile" xml:space="preserve">
+    <value>FLASH HEX file contains data at incorrect for current device addresses. Select another HEX file.</value>
+  </data>
+  <data name="FlashDataInBootloaderAreaTitle" xml:space="preserve">
+    <value>FLASH data in bootloader area</value>
+  </data>
+  <data name="FlashDataInBootloaderArea" xml:space="preserve">
+    <value>Selected FLASH HEX file contains data in bootloader area.
+
+If this is firmware without bootloader, uploading it will result in nonfunctional device.
+
+If this is firmware with Fossa's bootloader (e.g. backup), uploading it wouldn't lead to any harm.
+
+Do you want to upload this firmware into device?</value>
+  </data>
 </root>

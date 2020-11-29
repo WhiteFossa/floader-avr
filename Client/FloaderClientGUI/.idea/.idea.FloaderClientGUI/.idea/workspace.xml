@@ -30,14 +30,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e65ba09-9633-46c5-ac3c-08402cb87df0" name="Default Changelist" comment="Updated Dapper">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FloaderClientGUI.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/FloaderClientGUI.sln.DotSettings.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/Resources/Language.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Resources/Language.Designer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/Resources/Language.resx" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Resources/Language.resx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/Resources/Language.ru.resx" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Resources/Language.ru.resx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/ViewModels/MainWindowViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/ViewModels/MainWindowViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/Views/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Views/MainWindow.xaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/DeviceIndependentOperationsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/DeviceIndependentOperationsProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibFloaderClient/Implementations/Resources/Language.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/Implementations/Resources/Language.Designer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibFloaderClient/Implementations/Resources/Language.resx" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/Implementations/Resources/Language.resx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibFloaderClient/Implementations/Resources/Language.ru.resx" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/Implementations/Resources/Language.ru.resx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LibFloaderClient/Interfaces/Device/IDeviceIndependentOperationsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/Interfaces/Device/IDeviceIndependentOperationsProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/Debug/netstandard2.0/LibFloaderClient.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/Debug/netstandard2.0/LibFloaderClient.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.csprojAssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/project.nuget.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,9 +66,9 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/61E825E7-4FFE-4EFF-9FC0-E8987705E6E3/10/X11PlatformThreading.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8DC3289F-9CC1-460C-B108-828402C41284/139/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/754166D1-C8A7-45BB-8C21-6CBBF8853327/2F/JobRunner.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/A76B8C80-4D9F-4FC8-8A9A-03F322A6D646/2C/AvaloniaSynchronizationContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8DC3289F-9CC1-460C-B108-828402C41284/158/TaskCompletionSource.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHex/Implementations/Reader/HexReader.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHex/Implementations/Reader/HexReader.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8DC3289F-9CC1-460C-B108-828402C41284/155/Task.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -80,8 +94,10 @@
         <option value="$PROJECT_DIR$/LibIntelHex/Interfaces/IRecordBase.cs" />
         <option value="$PROJECT_DIR$/GUI/Program.cs" />
         <option value="$PROJECT_DIR$/LibFloaderClient/Interfaces/Device/IDeviceIndependentOperationsProvider.cs" />
-        <option value="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/DeviceIndependentOperationsProvider.cs" />
+        <option value="$PROJECT_DIR$/GUI/Resources/Language.Designer.cs" />
+        <option value="$PROJECT_DIR$/GUI/Views/MainWindow.xaml" />
         <option value="$PROJECT_DIR$/GUI/ViewModels/MainWindowViewModel.cs" />
+        <option value="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/DeviceIndependentOperationsProvider.cs" />
       </list>
     </option>
   </component>
@@ -145,7 +161,10 @@
       <workItem from="1606568286424" duration="10904000" />
       <workItem from="1606580474812" duration="1296000" />
       <workItem from="1606627812760" duration="439000" />
-      <workItem from="1606628289945" duration="3484000" />
+      <workItem from="1606628289945" duration="4917000" />
+      <workItem from="1606650995574" duration="1507000" />
+      <workItem from="1606652557329" duration="41000" />
+      <workItem from="1606652691661" duration="727000" />
     </task>
     <task id="LOCAL-00001" summary="Updated Dapper">
       <created>1606561699300</created>
@@ -189,7 +208,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606628776367</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Good EEPROM addresses validation (i.e. outside of device independent operations provider)">
+      <created>1606632093420</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1606632093420</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,105 +253,106 @@
     <MESSAGE value="Fixed crash after pressing &quot;cancel&quot; in file selection dialog under linux" />
     <MESSAGE value="Now able to process exceptions in threaded workers." />
     <MESSAGE value="Partially upgraded packages + some refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Partially upgraded packages + some refactoring" />
+    <MESSAGE value="Good EEPROM addresses validation (i.e. outside of device independent operations provider)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Good EEPROM addresses validation (i.e. outside of device independent operations provider)" />
   </component>
   <component name="WindowStateProjectService">
     <state x="693" y="431" width="562" height="343" key="#Notifications" timestamp="1606561368673">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
     <state x="693" y="431" width="562" height="343" key="#Notifications/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606561368673" />
-    <state x="759" y="544" key="AddNewCultureDialog" timestamp="1606631528855">
+    <state x="759" y="544" key="AddNewCultureDialog" timestamp="1606633146162">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state x="759" y="544" key="AddNewCultureDialog/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631528855" />
-    <state x="759" y="526" width="432" height="148" key="AddNewResourceElement" timestamp="1606631873032">
+    <state x="759" y="544" key="AddNewCultureDialog/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606633146162" />
+    <state x="759" y="526" width="432" height="148" key="AddNewResourceElement" timestamp="1606652786120">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state x="759" y="526" width="432" height="148" key="AddNewResourceElement/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631873032" />
+    <state x="759" y="526" width="432" height="148" key="AddNewResourceElement/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606652786120" />
     <state x="130" y="100" width="1690" height="1000" key="DiffContextDialog" timestamp="1606629970139">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
     <state x="130" y="100" width="1690" height="1000" key="DiffContextDialog/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606629970139" />
-    <state width="1848" height="429" key="GridCell.Tab.0.bottom" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.0.bottom" timestamp="1606653240174">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.0.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.0.center" timestamp="1606631479154">
+    <state width="1848" height="429" key="GridCell.Tab.0.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653240174" />
+    <state width="1848" height="429" key="GridCell.Tab.0.center" timestamp="1606653240174">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.0.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479154" />
-    <state width="1848" height="429" key="GridCell.Tab.0.left" timestamp="1606631479154">
+    <state width="1848" height="429" key="GridCell.Tab.0.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653240174" />
+    <state width="1848" height="429" key="GridCell.Tab.0.left" timestamp="1606653240174">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.0.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479154" />
-    <state width="1848" height="429" key="GridCell.Tab.0.right" timestamp="1606631479154">
+    <state width="1848" height="429" key="GridCell.Tab.0.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653240174" />
+    <state width="1848" height="429" key="GridCell.Tab.0.right" timestamp="1606653240174">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.0.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479154" />
-    <state width="1848" height="429" key="GridCell.Tab.1.bottom" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.0.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653240174" />
+    <state width="1848" height="429" key="GridCell.Tab.1.bottom" timestamp="1606653288125">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.1.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.1.center" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.1.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653288124" />
+    <state width="1848" height="429" key="GridCell.Tab.1.center" timestamp="1606653288124">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.1.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.1.left" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.1.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653288124" />
+    <state width="1848" height="429" key="GridCell.Tab.1.left" timestamp="1606653288124">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.1.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.1.right" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.1.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653288124" />
+    <state width="1848" height="429" key="GridCell.Tab.1.right" timestamp="1606653288124">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.1.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.2.bottom" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.1.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653288124" />
+    <state width="1848" height="429" key="GridCell.Tab.2.bottom" timestamp="1606653239988">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.2.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.2.center" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.2.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653239988" />
+    <state width="1848" height="429" key="GridCell.Tab.2.center" timestamp="1606653239988">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.2.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.2.left" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.2.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653239988" />
+    <state width="1848" height="429" key="GridCell.Tab.2.left" timestamp="1606653239988">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.2.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.2.right" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.2.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653239988" />
+    <state width="1848" height="429" key="GridCell.Tab.2.right" timestamp="1606653239988">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.2.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.3.bottom" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.2.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653239988" />
+    <state width="1848" height="429" key="GridCell.Tab.3.bottom" timestamp="1606653239988">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.3.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.3.center" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.3.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653239988" />
+    <state width="1848" height="429" key="GridCell.Tab.3.center" timestamp="1606653239988">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.3.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.3.left" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.3.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653239988" />
+    <state width="1848" height="429" key="GridCell.Tab.3.left" timestamp="1606653239988">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.3.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.3.right" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.3.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653239988" />
+    <state width="1848" height="429" key="GridCell.Tab.3.right" timestamp="1606653239988">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.3.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.4.bottom" timestamp="1606631479156">
+    <state width="1848" height="429" key="GridCell.Tab.3.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653239988" />
+    <state width="1848" height="429" key="GridCell.Tab.4.bottom" timestamp="1606653239989">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.4.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.4.center" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.4.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653239989" />
+    <state width="1848" height="429" key="GridCell.Tab.4.center" timestamp="1606653239988">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.4.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.4.left" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.4.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653239988" />
+    <state width="1848" height="429" key="GridCell.Tab.4.left" timestamp="1606653239988">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.4.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
-    <state width="1848" height="429" key="GridCell.Tab.4.right" timestamp="1606631479155">
+    <state width="1848" height="429" key="GridCell.Tab.4.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653239988" />
+    <state width="1848" height="429" key="GridCell.Tab.4.right" timestamp="1606653239988">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.4.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.4.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606653239988" />
     <state x="465" y="232" key="SettingsEditor" timestamp="1606628625861">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
@@ -372,17 +399,17 @@
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/GUI/ViewModels/MainWindowViewModel.cs</url>
-          <line>766</line>
-          <properties documentPath="$PROJECT_DIR$/GUI/ViewModels/MainWindowViewModel.cs" initialLine="766">
+          <url>file://$PROJECT_DIR$/LibFloaderClient/Implementations/Device/DeviceIndependentOperationsProvider.cs</url>
+          <line>372</line>
+          <properties documentPath="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/DeviceIndependentOperationsProvider.cs" initialLine="372">
             <startOffsets>
-              <option value="22904" />
+              <option value="15149" />
             </startOffsets>
             <endOffsets>
-              <option value="22962" />
+              <option value="15351" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="6" />
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

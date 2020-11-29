@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/LibIntelHexTests.csproj": {}
+    "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/LibIntelHexTests.csproj": {}
   },
   "projects": {
-    "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj": {
+    "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj",
+        "projectUniqueName": "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj",
         "projectName": "LibIntelHex",
-        "projectPath": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj",
+        "projectPath": "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj",
         "packagesPath": "/home/fossa/.nuget/packages/",
-        "outputPath": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHex/obj/",
+        "outputPath": "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibIntelHex/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/fossa/.nuget/NuGet/NuGet.Config"
@@ -57,14 +57,14 @@
         }
       }
     },
-    "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/LibIntelHexTests.csproj": {
+    "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/LibIntelHexTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/LibIntelHexTests.csproj",
+        "projectUniqueName": "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/LibIntelHexTests.csproj",
         "projectName": "LibIntelHexTests",
-        "projectPath": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/LibIntelHexTests.csproj",
+        "projectPath": "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/LibIntelHexTests.csproj",
         "packagesPath": "/home/fossa/.nuget/packages/",
-        "outputPath": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/obj/",
+        "outputPath": "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/fossa/.nuget/NuGet/NuGet.Config"
@@ -78,8 +78,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj": {
-                "projectPath": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj"
+              "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj": {
+                "projectPath": "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj"
               }
             }
           }
