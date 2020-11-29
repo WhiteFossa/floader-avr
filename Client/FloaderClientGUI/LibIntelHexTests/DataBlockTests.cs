@@ -43,7 +43,6 @@ namespace LibIntelHexTests
         /// <summary>
         /// Correct addresses and data check
         /// </summary>
-        /// <param name="address"></param>
         [TestCase(0, 0xA5)]
         [TestCase(123, 0xFF)]
         [TestCase(65535, 0x00)]

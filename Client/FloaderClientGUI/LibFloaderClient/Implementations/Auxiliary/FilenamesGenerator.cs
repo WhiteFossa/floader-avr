@@ -76,7 +76,7 @@ namespace LibFloaderClient.Implementations.Auxiliary
             return sb.ToString();
         }
 
-        private string GenerateCommonPart(DeviceIdentifierData identData)
+        private static string GenerateCommonPart(DeviceIdentifierData identData)
         {
             var currentTime = DateTime.Now;
 
@@ -92,7 +92,7 @@ namespace LibFloaderClient.Implementations.Auxiliary
                 currentTime.Second);
         }
 
-        private string GenerateBackupPrefix(bool isBackup)
+        private static string GenerateBackupPrefix(bool isBackup)
         {
             return isBackup ? BackupPrefix : string.Empty;
         }

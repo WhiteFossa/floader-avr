@@ -121,7 +121,7 @@
     <value>Fossa's AVR loader</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>0.0.3 (7 November 2020)</value>
+    <value>0.0.4 (29 November 2020)</value>
   </data>
   <data name="Baudrate" xml:space="preserve">
     <value>Baudrate: {0}</value>
@@ -341,6 +341,14 @@ Serial number: {3}.</value>
     <value>Unable to proceed!
 Please, select another device.</value>
   </data>
+  <data name="UnexpectedExceptionMessage" xml:space="preserve">
+    <value>Unexpected exception:
+Type: {0}
+Message: "{1}"</value>
+  </data>
+  <data name="UnexpectedExceptionTitle" xml:space="preserve">
+    <value>Unexpected exception</value>
+  </data>
   <data name="UnexpectedIdentificationResponse" xml:space="preserve">
     <value>Device responded to identification request in unusual way, probably it's not Fossa's bootloader device.
 Check port and device state - it must be in bootloader mode.</value>
@@ -368,5 +376,45 @@ Check port and device state - it must be in bootloader mode.</value>
   </data>
   <data name="VendorNotFoundTitle" xml:space="preserve">
     <value>Unknown vendor</value>
+  </data>
+  <data name="IncorrectEepromFileTitle" xml:space="preserve">
+    <value>Incorrect EEPROM HEX file</value>
+  </data>
+  <data name="IncorrectEepromFile" xml:space="preserve">
+    <value>EEPROM HEX file contains data at addresses, incorrect for current device.
+Select another HEX file.</value>
+  </data>
+  <data name="IncorrectFlashFileTitle" xml:space="preserve">
+    <value>Incorrect FLASH HEX file</value>
+  </data>
+  <data name="IncorrectFlashFile" xml:space="preserve">
+    <value>FLASH HEX file contains data at incorrect for current device addresses. Select another HEX file.</value>
+  </data>
+  <data name="FlashDataInBootloaderAreaTitle" xml:space="preserve">
+    <value>FLASH data in bootloader area</value>
+  </data>
+  <data name="FlashDataInBootloaderArea" xml:space="preserve">
+    <value>Selected FLASH HEX file contains data in bootloader area.
+
+If this is firmware without bootloader, uploading it will result in nonfunctional device.
+
+If this is firmware with Fossa's bootloader (e.g. backup), uploading it wouldn't lead to any harm.
+
+Do you want to upload this firmware into device?</value>
+  </data>
+  <data name="SelectBackupsDirectory" xml:space="preserve">
+    <value>Select backups directory</value>
+  </data>
+  <data name="FilesMustDifferTitle" xml:space="preserve">
+    <value>Files must differ</value>
+  </data>
+  <data name="FilesMustDiffer" xml:space="preserve">
+    <value>FLASH and EEPROM files to download into must differ.</value>
+  </data>
+  <data name="FilenameIntelHEX" xml:space="preserve">
+    <value>Intel HEX</value>
+  </data>
+  <data name="FilenameAllFiles" xml:space="preserve">
+    <value>All files</value>
   </data>
 </root>

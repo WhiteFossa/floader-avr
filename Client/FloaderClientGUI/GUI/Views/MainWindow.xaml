@@ -124,7 +124,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 					</DockPanel>
 
 				<StackPanel Orientation="Horizontal">
-					<Button Classes="TopMargin" Content="{ Binding BtnUpload }" Command="{Binding Upload}"
+					<Button Classes="TopMargin" Content="{ Binding BtnUpload }" Command="{Binding UploadAsync}"
 						IsEnabled="{Binding IsUploadEnabled}" /> <!-- Upload button -->
 				</StackPanel>
 			</StackPanel>
@@ -163,7 +163,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 					</DockPanel>
 
 				<StackPanel Orientation="Horizontal">
-					<Button Content="{ Binding BtnDownload }" Classes="TopMargin" Command="{Binding Download}"
+					<Button Content="{ Binding BtnDownload }" Classes="TopMargin" Command="{Binding DownloadAsync}"
 						IsEnabled="{Binding IsDownloadEnabled}" /> <!-- Download button -->
 				</StackPanel>
 			</StackPanel>

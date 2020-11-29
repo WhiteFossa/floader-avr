@@ -121,7 +121,7 @@
     <value>AVR загрузчик Фоссы</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>0.0.3 (7 ноября 2020)</value>
+    <value>0.0.4 (29 ноября 2020)</value>
   </data>
   <data name="Baudrate" xml:space="preserve">
     <value>Скорость: {0}</value>
@@ -341,6 +341,14 @@
     <value>Невозможно продолжать!
 Пожалуйста, выберите другое устройство.</value>
   </data>
+  <data name="UnexpectedExceptionMessage" xml:space="preserve">
+    <value>Неожиданное исключение:
+Тип: {0}
+Сообщение: "{1}"</value>
+  </data>
+  <data name="UnexpectedExceptionTitle" xml:space="preserve">
+    <value>Неожиданное исключение</value>
+  </data>
   <data name="UnexpectedIdentificationResponse" xml:space="preserve">
     <value>Устройство ответило на запрос идентификации необычным образом, вероятно это НЕ устройство с загрузчиком Фоссы. Проверьте порт и состояние устройства - оно должно быть в режиме загрузчика.</value>
   </data>
@@ -367,5 +375,42 @@
   </data>
   <data name="VendorNotFoundTitle" xml:space="preserve">
     <value>Неизвестный производитель</value>
+  </data>
+  <data name="IncorrectEepromFileTitle" xml:space="preserve">
+    <value>Некорректный HEX файл EEPROM</value>
+  </data>
+  <data name="IncorrectEepromFile" xml:space="preserve">
+    <value>HEX файл с EEPROM содержит данные по адресам, некорректным для текущего устройства.
+Выберите другой HEX файл.</value>
+  </data>
+  <data name="IncorrectFlashFileTitle" xml:space="preserve">
+    <value>Некорректный HEX файл FLASH</value>
+  </data>
+  <data name="IncorrectFlashFile" xml:space="preserve">
+    <value>HEX файл с FLASH содержит данные по адресам, некорректным для текущего устройства. Выберите другой файл.</value>
+  </data>
+  <data name="FlashDataInBootloaderAreaTitle" xml:space="preserve">
+    <value>Данные FLASH в области загрузчика</value>
+  </data>
+  <data name="FlashDataInBootloaderArea" xml:space="preserve">
+    <value>Выбранный HEX файл FLASH содержит данные в области загрузчика.
+Если это прошивка без загрузчика, запись её в устройство приведёт к его неработоспособности.
+С другой стороны, если это прошивка с фоссьим загрузчиком (например бэкап), запись не приведёт ни к чему плохому.
+Вы хотите записать эту прошивку в устройство?</value>
+  </data>
+  <data name="SelectBackupsDirectory" xml:space="preserve">
+    <value>Выберите директорию для резервных копий</value>
+  </data>
+  <data name="FilesMustDifferTitle" xml:space="preserve">
+    <value>Файлы должны различаться</value>
+  </data>
+  <data name="FilesMustDiffer" xml:space="preserve">
+    <value>Файлы, куда будет скачаны FLASH и EEPROM должны различаться.</value>
+  </data>
+  <data name="FilenameIntelHEX" xml:space="preserve">
+    <value>Intel HEX</value>
+  </data>
+  <data name="FilenameAllFiles" xml:space="preserve">
+    <value>Все файлы</value>
   </data>
 </root>

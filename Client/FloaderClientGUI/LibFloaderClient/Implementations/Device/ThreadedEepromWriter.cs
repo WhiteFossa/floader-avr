@@ -46,6 +46,11 @@ namespace LibFloaderClient.Implementations.Device
         /// Delegate to show progress
         /// </summary>
         private readonly ProgressDelegate _progressDelegate;
+        
+        /// <summary>
+        /// Callback to process exceptions
+        /// </summary>
+        private readonly UnhandledExceptionCallbackDelegate _unhandledExceptionCallbackDelegate;
 
         public ThreadedEepromWriter(DeviceIdentifierData identificationData,
             PortSettings portSettings,
@@ -53,6 +58,7 @@ namespace LibFloaderClient.Implementations.Device
             ILogger logger,
             List<byte> toWrite,
             EepromWriteCompletedCallbackDelegate eepromWriteCompletedCallbackDelegate,
+            UnhandledExceptionCallbackDelegate unhandledExceptionCallbackDelegate,
             ProgressDelegate progressDelegate = null)
             : base(identificationData, portSettings, versionSpecificDeviceData, logger)
         {
@@ -60,28 +66,40 @@ namespace LibFloaderClient.Implementations.Device
 
             _eepromWriteCompletedCallbackDelegate = eepromWriteCompletedCallbackDelegate
                 ?? throw new ArgumentNullException(nameof(eepromWriteCompletedCallbackDelegate));
+
+            _unhandledExceptionCallbackDelegate =
+                unhandledExceptionCallbackDelegate ?? throw new ArgumentNullException(nameof(unhandledExceptionCallbackDelegate));
+            
             _progressDelegate = progressDelegate;
         }
 
         public void Write()
         {
-            _logger.LogInfo(Language.WritingEeprom);
-
-            switch (_identificationData.Version)
+            try
             {
-                case (int)ProtocolVersion.First:
-                    using (var driver = GetDeviceDriverV1())
-                    {
-                        driver.WriteEEPROM(_toWrite, _progressDelegate);
-                    }
-                    break;
+                _logger.LogInfo(Language.WritingEeprom);
 
-                default:
-                    throw ReportUnsupportedVersion();
+                switch (_identificationData.Version)
+                {
+                    case (int) ProtocolVersion.First:
+                        using (var driver = GetDeviceDriverV1())
+                        {
+                            driver.WriteEEPROM(_toWrite, _progressDelegate);
+                        }
+                        
+                        break;
+
+                    default:
+                        throw ReportUnsupportedVersion();
+                }
+
+                _logger.LogInfo(Language.Done);
+                _eepromWriteCompletedCallbackDelegate();
             }
-
-            _logger.LogInfo(Language.Done);
-            _eepromWriteCompletedCallbackDelegate();
+            catch (Exception ex)
+            {
+                _unhandledExceptionCallbackDelegate(ex);
+            }
         }
     }
 }

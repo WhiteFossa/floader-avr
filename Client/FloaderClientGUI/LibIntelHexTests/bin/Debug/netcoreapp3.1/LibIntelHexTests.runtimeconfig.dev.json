@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\White Fossa\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\White Fossa\\.nuget\\packages"
+      "/home/fossa/.dotnet/store/|arch|/|tfm|",
+      "/home/fossa/.nuget/packages"
     ]
   }
 }

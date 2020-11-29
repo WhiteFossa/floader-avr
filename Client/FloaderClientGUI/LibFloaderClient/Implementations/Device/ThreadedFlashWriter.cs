@@ -47,6 +47,11 @@ namespace LibFloaderClient.Implementations.Device
         /// Delegate to show progress
         /// </summary>
         private readonly ProgressDelegate _progressDelegate;
+        
+        /// <summary>
+        /// Callback to process exceptions
+        /// </summary>
+        private readonly UnhandledExceptionCallbackDelegate _unhandledExceptionCallbackDelegate;
 
         public ThreadedFlashWriter(DeviceIdentifierData identificationData,
             PortSettings portSettings,
@@ -54,6 +59,7 @@ namespace LibFloaderClient.Implementations.Device
             ILogger logger,
             List<byte> toWrite,
             FlashWriteCompletedCallbackDelegate flashWriteCompletedCallbackDelegate,
+            UnhandledExceptionCallbackDelegate unhandledExceptionCallbackDelegate,
             ProgressDelegate progressDelegate = null)
             : base(identificationData, portSettings, versionSpecificDeviceData, logger)
         {
@@ -61,52 +67,65 @@ namespace LibFloaderClient.Implementations.Device
 
             _flashWriteCompletedCallbackDelegate = flashWriteCompletedCallbackDelegate
                 ?? throw new ArgumentNullException(nameof(flashWriteCompletedCallbackDelegate));
+
+            _unhandledExceptionCallbackDelegate = unhandledExceptionCallbackDelegate ??
+                                                  throw new ArgumentNullException(nameof(unhandledExceptionCallbackDelegate));
             _progressDelegate = progressDelegate;
         }
 
         public void Write()
         {
-            _logger.LogInfo(Language.WritingFlash);
-
-            switch (_identificationData.Version)
+            try
             {
-                case (int)ProtocolVersion.First:
+                _logger.LogInfo(Language.WritingFlash);
 
-                    var deviceData = GetDeviceDataV1();
-                    using (var driver = GetDeviceDriverV1())
-                    {
-                        _progressDelegate?.Invoke(new ProgressData(0, deviceData.FlashPagesWriteable, Language.ProgressOperationWritingFlash));
+                switch (_identificationData.Version)
+                {
+                    case (int) ProtocolVersion.First:
 
-                        for (var pageAddress = 0; pageAddress < deviceData.FlashPagesWriteable; pageAddress++)
+                        var deviceData = GetDeviceDataV1();
+                        using (var driver = GetDeviceDriverV1())
                         {
-                            // Preparing page data
-                            var pageData = _toWrite.GetRange(pageAddress * deviceData.FlashPageSize, deviceData.FlashPageSize);
+                            _progressDelegate?.Invoke(new ProgressData(0, deviceData.FlashPagesWriteable,
+                                Language.ProgressOperationWritingFlash));
 
-                            // Writing
-                            driver.WriteFLASHPage(pageAddress, pageData);
-
-                            // Verifying
-                            var readback = driver.ReadFLASHPage(pageAddress);
-
-                            if (!readback.SequenceEqual(pageData))
+                            for (var pageAddress = 0; pageAddress < deviceData.FlashPagesWriteable; pageAddress++)
                             {
-                                var message = string.Format(Language.FlashPageVerificationFailed, pageAddress + 1);
-                                _logger.LogError(message);
-                                throw new InvalidOperationException(message);
+                                // Preparing page data
+                                var pageData = _toWrite.GetRange(pageAddress * deviceData.FlashPageSize,
+                                    deviceData.FlashPageSize);
+
+                                // Writing
+                                driver.WriteFLASHPage(pageAddress, pageData);
+
+                                // Verifying
+                                var readback = driver.ReadFLASHPage(pageAddress);
+
+                                if (!readback.SequenceEqual(pageData))
+                                {
+                                    var message = string.Format(Language.FlashPageVerificationFailed, pageAddress + 1);
+                                    _logger.LogError(message);
+                                    throw new InvalidOperationException(message);
+                                }
+
+                                _progressDelegate?.Invoke(new ProgressData(pageAddress + 1,
+                                    deviceData.FlashPagesWriteable, Language.ProgressOperationWritingFlash));
                             }
-
-                            _progressDelegate?.Invoke(new ProgressData(pageAddress + 1, deviceData.FlashPagesWriteable, Language.ProgressOperationWritingFlash));
                         }
-                    }
 
-                    break;
+                        break;
 
-                default:
-                    throw ReportUnsupportedVersion();
+                    default:
+                        throw ReportUnsupportedVersion();
+                }
+
+                _logger.LogInfo(Language.Done);
+                _flashWriteCompletedCallbackDelegate();
             }
-
-            _logger.LogInfo(Language.Done);
-            _flashWriteCompletedCallbackDelegate();
+            catch (Exception ex)
+            {
+                _unhandledExceptionCallbackDelegate(ex);
+            }
         }
     }
 }

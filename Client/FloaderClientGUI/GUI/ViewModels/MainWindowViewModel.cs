@@ -36,27 +36,31 @@ using MessageBox.Avalonia.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using FloaderClientGUI.Helpers;
+using LibIntelHex.Interfaces;
 
 namespace FloaderClientGUI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private ILogger _logger;
-        private IVersionValidator _versionValidator;
-        private IDao _dao;
-        private IDeviceDataGetter _deviceDataGetter;
-        private IDeviceIndependentOperationsProvider _deviceIndependentOperationsProvider;
+        private readonly ILogger _logger;
+        private readonly IVersionValidator _versionValidator;
+        private readonly IDao _dao;
+        private readonly IDeviceDataGetter _deviceDataGetter;
+        private readonly IDeviceIndependentOperationsProvider _deviceIndependentOperationsProvider;
+        private readonly IHexReader _hexReader;
 
         /// <summary>
         /// We store interface state here
         /// </summary>
-        private MainWindowInterfaceState _interfaceState = new MainWindowInterfaceState();
+        private readonly MainWindowInterfaceState _interfaceState = new MainWindowInterfaceState();
 
-        public PortSelectionWindowViewModel PortSelectionVM { get; }
-        public AboutWindowViewModel AboutVM { get; }
+        private PortSelectionWindowViewModel _portSelectionVM { get; }
+        private AboutWindowViewModel _aboutVM { get; }
 
 #region Bound properties
         private string _consoleText;
@@ -592,12 +596,13 @@ namespace FloaderClientGUI.ViewModels
             _dao = Program.Di.GetService<IDao>();
             _deviceDataGetter = Program.Di.GetService<IDeviceDataGetter>();
             _deviceIndependentOperationsProvider = Program.Di.GetService<IDeviceIndependentOperationsProvider>();
+            _hexReader = Program.Di.GetService<IHexReader>();
 
             // Setting up logger
             _logger.SetLoggingFunction(AddLineToConsole);
 
-            PortSelectionVM = new PortSelectionWindowViewModel();
-            AboutVM = new AboutWindowViewModel();
+            _portSelectionVM = new PortSelectionWindowViewModel();
+            _aboutVM = new AboutWindowViewModel();
 
             SetPollDeviceState();
 
@@ -627,15 +632,14 @@ namespace FloaderClientGUI.ViewModels
         {
             var portSelectionDialog = new PortSelectionWindow()
             {
-
-                DataContext= PortSelectionVM
+                DataContext= _portSelectionVM
             };
 
             await portSelectionDialog.ShowDialog(Program.GetMainWindow());
 
-            _mainModel.PortSettings = PortSelectionVM.PortSettings != null ? PortSelectionVM.PortSettings : _mainModel.PortSettings;
+            _mainModel.PortSettings = _portSelectionVM.PortSettings ?? _mainModel.PortSettings;
 
-            PortName = _mainModel.PortSettings?.Name != null ? _mainModel.PortSettings?.Name : "";
+            PortName = _mainModel.PortSettings?.Name ?? String.Empty;
 
             LogPortSettings();
 
@@ -656,14 +660,13 @@ namespace FloaderClientGUI.ViewModels
         {
             if (_mainModel.PortSettings == null)
             {
-                // TODO: Show message here
-                throw new InvalidOperationException("Port not specified.");
+                throw new InvalidOperationException(Language.PortNotSelected);
             }
 
             SaveStateAndLockInterface();
 
-            var threadedIdentifier = new ThreadedDeviceIdentifier(_mainModel.PortSettings, OnDeviceIdentification);
-            var identificationThread = new Thread(new ThreadStart(threadedIdentifier.Identify));
+            var threadedIdentifier = new ThreadedDeviceIdentifier(_mainModel.PortSettings, OnDeviceIdentification, OnUnhandledException);
+            var identificationThread = new Thread(threadedIdentifier.Identify);
             identificationThread.Start();
         }
 
@@ -690,7 +693,14 @@ namespace FloaderClientGUI.ViewModels
         public async void SelectFlashForUploadAsync()
         {
             var dialog = PrepareOpenHexDialog();
-            FlashUploadFile = (await dialog.ShowAsync(Program.GetMainWindow())).FirstOrDefault();
+            var dialogResult = await dialog.ShowAsync(Program.GetMainWindow());
+
+            if (dialogResult == null)
+            {
+                return;
+            }
+            
+            FlashUploadFile = dialogResult.FirstOrDefault();
 
             SetUploadButtonState();
         }
@@ -701,7 +711,14 @@ namespace FloaderClientGUI.ViewModels
         public async void SelectEepromForUploadAsync()
         {
             var dialog = PrepareOpenHexDialog();
-            EepromUploadFile = (await dialog.ShowAsync(Program.GetMainWindow())).FirstOrDefault();
+            var dialogResult = await dialog.ShowAsync(Program.GetMainWindow());
+
+            if (dialogResult == null)
+            {
+                return;
+            }
+            
+            EepromUploadFile = dialogResult.FirstOrDefault();
 
             SetUploadButtonState();
         }
@@ -712,8 +729,15 @@ namespace FloaderClientGUI.ViewModels
         public async void SelectBackupsDirectoryAsync()
         {
             var dialog = new OpenFolderDialog();
-            dialog.Title = "Select backups directory";
-            UploadBackupsDirectory = await dialog.ShowAsync(Program.GetMainWindow());
+            dialog.Title = Language.SelectBackupsDirectory;
+            var dialogResult = await dialog.ShowAsync(Program.GetMainWindow());
+
+            if (dialogResult == null)
+            {
+                return;
+            }
+            
+            UploadBackupsDirectory = dialogResult;
 
             SetUploadButtonState();
         }
@@ -721,23 +745,100 @@ namespace FloaderClientGUI.ViewModels
         /// <summary>
         /// Upload to MCU
         /// </summary>
-        public void Upload()
+        public async void UploadAsync()
         {
             CheckReadyness();
 
             SaveStateAndLockInterface();
+
+            // Parsing HEX-files
+            var flashHexData = new SortedDictionary<int, byte>();
+            var eepromHexData = new SortedDictionary<int, byte>();
+
+            if (_isFlashUpload)
+            {
+                flashHexData = _hexReader.ReadFromFile(FlashUploadFile);
+                
+                // Checking for FLASH addresses correctness.
+                if (!_deviceIndependentOperationsProvider.CheckFlashAddressesForCorrectness(flashHexData))
+                {
+                    var message = Language.IncorrectFlashFile;
+                    
+                    _logger.LogError(message);
+                    
+                    await MessageBoxManager.GetMessageBoxStandardWindow(
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.IncorrectFlashFileTitle,
+                                ContentMessage = message,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.Ok
+                            })
+                        .Show();
+                    
+                    LoadStateAndUnlockInterface();
+                    return;
+                }
+                
+                // Special case - data in bootloader area
+                if (!_deviceIndependentOperationsProvider.CheckIfFlashAddressesOutsideBootloader(flashHexData))
+                {
+                    var result = await MessageBoxManager.GetMessageBoxStandardWindow(
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.FlashDataInBootloaderAreaTitle,
+                                ContentMessage = Language.FlashDataInBootloaderArea,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.YesNo
+                            })
+                        .Show();
+
+                    if (result != ButtonResult.Yes)
+                    {
+                        LoadStateAndUnlockInterface();
+                        return;
+                    }
+                }
+            }
+
+            if (_isEepromUpload)
+            {
+                eepromHexData = _hexReader.ReadFromFile(EepromUploadFile);
+                
+                // Checking for EEPROM addresses correctness
+                if (!_deviceIndependentOperationsProvider.CheckEepromAddressesForCorrectness(eepromHexData))
+                {
+                    var message = Language.IncorrectEepromFile;
+                    
+                    _logger.LogError(message);
+                    
+                    await MessageBoxManager.GetMessageBoxStandardWindow(
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.IncorrectEepromFileTitle,
+                                ContentMessage = message,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.Ok
+                            })
+                        .Show();
+                    
+                    LoadStateAndUnlockInterface();
+                    return;
+                }
+            }
 
             try
             {
                 _deviceIndependentOperationsProvider.InitiateUploadToDevice(_isFlashUpload ? FlashUploadFile : string.Empty,
                     _isEepromUpload ? EepromUploadFile : string.Empty,
                     UploadBackupsDirectory,
+                    OnUnhandledException,
                     OnUploadCompleted,
                     SetProgressValue);
             }
             catch(Exception ex)
             {
-                _logger.LogError($"Error: { ex.Message }, Stack trace: { ex.StackTrace }");
+                ExceptionsHelper.ProcessUnexpectedException(ex, _logger);
             }
         }
 
@@ -749,7 +850,13 @@ namespace FloaderClientGUI.ViewModels
             var dialog = PrepareSaveHexDialog();
             // If not ready, we can't generate default filename, because it contains IDs read from device
             dialog.InitialFileName = _isReady ? _deviceIndependentOperationsProvider.GenerateFlashFileName(isBackup: false) : string.Empty;
-            FlashDownloadFile = await dialog.ShowAsync(Program.GetMainWindow());
+            var dialogResult = await dialog.ShowAsync(Program.GetMainWindow());
+            if (dialogResult == null)
+            {
+                return;
+            }
+            
+            FlashDownloadFile = dialogResult;
         }
 
         /// <summary>
@@ -758,9 +865,8 @@ namespace FloaderClientGUI.ViewModels
         private SaveFileDialog PrepareSaveHexDialog()
         {
             var dialog = new SaveFileDialog();
-            // TODO: load texts from resources
-            dialog.Filters.Add(new FileDialogFilter() { Name = "Intel HEX", Extensions = { "hex", "HEX" } });
-            dialog.Filters.Add(new FileDialogFilter() { Name = "All files", Extensions = { "*" } });
+            dialog.Filters.Add(new FileDialogFilter() { Name = Language.FilenameIntelHEX, Extensions = { "hex", "HEX" } });
+            dialog.Filters.Add(new FileDialogFilter() { Name = Language.FilenameAllFiles, Extensions = { "*" } });
             dialog.DefaultExtension = "hex";
 
             return dialog;
@@ -772,9 +878,8 @@ namespace FloaderClientGUI.ViewModels
         private OpenFileDialog PrepareOpenHexDialog()
         {
             var dialog = new OpenFileDialog();
-            // TODO: load texts from resources
-            dialog.Filters.Add(new FileDialogFilter() { Name = "Intel HEX", Extensions = { "hex", "HEX" } });
-            dialog.Filters.Add(new FileDialogFilter() { Name = "All files", Extensions = { "*" } });
+            dialog.Filters.Add(new FileDialogFilter() { Name = Language.FilenameIntelHEX, Extensions = { "hex", "HEX" } });
+            dialog.Filters.Add(new FileDialogFilter() { Name = Language.FilenameAllFiles, Extensions = { "*" } });
             dialog.AllowMultiple = false;
 
             return dialog;
@@ -787,25 +892,32 @@ namespace FloaderClientGUI.ViewModels
         {
             var dialog = PrepareSaveHexDialog();
             dialog.InitialFileName = _isReady ? _deviceIndependentOperationsProvider.GenerateEepromFileName(isBackup: false) : string.Empty;
-            EepromDownloadFile = await dialog.ShowAsync(Program.GetMainWindow());
+            var dialogResult = await dialog.ShowAsync(Program.GetMainWindow());
+
+            if (dialogResult == null)
+            {
+                return;
+            }
+            
+            EepromDownloadFile = dialogResult;
         }
 
         /// <summary>
         /// Download from MCU
         /// </summary>
-        public void Download()
+        public async void DownloadAsync()
         {
             CheckReadyness();
 
             // FLASH and EEPROM must differ
             if (FlashDownloadFile.Equals(EepromDownloadFile))
             {
-                var message = $"FLASH and EEPROM files to download into must differ.";
+                var message = Language.FilesMustDiffer;
 
-                MessageBoxManager.GetMessageBoxStandardWindow(
+                await MessageBoxManager.GetMessageBoxStandardWindow(
                     new MessageBoxStandardParams()
                     {
-                        ContentTitle = "Files must differ",
+                        ContentTitle = Language.FilesMustDifferTitle,
                         ContentMessage = message,
                         Icon = Icon.Warning,
                         ButtonDefinitions = ButtonEnum.Ok
@@ -821,11 +933,12 @@ namespace FloaderClientGUI.ViewModels
 
             try
             {
-                _deviceIndependentOperationsProvider.InitiateDownloadFromDevice(FlashDownloadFile, EepromDownloadFile, OnDownloadCompleted, SetProgressValue);
+                _deviceIndependentOperationsProvider.InitiateDownloadFromDevice(FlashDownloadFile, EepromDownloadFile, OnUnhandledException,
+                    OnDownloadCompleted, SetProgressValue);
             }
             catch(Exception ex)
             {
-                _logger.LogError($"Error: { ex.Message }, Stack trace: { ex.StackTrace }");
+                ExceptionsHelper.ProcessUnexpectedException(ex, _logger);
             }
         }
 
@@ -836,7 +949,7 @@ namespace FloaderClientGUI.ViewModels
         {
             CheckReadyness();
             SaveStateAndLockInterface();
-            _deviceIndependentOperationsProvider.InitiateRebootToFirmware(OnRebootCompleted);
+            _deviceIndependentOperationsProvider.InitiateRebootToFirmware(OnRebootCompleted, OnUnhandledException);
         }
 
         /// <summary>
@@ -846,7 +959,7 @@ namespace FloaderClientGUI.ViewModels
         {
             var aboutDialog = new AboutWindow()
             {
-                DataContext = AboutVM
+                DataContext = _aboutVM
             };
 
             await aboutDialog.ShowDialog(Program.GetMainWindow());
@@ -859,139 +972,156 @@ namespace FloaderClientGUI.ViewModels
         /// </summary>
         public void OnDeviceIdentification(DeviceIdentifierData data)
         {
+
             // Doing everything in main thread
             Dispatcher.UIThread.InvokeAsync(() =>
             {
-                LoadStateAndUnlockInterface();
-
-                _mainModel.DeviceIdentData = data;
-
-                // Is successfull?
-                if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.Timeout)
+                try
                 {
-                    var message = Language.IdentificationTimeout;
-                    _logger.LogError(message);
-                    LockProceeding();
+                    LoadStateAndUnlockInterface();
 
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = Language.IdentificationTimeoutTitle,
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
+                    _mainModel.DeviceIdentData = data;
 
-                    return;
+                    // Is successfull?
+                    if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.Timeout)
+                    {
+                        var message = Language.IdentificationTimeout;
+                        _logger.LogError(message);
+                        LockProceeding();
+
+                        MessageBoxManager.GetMessageBoxStandardWindow(
+                                new MessageBoxStandardParams()
+                                {
+                                    ContentTitle = Language.IdentificationTimeoutTitle,
+                                    ContentMessage = message,
+                                    Icon = Icon.Error,
+                                    ButtonDefinitions = ButtonEnum.Ok
+                                })
+                            .Show();
+
+                        return;
+                    }
+                    else if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.WrongSignature)
+                    {
+                        var message = Language.UnexpectedIdentificationResponse;
+                        _logger.LogError(message);
+                        LockProceeding();
+
+                        MessageBoxManager.GetMessageBoxStandardWindow(
+                                new MessageBoxStandardParams()
+                                {
+                                    ContentTitle = Language.GenericWrongDeviceResponseTitle,
+                                    ContentMessage = message,
+                                    Icon = Icon.Error,
+                                    ButtonDefinitions = ButtonEnum.Ok
+                                })
+                            .Show();
+
+                        return;
+                    }
+
+                    _logger.LogInfo(string.Format(Language.DeviceIdentified,
+                        _mainModel.DeviceIdentData.Version,
+                        _mainModel.DeviceIdentData.VendorId,
+                        _mainModel.DeviceIdentData.ModelId,
+                        _mainModel.DeviceIdentData.Serial));
+
+                    // Is version acceptable?
+                    if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
+                    {
+                        var message = string.Format(Language.UnsupportedBootloaderProtocolVersion,
+                            _mainModel.DeviceIdentData.Version);
+                        _logger.LogError(message);
+                        LockProceeding();
+
+                        MessageBoxManager.GetMessageBoxStandardWindow(
+                                new MessageBoxStandardParams()
+                                {
+                                    ContentTitle = Language.UnsupportedBootloaderProtocolVersionTitle,
+                                    ContentMessage = message,
+                                    Icon = Icon.Error,
+                                    ButtonDefinitions = ButtonEnum.Ok
+                                })
+                            .Show();
+
+                        return;
+                    }
+
+                    // Human - readable device info
+                    _logger.LogInfo(string.Format(Language.QueryingVendorData, _mainModel.DeviceIdentData.VendorId));
+
+                    var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
+                    if (vendorData == null)
+                    {
+                        var message = string.Format(Language.VendorNotFound, _mainModel.DeviceIdentData.VendorId);
+                        _logger.LogError(message);
+                        LockProceeding();
+
+                        MessageBoxManager.GetMessageBoxStandardWindow(
+                                new MessageBoxStandardParams()
+                                {
+                                    ContentTitle = Language.VendorNotFoundTitle,
+                                    ContentMessage = message,
+                                    Icon = Icon.Error,
+                                    ButtonDefinitions = ButtonEnum.Ok
+                                })
+                            .Show();
+
+                        return;
+                    }
+
+                    _logger.LogInfo(string.Format(Language.VendorNameInfo, vendorData.Id, vendorData.Name));
+
+                    _logger.LogInfo(string.Format(Language.QueryingDeviceName, _mainModel.DeviceIdentData.VendorId,
+                        _mainModel.DeviceIdentData.ModelId));
+
+                    var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId,
+                        _mainModel.DeviceIdentData.ModelId);
+                    if (nameData == null)
+                    {
+                        var message = string.Format(Language.ModelNotFound, _mainModel.DeviceIdentData.VendorId,
+                            _mainModel.DeviceIdentData.ModelId);
+                        _logger.LogError(message);
+                        LockProceeding();
+
+                        MessageBoxManager.GetMessageBoxStandardWindow(
+                                new MessageBoxStandardParams()
+                                {
+                                    ContentTitle = Language.ModelNotFoundTitle,
+                                    ContentMessage = message,
+                                    Icon = Icon.Error,
+                                    ButtonDefinitions = ButtonEnum.Ok
+                                })
+                            .Show();
+
+                        return;
+                    }
+
+                    _logger.LogInfo(string.Format(Language.ModelNameInfo, nameData.VendorId, nameData.ModelId,
+                        nameData.Name));
+
+                    _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name,
+                        nameData.Name, _mainModel.DeviceIdentData.Serial);
+                    VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
+                    ModelName = _mainModel.DeviceHumanReadableDescription.Model;
+                    SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
+
+                    // Versioned data
+                    _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
+
+                    // Initializing operations provider and we are ready to go
+                    _deviceIndependentOperationsProvider.Setup(_mainModel.PortSettings, _mainModel.DeviceIdentData,
+                        _mainModel.VersionSpecificDeviceData);
+
+                    _isReady = true;
                 }
-                else if (_mainModel.DeviceIdentData.Status == DeviceIdentificationStatus.WrongSignature)
+                catch (Exception ex)
                 {
-                    var message = Language.UnexpectedIdentificationResponse;
-                    _logger.LogError(message);
-                    LockProceeding();
-
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = Language.GenericWrongDeviceResponseTitle,
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
-
-                    return;
+                    ExceptionsHelper.ProcessUnexpectedException(ex, _logger);
                 }
-
-                _logger.LogInfo(string.Format(Language.DeviceIdentified,
-                     _mainModel.DeviceIdentData.Version,
-                     _mainModel.DeviceIdentData.VendorId,
-                     _mainModel.DeviceIdentData.ModelId,
-                     _mainModel.DeviceIdentData.Serial));
-
-                // Is version acceptable?
-                if (!_versionValidator.Validate(_mainModel.DeviceIdentData.Version))
-                {
-                    var message = string.Format(Language.UnsupportedBootloaderProtocolVersion, _mainModel.DeviceIdentData.Version);
-                    _logger.LogError(message);
-                    LockProceeding();
-
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = Language.UnsupportedBootloaderProtocolVersionTitle,
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
-
-                    return;
-                }
-
-                // Human - readable port info
-                _logger.LogInfo(string.Format(Language.QueryingVendorData, _mainModel.DeviceIdentData.VendorId));
-
-                var vendorData = _dao.GetVendorNameData(_mainModel.DeviceIdentData.VendorId);
-                if (vendorData == null)
-                {
-                    var message = string.Format(Language.VendorNotFound, _mainModel.DeviceIdentData.VendorId);
-                    _logger.LogError(message);
-                    LockProceeding();
-
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = Language.VendorNotFoundTitle,
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
-
-                    return;
-                }
-                _logger.LogInfo(string.Format(Language.VendorNameInfo, vendorData.Id, vendorData.Name));
-
-                _logger.LogInfo(string.Format(Language.QueryingDeviceName, _mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId));
-
-                var nameData = _dao.GetDeviceNameData(_mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
-                if (nameData == null)
-                {
-                    var message = string.Format(Language.ModelNotFound, _mainModel.DeviceIdentData.VendorId, _mainModel.DeviceIdentData.ModelId);
-                    _logger.LogError(message);
-                    LockProceeding();
-
-                    MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = Language.ModelNotFoundTitle,
-                            ContentMessage = message,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
-                        .Show();
-
-                    return;
-                }
-                _logger.LogInfo(string.Format(Language.ModelNameInfo, nameData.VendorId, nameData.ModelId, nameData.Name));
-
-                _mainModel.DeviceHumanReadableDescription = new DeviceHumanReadableDescription(vendorData.Name, nameData.Name, _mainModel.DeviceIdentData.Serial);
-                VendorName = _mainModel.DeviceHumanReadableDescription.Vendor;
-                ModelName = _mainModel.DeviceHumanReadableDescription.Model;
-                SerialNumber = _mainModel.DeviceHumanReadableDescription.Serial;
-
-                // Versioned data
-                _mainModel.VersionSpecificDeviceData = _deviceDataGetter.GetDeviceData(_mainModel.DeviceIdentData);
-
-                // Initializing operations provider and we are ready to go
-                _deviceIndependentOperationsProvider.Setup(_mainModel.PortSettings, _mainModel.DeviceIdentData, _mainModel.VersionSpecificDeviceData);
-
-                _isReady = true;
             });
         }
-
+        
         /// <summary>
         /// Adds a new text line to console. Feed it to logger
         /// </summary>
@@ -1233,13 +1363,13 @@ namespace FloaderClientGUI.ViewModels
                 if (!result.IsSuccessfull)
                 {
                     MessageBoxManager.GetMessageBoxStandardWindow(
-                        new MessageBoxStandardParams()
-                        {
-                            ContentTitle = Language.UnsuccessfullRebootTitle,
-                            ContentMessage = Language.UnsuccessfullReboot,
-                            Icon = Icon.Error,
-                            ButtonDefinitions = ButtonEnum.Ok
-                        })
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.UnsuccessfullRebootTitle,
+                                ContentMessage = Language.UnsuccessfullReboot,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.Ok
+                            })
                         .Show();
                 }
             });
@@ -1264,6 +1394,22 @@ namespace FloaderClientGUI.ViewModels
         {
             ProgressValue = 0;
             ProgressOperation = Language.NoOperationInProgress;
+        }
+
+        /// <summary>
+        /// Called by threads when unhandled exception happens
+        /// </summary>
+        private void OnUnhandledException(Exception exception)
+        {
+            if (exception == null)
+            {
+                throw new ArgumentNullException(nameof(exception));
+            }
+
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                ExceptionsHelper.ProcessUnexpectedException(exception, _logger);                
+            });
         }
     }
 }

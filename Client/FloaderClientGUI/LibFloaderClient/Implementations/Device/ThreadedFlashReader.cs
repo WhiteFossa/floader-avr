@@ -23,17 +23,26 @@ namespace LibFloaderClient.Implementations.Device
         /// Delegate to show progress
         /// </summary>
         private readonly ProgressDelegate _progressDelegate;
+        
+        /// <summary>
+        /// Callback to process exceptions
+        /// </summary>
+        private readonly UnhandledExceptionCallbackDelegate _unhandledExceptionCallbackDelegate;
 
         public ThreadedFlashReader(DeviceIdentifierData identificationData,
            PortSettings portSettings,
            object versionSpecificDeviceData,
            ILogger logger,
            FlashReadCompletedCallbackDelegate flashReadCompletedCallbackDelegate,
+           UnhandledExceptionCallbackDelegate unhandledExceptionCallbackDelegate,
            ProgressDelegate progressDelegate = null)
            : base(identificationData, portSettings, versionSpecificDeviceData, logger)
         {
             _flashReadCompletedCallbackDelegate = flashReadCompletedCallbackDelegate
                 ?? throw new ArgumentNullException(nameof(flashReadCompletedCallbackDelegate));
+            _unhandledExceptionCallbackDelegate = unhandledExceptionCallbackDelegate
+                                                  ?? throw new ArgumentNullException(nameof(unhandledExceptionCallbackDelegate));
+            
             _progressDelegate = progressDelegate;
         }
 
@@ -42,34 +51,44 @@ namespace LibFloaderClient.Implementations.Device
         /// </summary>
         public void Read()
         {
-            _logger.LogInfo(Language.ReadingFlash);
-
-            var result = new List<byte>();
-            switch (_identificationData.Version)
+            try
             {
-                case (int)ProtocolVersion.First:
 
-                    var deviceData =GetDeviceDataV1();
-                    using (var driver = GetDeviceDriverV1())
-                    {
-                        _progressDelegate?.Invoke(new ProgressData(0, deviceData.FlashPagesAll, Language.ProgressOperationReadingFlash));
+                _logger.LogInfo(Language.ReadingFlash);
 
-                        for (var pageAddress = 0; pageAddress < deviceData.FlashPagesAll; pageAddress++)
+                var result = new List<byte>();
+                switch (_identificationData.Version)
+                {
+                    case (int) ProtocolVersion.First:
+
+                        var deviceData = GetDeviceDataV1();
+                        using (var driver = GetDeviceDriverV1())
                         {
-                            result.AddRange(driver.ReadFLASHPage(pageAddress));
+                            _progressDelegate?.Invoke(new ProgressData(0, deviceData.FlashPagesAll,
+                                Language.ProgressOperationReadingFlash));
 
-                            _progressDelegate?.Invoke(new ProgressData(pageAddress + 1, deviceData.FlashPagesAll, Language.ProgressOperationReadingFlash));
+                            for (var pageAddress = 0; pageAddress < deviceData.FlashPagesAll; pageAddress++)
+                            {
+                                result.AddRange(driver.ReadFLASHPage(pageAddress));
+
+                                _progressDelegate?.Invoke(new ProgressData(pageAddress + 1, deviceData.FlashPagesAll,
+                                    Language.ProgressOperationReadingFlash));
+                            }
                         }
-                    }
 
-                    _logger.LogInfo(Language.Done);
-                    break;
+                        _logger.LogInfo(Language.Done);
+                        break;
 
-                default:
-                    throw ReportUnsupportedVersion();
+                    default:
+                        throw ReportUnsupportedVersion();
+                }
+
+                _flashReadCompletedCallbackDelegate(new FlashReadResult(result));
             }
-
-            _flashReadCompletedCallbackDelegate(new FlashReadResult(result));
+            catch (Exception ex)
+            {
+                _unhandledExceptionCallbackDelegate(ex);
+            }
         }
     }
 }

@@ -76,7 +76,7 @@ namespace FloaderClientGUI
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
-                .LogToDebug()
+                .LogToTrace()
                 .UseReactiveUI();
 
         // Setting up DI

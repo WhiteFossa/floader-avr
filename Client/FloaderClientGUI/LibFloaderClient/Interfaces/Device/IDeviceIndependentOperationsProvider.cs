@@ -64,6 +64,11 @@ namespace LibFloaderClient.Interfaces.Device
     public delegate void RebootToFirmwareCompletedCallbackDelegate(DeviceRebootResult rebootResult);
 
     /// <summary>
+    /// Called when unhandled exception happens
+    /// </summary>
+    public delegate void UnhandledExceptionCallbackDelegate(Exception exception);
+
+    /// <summary>
     /// Wrapper over device driver, hiding versioned details and allowing to write/read all pages at once
     /// </summary>
     public interface IDeviceIndependentOperationsProvider
@@ -81,41 +86,64 @@ namespace LibFloaderClient.Interfaces.Device
         /// <summary>
         /// Initiates all FLASH (including bootloader) read. Exits immediately, without waiting for read completion
         /// </summary>
-        void InitiateReadAllFlash(FlashReadCompletedCallbackDelegate readCompletedDelegate, ProgressDelegate progressDelegate = null);
+        void InitiateReadAllFlash(FlashReadCompletedCallbackDelegate readCompletedDelegate, UnhandledExceptionCallbackDelegate unhandledExceptionDelegate,
+            ProgressDelegate progressDelegate = null);
 
         /// <summary>
         /// Initiates all FLASH memory (NOT including bootloader) write. Exits immediately, without waiting for write completion
         /// </summary>
-        void InitiateWriteAllFlash(List<byte> toWrite, FlashWriteCompletedCallbackDelegate writeCompletedDelegate, ProgressDelegate progressDelegate = null);
+        void InitiateWriteAllFlash(List<byte> toWrite, FlashWriteCompletedCallbackDelegate writeCompletedDelegate,
+            UnhandledExceptionCallbackDelegate unhandledExceptionDelegate, ProgressDelegate progressDelegate = null);
 
         /// <summary>
         /// Initiates all EEPROM read. Exits immediately, without waiting for read completion
         /// </summary>
-        void InitiateReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate, ProgressDelegate progressDelegate = null);
+        void InitiateReadAllEEPROM(EepromReadCompletedCallbackDelegate readCompletedDelegate, UnhandledExceptionCallbackDelegate unhandledExceptionDelegate,
+            ProgressDelegate progressDelegate = null);
 
         /// <summary>
         /// Initiates all EEPROM write. Exits immediately, without waiting for write completion
         /// </summary>
-        void InitiateWriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate, ProgressDelegate progressDelegate = null);
+        void InitiateWriteAllEEPROM(List<byte> toWrite, EepromWriteCompletedCallbackDelegate writeCompletedDelegate,
+            UnhandledExceptionCallbackDelegate unhandledExceptionDelegate, ProgressDelegate progressDelegate = null);
 
         /// <summary>
         /// Reboot device to firmware
         /// </summary>
-        void InitiateRebootToFirmware(RebootToFirmwareCompletedCallbackDelegate rebootCompletedDelegate);
+        void InitiateRebootToFirmware(RebootToFirmwareCompletedCallbackDelegate rebootCompletedDelegate,
+            UnhandledExceptionCallbackDelegate unhandledExceptionDelegate);
 
         /// <summary>
         /// Starts download from device into given HEX files. Exits immediately. If downloadCompleteDelegate isn't null, then
         /// that delegate will be called on completion
         /// </summary>
-        void InitiateDownloadFromDevice(string flashPath, string eepromPath, DownloadFromDeviceCompletedCallbackDelegate downloadCompletedDelegate = null,
-            ProgressDelegate progressDelegate = null);
+        void InitiateDownloadFromDevice(string flashPath, string eepromPath, UnhandledExceptionCallbackDelegate unhandledExceptionCallbackDelegate,
+            DownloadFromDeviceCompletedCallbackDelegate downloadCompletedDelegate = null, ProgressDelegate progressDelegate = null);
 
+        /// <summary>
+        /// Checks can given data (from HEX file) fit into EEPROM
+        /// </summary>
+        bool CheckEepromAddressesForCorrectness(SortedDictionary<int, byte> data);
+
+        /// <summary>
+        /// Checks can given data (from HEX file) fit into FLASH. This method returns true if data
+        /// contains bytes in bootloader area
+        /// </summary>
+        bool CheckFlashAddressesForCorrectness(SortedDictionary<int, byte> data);
+        
+        /// <summary>
+        /// Checks if given data (from HEX file) contain no bootloader bytes.
+        /// </summary>
+        /// <returns>True if data contains no bootloader bytes</returns>
+        bool CheckIfFlashAddressesOutsideBootloader(SortedDictionary<int, byte> data);
+        
         /// <summary>
         /// Initializes given files upload into device. If file path is null or empty - then don't try to upload it.
         /// Backups directory must be specified anyway. Exist immediately.
         /// If uploadCompletedDelegate isn't null, then call it on completion
         /// </summary>
         void InitiateUploadToDevice(string flashPath, string eepromPath, string backupsDirectory,
+            UnhandledExceptionCallbackDelegate unhandledExceptionCallbackDelegate, 
             UploadToDeviceCompletedCallbackDelegate uploadCompletedDelegate = null, ProgressDelegate progressDelegate = null);
 
         /// <summary>
