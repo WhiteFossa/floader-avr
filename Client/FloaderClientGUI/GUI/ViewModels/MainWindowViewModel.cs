@@ -632,15 +632,14 @@ namespace FloaderClientGUI.ViewModels
         {
             var portSelectionDialog = new PortSelectionWindow()
             {
-
                 DataContext= _portSelectionVM
             };
 
             await portSelectionDialog.ShowDialog(Program.GetMainWindow());
 
-            _mainModel.PortSettings = _portSelectionVM.PortSettings != null ? _portSelectionVM.PortSettings : _mainModel.PortSettings;
+            _mainModel.PortSettings = _portSelectionVM.PortSettings ?? _mainModel.PortSettings;
 
-            PortName = _mainModel.PortSettings?.Name != null ? _mainModel.PortSettings?.Name : "";
+            PortName = _mainModel.PortSettings?.Name ?? String.Empty;
 
             LogPortSettings();
 
@@ -661,8 +660,7 @@ namespace FloaderClientGUI.ViewModels
         {
             if (_mainModel.PortSettings == null)
             {
-                // TODO: Show message here
-                throw new InvalidOperationException("Port not specified.");
+                throw new InvalidOperationException(Language.PortNotSelected);
             }
 
             SaveStateAndLockInterface();
@@ -731,7 +729,7 @@ namespace FloaderClientGUI.ViewModels
         public async void SelectBackupsDirectoryAsync()
         {
             var dialog = new OpenFolderDialog();
-            dialog.Title = "Select backups directory";
+            dialog.Title = Language.SelectBackupsDirectory;
             var dialogResult = await dialog.ShowAsync(Program.GetMainWindow());
 
             if (dialogResult == null)
@@ -829,12 +827,19 @@ namespace FloaderClientGUI.ViewModels
                 }
             }
 
-            _deviceIndependentOperationsProvider.InitiateUploadToDevice(_isFlashUpload ? FlashUploadFile : string.Empty,
-                _isEepromUpload ? EepromUploadFile : string.Empty,
-                UploadBackupsDirectory,
-                OnUnhandledException,
-                OnUploadCompleted,
-                SetProgressValue);
+            try
+            {
+                _deviceIndependentOperationsProvider.InitiateUploadToDevice(_isFlashUpload ? FlashUploadFile : string.Empty,
+                    _isEepromUpload ? EepromUploadFile : string.Empty,
+                    UploadBackupsDirectory,
+                    OnUnhandledException,
+                    OnUploadCompleted,
+                    SetProgressValue);
+            }
+            catch(Exception ex)
+            {
+                ExceptionsHelper.ProcessUnexpectedException(ex, _logger);
+            }
         }
 
         /// <summary>
@@ -860,9 +865,8 @@ namespace FloaderClientGUI.ViewModels
         private SaveFileDialog PrepareSaveHexDialog()
         {
             var dialog = new SaveFileDialog();
-            // TODO: load texts from resources
-            dialog.Filters.Add(new FileDialogFilter() { Name = "Intel HEX", Extensions = { "hex", "HEX" } });
-            dialog.Filters.Add(new FileDialogFilter() { Name = "All files", Extensions = { "*" } });
+            dialog.Filters.Add(new FileDialogFilter() { Name = Language.FilenameIntelHEX, Extensions = { "hex", "HEX" } });
+            dialog.Filters.Add(new FileDialogFilter() { Name = Language.FilenameAllFiles, Extensions = { "*" } });
             dialog.DefaultExtension = "hex";
 
             return dialog;
@@ -874,9 +878,8 @@ namespace FloaderClientGUI.ViewModels
         private OpenFileDialog PrepareOpenHexDialog()
         {
             var dialog = new OpenFileDialog();
-            // TODO: load texts from resources
-            dialog.Filters.Add(new FileDialogFilter() { Name = "Intel HEX", Extensions = { "hex", "HEX" } });
-            dialog.Filters.Add(new FileDialogFilter() { Name = "All files", Extensions = { "*" } });
+            dialog.Filters.Add(new FileDialogFilter() { Name = Language.FilenameIntelHEX, Extensions = { "hex", "HEX" } });
+            dialog.Filters.Add(new FileDialogFilter() { Name = Language.FilenameAllFiles, Extensions = { "*" } });
             dialog.AllowMultiple = false;
 
             return dialog;
@@ -902,19 +905,19 @@ namespace FloaderClientGUI.ViewModels
         /// <summary>
         /// Download from MCU
         /// </summary>
-        public void Download()
+        public async void DownloadAsync()
         {
             CheckReadyness();
 
             // FLASH and EEPROM must differ
             if (FlashDownloadFile.Equals(EepromDownloadFile))
             {
-                var message = $"FLASH and EEPROM files to download into must differ.";
+                var message = Language.FilesMustDiffer;
 
-                MessageBoxManager.GetMessageBoxStandardWindow(
+                await MessageBoxManager.GetMessageBoxStandardWindow(
                     new MessageBoxStandardParams()
                     {
-                        ContentTitle = "Files must differ",
+                        ContentTitle = Language.FilesMustDifferTitle,
                         ContentMessage = message,
                         Icon = Icon.Warning,
                         ButtonDefinitions = ButtonEnum.Ok
@@ -935,7 +938,7 @@ namespace FloaderClientGUI.ViewModels
             }
             catch(Exception ex)
             {
-                _logger.LogError($"Error: { ex.Message }, Stack trace: { ex.StackTrace }");
+                ExceptionsHelper.ProcessUnexpectedException(ex, _logger);
             }
         }
 

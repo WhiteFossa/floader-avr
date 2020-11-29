@@ -121,7 +121,7 @@
     <value>Fossa's AVR loader</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>0.0.3 (7 November 2020)</value>
+    <value>0.0.4 (29 November 2020)</value>
   </data>
   <data name="Baudrate" xml:space="preserve">
     <value>Baudrate: {0}</value>
@@ -401,5 +401,20 @@ If this is firmware without bootloader, uploading it will result in nonfunctiona
 If this is firmware with Fossa's bootloader (e.g. backup), uploading it wouldn't lead to any harm.
 
 Do you want to upload this firmware into device?</value>
+  </data>
+  <data name="SelectBackupsDirectory" xml:space="preserve">
+    <value>Select backups directory</value>
+  </data>
+  <data name="FilesMustDifferTitle" xml:space="preserve">
+    <value>Files must differ</value>
+  </data>
+  <data name="FilesMustDiffer" xml:space="preserve">
+    <value>FLASH and EEPROM files to download into must differ.</value>
+  </data>
+  <data name="FilenameIntelHEX" xml:space="preserve">
+    <value>Intel HEX</value>
+  </data>
+  <data name="FilenameAllFiles" xml:space="preserve">
+    <value>All files</value>
   </data>
 </root>

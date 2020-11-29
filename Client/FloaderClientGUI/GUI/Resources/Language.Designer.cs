@@ -584,5 +584,35 @@ namespace FloaderClientGUI.Resources {
                 return ResourceManager.GetString("FlashDataInBootloaderArea", resourceCulture);
             }
         }
+        
+        internal static string SelectBackupsDirectory {
+            get {
+                return ResourceManager.GetString("SelectBackupsDirectory", resourceCulture);
+            }
+        }
+        
+        internal static string FilesMustDifferTitle {
+            get {
+                return ResourceManager.GetString("FilesMustDifferTitle", resourceCulture);
+            }
+        }
+        
+        internal static string FilesMustDiffer {
+            get {
+                return ResourceManager.GetString("FilesMustDiffer", resourceCulture);
+            }
+        }
+        
+        internal static string FilenameIntelHEX {
+            get {
+                return ResourceManager.GetString("FilenameIntelHEX", resourceCulture);
+            }
+        }
+        
+        internal static string FilenameAllFiles {
+            get {
+                return ResourceManager.GetString("FilenameAllFiles", resourceCulture);
+            }
+        }
     }
 }
