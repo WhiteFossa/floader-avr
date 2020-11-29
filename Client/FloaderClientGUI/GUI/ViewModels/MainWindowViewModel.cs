@@ -36,10 +36,12 @@ using MessageBox.Avalonia.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using FloaderClientGUI.Helpers;
+using LibIntelHex.Interfaces;
 
 namespace FloaderClientGUI.ViewModels
 {
@@ -50,6 +52,7 @@ namespace FloaderClientGUI.ViewModels
         private readonly IDao _dao;
         private readonly IDeviceDataGetter _deviceDataGetter;
         private readonly IDeviceIndependentOperationsProvider _deviceIndependentOperationsProvider;
+        private readonly IHexReader _hexReader;
 
         /// <summary>
         /// We store interface state here
@@ -593,6 +596,7 @@ namespace FloaderClientGUI.ViewModels
             _dao = Program.Di.GetService<IDao>();
             _deviceDataGetter = Program.Di.GetService<IDeviceDataGetter>();
             _deviceIndependentOperationsProvider = Program.Di.GetService<IDeviceIndependentOperationsProvider>();
+            _hexReader = Program.Di.GetService<IHexReader>();
 
             // Setting up logger
             _logger.SetLoggingFunction(AddLineToConsole);
@@ -749,19 +753,47 @@ namespace FloaderClientGUI.ViewModels
 
             SaveStateAndLockInterface();
 
-            try
+            // Parsing HEX-files
+            var flashHexData = new SortedDictionary<int, byte>();
+            var eepromHexData = new SortedDictionary<int, byte>();
+
+            if (_isFlashUpload)
             {
-                _deviceIndependentOperationsProvider.InitiateUploadToDevice(_isFlashUpload ? FlashUploadFile : string.Empty,
-                    _isEepromUpload ? EepromUploadFile : string.Empty,
-                    UploadBackupsDirectory,
-                    OnUnhandledException,
-                    OnUploadCompleted,
-                    SetProgressValue);
+                flashHexData = _hexReader.ReadFromFile(FlashUploadFile);
             }
-            catch(Exception ex)
+
+            if (_isEepromUpload)
             {
-                _logger.LogError($"Error: { ex.Message }, Stack trace: { ex.StackTrace }");
+                eepromHexData = _hexReader.ReadFromFile(EepromUploadFile);
+                
+                // Checking for EEPROM addresses correctness
+                if (!_deviceIndependentOperationsProvider.CheckEEPROMAddressesForCorrectness(eepromHexData))
+                {
+                    var message = Language.IncorrectEepromFile;
+                    
+                    _logger.LogError(message);
+                    
+                    MessageBoxManager.GetMessageBoxStandardWindow(
+                            new MessageBoxStandardParams()
+                            {
+                                ContentTitle = Language.IncorrectEepromFileTitle,
+                                ContentMessage = message,
+                                Icon = Icon.Error,
+                                ButtonDefinitions = ButtonEnum.Ok
+                            })
+                        .Show();
+                    
+                    LoadStateAndUnlockInterface();
+                    return;
+                }
             }
+
+            _deviceIndependentOperationsProvider.InitiateUploadToDevice(_isFlashUpload ? FlashUploadFile : string.Empty,
+                _isEepromUpload ? EepromUploadFile : string.Empty,
+                UploadBackupsDirectory,
+                OnUnhandledException,
+                OnUploadCompleted,
+                SetProgressValue);
         }
 
         /// <summary>

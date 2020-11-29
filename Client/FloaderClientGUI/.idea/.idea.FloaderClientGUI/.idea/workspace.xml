@@ -30,121 +30,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e65ba09-9633-46c5-ac3c-08402cb87df0" name="Default Changelist" comment="Updated Dapper">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/riderModule.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/riderModule.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/FloaderClientGUI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/FloaderClientGUI.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/Implementations/Auxiliary/FilenamesGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/Implementations/Auxiliary/FilenamesGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/Implementations/Exceptions/SerialPortTimeoutException.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/Implementations/Exceptions/SerialPortTimeoutException.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/Implementations/Resources/Language.resx" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/Implementations/Resources/Language.resx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/LibFloaderClient.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/LibFloaderClient.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/Debug/netstandard2.0/LibFloaderClient.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/Debug/netstandard2.0/LibFloaderClient.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHex/Implementations/Helpers/StringsHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHex/Implementations/Helpers/StringsHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHex/Implementations/HexWriter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHex/Implementations/HexWriter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHex/Implementations/Reader/HexReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHex/Implementations/Reader/HexReader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHex/Interfaces/IHexWriter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHex/Interfaces/IHexWriter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHex/Interfaces/IRecordBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHex/Interfaces/IRecordBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHex/Models/EndOfFileRecord.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHex/Models/EndOfFileRecord.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHex/Models/RecordBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHex/Models/RecordBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/DataBlockTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/DataBlockTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/LibIntelHexTests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/LibIntelHexTests.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/LibIntelHex.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/LibIntelHex.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/LibIntelHex.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/LibIntelHex.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/LibIntelHexTests.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/LibIntelHexTests.deps.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/LibIntelHexTests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/LibIntelHexTests.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/LibIntelHexTests.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/LibIntelHexTests.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.DotNet.InternalAbstractions.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.TestPlatform.CommunicationUtilities.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.TestPlatform.CommunicationUtilities.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.TestPlatform.CoreUtilities.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.TestPlatform.CoreUtilities.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.TestPlatform.CrossPlatEngine.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.TestPlatform.CrossPlatEngine.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.TestPlatform.PlatformAbstractions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.TestPlatform.PlatformAbstractions.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.TestPlatform.Utilities.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.TestPlatform.Utilities.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.VisualStudio.CodeCoverage.Shim.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.VisualStudio.CodeCoverage.Shim.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.VisualStudio.TestPlatform.Common.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.VisualStudio.TestPlatform.Common.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/NUnit3.TestAdapter.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/NUnit3.TestAdapter.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/NUnit3.TestAdapter.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/NUnit3.TestAdapter.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/System.Xml.XPath.XmlDocument.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/cs/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/cs/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/cs/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/cs/Microsoft.TestPlatform.CoreUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/cs/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/cs/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/cs/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/cs/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/cs/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/cs/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/de/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/de/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/de/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/de/Microsoft.TestPlatform.CoreUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/de/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/de/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/de/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/de/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/de/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/de/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/es/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/es/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/es/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/es/Microsoft.TestPlatform.CoreUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/es/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/es/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/es/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/es/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/es/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/es/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/fr/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/fr/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/fr/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/fr/Microsoft.TestPlatform.CoreUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/fr/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/fr/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/fr/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/fr/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/fr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/fr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/it/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/it/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/it/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/it/Microsoft.TestPlatform.CoreUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/it/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/it/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/it/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/it/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/it/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/it/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ja/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ja/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ja/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ja/Microsoft.TestPlatform.CoreUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ja/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ja/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ja/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ja/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ja/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ja/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ko/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ko/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ko/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ko/Microsoft.TestPlatform.CoreUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ko/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ko/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ko/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ko/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ko/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ko/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pl/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pl/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pl/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pl/Microsoft.TestPlatform.CoreUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pl/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pl/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pl/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pl/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pl/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pl/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pt-BR/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pt-BR/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pt-BR/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pt-BR/Microsoft.TestPlatform.CoreUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pt-BR/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pt-BR/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pt-BR/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pt-BR/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pt-BR/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/pt-BR/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ru/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ru/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ru/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ru/Microsoft.TestPlatform.CoreUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ru/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ru/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ru/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ru/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ru/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/ru/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/testhost.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/testhost.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/tr/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/tr/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/tr/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/tr/Microsoft.TestPlatform.CoreUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/tr/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/tr/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/tr/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/tr/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/tr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/tr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hans/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hans/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hans/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hans/Microsoft.TestPlatform.CoreUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hans/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hans/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hans/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hans/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hans/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hans/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hant/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hant/Microsoft.TestPlatform.CommunicationUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hant/Microsoft.TestPlatform.CoreUtilities.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hant/Microsoft.TestPlatform.CoreUtilities.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hant/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hant/Microsoft.TestPlatform.CrossPlatEngine.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hant/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hant/Microsoft.VisualStudio.TestPlatform.Common.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hant/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/bin/Debug/netcoreapp3.1/zh-Hant/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.csproj.FileListAbsolute.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.csprojAssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.g.targets" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FloaderClientGUI.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/FloaderClientGUI.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/Resources/Language.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Resources/Language.Designer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/Resources/Language.resx" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Resources/Language.resx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/Resources/Language.ru.resx" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Resources/Language.ru.resx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/ViewModels/MainWindowViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/ViewModels/MainWindowViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/DeviceIndependentOperationsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/DeviceIndependentOperationsProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LibFloaderClient/Interfaces/Device/IDeviceIndependentOperationsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/Interfaces/Device/IDeviceIndependentOperationsProvider.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,12 +62,9 @@
         <option value="$PROJECT_DIR$/GUI/Helpers/ExceptionsHelper.cs" />
         <option value="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/ThreadedDeviceIdentifier.cs" />
         <option value="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/ThreadedRebooter.cs" />
-        <option value="$PROJECT_DIR$/GUI/ViewModels/MainWindowViewModel.cs" />
         <option value="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/ThreadedEepromReader.cs" />
         <option value="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/ThreadedFlashReader.cs" />
         <option value="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/ThreadedEepromWriter.cs" />
-        <option value="$PROJECT_DIR$/LibFloaderClient/Interfaces/Device/IDeviceIndependentOperationsProvider.cs" />
-        <option value="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/DeviceIndependentOperationsProvider.cs" />
         <option value="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/ThreadedFlashWriter.cs" />
         <option value="$PROJECT_DIR$/LibFloaderClient/Implementations/Exceptions/SerialPortTimeoutException.cs" />
         <option value="$PROJECT_DIR$/LibFloaderClient/Implementations/Versioned/Common/VersionValidator.cs" />
@@ -189,6 +79,9 @@
         <option value="$PROJECT_DIR$/LibIntelHex/Models/RecordBase.cs" />
         <option value="$PROJECT_DIR$/LibIntelHex/Interfaces/IRecordBase.cs" />
         <option value="$PROJECT_DIR$/GUI/Program.cs" />
+        <option value="$PROJECT_DIR$/LibFloaderClient/Interfaces/Device/IDeviceIndependentOperationsProvider.cs" />
+        <option value="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/DeviceIndependentOperationsProvider.cs" />
+        <option value="$PROJECT_DIR$/GUI/ViewModels/MainWindowViewModel.cs" />
       </list>
     </option>
   </component>
@@ -215,6 +108,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="RiderNuGetOptionsPageId" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
@@ -251,7 +145,7 @@
       <workItem from="1606568286424" duration="10904000" />
       <workItem from="1606580474812" duration="1296000" />
       <workItem from="1606627812760" duration="439000" />
-      <workItem from="1606628289945" duration="292000" />
+      <workItem from="1606628289945" duration="3484000" />
     </task>
     <task id="LOCAL-00001" summary="Updated Dapper">
       <created>1606561699300</created>
@@ -274,7 +168,28 @@
       <option name="project" value="LOCAL" />
       <updated>1606580195309</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Partially upgraded packages + some refactoring">
+      <created>1606628686941</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1606628686941</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Partially upgraded packages + some refactoring">
+      <created>1606628764693</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1606628764693</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Partially upgraded packages + some refactoring">
+      <created>1606628776367</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1606628776367</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -311,97 +226,110 @@
     <MESSAGE value="Updated Dapper" />
     <MESSAGE value="Fixed crash after pressing &quot;cancel&quot; in file selection dialog under linux" />
     <MESSAGE value="Now able to process exceptions in threaded workers." />
-    <option name="LAST_COMMIT_MESSAGE" value="Now able to process exceptions in threaded workers." />
+    <MESSAGE value="Partially upgraded packages + some refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Partially upgraded packages + some refactoring" />
   </component>
   <component name="WindowStateProjectService">
     <state x="693" y="431" width="562" height="343" key="#Notifications" timestamp="1606561368673">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
     <state x="693" y="431" width="562" height="343" key="#Notifications/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606561368673" />
-    <state x="759" y="526" width="432" height="148" key="AddNewResourceElement" timestamp="1606560338614">
+    <state x="759" y="544" key="AddNewCultureDialog" timestamp="1606631528855">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state x="759" y="526" width="432" height="148" key="AddNewResourceElement/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606560338614" />
-    <state width="1848" height="429" key="GridCell.Tab.0.bottom" timestamp="1606581770009">
+    <state x="759" y="544" key="AddNewCultureDialog/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631528855" />
+    <state x="759" y="526" width="432" height="148" key="AddNewResourceElement" timestamp="1606631873032">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.0.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770009" />
-    <state width="1848" height="429" key="GridCell.Tab.0.center" timestamp="1606581770008">
+    <state x="759" y="526" width="432" height="148" key="AddNewResourceElement/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631873032" />
+    <state x="130" y="100" width="1690" height="1000" key="DiffContextDialog" timestamp="1606629970139">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.0.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770008" />
-    <state width="1848" height="429" key="GridCell.Tab.0.left" timestamp="1606581770008">
+    <state x="130" y="100" width="1690" height="1000" key="DiffContextDialog/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606629970139" />
+    <state width="1848" height="429" key="GridCell.Tab.0.bottom" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.0.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770008" />
-    <state width="1848" height="429" key="GridCell.Tab.0.right" timestamp="1606581770008">
+    <state width="1848" height="429" key="GridCell.Tab.0.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.0.center" timestamp="1606631479154">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.0.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770008" />
-    <state width="1848" height="429" key="GridCell.Tab.1.bottom" timestamp="1606581770009">
+    <state width="1848" height="429" key="GridCell.Tab.0.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479154" />
+    <state width="1848" height="429" key="GridCell.Tab.0.left" timestamp="1606631479154">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.1.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770009" />
-    <state width="1848" height="429" key="GridCell.Tab.1.center" timestamp="1606581770009">
+    <state width="1848" height="429" key="GridCell.Tab.0.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479154" />
+    <state width="1848" height="429" key="GridCell.Tab.0.right" timestamp="1606631479154">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.1.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770009" />
-    <state width="1848" height="429" key="GridCell.Tab.1.left" timestamp="1606581770009">
+    <state width="1848" height="429" key="GridCell.Tab.0.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479154" />
+    <state width="1848" height="429" key="GridCell.Tab.1.bottom" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.1.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770009" />
-    <state width="1848" height="429" key="GridCell.Tab.1.right" timestamp="1606581770009">
+    <state width="1848" height="429" key="GridCell.Tab.1.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.1.center" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.1.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770009" />
-    <state width="1848" height="429" key="GridCell.Tab.2.bottom" timestamp="1606581770010">
+    <state width="1848" height="429" key="GridCell.Tab.1.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.1.left" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.2.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770010" />
-    <state width="1848" height="429" key="GridCell.Tab.2.center" timestamp="1606581770010">
+    <state width="1848" height="429" key="GridCell.Tab.1.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.1.right" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.2.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770010" />
-    <state width="1848" height="429" key="GridCell.Tab.2.left" timestamp="1606581770009">
+    <state width="1848" height="429" key="GridCell.Tab.1.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.2.bottom" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.2.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770009" />
-    <state width="1848" height="429" key="GridCell.Tab.2.right" timestamp="1606581770010">
+    <state width="1848" height="429" key="GridCell.Tab.2.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.2.center" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.2.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770010" />
-    <state width="1848" height="429" key="GridCell.Tab.3.bottom" timestamp="1606581770011">
+    <state width="1848" height="429" key="GridCell.Tab.2.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.2.left" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.3.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770011" />
-    <state width="1848" height="429" key="GridCell.Tab.3.center" timestamp="1606581770010">
+    <state width="1848" height="429" key="GridCell.Tab.2.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.2.right" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.3.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770010" />
-    <state width="1848" height="429" key="GridCell.Tab.3.left" timestamp="1606581770010">
+    <state width="1848" height="429" key="GridCell.Tab.2.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.3.bottom" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.3.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770010" />
-    <state width="1848" height="429" key="GridCell.Tab.3.right" timestamp="1606581770011">
+    <state width="1848" height="429" key="GridCell.Tab.3.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.3.center" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.3.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770011" />
-    <state width="1848" height="429" key="GridCell.Tab.4.bottom" timestamp="1606581770012">
+    <state width="1848" height="429" key="GridCell.Tab.3.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.3.left" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.4.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770011" />
-    <state width="1848" height="429" key="GridCell.Tab.4.center" timestamp="1606581770011">
+    <state width="1848" height="429" key="GridCell.Tab.3.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.3.right" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.4.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770011" />
-    <state width="1848" height="429" key="GridCell.Tab.4.left" timestamp="1606581770011">
+    <state width="1848" height="429" key="GridCell.Tab.3.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.4.bottom" timestamp="1606631479156">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.4.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770011" />
-    <state width="1848" height="429" key="GridCell.Tab.4.right" timestamp="1606581770011">
+    <state width="1848" height="429" key="GridCell.Tab.4.bottom/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.4.center" timestamp="1606631479155">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
-    <state width="1848" height="429" key="GridCell.Tab.4.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606581770011" />
+    <state width="1848" height="429" key="GridCell.Tab.4.center/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.4.left" timestamp="1606631479155">
+      <screen x="30" y="0" width="1890" height="1200" />
+    </state>
+    <state width="1848" height="429" key="GridCell.Tab.4.left/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state width="1848" height="429" key="GridCell.Tab.4.right" timestamp="1606631479155">
+      <screen x="30" y="0" width="1890" height="1200" />
+    </state>
+    <state width="1848" height="429" key="GridCell.Tab.4.right/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606631479155" />
+    <state x="465" y="232" key="SettingsEditor" timestamp="1606628625861">
+      <screen x="30" y="0" width="1890" height="1200" />
+    </state>
+    <state x="465" y="232" key="SettingsEditor/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606628625861" />
     <state x="570" y="336" width="808" height="534" key="Vcs.Push.Dialog.v2" timestamp="1606569295481">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
@@ -414,6 +342,10 @@
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
     <state x="767" y="516" width="413" height="174" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606559957705" />
+    <state x="343" y="267" width="1462" height="1164" key="dock-window-1" timestamp="1606629970139">
+      <screen x="30" y="0" width="1890" height="1200" />
+    </state>
+    <state x="343" y="267" width="1462" height="1164" key="dock-window-1/30.0.1890.1200/1920.0.1920.1200@30.0.1890.1200" timestamp="1606629970139" />
     <state x="631" y="216" width="688" height="768" key="find.popup" timestamp="1606558302301">
       <screen x="30" y="0" width="1890" height="1200" />
     </state>
@@ -440,17 +372,17 @@
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/LibFloaderClient/Implementations/Device/DeviceIndependentOperationsProvider.cs</url>
-          <line>366</line>
-          <properties documentPath="$PROJECT_DIR$/LibFloaderClient/Implementations/Device/DeviceIndependentOperationsProvider.cs" initialLine="366">
+          <url>file://$PROJECT_DIR$/GUI/ViewModels/MainWindowViewModel.cs</url>
+          <line>766</line>
+          <properties documentPath="$PROJECT_DIR$/GUI/ViewModels/MainWindowViewModel.cs" initialLine="766">
             <startOffsets>
-              <option value="14983" />
+              <option value="22904" />
             </startOffsets>
             <endOffsets>
-              <option value="15047" />
+              <option value="22962" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="4" />
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

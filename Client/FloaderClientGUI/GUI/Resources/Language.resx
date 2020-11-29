@@ -377,4 +377,11 @@ Check port and device state - it must be in bootloader mode.</value>
   <data name="VendorNotFoundTitle" xml:space="preserve">
     <value>Unknown vendor</value>
   </data>
+  <data name="IncorrectEepromFileTitle" xml:space="preserve">
+    <value>Incorrect EEPROM HEX file</value>
+  </data>
+  <data name="IncorrectEepromFile" xml:space="preserve">
+    <value>EEPROM HEX file contains data at addresses, incorrect for current device.
+Select another HEX file.</value>
+  </data>
 </root>

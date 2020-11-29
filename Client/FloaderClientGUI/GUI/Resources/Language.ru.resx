@@ -376,4 +376,11 @@
   <data name="VendorNotFoundTitle" xml:space="preserve">
     <value>Неизвестный производитель</value>
   </data>
+  <data name="IncorrectEepromFileTitle" xml:space="preserve">
+    <value>Некорректный HEX файл EEPROM</value>
+  </data>
+  <data name="IncorrectEepromFile" xml:space="preserve">
+    <value>HEX файл с EEPROM содержит данные по адресам, некорректным для текущего устройства.
+Выберите другой HEX файл.</value>
+  </data>
 </root>

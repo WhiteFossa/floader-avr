@@ -121,6 +121,11 @@ namespace LibFloaderClient.Interfaces.Device
             DownloadFromDeviceCompletedCallbackDelegate downloadCompletedDelegate = null, ProgressDelegate progressDelegate = null);
 
         /// <summary>
+        /// Checks can given data (from HEX-file) fit into EEPROM
+        /// </summary>
+        bool CheckEEPROMAddressesForCorrectness(SortedDictionary<int, byte> data);
+        
+        /// <summary>
         /// Initializes given files upload into device. If file path is null or empty - then don't try to upload it.
         /// Backups directory must be specified anyway. Exist immediately.
         /// If uploadCompletedDelegate isn't null, then call it on completion

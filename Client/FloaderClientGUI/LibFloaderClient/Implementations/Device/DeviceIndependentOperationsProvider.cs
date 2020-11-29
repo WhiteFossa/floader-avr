@@ -309,6 +309,26 @@ namespace LibFloaderClient.Implementations.Device
             return _filenamesGenerator.GenerateEEPROMFilename(_deviceIdentificationData, isBackup);
         }
 
+        public bool CheckEEPROMAddressesForCorrectness(SortedDictionary<int, byte> data)
+        {
+            int maxWriteableAddress = 0;
+
+            switch (_deviceIdentificationData.Version)
+            {
+                case (int)ProtocolVersion.First:
+                    var deviceData = GetDeviceDataV1(_deviceIdentificationData, _versionSpecificDeviceData);
+                    
+                    maxWriteableAddress = deviceData.EepromSize - 1;
+
+                    break;
+
+                default:
+                    throw ReportUnsupportedVersion(_deviceIdentificationData.Version);
+            }
+
+            return !data.Any(d => d.Key > maxWriteableAddress);
+        }
+        
         public void InitiateUploadToDevice(string flashPath, string eepromPath, string backupsDirectory,
             UnhandledExceptionCallbackDelegate unhandledExceptionCallbackDelegate,
             UploadToDeviceCompletedCallbackDelegate uploadCompletedDelegate = null, ProgressDelegate progressDelegate = null)
