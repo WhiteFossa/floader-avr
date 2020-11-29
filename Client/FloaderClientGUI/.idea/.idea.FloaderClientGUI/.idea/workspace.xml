@@ -160,6 +160,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8DC3289F-9CC1-460C-B108-828402C41284/139/ExecutionContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/754166D1-C8A7-45BB-8C21-6CBBF8853327/2F/JobRunner.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8DC3289F-9CC1-460C-B108-828402C41284/158/TaskCompletionSource.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHex/Implementations/Reader/HexReader.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHex/Implementations/Reader/HexReader.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
