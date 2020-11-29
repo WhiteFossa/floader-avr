@@ -25,11 +25,6 @@ namespace LibFloaderClient.Implementations.Exceptions
     /// </summary>
     public class SerialPortTimeoutException : Exception
     {
-        public SerialPortTimeoutException() : base()
-        {
-
-        }
-
         public SerialPortTimeoutException(string message) : base(message)
         {
 

@@ -142,7 +142,7 @@
     <value>Download completed</value>
   </data>
   <data name="DownloadedWritingInto" xml:space="preserve">
-    <value>Downloaded. Writting to file...</value>
+    <value>Downloaded. Writing to file...</value>
   </data>
   <data name="DownloadingEepromInto" xml:space="preserve">
     <value>Downloading EEPROM into {0}...</value>

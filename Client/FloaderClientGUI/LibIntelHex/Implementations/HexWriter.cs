@@ -137,11 +137,11 @@ namespace LibIntelHex.Implementations
 
             foreach (var rec in dataRecords)
             {
-                sb.Append(rec.ToString());
+                sb.Append(rec);
             }
 
             // EoF
-            sb.Append(new EndOfFileRecord(_recordFormatter).ToString());
+            sb.Append(new EndOfFileRecord(_recordFormatter));
 
             return sb.ToString();
         }

@@ -39,6 +39,7 @@ namespace LibIntelHex.Interfaces
         /// Load data to write from list.
         /// </summary>
         /// <param name="baseAddress">Address of first byte in list</param>
+        /// <param name="data">Data to write</param>
         void LoadFromList(int baseAddress, List<byte> data);
 
         /// <summary>

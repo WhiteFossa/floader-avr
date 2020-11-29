@@ -142,7 +142,6 @@ namespace LibIntelHex.Models
         /// <summary>
         /// Try to parse data bytes as base record. Data bytes must be stripped of ":" and checksum.
         /// </summary>
-        /// <param name="bytes"></param>
         public static RecordBase ParseBytes(List<byte> bytes, IRecordFormatter formatter)
         {
             var dataLength = (int)bytes[ReclenPosition];

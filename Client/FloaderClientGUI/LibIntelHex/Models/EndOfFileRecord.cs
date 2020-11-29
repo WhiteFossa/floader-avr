@@ -42,7 +42,6 @@ namespace LibIntelHex.Models
         /// <summary>
         /// Constructs EndOfFileRecord from base record and trying to validate it
         /// </summary>
-        /// <param name="baseRecord"></param>
         public EndOfFileRecord(RecordBase baseRecord, IRecordFormatter formatter = null) : base(baseRecord.Address, baseRecord.Type, baseRecord.Data, formatter)
         {
             if (!Validate(baseRecord))

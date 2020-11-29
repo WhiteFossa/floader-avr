@@ -26,7 +26,6 @@ namespace LibIntelHex.Interfaces
         /// <summary>
         /// Formats record to ready to write Intel HEX line (starting with ":" and ending with checksum)
         /// </summary>
-        /// <returns></returns>
         string ToString();
     }
 }
