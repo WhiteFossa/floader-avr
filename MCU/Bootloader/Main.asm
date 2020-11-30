@@ -49,27 +49,27 @@ EnterBootloader:
 
 							; Command processing loop
 MainLoop:
-							ldi			R16,				'T'
-							call		UartSendByte
-							;call		UartReadByte ; Watchdog is reset here
-							;
-							;cpi			R16,			'I' ; Identify
-							;breq		LblIdentify
-							;
-							;cpi			R16,			'Q' ; Quit (reboot into main firmware)
-							;breq		LblQuit
-							;
-							;cpi			R16,			'R' ; Read FLASH page
-							;breq		LblReadFlashPage
-							;
-							;cpi			R16,			'r' ; Read EEPROM
-							;breq		LblReadEeprom
-							;
-							;cpi			R16,			'w' ; Write EEPROM
-							;breq		LblWriteEeprom
-							;
-							;cpi			R16,			'W' ; Write FLASH page
-							;breq		LblWriteFlashPage
+							;ldi			R16,				'T'
+							;call		UartSendByte
+							call		UartReadByte ; Watchdog is reset here
+							
+							cpi			R16,			'I' ; Identify
+							breq		LblIdentify
+							
+							cpi			R16,			'Q' ; Quit (reboot into main firmware)
+							breq		LblQuit
+							
+							cpi			R16,			'R' ; Read FLASH page
+							breq		LblReadFlashPage
+							
+							cpi			R16,			'r' ; Read EEPROM
+							breq		LblReadEeprom
+							
+							cpi			R16,			'w' ; Write EEPROM
+							breq		LblWriteEeprom
+							
+							cpi			R16,			'W' ; Write FLASH page
+							breq		LblWriteFlashPage
 
 							rjmp		MainLoop
 
