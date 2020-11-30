@@ -16,7 +16,7 @@
 
 ; Clocks
 .set	OscFreq						= 4096000
-.set	Baudrate					= 14400
+.set	Baudrate					= 9600
 .set	BaudrateDivider				= OscFreq / (16 * Baudrate) - 1 ; UART divider
 
 ; FLASH

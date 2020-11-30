@@ -65,7 +65,8 @@ InitializeHardwarePostEnter:
 							andi		R16,		0xF0 ; UBRR0H mask (to avoid writing in reserved bits)
 							uout		UBRR0H,		R16
 
-							ldi			R16,		1 << U2X0 ; Double speed
+							;ldi			R16,		1 << U2X0 ; Double speed
+							clr			R16
 							uout		UCSR0A,		R16
 
 							ldi			R16,		(1 << RXEN0) | (1 << TXEN0) ; Enabling TX and RX, no interrupts
