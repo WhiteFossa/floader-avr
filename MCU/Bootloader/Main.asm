@@ -1,4 +1,4 @@
-.include "HAL/ATmega16/Defines.inc"
+.include "HAL/ATmega168/Defines.inc"
 .include "Macros.inc"
 .include "DeviceIdentificationData.inc"
 
@@ -334,7 +334,7 @@ WriteFlashPageNextWord:
 							call		UartReadByte
 							mov			R1,				R16 ; Most byte
 
-							ldi			R16,			(1 << SPMEN)
+							ldi			R16,			(1 << SELFPRGEN)
 							call		MakeSPM
 
 							; Next word, not byte
@@ -348,17 +348,17 @@ WriteFlashPageNextWord:
 
 							; Erase page
 							wdr
-							ldi			R16,			(1 << PGERS) | (1 << SPMEN)
+							ldi			R16,			(1 << PGERS) | (1 << SELFPRGEN)
 							call		MakeSPM
 
 							; Write page
 							wdr
-							ldi			R16,			(1 << PGWRT) | (1 << SPMEN)
+							ldi			R16,			(1 << PGWRT) | (1 << SELFPRGEN)
 							call		MakeSPM
 
 							; Restoring access to RWW FLASH
 							wdr
-							ldi			R16,			(1 << RWWSRE) | (1 << SPMEN)
+							ldi			R16,			(1 << RWWSRE) | (1 << SELFPRGEN)
 							call		MakeSPM
 
 							; Done
@@ -380,4 +380,4 @@ WriteFlashPageExit:
 ; Send this to UART to identify yourself
 IdentificationSequence:		.db 'F', 'B', 'L', 0x01, VendorId2, VendorId1, VendorId0, ModelId2, ModelId1, ModelId0, SerialNumber3, SerialNumber2, SerialNumber1, SerialNumber0
 
-.include "HAL/ATmega16/Code.inc"
+.include "HAL/ATmega168/Code.inc"
