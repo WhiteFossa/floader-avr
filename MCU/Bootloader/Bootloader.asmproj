@@ -28,10 +28,9 @@
     <ResetRule>0</ResetRule>
     <eraseonlaunchrule>0</eraseonlaunchrule>
     <EraseKey />
-    <avrtool>
-    </avrtool>
+    <avrtool>com.atmel.avrdbg.tool.simulator</avrtool>
     <avrtoolserialnumber />
-    <avrdeviceexpectedsignature>0x1E9403</avrdeviceexpectedsignature>
+    <avrdeviceexpectedsignature>0x1E9406</avrdeviceexpectedsignature>
     <com_atmel_avrdbg_tool_simulator>
       <ToolOptions xmlns="">
         <InterfaceProperties>
