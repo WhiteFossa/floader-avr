@@ -65,8 +65,8 @@ InitializeHardwarePostEnter:
 							andi		R16,		0xF0 ; UBRR0H mask (to avoid writing in reserved bits)
 							uout		UBRR0H,		R16
 
-							clr			R16
-							uout		UCSR0A,		R16 ; Clearing various UART flags
+							ldi			R16,		1 << U2X0 ; Double speed
+							uout		UCSR0A,		R16
 
 							ldi			R16,		(1 << RXEN0) | (1 << TXEN0) ; Enabling TX and RX, no interrupts
 							uout		UCSR0B,		R16
