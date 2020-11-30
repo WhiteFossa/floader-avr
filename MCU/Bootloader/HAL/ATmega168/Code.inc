@@ -5,19 +5,19 @@ DisableOrSlowDownWDT:
 							uin			R16,		SREG
 							push		R16
 
-							// Clearing "reset by WDT" flag
+							; Clearing "reset by WDT" flag
 							in			R16,		MCUSR
 							andi		R16,		~(1 << WDRF)
 							out			MCUSR,		R16
 
-							// As slow as possible (8 seconds), WDT off
+							; As slow as possible (8 seconds), WDT off
 							ldi			R17,		(1 << WDP3) | (1 << WDP0)
 
 							lds			R16,		WDTCSR
 							ori			R16,		(1 << WDCE) | (1 << WDE)
 							sts			WDTCSR,		R16
 
-							// Disabling timer (it may not be disabled if WDTON fuse is programmed)
+							; Disabling timer (it may not be disabled if WDTON fuse is programmed)
 							sts			WDTCSR,		R17
 
 							pop			R16

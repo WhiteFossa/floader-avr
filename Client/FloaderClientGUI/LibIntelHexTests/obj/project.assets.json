@@ -3725,31 +3725,33 @@
     ]
   },
   "packageFolders": {
-    "/home/fossa/.nuget/packages/": {}
+    "C:\\Users\\White Fossa\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/LibIntelHexTests.csproj",
+      "projectUniqueName": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibIntelHexTests\\LibIntelHexTests.csproj",
       "projectName": "LibIntelHexTests",
-      "projectPath": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/LibIntelHexTests.csproj",
-      "packagesPath": "/home/fossa/.nuget/packages/",
-      "outputPath": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/obj/",
+      "projectPath": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibIntelHexTests\\LibIntelHexTests.csproj",
+      "packagesPath": "C:\\Users\\White Fossa\\.nuget\\packages\\",
+      "outputPath": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibIntelHexTests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/fossa/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\White Fossa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj": {
-              "projectPath": "/mnt/nfs/th/sps/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj"
+            "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibIntelHex\\LibIntelHex.csproj": {
+              "projectPath": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibIntelHex\\LibIntelHex.csproj"
             }
           }
         }
@@ -3791,7 +3793,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/3.1.109/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
       }
     }
   }
