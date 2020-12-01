@@ -26,13 +26,13 @@
 					<SourcePath></SourcePath>
 				</d4p1:anyType>
 				<d4p1:anyType i:type="FileInfo">
-					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m168def.inc</AbsolutePath>
+					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\avrasm\inc\m16def.inc</AbsolutePath>
 					<Attribute></Attribute>
 					<Category>header</Category>
 					<Condition>AVRASM</Condition>
-					<FileContentHash>8/PPmDR8Mvx50HOP9tN4ww==</FileContentHash>
+					<FileContentHash>ViPSJJTISeq8lv6tdHiQRA==</FileContentHash>
 					<FileVersion></FileVersion>
-					<Name>avrasm/inc/m168def.inc</Name>
+					<Name>avrasm/inc/m16def.inc</Name>
 					<SelectString></SelectString>
 					<SourcePath></SourcePath>
 				</d4p1:anyType>
@@ -52,7 +52,7 @@
 			<PackPath>C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/Atmel.ATmega_DFP.pdsc</PackPath>
 			<PackVersion>1.3.300</PackVersion>
 			<PresentInProject>true</PresentInProject>
-			<ReferenceConditionId>ATmega168</ReferenceConditionId>
+			<ReferenceConditionId>ATmega16</ReferenceConditionId>
 			<RteComponents xmlns:d4p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
 				<d4p1:string></d4p1:string>
 			</RteComponents>

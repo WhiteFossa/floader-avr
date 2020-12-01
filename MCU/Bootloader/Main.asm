@@ -1,4 +1,24 @@
-.include "HAL/ATmega168/Defines.inc"
+;
+;	                    Fossa's AVR bootloader
+; Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
+;
+; This program is free software: you can redistribute it and/or modify
+; it under the terms of the GNU Affero General Public License as published by
+; the Free Software Foundation, either version 3 of the License, or
+; (at your option) any later version.
+;
+; This program is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+; GNU Affero General Public License for more details.
+;
+; You should have received a copy of the GNU Affero General Public License
+; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+;
+
+; Bootloader main file
+
+.include "HAL/ATmega16/Defines.inc"
 .include "Macros.inc"
 .include "DeviceIdentificationData.inc"
 
@@ -336,7 +356,7 @@ WriteFlashPageNextWord:
 							call		UartReadByte
 							mov			R1,				R16 ; Most byte
 
-							ldi			R16,			(1 << SELFPRGEN)
+							ldi			R16,			(1 << SpmFlagName)
 							call		MakeSPM
 
 							; Next word, not byte
@@ -350,17 +370,17 @@ WriteFlashPageNextWord:
 
 							; Erase page
 							wdr
-							ldi			R16,			(1 << PGERS) | (1 << SELFPRGEN)
+							ldi			R16,			(1 << PGERS) | (1 << SpmFlagName)
 							call		MakeSPM
 
 							; Write page
 							wdr
-							ldi			R16,			(1 << PGWRT) | (1 << SELFPRGEN)
+							ldi			R16,			(1 << PGWRT) | (1 << SpmFlagName)
 							call		MakeSPM
 
 							; Restoring access to RWW FLASH
 							wdr
-							ldi			R16,			(1 << RWWSRE) | (1 << SELFPRGEN)
+							ldi			R16,			(1 << RWWSRE) | (1 << SpmFlagName)
 							call		MakeSPM
 
 							; Done
@@ -382,4 +402,4 @@ WriteFlashPageExit:
 ; Send this to UART to identify yourself
 IdentificationSequence:		.db 'F', 'B', 'L', 0x01, VendorId2, VendorId1, VendorId0, ModelId2, ModelId1, ModelId0, SerialNumber3, SerialNumber2, SerialNumber1, SerialNumber0
 
-.include "HAL/ATmega168/Code.inc"
+.include "HAL/ATmega16/Code.inc"
