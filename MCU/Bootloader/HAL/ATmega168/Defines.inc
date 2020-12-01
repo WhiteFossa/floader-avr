@@ -49,5 +49,3 @@
 .set	FlashPageSize				= 128
 .set	FlashPageSizeInWords		= 64
 
-; Various stuff
-.set	SpmFlagName					= SELFPRGEN ; SPM flag have various names in various devices

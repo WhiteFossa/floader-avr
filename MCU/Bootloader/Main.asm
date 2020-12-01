@@ -18,8 +18,8 @@
 
 ; Bootloader main file
 
-.include "HAL/ATmega16/Defines.inc"
-.include "HAL/ATmega16/Macros.inc"
+.include "HAL/ATmega168/Defines.inc"
+.include "HAL/ATmega168/Macros.inc"
 
 .include "Macros.inc"
 .include "DeviceIdentificationData.inc"
@@ -400,4 +400,4 @@ WriteFlashPageExit:
 ; Send this to UART to identify yourself
 IdentificationSequence:		.db 'F', 'B', 'L', 0x01, VendorId2, VendorId1, VendorId0, ModelId2, ModelId1, ModelId0, SerialNumber3, SerialNumber2, SerialNumber1, SerialNumber0
 
-.include "HAL/ATmega16/Code.inc"
+.include "HAL/ATmega168/Code.inc"
