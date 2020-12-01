@@ -26,7 +26,7 @@
 ; Model Id
 .set	ModelId2					= 0x00
 .set	ModelId1					= 0x00
-.set	ModelId0					= 0x03
+.set	ModelId0					= 0x01
 
 ; Serial number
 .set	SerialNumber3				= 0x00
