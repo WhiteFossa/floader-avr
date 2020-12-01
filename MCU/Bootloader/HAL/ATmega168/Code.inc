@@ -1,3 +1,11 @@
+
+; UART divider
+.ifdef	UseDoubleSpeedUARTMode
+	.set	BaudrateDivider				= OscFreq / (8 * Baudrate) - 1
+.else
+	.set	BaudrateDivider				= OscFreq / (16 * Baudrate) - 1
+.endif
+
 ; Disable or slow down WDT procedure
 DisableOrSlowDownWDT:
 							push		R16
@@ -65,8 +73,11 @@ InitializeHardwarePostEnter:
 							andi		R16,		0xF0 ; UBRR0H mask (to avoid writing in reserved bits)
 							uout		UBRR0H,		R16
 
-							;ldi			R16,		1 << U2X0 ; Double speed
+.ifdef	UseDoubleSpeedUARTMode
+							ldi			R16,		1 << U2X0 ; Double speed
+.else
 							clr			R16
+.endif
 							uout		UCSR0A,		R16
 
 							ldi			R16,		(1 << RXEN0) | (1 << TXEN0) ; Enabling TX and RX, no interrupts

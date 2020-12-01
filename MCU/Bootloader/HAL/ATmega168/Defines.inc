@@ -16,8 +16,11 @@
 
 ; Clocks
 .set	OscFreq						= 4096000
-.set	Baudrate					= 19200
-.set	BaudrateDivider				= OscFreq / (16 * Baudrate) - 1 ; UART divider
+
+; UART
+.set	Baudrate					= 38400
+.set	UseDoubleSpeedUARTMode		= 1 ; Uncomment this line to use double speed mode (use it when you need fast UART
+; and have slow system clock)
 
 ; FLASH
 .set	FlashPagesTotal				= 128
