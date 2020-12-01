@@ -33,12 +33,12 @@
 
 ; Write FLASH page
 .macro MakeSpmWritePageMacro
-							ldi			R16,			(1 << PGWRT) | (1 << SpmFlagName)
+							ldi			R16,			(1 << PGWRT) | (1 << SPMEN)
 							call		MakeSPM
 .endm
 
 ; Restore access to RWW FLASH
 .macro MakeSpmRestoreRWWAccessMacro
-							ldi			R16,			(1 << RWWSRE) | (1 << SpmFlagName)
+							ldi			R16,			(1 << RWWSRE) | (1 << SPMEN)
 							call		MakeSPM
 .endm
