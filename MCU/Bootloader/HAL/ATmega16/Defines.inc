@@ -34,10 +34,12 @@
 .set	ListenPin					= PINB
 .set	ListenBit					= 0
 
-; Clocks
+; Clock
 .set	OscFreq						= 16000000
-.set	Baudrate					= 57600
-.set	BaudrateDivider				= OscFreq / (16 * Baudrate) - 1 ; UART divider
+
+.set	Baudrate					= 115200
+.set	UseDoubleSpeedUARTMode		= 1 ; Uncomment this line to use double speed mode (use it when you need fast UART
+; and have slow system clock)
 
 ; FLASH
 .set	FlashPagesTotal				= 128

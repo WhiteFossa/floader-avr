@@ -18,6 +18,13 @@
 
 ; Hardware-specific code for ATmega16
 
+; UART divider
+.ifdef	UseDoubleSpeedUARTMode
+	.set	BaudrateDivider				= OscFreq / (8 * Baudrate) - 1
+.else
+	.set	BaudrateDivider				= OscFreq / (16 * Baudrate) - 1
+.endif
+
 ; Disable or slow down WDT procedure
 DisableOrSlowDownWDT:
 							push		R16
@@ -75,8 +82,12 @@ InitializeHardwarePostEnter:
 							ldi			R16,		high(BaudrateDivider)
 							uout		UBRRH,		R16
 
+.ifdef	UseDoubleSpeedUARTMode
+							ldi			R16,		1 << U2X ; Double speed
+.else
 							clr			R16
-							uout		UCSRA,		R16 ; Clearing various UART flags
+.endif
+							uout		UCSRA,		R16
 
 							ldi			R16,		(1 << RXEN) | (1 << TXEN) ; Enabling TX and RX, no interrupts
 							uout		UCSRB,		R16
