@@ -14,7 +14,7 @@
 .set	ListenPin					= PINB
 .set	ListenBit					= 0
 
-; Clocks
+; Clock
 .set	OscFreq						= 4096000
 
 ; UART
