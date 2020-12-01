@@ -38,7 +38,7 @@
 .set	OscFreq						= 16000000
 
 .set	Baudrate					= 57600
-.set	UseDoubleSpeedUARTMode		= 1 ; Uncomment this line to use double speed mode (use it when you need fast UART
+;.set	UseDoubleSpeedUARTMode		= 1 ; Uncomment this line to use double speed mode (use it when you need fast UART
 ; and have slow system clock)
 
 ; FLASH
@@ -47,8 +47,5 @@
 .set	FlashPageAddressMultiplier	= 7 ; Multiply page address to this value to get page first byte address
 .set	FlashPageSize				= 128
 .set	FlashPageSizeInWords		= 64
-
-; Various stuff
-.set	SpmFlagName					= SPMEN ; SPM flag have various names in various devices
 
 

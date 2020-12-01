@@ -19,6 +19,8 @@
 ; Bootloader main file
 
 .include "HAL/ATmega16/Defines.inc"
+.include "HAL/ATmega16/Macros.inc"
+
 .include "Macros.inc"
 .include "DeviceIdentificationData.inc"
 
@@ -356,8 +358,7 @@ WriteFlashPageNextWord:
 							call		UartReadByte
 							mov			R1,				R16 ; Most byte
 
-							ldi			R16,			(1 << SpmFlagName)
-							call		MakeSPM
+							MakeSpmMacro
 
 							; Next word, not byte
 							adiw		ZH:ZL,			2
@@ -370,18 +371,15 @@ WriteFlashPageNextWord:
 
 							; Erase page
 							wdr
-							ldi			R16,			(1 << PGERS) | (1 << SpmFlagName)
-							call		MakeSPM
+							MakeSpmErasePageMacro
 
 							; Write page
 							wdr
-							ldi			R16,			(1 << PGWRT) | (1 << SpmFlagName)
-							call		MakeSPM
+							MakeSpmWritePageMacro
 
 							; Restoring access to RWW FLASH
 							wdr
-							ldi			R16,			(1 << RWWSRE) | (1 << SpmFlagName)
-							call		MakeSPM
+							MakeSpmRestoreRWWAccessMacro
 
 							; Done
 							ldi			R16,			ResultOK
