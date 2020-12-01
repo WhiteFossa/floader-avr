@@ -16,16 +16,16 @@
 ; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ;
 
-; Hardware-specific defines for ATmega16
+; Hardware-specific defines for ATmega168
 
-.include "HAL/ATmega16/m16def.inc"
+.include "HAL/ATmega168/m168def.inc"
 
 .set	BootloaderStartAddress		=	0x1E00			; Bootloader starts here
 
 ; Set this bit on this port to 1 when lighting-up the LED
-.set	LedPort						= PORTB
-.set	LedDDR						= DDRB
-.set	LedBit						= 4
+.set	LedPort						= PORTC
+.set	LedDDR						= DDRC
+.set	LedBit						= 1
 
 
 ; Listen this port for bootloader button press (zero level)
@@ -35,10 +35,11 @@
 .set	ListenBit					= 0
 
 ; Clock
-.set	OscFreq						= 16000000
+.set	OscFreq						= 4096000
 
-.set	Baudrate					= 57600
-;.set	UseDoubleSpeedUARTMode		= 1 ; Uncomment this line to use double speed mode (use it when you need fast UART
+; UART
+.set	Baudrate					= 38400
+.set	UseDoubleSpeedUARTMode		= 1 ; Uncomment this line to use double speed mode (use it when you need fast UART
 ; and have slow system clock)
 
 ; FLASH
@@ -47,5 +48,4 @@
 .set	FlashPageAddressMultiplier	= 7 ; Multiply page address to this value to get page first byte address
 .set	FlashPageSize				= 128
 .set	FlashPageSizeInWords		= 64
-
 

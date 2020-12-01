@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ContentModelStore">
     <e p="$USER_HOME$/.cache/JetBrains/Rider2020.2/extResources" t="IncludeRecursive" />
-    <e p="$USER_HOME$/.cache/JetBrains/Rider2020.2/resharper-host/local/Transient/Rider/v202/SolutionCaches/_FloaderClientGUI.-1729575954.00" t="ExcludeRecursive" />
+    <e p="$USER_HOME$/.cache/JetBrains/Rider2020.2/resharper-host/local/Transient/Rider/v202/SolutionCaches/_FloaderClientGUI.-1399814310.00" t="ExcludeRecursive" />
     <e p="$USER_HOME$/.nuget/packages/microsoft.net.test.sdk/16.9.0-preview-20201123-03/build/netcoreapp2.1" t="Include">
       <e p="Microsoft.NET.Test.Sdk.Program.cs" t="Include" />
     </e>
@@ -41,7 +41,6 @@
           <e p="Language.Designer.cs" t="Include" />
           <e p="Language.resx" t="Include" />
           <e p="Language.ru.resx" t="Include" />
-          <e p="agpl3.txt" t="Include" />
         </e>
         <e p="Styles" t="Include">
           <e p="Common.xaml" t="Include" />
@@ -63,16 +62,7 @@
         </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="nuget.config" t="Include" />
-        <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
-            <e p="netcoreapp3.0" t="Include">
-              <e p="Avalonia" t="Include">
-                <e p="resources" t="Include" />
-              </e>
-              <e p="FloaderClientGUI.AssemblyInfo.cs" t="Include" />
-            </e>
-          </e>
-        </e>
+        <e p="obj" t="ExcludeRecursive" />
       </e>
       <e p="LibFloaderClient" t="IncludeRecursive">
         <e p=".gitignore" t="Include" />
@@ -82,11 +72,6 @@
           </e>
           <e p="DAO" t="Include">
             <e p="Dao.cs" t="Include" />
-            <e p="Queries" t="Include">
-              <e p="GetDeviceDataV1.sql" t="Include" />
-              <e p="GetDeviceNameData.sql" t="Include" />
-              <e p="GetVendorNameData.sql" t="Include" />
-            </e>
           </e>
           <e p="Device" t="Include">
             <e p="BaseThreadedOperationsProvider.cs" t="Include" />
@@ -198,13 +183,7 @@
           </e>
         </e>
         <e p="bin" t="ExcludeRecursive" />
-        <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
-            <e p="netstandard2.0" t="Include">
-              <e p="LibFloaderClient.AssemblyInfo.cs" t="Include" />
-            </e>
-          </e>
-        </e>
+        <e p="obj" t="ExcludeRecursive" />
       </e>
       <e p="LibIntelHex" t="IncludeRecursive">
         <e p=".gitignore" t="Include" />
@@ -248,13 +227,7 @@
           <e p="Language.ru.resx" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
-        <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
-            <e p="netstandard2.0" t="Include">
-              <e p="LibIntelHex.AssemblyInfo.cs" t="Include" />
-            </e>
-          </e>
-        </e>
+        <e p="obj" t="ExcludeRecursive" />
       </e>
       <e p="LibIntelHexTests" t="IncludeRecursive">
         <e p=".gitignore" t="Include" />
@@ -268,13 +241,7 @@
         <e p="RecordFormatterTests.cs" t="Include" />
         <e p="RecordsTests.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
-        <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
-            <e p="netcoreapp3.1" t="Include">
-              <e p="LibIntelHexTests.AssemblyInfo.cs" t="Include" />
-            </e>
-          </e>
-        </e>
+        <e p="obj" t="ExcludeRecursive" />
       </e>
       <e p="packages" t="ExcludeRecursive" />
     </e>

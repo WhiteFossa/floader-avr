@@ -16,20 +16,29 @@
 ; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ;
 
-; Device identification data
+; Hardware-specific macros for ATmega 168
 
-; Vendor ID
-.set	VendorId2					= 0x00
-.set	VendorId1					= 0x00
-.set	VendorId0					= 0x00
 
-; Model Id
-.set	ModelId2					= 0x00
-.set	ModelId1					= 0x00
-.set	ModelId0					= 0x03
+; Just make SPM
+.macro MakeSpmMacro
+							ldi			R16,			(1 << SELFPRGEN)
+							call		MakeSPM
+.endm
 
-; Serial number
-.set	SerialNumber3				= 0x00
-.set	SerialNumber2				= 0x00
-.set	SerialNumber1				= 0x00
-.set	SerialNumber0				= 0x01
+; Erase FLASH page
+.macro MakeSpmErasePageMacro
+							ldi			R16,			(1 << PGERS) | (1 << SELFPRGEN)
+							call		MakeSPM
+.endm
+
+; Write FLASH page
+.macro MakeSpmWritePageMacro
+							ldi			R16,			(1 << PGWRT) | (1 << SELFPRGEN)
+							call		MakeSPM
+.endm
+
+; Restore access to RWW FLASH
+.macro MakeSpmRestoreRWWAccessMacro
+							ldi			R16,			(1 << RWWSRE) | (1 << SELFPRGEN)
+							call		MakeSPM
+.endm

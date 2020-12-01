@@ -1,4 +1,26 @@
-.include "HAL/ATmega16/Defines.inc"
+;
+;	                    Fossa's AVR bootloader
+; Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
+;
+; This program is free software: you can redistribute it and/or modify
+; it under the terms of the GNU Affero General Public License as published by
+; the Free Software Foundation, either version 3 of the License, or
+; (at your option) any later version.
+;
+; This program is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+; GNU Affero General Public License for more details.
+;
+; You should have received a copy of the GNU Affero General Public License
+; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+;
+
+; Bootloader main file
+
+.include "HAL/ATmega168/Defines.inc"
+.include "HAL/ATmega168/Macros.inc"
+
 .include "Macros.inc"
 .include "DeviceIdentificationData.inc"
 
@@ -49,23 +71,25 @@ EnterBootloader:
 
 							; Command processing loop
 MainLoop:
+							;ldi			R16,				'T'
+							;call		UartSendByte
 							call		UartReadByte ; Watchdog is reset here
-
+							
 							cpi			R16,			'I' ; Identify
 							breq		LblIdentify
-
+							
 							cpi			R16,			'Q' ; Quit (reboot into main firmware)
 							breq		LblQuit
-
+							
 							cpi			R16,			'R' ; Read FLASH page
 							breq		LblReadFlashPage
-
+							
 							cpi			R16,			'r' ; Read EEPROM
 							breq		LblReadEeprom
-
+							
 							cpi			R16,			'w' ; Write EEPROM
 							breq		LblWriteEeprom
-
+							
 							cpi			R16,			'W' ; Write FLASH page
 							breq		LblWriteFlashPage
 
@@ -334,8 +358,7 @@ WriteFlashPageNextWord:
 							call		UartReadByte
 							mov			R1,				R16 ; Most byte
 
-							ldi			R16,			(1 << SPMEN)
-							call		MakeSPM
+							MakeSpmMacro
 
 							; Next word, not byte
 							adiw		ZH:ZL,			2
@@ -348,18 +371,15 @@ WriteFlashPageNextWord:
 
 							; Erase page
 							wdr
-							ldi			R16,			(1 << PGERS) | (1 << SPMEN)
-							call		MakeSPM
+							MakeSpmErasePageMacro
 
 							; Write page
 							wdr
-							ldi			R16,			(1 << PGWRT) | (1 << SPMEN)
-							call		MakeSPM
+							MakeSpmWritePageMacro
 
 							; Restoring access to RWW FLASH
 							wdr
-							ldi			R16,			(1 << RWWSRE) | (1 << SPMEN)
-							call		MakeSPM
+							MakeSpmRestoreRWWAccessMacro
 
 							; Done
 							ldi			R16,			ResultOK
@@ -380,4 +400,4 @@ WriteFlashPageExit:
 ; Send this to UART to identify yourself
 IdentificationSequence:		.db 'F', 'B', 'L', 0x01, VendorId2, VendorId1, VendorId0, ModelId2, ModelId1, ModelId0, SerialNumber3, SerialNumber2, SerialNumber1, SerialNumber0
 
-.include "HAL/ATmega16/Code.inc"
+.include "HAL/ATmega168/Code.inc"

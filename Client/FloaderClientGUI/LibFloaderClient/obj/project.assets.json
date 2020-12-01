@@ -1006,31 +1006,33 @@
     ]
   },
   "packageFolders": {
-    "/home/fossa/.nuget/packages/": {}
+    "C:\\Users\\White Fossa\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibFloaderClient/LibFloaderClient.csproj",
+      "projectUniqueName": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibFloaderClient\\LibFloaderClient.csproj",
       "projectName": "LibFloaderClient",
-      "projectPath": "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibFloaderClient/LibFloaderClient.csproj",
-      "packagesPath": "/home/fossa/.nuget/packages/",
-      "outputPath": "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibFloaderClient/obj/",
+      "projectPath": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibFloaderClient\\LibFloaderClient.csproj",
+      "packagesPath": "C:\\Users\\White Fossa\\.nuget\\packages\\",
+      "outputPath": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibFloaderClient\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/fossa/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\White Fossa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netstandard2.0": {
           "projectReferences": {
-            "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj": {
-              "projectPath": "/home/fossa/Local Programming/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj"
+            "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibIntelHex\\LibIntelHex.csproj": {
+              "projectPath": "C:\\Projects\\floader-avr\\Client\\FloaderClientGUI\\LibIntelHex\\LibIntelHex.csproj"
             }
           }
         }
@@ -1073,7 +1075,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/3.1.109/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
       }
     }
   }

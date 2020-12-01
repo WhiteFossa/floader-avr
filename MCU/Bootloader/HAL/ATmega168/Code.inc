@@ -16,7 +16,7 @@
 ; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ;
 
-; Hardware-specific code for ATmega16
+; Hardware-specific code for ATmega168
 
 ; UART divider
 .ifdef	UseDoubleSpeedUARTMode
@@ -28,18 +28,28 @@
 ; Disable or slow down WDT procedure
 DisableOrSlowDownWDT:
 							push		R16
+							push		R17
 							uin			R16,		SREG
 							push		R16
 
-							uin			R16,		WDTCR
-							ori			R16,		(1 << WDTOE) | (1 << WDE)
-							uout		WDTCR,		R16 ; 4 clocks starts here
+							; Clearing "reset by WDT" flag
+							in			R16,		MCUSR
+							andi		R16,		~(1 << WDRF)
+							out			MCUSR,		R16
 
-							andi		R16,		~(1 << WDE)
-							uout		WDTCR,		R16 ; WDE disabled
+							; As slow as possible (8 seconds), WDT off
+							ldi			R17,		(1 << WDP3) | (1 << WDP0)
+
+							lds			R16,		WDTCSR
+							ori			R16,		(1 << WDCE) | (1 << WDE)
+							sts			WDTCSR,		R16
+
+							; Disabling timer (it may not be disabled if WDTON fuse is programmed)
+							sts			WDTCSR,		R17
 
 							pop			R16
 							uout		SREG,		R16
+							pop			R17
 							pop			R16
 							ret
 
@@ -52,7 +62,6 @@ InitializeHardwarePreEnter:
 
 							; All ports to input to avoid hardware damage
 							clr			R16
-							uout		DDRA,		R16
 							uout		DDRB,		R16
 							uout		DDRC,		R16
 							uout		DDRD,		R16
@@ -78,22 +87,23 @@ InitializeHardwarePostEnter:
 
 							; UART
 							ldi			R16,		low(BaudrateDivider)
-							uout		UBRRL,		R16
+							uout		UBRR0L,		R16
 							ldi			R16,		high(BaudrateDivider)
-							uout		UBRRH,		R16
+							andi		R16,		0xF0 ; UBRR0H mask (to avoid writing in reserved bits)
+							uout		UBRR0H,		R16
 
 .ifdef	UseDoubleSpeedUARTMode
-							ldi			R16,		1 << U2X ; Double speed
+							ldi			R16,		1 << U2X0 ; Double speed
 .else
 							clr			R16
 .endif
-							uout		UCSRA,		R16
+							uout		UCSR0A,		R16
 
-							ldi			R16,		(1 << RXEN) | (1 << TXEN) ; Enabling TX and RX, no interrupts
-							uout		UCSRB,		R16
+							ldi			R16,		(1 << RXEN0) | (1 << TXEN0) ; Enabling TX and RX, no interrupts
+							uout		UCSR0B,		R16
 
-							ldi 		R16, 		(1 << URSEL) | (1 << UCSZ0) | (1 << UCSZ1) ; 8 bit data, 1 stop bit, no parity
-							uout		UCSRC,		R16
+							ldi 		R16, 		(1 << UCSZ00) | (1 << UCSZ01) ; 8 bit data, 1 stop bit, no parity
+							uout		UCSR0C,		R16
 
 							pop			R16
 							uout		SREG,		R16
@@ -138,12 +148,12 @@ UartReadByte:
 
 UartReadByteWait:
 							wdr
-							uin			R16,		UCSRA
-							sbrs		R16,		RXC ; Waiting for byte
+							uin			R16,		UCSR0A
+							sbrs		R16,		RXC0 ; Waiting for byte
 							rjmp		UartReadByteWait
 
 							; Byte came
-							uin			R16,		UDR
+							uin			R16,		UDR0
 
 							pop			R17
 							uout		SREG,		R17
@@ -160,11 +170,11 @@ UartSendByte:
 							; Waiting for readyness
 UartSendByteWait:
 							wdr
-							uin			R17,		UCSRA
-							sbrs		R17,		UDRE
+							uin			R17,		UCSR0A
+							sbrs		R17,		UDRE0
 							rjmp		UartSendByteWait
 
-							uout		UDR,		R16
+							uout		UDR0,		R16
 
 							pop			R17
 							uout		SREG,		R17
@@ -182,7 +192,7 @@ ReadEeprom:
 							; Waiting wor write complete (if it was initiated before)
 ReadEepromWaitForWriteCompletion:
 							wdr
-							sbic		EECR,		EEWE
+							sbic		EECR,		EEPE
 							rjmp		ReadEepromWaitForWriteCompletion
 
 							; Set up address
@@ -208,7 +218,7 @@ WriteEeprom:
 
 WriteEepromWaitForWriteCompletion:
 							wdr
-							sbic		EECR,		EEWE
+							sbic		EECR,		EEPE
 							rjmp		WriteEepromWaitForWriteCompletion
 
 							; Set up address
@@ -217,8 +227,8 @@ WriteEepromWaitForWriteCompletion:
 
 							; Writing
 							uout		EEDR,		R16
-							sbi			EECR,		EEMWE
-							sbi			EECR,		EEWE
+							sbi			EECR,		EEMPE
+							sbi			EECR,		EEPE
 
 							pop			R17
 							uout		SREG,		R17
@@ -260,11 +270,11 @@ MakeSPM:
 							; Waiting for previous write completion
 MakeSPMWait:
 							wdr
-							uin			R17,			SPMCR
-							sbrc		R17,			SPMEN
+							uin			R17,			SPMCSR
+							sbrc		R17,			SELFPRGEN
 							rjmp		MakeSPMWait
 
-							uout		SPMCR,			R16
+							uout		SPMCSR,			R16
 							spm
 
 							pop			R17
