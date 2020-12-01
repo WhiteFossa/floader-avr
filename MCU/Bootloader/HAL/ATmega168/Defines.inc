@@ -18,7 +18,7 @@
 .set	OscFreq						= 4096000
 
 ; UART
-.set	Baudrate					= 9600
+.set	Baudrate					= 600
 ;.set	UseDoubleSpeedUARTMode		= 1 ; Uncomment this line to use double speed mode (use it when you need fast UART
 ; and have slow system clock)
 
