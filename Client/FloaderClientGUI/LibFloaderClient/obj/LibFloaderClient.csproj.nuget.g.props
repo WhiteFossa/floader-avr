@@ -13,10 +13,10 @@
     <SourceRoot Include="/home/fossa/.nuget/packages/" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)entityframework/6.3.0/buildTransitive/EntityFramework.props" Condition="Exists('$(NuGetPackageRoot)entityframework/6.3.0/buildTransitive/EntityFramework.props')" />
+    <Import Project="$(NuGetPackageRoot)entityframework/6.4.4/buildTransitive/netcoreapp3.0/EntityFramework.props" Condition="Exists('$(NuGetPackageRoot)entityframework/6.4.4/buildTransitive/netcoreapp3.0/EntityFramework.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgEntityFramework Condition=" '$(PkgEntityFramework)' == '' ">/home/fossa/.nuget/packages/entityframework/6.3.0</PkgEntityFramework>
-    <PkgSystem_Data_SQLite_EF6 Condition=" '$(PkgSystem_Data_SQLite_EF6)' == '' ">/home/fossa/.nuget/packages/system.data.sqlite.ef6/1.0.113</PkgSystem_Data_SQLite_EF6>
+    <PkgEntityFramework Condition=" '$(PkgEntityFramework)' == '' ">/home/fossa/.nuget/packages/entityframework/6.4.4</PkgEntityFramework>
+    <PkgSystem_Data_SQLite_EF6 Condition=" '$(PkgSystem_Data_SQLite_EF6)' == '' ">/home/fossa/.nuget/packages/system.data.sqlite.ef6/1.0.117</PkgSystem_Data_SQLite_EF6>
   </PropertyGroup>
 </Project>

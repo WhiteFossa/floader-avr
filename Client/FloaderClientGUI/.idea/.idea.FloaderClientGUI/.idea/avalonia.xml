@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="GUI/Styles/Common.xaml" value="GUI/FloaderClientGUI.csproj" />
+        <entry key="GUI/Views/MainWindow.xaml" value="GUI/FloaderClientGUI.csproj" />
+        <entry key="GUI/Views/PortSelectionWindow.xaml" value="GUI/FloaderClientGUI.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

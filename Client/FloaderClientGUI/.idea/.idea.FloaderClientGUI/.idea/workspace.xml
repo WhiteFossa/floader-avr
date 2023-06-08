@@ -4,6 +4,9 @@
     <projectFile>GUI/FloaderClientGUI.csproj</projectFile>
     <projectFile>LibIntelHexTests/LibIntelHexTests.csproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -30,23 +33,17 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e65ba09-9633-46c5-ac3c-08402cb87df0" name="Default Changelist" comment="Updated Dapper">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/contentModel.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/indexLayout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/modules.xml" beforeDir="false" />
+    <list default="true" id="6e65ba09-9633-46c5-ac3c-08402cb87df0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/avalonia.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/riderModule.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/FloaderClientGUI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/FloaderClientGUI.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LibFloaderClient/LibFloaderClient.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/LibFloaderClient.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/Debug/netstandard2.0/LibFloaderClient.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/Debug/netstandard2.0/LibFloaderClient.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.dgspec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.g.props" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.g.targets" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/project.assets.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHex/LibIntelHex.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHex/LibIntelHex.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LibIntelHexTests/LibIntelHexTests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/LibIntelHexTests.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/Debug/netcoreapp3.1/LibIntelHexTests.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.dgspec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.g.props" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.g.targets" afterDir="false" />
@@ -63,6 +60,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/GUI/Styles/Common.xaml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///mnt/sshfs/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/GUI/Styles/Common.xaml" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -96,6 +94,7 @@
       </list>
     </option>
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectId" id="1kukMFLRFoGlCLwCVk5RzbMPeOy" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
@@ -108,6 +107,10 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -177,6 +180,7 @@
       <workItem from="1606667342683" duration="908000" />
       <workItem from="1606731474376" duration="341000" />
       <workItem from="1686198276637" duration="254000" />
+      <workItem from="1686198552134" duration="374000" />
     </task>
     <task id="LOCAL-00001" summary="Updated Dapper">
       <created>1606561699300</created>
@@ -241,12 +245,20 @@
       <option name="project" value="LOCAL" />
       <updated>1606731778625</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Framework bump to netcore 7.0">
+      <created>1686198670027</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1686198670027</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="Vcs.Log.Tabs.Properties">
@@ -281,7 +293,8 @@
     <MESSAGE value="Good EEPROM addresses validation (i.e. outside of device independent operations provider)" />
     <MESSAGE value="Able to flash backup back" />
     <MESSAGE value="Fixed About dialogue width" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed About dialogue width" />
+    <MESSAGE value="Framework bump to netcore 7.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="Framework bump to netcore 7.0" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
