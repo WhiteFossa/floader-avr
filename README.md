@@ -17,9 +17,6 @@ This is AVR bootloader, written in assembler with crossplatform GUI tool to uplo
 - well-documented, enterprise-style code;
 - both Russian and English are supported.
 
-## Release binaries
-Release binaries are here: https://files.whitefossa.org/floader/ (note, that they are on my homeserver, so connection can be quite slow)
-
 ## License
 AGPLv3 or newer version at your option.
 
