@@ -3,6 +3,7 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="GUI/App.xaml" value="GUI/FloaderClientGUI.csproj" />
         <entry key="GUI/Styles/Common.xaml" value="GUI/FloaderClientGUI.csproj" />
         <entry key="GUI/Views/MainWindow.xaml" value="GUI/FloaderClientGUI.csproj" />
         <entry key="GUI/Views/PortSelectionWindow.xaml" value="GUI/FloaderClientGUI.csproj" />

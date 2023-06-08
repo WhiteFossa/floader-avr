@@ -33,22 +33,18 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e65ba09-9633-46c5-ac3c-08402cb87df0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/avalonia.xml" afterDir="false" />
+    <list default="true" id="6e65ba09-9633-46c5-ac3c-08402cb87df0" name="Default Changelist" comment="Nugets updated to latest versions">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/avalonia.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/avalonia.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FloaderClientGUI.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/FloaderClientGUI.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/App.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/App.xaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/FloaderClientGUI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/FloaderClientGUI.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/LibFloaderClient.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/LibFloaderClient.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/LibFloaderClient.csproj.nuget.g.targets" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibFloaderClient/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibFloaderClient/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/LibIntelHexTests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/LibIntelHexTests.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/LibIntelHexTests.csproj.nuget.g.targets" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LibIntelHexTests/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/LibIntelHexTests/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/Resources/Language.resx" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Resources/Language.resx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/Resources/Language.ru.resx" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Resources/Language.ru.resx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/ViewLocator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/ViewLocator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/Views/AboutWindow.axaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Views/AboutWindow.axaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/Views/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Views/MainWindow.xaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/Views/PortSelectionWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Views/PortSelectionWindow.xaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,6 +177,7 @@
       <workItem from="1606731474376" duration="341000" />
       <workItem from="1686198276637" duration="254000" />
       <workItem from="1686198552134" duration="374000" />
+      <workItem from="1686198986379" duration="1395000" />
     </task>
     <task id="LOCAL-00001" summary="Updated Dapper">
       <created>1606561699300</created>
@@ -252,7 +249,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686198670027</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Nugets updated to latest versions">
+      <created>1686199073270</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1686199073271</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -294,7 +298,8 @@
     <MESSAGE value="Able to flash backup back" />
     <MESSAGE value="Fixed About dialogue width" />
     <MESSAGE value="Framework bump to netcore 7.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="Framework bump to netcore 7.0" />
+    <MESSAGE value="Nugets updated to latest versions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Nugets updated to latest versions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

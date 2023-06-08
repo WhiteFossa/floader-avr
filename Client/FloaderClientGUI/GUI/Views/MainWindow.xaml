@@ -22,7 +22,8 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
-		Width="800" Height="700"
+		Width="800" Height="800"
+		MinWidth="800" MinHeight="800"
 		x:Class="FloaderClientGUI.Views.MainWindow"
 		Icon="/Assets/AppIcon.png"
 		Title="{ Binding WindowTitle }">
@@ -111,7 +112,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 
 					<DockPanel Classes="TopMargin">
 						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-							<TextBlock Text="{ Binding TextBackups }" Classes="RightMargin" Grid.Column="0" Grid.Row="0" /> <!-- Backups label -->
+							<TextBlock Text="{ Binding TextBackups }" Classes="VCenterRightMargin" Grid.Column="0" Grid.Row="0" /> <!-- Backups label -->
 
 							<TextBox Watermark="{ Binding TextSelectBackupsDirectory }" Grid.Column="1" Grid.Row="0"
 								Text="{Binding UploadBackupsDirectory}" IsReadOnly="True"
@@ -136,7 +137,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 				<TextBlock Text="{ Binding GroupboxDownload }" />
 					<DockPanel Classes="TopMargin">
 						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-							<TextBlock Text="{ Binding TextFlash }" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
+							<TextBlock Text="{ Binding TextFlash }" Grid.Column="0" Grid.Row="0" Classes="VCenterRightMargin" />
 
 							<TextBox Watermark="{ Binding WriteFlashIntoThisFile }" Grid.Column="1" Grid.Row="0"
 								Text="{Binding FlashDownloadFile}" IsReadOnly="True"
@@ -150,7 +151,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 
 					<DockPanel Classes="TopMargin">
 						<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
-							<TextBlock Text="EEPROM:" Grid.Column="0" Grid.Row="0" Classes="RightMargin" />
+							<TextBlock Text="EEPROM:" Grid.Column="0" Grid.Row="0" Classes="VCenterRightMargin" />
 
 							<TextBox Watermark="{ Binding WriteEepromIntoThisFile }" Grid.Column="1" Grid.Row="0"
 								Text="{Binding EepromDownloadFile}" IsReadOnly="True"

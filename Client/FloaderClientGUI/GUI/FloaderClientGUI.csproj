@@ -22,10 +22,11 @@
     <EmbeddedResource Include="Resources\agpl3.txt" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.21" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.21" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.21" />
-    <PackageReference Include="MessageBox.Avalonia" Version="2.1.0" />
+    <PackageReference Include="Avalonia" Version="11.0.0-rc1.1" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.0-rc1.1" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-rc1.1" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0-rc1.1" />
+    <PackageReference Include="MessageBox.Avalonia" Version="2.3.1-rc1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LibFloaderClient\LibFloaderClient.csproj" />
