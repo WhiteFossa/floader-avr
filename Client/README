@@ -3,7 +3,7 @@ How to build client.
 1) Prepare devices database - run make_db.sh in Database directory. As a result you'll get DevDB.sqlite file, save it for further steps.
 
 2) Go to FloaderClientGUI directory and run: dotnet build --configuration Release
-Built binaries will appear in GUI/bin/Release/netcoreapp3.0 directory
+Built binaries will appear in GUI/bin/Release/net7.0 directory
 
 3) Put DevDB.sqlite into directory with built binaries
 

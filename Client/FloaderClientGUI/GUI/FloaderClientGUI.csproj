@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+    <LangVersion>11</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -12,7 +13,6 @@
       <SubType>Designer</SubType>
     </AvaloniaResource>
     <AvaloniaResource Include="Assets\**" />
-    <AvaloniaResource Include="Styles\**" /> 
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\AppIcon.png" />
@@ -22,16 +22,17 @@
     <EmbeddedResource Include="Resources\agpl3.txt" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.0-preview6" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.0-preview6" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-preview6" />
-    <PackageReference Include="MessageBox.Avalonia" Version="0.10.0-prev2" />
+    <PackageReference Include="Avalonia" Version="11.0.0-rc1.1" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.0-rc1.1" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-rc1.1" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0-rc1.1" />
+    <PackageReference Include="MessageBox.Avalonia" Version="2.3.1-rc1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LibFloaderClient\LibFloaderClient.csproj" />
     <ProjectReference Include="..\LibIntelHex\LibIntelHex.csproj" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Language.Designer.cs">

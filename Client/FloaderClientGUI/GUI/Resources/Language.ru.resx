@@ -121,7 +121,7 @@
     <value>AVR загрузчик Фоссы</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>0.0.5 (30 ноября 2020)</value>
+    <value>0.0.6 (8 июня 2023)</value>
   </data>
   <data name="Baudrate" xml:space="preserve">
     <value>Скорость: {0}</value>
@@ -263,7 +263,7 @@
     <value>Порт:</value>
   </data>
   <data name="LocTextSelectBackupsDirectory" xml:space="preserve">
-    <value>Выберите директорию для бэкапов</value>
+    <value>Выберите директорию для бэкапов чтобы разрешить прошивку</value>
   </data>
   <data name="LocTextSelectEepromHexFile" xml:space="preserve">
     <value>Выберите HEX файл с EEPROM</value>

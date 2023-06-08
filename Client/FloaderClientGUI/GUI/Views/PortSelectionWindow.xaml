@@ -44,7 +44,7 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 							Command="{Binding RefreshPortsList}" /> <!-- Refresh ports list button-->
 
 					<ListBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Classes="TopMargin"
-						Items="{Binding Ports}" SelectedItem="{Binding SelectedPort}" Name="PortsListBox"> <!-- Ports list -->
+						ItemsSource="{Binding Ports}" SelectedItem="{Binding SelectedPort}" Name="PortsListBox"> <!-- Ports list -->
 					</ListBox>
 				</Grid>
 			</DockPanel>
@@ -67,26 +67,26 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 
 				<StackPanel Orientation="Horizontal" Classes="TopMargin">
 					<TextBlock Text="{ Binding LocTextBaudrate }" Classes="VCenterRightMargin" />
-					<ComboBox IsEnabled="{Binding IsBaudrateEnabled}"  Items="{Binding Baudrates}"
+					<ComboBox IsEnabled="{Binding IsBaudrateEnabled}"  ItemsSource="{Binding Baudrates}"
 						SelectedItem="{Binding SelectedBaudrate}" /> <!-- Baudrate combobox -->
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal" Classes="TopMargin">
 					<TextBlock Text="{ Binding LocTextParity }" Classes="VCenterRightMargin" />
-					<ComboBox IsEnabled="{Binding IsParityEnabled}" Items="{Binding Parities}"
+					<ComboBox IsEnabled="{Binding IsParityEnabled}" ItemsSource="{Binding Parities}"
 						SelectedItem="{Binding SelectedParity}" /> <!-- Parity combobox -->
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal" Classes="TopMargin">
 					<TextBlock Text="{ Binding LocTextDataBits }" Classes="VCenterRightMargin" />
-					<ComboBox IsEnabled="{Binding IsDataBitsEnabled}"  Items="{Binding PortDataBits}"
+					<ComboBox IsEnabled="{Binding IsDataBitsEnabled}"  ItemsSource="{Binding PortDataBits}"
 						SelectedItem="{Binding SelectedPortDataBits}" /> <!-- Data bits combobox -->
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal" Classes="TopMargin">
 					<TextBlock Text="{ Binding LocTextStopBits }" Classes="VCenterRightMargin" />
 					<ComboBox SelectedIndex="0" IsEnabled="{Binding IsStopBitsEnabled}"
-						Items="{Binding PortStopBits}" SelectedItem="{Binding SelectedPortStopBits}" /> <!-- Stop bits combobox -->
+						ItemsSource="{Binding PortStopBits}" SelectedItem="{Binding SelectedPortStopBits}" /> <!-- Stop bits combobox -->
 				</StackPanel>
 			</StackPanel>
 		</Border>

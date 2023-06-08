@@ -121,7 +121,7 @@
     <value>Fossa's AVR loader</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>0.0.5 (30 November 2020)</value>
+    <value>0.0.6 (8 June 2023)</value>
   </data>
   <data name="Baudrate" xml:space="preserve">
     <value>Baudrate: {0}</value>
@@ -263,7 +263,7 @@ Serial number: {3}.</value>
     <value>Port:</value>
   </data>
   <data name="LocTextSelectBackupsDirectory" xml:space="preserve">
-    <value>Select backups directory</value>
+    <value>Select backups directory to enable firmware upload</value>
   </data>
   <data name="LocTextSelectEepromHexFile" xml:space="preserve">
     <value>Select EEPROM HEX file</value>

@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace FloaderClientGUI.Views
 {
-    public class AboutWindow : Window
+    public partial class AboutWindow : Window
     {
         public AboutWindow()
         {
