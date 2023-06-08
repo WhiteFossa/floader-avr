@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "cqSVifE0B/ISgBULoc1vYtKYTSFZ/SQ8CtzMEB8bCr0WJbuq0wqQGmN7auqYqjiN2h9Egp5di50eyp93GCKa2Q==",
+  "dgSpecHash": "iQqnGkZlPbGTcYM0fPbVsBK/ZJuLXnvk9iPH883Vjm6DDiZZhnbgiVlHuL42JT1jSYrcSuR9UGsmcmEaEast2Q==",
   "success": true,
   "projectFilePath": "/mnt/sshfs/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibFloaderClient/LibFloaderClient.csproj",
   "expectedPackageFiles": [

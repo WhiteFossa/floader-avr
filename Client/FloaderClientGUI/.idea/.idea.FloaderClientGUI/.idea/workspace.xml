@@ -120,7 +120,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="Publish to folder.linux-x64">
+  <component name="RunManager" selected="Publish to folder.windows-x64">
     <configuration name="FloaderClientGUI" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
