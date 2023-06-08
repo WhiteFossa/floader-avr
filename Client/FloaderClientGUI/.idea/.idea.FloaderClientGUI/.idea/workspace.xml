@@ -34,16 +34,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e65ba09-9633-46c5-ac3c-08402cb87df0" name="Default Changelist" comment="Nugets updated to latest versions">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/avalonia.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/avalonia.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FloaderClientGUI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FloaderClientGUI.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/FloaderClientGUI.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/App.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/App.xaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/FloaderClientGUI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/FloaderClientGUI.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/Resources/Language.resx" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Resources/Language.resx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/Resources/Language.ru.resx" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Resources/Language.ru.resx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/ViewLocator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/ViewLocator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/Views/AboutWindow.axaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Views/AboutWindow.axaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/Views/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Views/MainWindow.xaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/ViewModels/PortSelectionWindowViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/ViewModels/PortSelectionWindowViewModel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GUI/Views/PortSelectionWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/Views/PortSelectionWindow.xaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,8 +47,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/426114be9baf028f36d93caa336d136892572f2cf262d679a6f3e69c2f82b0/InpcPropertyAccessorPlugin.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e2a429f38cfae242ebe16e4e658a31e3a188d3b79c6e243298c5f81814aacc9/IReactiveObjectExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/GUI/Styles/Common.xaml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///mnt/sshfs/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/GUI/Styles/Common.xaml" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -100,23 +93,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;/home/fossa/.config/JetBrains/Rider2023.1/resharper-host/DecompilerCache&quot;,
-      &quot;/home/fossa/.config/JetBrains/Rider2023.1/resharper-host/SourcesCache&quot;,
-      &quot;/home/fossa/.local/share/Symbols/src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "/home/fossa/.config/JetBrains/Rider2023.1/resharper-host/DecompilerCache",
+      "/home/fossa/.config/JetBrains/Rider2023.1/resharper-host/SourcesCache",
+      "/home/fossa/.local/share/Symbols/src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Project.FloaderClientGUI">
     <configuration name="FloaderClientGUI" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -178,6 +172,7 @@
       <workItem from="1686198276637" duration="254000" />
       <workItem from="1686198552134" duration="374000" />
       <workItem from="1686198986379" duration="1395000" />
+      <workItem from="1686216540005" duration="1561000" />
     </task>
     <task id="LOCAL-00001" summary="Updated Dapper">
       <created>1606561699300</created>

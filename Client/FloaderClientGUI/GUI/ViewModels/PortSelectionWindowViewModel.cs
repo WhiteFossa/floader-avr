@@ -25,13 +25,12 @@ using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 
 namespace FloaderClientGUI.ViewModels
 {
     public class PortSelectionWindowViewModel : ViewModelBase
     {
-
-
         /// <summary>
         /// Port settings or null, if port not specified yet
         /// </summary>
@@ -302,6 +301,9 @@ namespace FloaderClientGUI.ViewModels
             // DI
             _serialPortsLister = Program.Di.GetService<ISerialPortsLister>();
 
+            OkCommand = ReactiveCommand.Create<Window>(Ok);
+            CancelCommand = ReactiveCommand.Create<Window>(Cancel);
+
             Ports = GetPortsList();
 
             // Populating lists
@@ -338,10 +340,13 @@ namespace FloaderClientGUI.ViewModels
         {
             ResetToDefaults();
         }
-
+        
+        
         /// <summary>
         /// Close window without applying settings
         /// </summary>
+        public ReactiveCommand<Window, Unit> CancelCommand { get; }
+        
         public void Cancel(Window window)
         {
             window.Close();
@@ -350,7 +355,9 @@ namespace FloaderClientGUI.ViewModels
         /// <summary>
         /// Close window and apply settings
         /// </summary>
-        public void OK(Window window)
+        public ReactiveCommand<Window, Unit> OkCommand { get; }
+
+        public void Ok(Window window)
         {
             // Port is always selected now, otherwise OK button will be disabled
             PortSettings = new PortSettings(name: SelectedPort, baudrate: SelectedBaudrate, parity: PortSelectionHelper.MapStringToParity(SelectedParity),
