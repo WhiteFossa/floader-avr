@@ -1,7 +1,6 @@
 <Styles
 	xmlns = "https://github.com/avaloniaui"
-	xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:sys = "clr-namespace: System; assembly = netstandard">
+	xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml">
 
 	<!-- Visible borders (for grouping) -->
 	<Style Selector="Border.VisibleBorders">

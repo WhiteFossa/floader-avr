@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+    <LangVersion>11</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -12,7 +13,6 @@
       <SubType>Designer</SubType>
     </AvaloniaResource>
     <AvaloniaResource Include="Assets\**" />
-    <AvaloniaResource Include="Styles\**" /> 
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\AppIcon.png" />
