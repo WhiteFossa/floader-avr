@@ -73,6 +73,11 @@
           },
           "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/7.0.105/RuntimeIdentifierGraph.json"
         }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
       }
     },
     "/mnt/sshfs/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHex/LibIntelHex.csproj": {
@@ -125,6 +130,11 @@
             }
           },
           "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/7.0.105/RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
         }
       }
     }

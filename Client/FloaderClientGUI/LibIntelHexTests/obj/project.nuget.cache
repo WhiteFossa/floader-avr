@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "E9+q8RlC8SHp8ddpbeqQfqJjQvC0thU7FfYOnQV5uP1KE9+SMh6OQX5Ap1pdwYUz83rqgHPU6f2oJB9wI9zhxw==",
+  "dgSpecHash": "lOMbvZAXU9tSoOXWRrHod27PwGYnTockBx4A8Iw/g4coITgWbpFW2a8wHwAe8BbSFxb0iU+V7NYLHyd8yI+H4Q==",
   "success": true,
   "projectFilePath": "/mnt/sshfs/fossa/Projects/Programming/floader/floader-avr/Client/FloaderClientGUI/LibIntelHexTests/LibIntelHexTests.csproj",
   "expectedPackageFiles": [

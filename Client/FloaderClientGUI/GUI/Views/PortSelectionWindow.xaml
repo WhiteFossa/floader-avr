@@ -95,10 +95,10 @@ Copyright (C) 2020 White Fossa aka Artyom Vetrov <whitefossa@protonmail.com>
 		<Border Classes="VisibleBorders" Grid.Column="0" Grid.Row="2" >
 			<Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto">
 				<Button Grid.Column="0" Grid.Row="0" Content="{ Binding LocButtonOK }" IsEnabled="{Binding IsOkBtnEnabled}"
-					Command="{Binding OK}" CommandParameter="{Binding $parent[Window]}" />
+					Command="{Binding OkCommand}" CommandParameter="{Binding $parent[Window]}" />
 
-				<Button Grid.Column="2" Grid.Row="0" Content="{ Binding LocButtonCancel }" Command="{Binding Cancel}" 
-					CommandParameter="{Binding $parent[Window]}"/>
+				<Button Grid.Column="2" Grid.Row="0" Content="{ Binding LocButtonCancel }" Command="{Binding CancelCommand}" 
+					CommandParameter="{Binding $parent[Window]}" />
 			</Grid>
 		</Border>
 	</Grid>

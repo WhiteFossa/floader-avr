@@ -29,7 +29,7 @@ namespace FloaderClientGUI.Views
         {
             var viewModel = (PortSelectionWindowViewModel)((Control)sender).DataContext;
 
-            viewModel.OK(this);
+            viewModel.Ok(this);
         }
     }
 }
